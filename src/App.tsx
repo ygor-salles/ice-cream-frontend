@@ -1,15 +1,15 @@
-import React from "react";
+import { ThemeProvider } from "@emotion/react";
+import { BrowserRouter } from "react-router-dom";
 
-import { HeaderComponent } from "./components/Header";
-import { Routers } from "./routers.routes";
-import { GlobalStyle } from "./styles/global";
+import { AppRoutes } from "./routes";
+import { LightTheme } from "./shared/themes";
 
 export function App() {
   return (
-    <>
-      <GlobalStyle />
-      <HeaderComponent />
-      <Routers />
-    </>
+    <ThemeProvider theme={LightTheme}>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }

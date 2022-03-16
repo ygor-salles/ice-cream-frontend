@@ -11,6 +11,7 @@ import {
   Box,
   useMediaQuery,
 } from "@mui/material";
+import { useMatch, useNavigate, useResolvedPath } from "react-router-dom";
 
 import { useSidebarContext } from "../../contexts";
 
@@ -18,11 +19,46 @@ type Props = {
   children: JSX.Element;
 };
 
+interface IListItemLinkProps {
+  to: string;
+  label: string;
+  icon: string;
+  onClick: (() => void) | undefined;
+}
+
+function ListItemLink({
+  icon,
+  label,
+  onClick,
+  to,
+}: IListItemLinkProps): JSX.Element {
+  const navigate = useNavigate();
+
+  const resolvedPath = useResolvedPath(to);
+
+  const match = useMatch({ path: resolvedPath.pathname, end: false });
+
+  const handlerClick = () => {
+    navigate(to);
+    onClick?.();
+  };
+
+  return (
+    <ListItemButton selected={!!match} onClick={handlerClick}>
+      <ListItemIcon>
+        <Icon>{icon}</Icon>
+      </ListItemIcon>
+      <ListItemText primary={label} />
+    </ListItemButton>
+  );
+}
+
 export function Sidebar({ children }: Props): JSX.Element {
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { isSidebarOpen, toggleSidebarOpen } = useSidebarContext();
+  const { isSidebarOpen, toggleSidebarOpen, sidebarOptions } =
+    useSidebarContext();
 
   return (
     <>
@@ -54,12 +90,15 @@ export function Sidebar({ children }: Props): JSX.Element {
 
           <Box flex={1}>
             <List component="nav">
-              <ListItemButton>
-                <ListItemIcon>
-                  <Icon>home</Icon>
-                </ListItemIcon>
-                <ListItemText primary="Página inicial" />
-              </ListItemButton>
+              {sidebarOptions.map((sidebarOption) => (
+                <ListItemLink
+                  key={sidebarOption.path}
+                  icon={sidebarOption.icon}
+                  label={sidebarOption.label}
+                  to={sidebarOption.path}
+                  onClick={smDown ? toggleSidebarOpen : undefined}
+                />
+              ))}
             </List>
           </Box>
         </Box>

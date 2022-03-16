@@ -43,6 +43,7 @@
       }
     ],
     "react/function-component-definition": "off",
+    "react/jsx-no-constructed-context-values": "off",
     "class-methods-use-this": "off",
     "import/prefer-default-export": "off",
     "no-shadow": "off",

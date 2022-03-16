@@ -1,17 +1,21 @@
 import { Button } from "@mui/material";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import { useAppThemeContext } from "../shared/contexts";
+import { useSidebarContext } from "../shared/contexts";
 
 export function AppRoutes() {
-  const { toggleTheme } = useAppThemeContext();
+  const { toggleSidebarOpen } = useSidebarContext();
   return (
     <Routes>
       <Route
         path="/pagina-inicial"
         element={
-          <Button variant="contained" color="primary" onClick={toggleTheme}>
-            Toogle Theme
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={toggleSidebarOpen}
+          >
+            Toogle Sidebar
           </Button>
         }
       />

@@ -9,7 +9,10 @@ import {
   ListItemText,
   useTheme,
   Box,
+  useMediaQuery,
 } from "@mui/material";
+
+import { useSidebarContext } from "../../contexts";
 
 type Props = {
   children: JSX.Element;
@@ -17,10 +20,17 @@ type Props = {
 
 export function Sidebar({ children }: Props): JSX.Element {
   const theme = useTheme();
+  const smDown = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const { isSidebarOpen, toggleSidebarOpen } = useSidebarContext();
 
   return (
     <>
-      <Drawer variant="permanent">
+      <Drawer
+        open={isSidebarOpen}
+        variant={smDown ? "temporary" : "permanent"}
+        onClose={toggleSidebarOpen}
+      >
         <Box
           width={theme.spacing(28)}
           height="100%"
@@ -55,7 +65,7 @@ export function Sidebar({ children }: Props): JSX.Element {
         </Box>
       </Drawer>
 
-      <Box height="100vh" marginLeft={theme.spacing(28)}>
+      <Box height="100vh" marginLeft={smDown ? 0 : theme.spacing(28)}>
         {children}
       </Box>
     </>

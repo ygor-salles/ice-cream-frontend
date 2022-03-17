@@ -1,15 +1,25 @@
-import React from "react";
+import { BrowserRouter } from 'react-router-dom';
 
-import { HeaderComponent } from "./components/Header";
-import { Routers } from "./routers.routes";
-import { GlobalStyle } from "./styles/global";
+import { AppThemeProvider, DrawerProvider } from './shared/contexts';
+import { MenuLateral } from './shared/components';
+import { AppRoutes } from './routes';
+import { GlobalStyle } from './styles/global';
 
-export function App() {
+export const App = () => {
   return (
     <>
       <GlobalStyle />
-      <HeaderComponent />
-      <Routers />
+      <AppThemeProvider>
+        <DrawerProvider>
+          <BrowserRouter>
+
+            <MenuLateral>
+              <AppRoutes />
+            </MenuLateral>
+
+          </BrowserRouter>
+        </DrawerProvider>
+      </AppThemeProvider>
     </>
   );
-}
+};

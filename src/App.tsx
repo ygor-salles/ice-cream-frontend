@@ -1,24 +1,25 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom';
 
-import { AppRoutes } from "./routes";
-import { Sidebar } from "./shared/components";
-import { SidebarProvider } from "./shared/contexts";
-import { AppThemeProvider } from "./shared/contexts/ThemeContext";
-import { GlobalStyle } from "./styles/global";
+import { AppThemeProvider, DrawerProvider } from './shared/contexts';
+import { MenuLateral } from './shared/components';
+import { AppRoutes } from './routes';
+import { GlobalStyle } from './styles/global';
 
-export function App() {
+export const App = () => {
   return (
     <>
       <GlobalStyle />
       <AppThemeProvider>
-        <SidebarProvider>
+        <DrawerProvider>
           <BrowserRouter>
-            <Sidebar>
+
+            <MenuLateral>
               <AppRoutes />
-            </Sidebar>
+            </MenuLateral>
+
           </BrowserRouter>
-        </SidebarProvider>
+        </DrawerProvider>
       </AppThemeProvider>
     </>
   );
-}
+};

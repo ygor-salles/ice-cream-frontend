@@ -14,6 +14,36 @@ export const AppRoutes = () => {
         path: '/pagina-inicial',
         label: 'Página inicial',
       },
+      {
+        icon: 'inventory',
+        path: '/produtos',
+        label: 'Produtos',
+      },
+      {
+        icon: 'category',
+        path: '/clientes',
+        label: 'Clientes',
+      },
+      {
+        icon: 'sell',
+        path: '/vendas',
+        label: 'Vendas',
+      },
+      {
+        icon: 'peoples',
+        path: '/fornecedores',
+        label: 'Fornecedores',
+      },
+      {
+        icon: 'person',
+        path: '/usuarios',
+        label: 'Usuários',
+      },
+      {
+        icon: 'payment',
+        path: '/pagamentos',
+        label: 'Pagamentos',
+      },
     ]);
   }, []);
 

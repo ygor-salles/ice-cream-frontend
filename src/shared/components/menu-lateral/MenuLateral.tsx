@@ -3,6 +3,7 @@ import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { Box } from '@mui/system';
 
 import { useAppThemeContext, useDrawerContext } from '../../contexts';
+import { purple } from '@mui/material/colors';
 
 interface IListItemLinkProps {
   to: string;
@@ -47,7 +48,7 @@ export const MenuLateral: React.FC = ({ children }) => {
 
           <Box width="100%" height={theme.spacing(20)} display="flex" alignItems="center" justifyContent="center">
             <Avatar
-              sx={{ height: theme.spacing(12), width: theme.spacing(12), borderRadius: 100 }}
+              sx={{ height: theme.spacing(15), width: theme.spacing(15), borderRadius: 100, borderWidth: 4, borderStyle: 'solid', borderColor: purple[800], backgroundImage: 'center' }}
               src="https://raw.githubusercontent.com/ygor-salles/ice-cream-frontend/ivan/src/assets/logo.png"
             />
           </Box>

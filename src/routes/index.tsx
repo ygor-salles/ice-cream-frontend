@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { useDrawerContext } from '../shared/contexts';
-import { Dashboard, Products } from '../pages';
+import { Dashboard, Payments, Products, Providers, Sales, Users, Clients } from '../pages';
 
 export const AppRoutes = () => {
   const { setDrawerOptions } = useDrawerContext();
@@ -11,7 +11,7 @@ export const AppRoutes = () => {
     setDrawerOptions([
       {
         icon: 'home',
-        path: '/pagina-inicial',
+        path: '/home',
         label: 'Página inicial',
       },
       {
@@ -21,27 +21,27 @@ export const AppRoutes = () => {
       },
       {
         icon: 'inventory',
-        path: '/clientes',
+        path: '/clients',
         label: 'Clientes',
       },
       {
         icon: 'sell',
-        path: '/vendas',
+        path: '/sales',
         label: 'Vendas',
       },
       {
         icon: 'peoples',
-        path: '/fornecedores',
+        path: '/providers',
         label: 'Fornecedores',
       },
       {
         icon: 'person',
-        path: '/usuarios',
+        path: '/users',
         label: 'Usuários',
       },
       {
         icon: 'payment',
-        path: '/pagamentos',
+        path: '/payments',
         label: 'Pagamentos',
       },
     ]);
@@ -49,10 +49,15 @@ export const AppRoutes = () => {
 
   return (
     <Routes>
-      <Route path="/pagina-inicial" element={<Dashboard />} />
+      <Route path="/home" element={<Dashboard />} />
       <Route path="/products" element={<Products />} />
+      <Route path="/clients" element={<Clients />} />
+      <Route path="/sales" element={<Sales />} />
+      <Route path="/providers" element={<Providers />} />
+      <Route path="/users" element={<Users />} />
+      <Route path="/payments" element={<Payments />} />
 
-      <Route path="*" element={<Navigate to="/pagina-inicial" />} />
+      <Route path="*" element={<Navigate to="/home" />} />
     </Routes>
   );
 };

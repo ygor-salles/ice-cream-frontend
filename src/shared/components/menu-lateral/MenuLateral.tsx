@@ -54,7 +54,7 @@ export const MenuLateral: React.FC = ({ children }) => {
             </Typography>
           </Box>
 
-          <Divider />
+          <Divider color='#fff' />
 
           <Box flex={1}>
             <List component="nav">

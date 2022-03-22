@@ -1,9 +1,8 @@
-import { ReactNode } from 'react';
-import { Icon, IconButton, Theme, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Divider, Theme, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
-
+import { ReactNode } from 'react';
+import { HeaderComponent } from '../components';
 import { useDrawerContext } from '../contexts';
-
 
 interface ILayoutBaseDePaginaProps {
   titulo: string;
@@ -19,20 +18,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({ childre
   return (
     <Box height="100%" display="flex" flexDirection="column" gap={1}>
       <Box padding={1} display="flex" alignItems="center" gap={1} height={theme.spacing(smDown ? 6 : mdDown ? 8 : 12)}>
-        {smDown && (
-          <IconButton onClick={toggleDrawerOpen}>
-            <Icon>menu</Icon>
-          </IconButton>
-        )}
-
-        <Typography
-          overflow="hidden"
-          whiteSpace="nowrap"
-          textOverflow="ellipses"
-          variant={smDown ? 'h5' : mdDown ? 'h4' : 'h3'}
-        >
-          {titulo}
-        </Typography>
+        <HeaderComponent mdDown={mdDown} smDown={smDown} titulo={titulo} toggleDrawerOpen={toggleDrawerOpen} />
       </Box>
 
       {barraDeFerramentas && (

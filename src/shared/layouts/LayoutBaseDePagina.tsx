@@ -1,4 +1,4 @@
-import { Divider, Theme, useMediaQuery, useTheme } from '@mui/material';
+import { Theme, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import { ReactNode } from 'react';
 import { HeaderComponent } from '../components';

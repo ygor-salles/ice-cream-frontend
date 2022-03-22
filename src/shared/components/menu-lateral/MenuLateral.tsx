@@ -1,6 +1,8 @@
-import { Avatar, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme } from '@mui/material';
+import { Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { Box } from '@mui/system';
+
+import logoImg from '../../../assets/logo.png';
 
 import { useAppThemeContext, useDrawerContext } from '../../contexts';
 
@@ -25,9 +27,9 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon, label, onClick }
   return (
     <ListItemButton selected={!!match} onClick={handleClick}>
       <ListItemIcon>
-        <Icon>{icon}</Icon>
+        <Icon style={{color: 'white'}}>{icon}</Icon>
       </ListItemIcon>
-      <ListItemText primary={label} />
+      <ListItemText primary={label} primaryTypographyProps={{fontFamily: 'Poppins', fontWeight: 500, color: 'white'}}  />
     </ListItemButton>
   );
 };
@@ -45,14 +47,14 @@ export const MenuLateral: React.FC = ({ children }) => {
       <Drawer open={isDrawerOpen} variant={smDown ? 'temporary' : 'permanent'} onClose={toggleDrawerOpen}>
         <Box width={theme.spacing(28)} height="100%" display="flex" flexDirection="column">
 
-          <Box width="100%" height={theme.spacing(20)} display="flex" alignItems="center" justifyContent="center">
-            <Avatar
-              sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
-              src="https://raw.githubusercontent.com/ygor-salles/ice-cream-frontend/dev/src/assets/logo.png"
-            />
+          <Box width="100%" height={theme.spacing(10)} display="flex" alignItems="center" justifyContent="center" flexDirection="column">
+            <img src={logoImg} alt="logo" height={32} color="white"/>
+            <Typography color="white" component="div" fontFamily='Poppins' fontWeight="600" fontSize="1rem">
+              Sorveteria da Vilma
+            </Typography>
           </Box>
 
-          <Divider />
+          <Divider color='#fff' />
 
           <Box flex={1}>
             <List component="nav">
@@ -74,7 +76,7 @@ export const MenuLateral: React.FC = ({ children }) => {
                 <ListItemIcon>
                   <Icon>dark_mode</Icon>
                 </ListItemIcon>
-                <ListItemText primary="Alternar tema" />
+                <ListItemText primary="Alternar tema" primaryTypographyProps={{fontFamily: 'Poppins', fontWeight: 500, color: 'white'}} />
               </ListItemButton>
             </List>
           </Box>

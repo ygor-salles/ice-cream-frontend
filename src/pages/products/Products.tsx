@@ -22,7 +22,8 @@ export function Products(): JSX.Element {
     <LayoutBaseDePagina
       titulo='Produtos'
     >
-      <Container component="main" maxWidth="xl">
+      <Container maxWidth="xl">
+        <hr color='primary' />
         <Box
           sx={{
             marginTop: 4,
@@ -31,8 +32,8 @@ export function Products(): JSX.Element {
             alignItems: 'center',
           }}
         >
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
+            <Grid container spacing={5} >
               <Grid item xs={12}>
                 <TextField
                   name="name"
@@ -40,6 +41,7 @@ export function Products(): JSX.Element {
                   fullWidth
                   id="name"
                   label="Nome do produto"
+                  variant='standard'
                   autoFocus
                 />
               </Grid>
@@ -50,6 +52,7 @@ export function Products(): JSX.Element {
                   fullWidth
                   id="price"
                   label="Preço"
+                  variant='standard'
                   autoFocus
                 />
               </Grid>
@@ -59,15 +62,16 @@ export function Products(): JSX.Element {
                   fullWidth
                   id="description"
                   label="Descrição"
+                  variant='standard'
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
               type="submit"

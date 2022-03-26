@@ -48,10 +48,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({ childre
         </Box>
       )}
 
-
-
       <Box flex={1} overflow="auto" component="section" >
-
         {children}
       </Box>
     </Box>

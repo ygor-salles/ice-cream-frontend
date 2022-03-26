@@ -45,7 +45,7 @@ export const MenuLateral: React.FC = ({ children }) => {
   return (
     <>
       <Drawer open={isDrawerOpen} variant={smDown ? 'temporary' : 'permanent'} onClose={toggleDrawerOpen}>
-        <Box width={theme.spacing(28)} height="100%" display="flex" flexDirection="column">
+        <Box width={theme.spacing(28)} height="100%" display="flex" flexDirection="column" sx={{ bgcolor: 'primary.main' }}>
 
           <Box width="100%" height={theme.spacing(10)} display="flex" alignItems="center" justifyContent="center" flexDirection="column">
             <img src={logoImg} alt="logo" height={32} color="white"/>

@@ -1,11 +1,11 @@
+import { Theme, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { LayoutBaseDePagina } from '../../shared/layouts';
-import { Theme, useMediaQuery } from '@mui/material';
-import { MyCard } from './styles';
+import { Card } from '@mui/material';
 import { api } from '../../shared/services/api';
 
 export function Products(): JSX.Element {
@@ -44,7 +44,7 @@ export function Products(): JSX.Element {
           }}
         >
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
-            <MyCard sx={{ padding: '20px' }} >
+            <Card sx={{ padding: '20px' }} >
               <Grid container spacing={5} >
                 <Grid item xs={12}>
                   <TextField
@@ -88,13 +88,13 @@ export function Products(): JSX.Element {
                     type="submit"
                     variant="contained"
                     fullWidth={smDown ? true : false}
-                    sx={{ bgcolor: 'primary.light' }}
+                    sx={{ bgcolor: 'primary' }}
                   >
                   CADASTRAR
                   </Button>
                 </Grid>
               </Grid>
-            </MyCard>
+            </Card>
           </Box>
         </Box>
       </Container>

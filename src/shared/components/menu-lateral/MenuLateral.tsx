@@ -74,7 +74,7 @@ export const MenuLateral: React.FC = ({ children }) => {
             <List component="nav">
               <ListItemButton onClick={toggleTheme}>
                 <ListItemIcon>
-                  <Icon>dark_mode</Icon>
+                  <Icon color='info' >dark_mode</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Alternar tema" primaryTypographyProps={{fontFamily: 'Poppins', fontWeight: 500, color: 'white'}} />
               </ListItemButton>

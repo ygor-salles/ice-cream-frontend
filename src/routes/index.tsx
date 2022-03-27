@@ -3,6 +3,12 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { useDrawerContext } from '../shared/contexts';
 import { Dashboard, Payments, Products, Providers, Sales, Users, Clients } from '../pages';
+import { RegisterProduct } from '../pages/products/register/RegisterProduct';
+import { RegisterClient } from '../pages/clients/register/RegisterClient';
+import { RegisterSale } from '../pages/sales/register/RegisterSale';
+import { RegisterProvider } from '../pages/providers/register/RegisterProvider';
+import { RegisterUser } from '../pages/users/register/RegisterUser';
+import { RegisterPayment } from '../pages/payments/register/RegisterPayment';
 
 export const AppRoutes = () => {
   const { setDrawerOptions } = useDrawerContext();
@@ -56,6 +62,13 @@ export const AppRoutes = () => {
       <Route path="/providers" element={<Providers />} />
       <Route path="/users" element={<Users />} />
       <Route path="/payments" element={<Payments />} />
+
+      <Route path="/products/create" element={<RegisterProduct />} />
+      <Route path="/clients/create" element={<RegisterClient />} />
+      <Route path="/sales/create" element={<RegisterSale />} />
+      <Route path="/providers/create" element={<RegisterProvider />} />
+      <Route path="/users/create" element={<RegisterUser />} />
+      <Route path="/payments/create" element={<RegisterPayment />} />
 
       <Route path="*" element={<Navigate to="/home" />} />
     </Routes>

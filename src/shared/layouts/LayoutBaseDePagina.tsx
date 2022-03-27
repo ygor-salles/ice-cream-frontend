@@ -1,16 +1,24 @@
-import { Theme, useMediaQuery, useTheme, IconButton, Icon, Typography, Button } from '@mui/material';
+import { Theme, useMediaQuery, useTheme, IconButton, Icon, Typography, Button, Divider } from '@mui/material';
 import { Box } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
 import { useDrawerContext } from '../contexts';
 
 interface ILayoutBaseDePaginaProps {
   titulo: string;
+  textButton: string;
+  navigatePage: string;
+  icon: string;
 }
-export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({ children, titulo }) => {
+export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
+  children, titulo, navigatePage, textButton, icon,
+}) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const mdDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
   const theme = useTheme();
 
   const { toggleDrawerOpen } = useDrawerContext();
+
+  const navigate = useNavigate();
 
   return (
     <Box height="100%" display="flex" flexDirection="column" gap={1}>
@@ -48,7 +56,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({ childre
               overflow="hidden"
               whiteSpace="nowrap"
               textOverflow="ellipses"
-              variant='h3'
+              variant='h4'
             >
               {titulo}
             </Typography>
@@ -57,9 +65,18 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({ childre
         </Box>
 
         {smDown ?
-          <Button color='info' variant='outlined' startIcon={<Icon>add</Icon>} >CADASTRAR</Button>
+          <Button
+            color='info'
+            variant='outlined'
+            startIcon={<Icon>{icon}</Icon>}
+            onClick={() => navigate(navigatePage)}
+          >{textButton}</Button>
           :
-          <Button variant='contained' startIcon={<Icon>add</Icon>} >CADASTRAR</Button>
+          <Button
+            variant='contained'
+            startIcon={<Icon>{icon}</Icon>}
+            onClick={() => navigate(navigatePage)}
+          >{textButton}</Button>
         }
       </Box>
 

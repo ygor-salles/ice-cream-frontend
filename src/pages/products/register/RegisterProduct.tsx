@@ -1,98 +1,113 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { Card } from '@mui/material';
 import { Theme, useMediaQuery } from '@mui/material';
-import { api } from '../../../shared/services/api';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
+import ProductService from '../../../shared/services/ProductService';
+import { useState } from 'react';
+import SnackBar from '../../../shared/components/SnackBar';
 
 export function RegisterProduct(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
+  const [openToast, setOpenToast] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const handleCloseAlert = (): void => {
+    setOpenToast(false);
+  };
+
+  const displayNotificationMessage = (error: boolean, message: string): void => {
+    setOpenToast(true);
+    setError(error);
+    setMessage(message);
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const productService = new ProductService();
 
     try {
-      const { data } = await api.post('products', {
-        name: formData.get('name'),
-        price: formData.get('price'),
-        description: formData.get('description')
+      await productService.create({
+        name: String(formData.get('name')),
+        price: Number(formData.get('price')),
+        description: String(formData.get('description')),
       });
-      console.log('DATA', data);
+      displayNotificationMessage(false, 'Produto cadastrado com sucesso!');
     } catch (error) {
-      console.log('FALHA', error);
+      // const { response } = error as AxiosError;
+      displayNotificationMessage(true, 'Error ao cadastrar o produto!');
     }
   };
 
   return (
-    <LayoutBaseDePagina titulo="Cadastro produto" navigatePage="/products" textButton="VOLTAR" icon="arrow_back" >
-      <Container maxWidth="xl">
-        <Box
-          sx={{
-            marginTop: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
-            <Card sx={{ padding: '20px' }} >
-              <Grid container spacing={5} >
-                <Grid item xs={12}>
-                  <TextField
-                    name="name"
-                    required
-                    fullWidth
-                    id="name"
-                    label="Nome do produto"
-                    variant='standard'
-                    type={'text'}
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    name="price"
-                    required
-                    fullWidth
-                    id="price"
-                    label="Preço"
-                    variant='standard'
-                    type={'number'}
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    name="description"
-                    fullWidth
-                    id="description"
-                    label="Descrição"
-                    variant='standard'
-                    type={'text'}
-                    autoFocus
-                  />
-                </Grid>
+    <>
+      <SnackBar
+        open={openToast}
+        onCloseAlert={handleCloseAlert}
+        onCloseSnack={handleCloseAlert}
+        message={message}
+        severity={error ? 'error' : 'success'}
+      />
+      <LayoutBaseDePagina titulo="Cadastro produto" navigatePage="/products" textButton="VOLTAR" icon="arrow_back" >
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
+          <Card sx={{ padding: '20px' }} >
+            <Grid container spacing={5} >
+              <Grid item xs={12}>
+                <TextField
+                  name="name"
+                  required
+                  fullWidth
+                  id="name"
+                  label="Nome do produto"
+                  variant='standard'
+                  type={'text'}
+                  autoFocus
+                />
               </Grid>
-              <Grid container sx={{ mt: 6 }} >
-                <Grid item display="flex" justifyContent="flex-end" width="100%">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth={smDown ? true : false}
-                    sx={{ bgcolor: 'primary' }}
-                  >
+              <Grid item xs={12}>
+                <TextField
+                  name="price"
+                  required
+                  fullWidth
+                  id="price"
+                  label="Preço"
+                  variant='standard'
+                  type={'number'}
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  name="description"
+                  fullWidth
+                  id="description"
+                  label="Descrição"
+                  variant='standard'
+                  type={'text'}
+                  autoFocus
+                />
+              </Grid>
+            </Grid>
+            <Grid container sx={{ mt: 6 }} >
+              <Grid item display="flex" justifyContent="flex-end" width="100%">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth={smDown ? true : false}
+                  sx={{ bgcolor: 'primary' }}
+                >
                   CADASTRAR
-                  </Button>
-                </Grid>
+                </Button>
               </Grid>
-            </Card>
-          </Box>
+            </Grid>
+          </Card>
         </Box>
-      </Container>
-    </LayoutBaseDePagina>
+      </LayoutBaseDePagina>
+    </>
   );
 }

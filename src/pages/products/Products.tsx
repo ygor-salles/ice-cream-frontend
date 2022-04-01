@@ -1,27 +1,14 @@
-import { LayoutBaseDePagina } from '../../shared/layouts';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper
-} from '@mui/material';
+import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import ProductService from '../../shared/services/ProductService';
+import { LISTPRODUCTS } from '../../assets/mocks/ListProducts';
+import { IProductDTO } from '../../dtos/IProductDTO';
 import SnackBar from '../../shared/components/SnackBar';
-import { Row } from './components/Row';
-
-interface IProductTable {
-  id?: number;
-  name: string;
-  price: number;
-  description: string;
-}
+import { LayoutBaseDePagina } from '../../shared/layouts';
+import ProductService from '../../shared/services/ProductService';
+import { TableProduct } from './components/Table';
 
 export function Products(): JSX.Element {
-  const [allProducts, setAllProducts] = useState<IProductTable[]>([]);
+  const [allProducts, setAllProducts] = useState<IProductDTO[]>([]);
   const [openToast, setOpenToast] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
@@ -45,6 +32,7 @@ export function Products(): JSX.Element {
     } catch (error) {
       // const { response } = error as AxiosError;
       displayNotificationMessage(true, 'Error ao buscar dados de produto!');
+      setAllProducts(LISTPRODUCTS);
     }
   }
 
@@ -67,27 +55,8 @@ export function Products(): JSX.Element {
         textButton='CADASTRAR'
         icon="add"
       >
-        <TableContainer component={Paper}>
-          <Table aria-label="collapsible table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Nome</TableCell>
-                <TableCell>Preço</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {allProducts.map(item => (
-                <Row
-                  id={item.id}
-                  name={item.name}
-                  price={item.price}
-                  description={item.description}
-                  key={item.id}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <TableProduct allProducts={allProducts} />
+        <Typography variant="h6">Caso demostre erro os dados exibidos são de testes</Typography>
       </LayoutBaseDePagina>
     </>
   );

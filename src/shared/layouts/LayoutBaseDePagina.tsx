@@ -1,4 +1,4 @@
-import { Theme, useMediaQuery, useTheme, IconButton, Icon, Typography, Button, Divider } from '@mui/material';
+import { Theme, useMediaQuery, useTheme, IconButton, Icon, Typography, Button, Container } from '@mui/material';
 import { Box } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { useDrawerContext } from '../contexts';
@@ -82,7 +82,18 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
 
       {/* main - section */}
       <Box flex={1} overflow="auto" component="section" >
-        {children}
+        <Container maxWidth="xl">
+          <Box
+            sx={{
+              marginTop: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            {children}
+          </Box>
+        </Container>
       </Box>
     </Box>
   );

@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { Card } from '@mui/material';
@@ -55,70 +54,59 @@ export function RegisterProduct(): JSX.Element {
         severity={error ? 'error' : 'success'}
       />
       <LayoutBaseDePagina titulo="Cadastro produto" navigatePage="/products" textButton="VOLTAR" icon="arrow_back" >
-        <Container maxWidth="xl">
-          <Box
-            sx={{
-              marginTop: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
-              <Card sx={{ padding: '20px' }} >
-                <Grid container spacing={5} >
-                  <Grid item xs={12}>
-                    <TextField
-                      name="name"
-                      required
-                      fullWidth
-                      id="name"
-                      label="Nome do produto"
-                      variant='standard'
-                      type={'text'}
-                      autoFocus
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      name="price"
-                      required
-                      fullWidth
-                      id="price"
-                      label="Preço"
-                      variant='standard'
-                      type={'number'}
-                      autoFocus
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      name="description"
-                      fullWidth
-                      id="description"
-                      label="Descrição"
-                      variant='standard'
-                      type={'text'}
-                      autoFocus
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container sx={{ mt: 6 }} >
-                  <Grid item display="flex" justifyContent="flex-end" width="100%">
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      fullWidth={smDown ? true : false}
-                      sx={{ bgcolor: 'primary' }}
-                    >
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
+          <Card sx={{ padding: '20px' }} >
+            <Grid container spacing={5} >
+              <Grid item xs={12}>
+                <TextField
+                  name="name"
+                  required
+                  fullWidth
+                  id="name"
+                  label="Nome do produto"
+                  variant='standard'
+                  type={'text'}
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  name="price"
+                  required
+                  fullWidth
+                  id="price"
+                  label="Preço"
+                  variant='standard'
+                  type={'number'}
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  name="description"
+                  fullWidth
+                  id="description"
+                  label="Descrição"
+                  variant='standard'
+                  type={'text'}
+                  autoFocus
+                />
+              </Grid>
+            </Grid>
+            <Grid container sx={{ mt: 6 }} >
+              <Grid item display="flex" justifyContent="flex-end" width="100%">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth={smDown ? true : false}
+                  sx={{ bgcolor: 'primary' }}
+                >
                   CADASTRAR
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Card>
-            </Box>
-          </Box>
-        </Container>
+                </Button>
+              </Grid>
+            </Grid>
+          </Card>
+        </Box>
       </LayoutBaseDePagina>
     </>
   );

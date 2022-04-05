@@ -8,13 +8,32 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { IProductDTO } from '../../../dtos/IProductDTO';
+import { DialogEdit } from './DialogEdit';
 
 export function Row({ name, price, description }: IProductDTO): JSX.Element {
   const [open, setOpen] = useState(false);
+  const [dialogEdit, setDialogEdit] = useState(false);
+  const [dialogDelete, setDialogDelete] = useState(false);
+
+  const handleClickOpenEdit = () => {
+    setDialogEdit(true);
+  };
+
+  const handleCloseEdit = () => {
+    setDialogEdit(false);
+  };
+
+  const handleClickOpenDelete = () => {
+    setDialogDelete(true);
+  };
+
+  const handleCloseDelete = () => {
+    setDialogDelete(false);
+  };
 
   const handleEdit = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     event.stopPropagation();
-    console.log('Editar');
+    setDialogEdit(true);
   };
 
   const handleDelete = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
@@ -24,11 +43,21 @@ export function Row({ name, price, description }: IProductDTO): JSX.Element {
 
   return (
     <>
+      {dialogEdit &&
+        <DialogEdit
+          name={name}
+          price={price}
+          description={description}
+          handleClickOpenEdit={handleClickOpenEdit}
+          handleCloseEdit={handleCloseEdit}
+          dialogEdit={dialogEdit}
+        />
+      }
       <TableRow sx={{ '& > *': { borderBottom: 'none' } }} onClick={() => setOpen(!open)}>
         <TableCell style={{ borderBottom: 'none' }} >{name}</TableCell>
         <TableCell style={{ borderBottom: 'none' }} >{price}</TableCell>
-        <TableCell style={{ borderBottom: 'none', alignItems: 'flex-end' }} >
-          <Icon color="secondary" style={{ marginRight: '5px' }} onClick={(e) => handleEdit(e)} >edit</Icon>
+        <TableCell style={{ borderBottom: 'none', display: 'flex', justifyContent: 'space-between' }} >
+          <Icon color="secondary" onClick={(e) => handleEdit(e)} >edit</Icon>
           <Icon color="warning" onClick={(e) => handleDelete(e)} >delete</Icon>
         </TableCell>
       </TableRow>

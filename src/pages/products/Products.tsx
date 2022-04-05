@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { LISTPRODUCTS } from '../../assets/mocks/ListProducts';
 import { IProductDTO } from '../../dtos/IProductDTO';
@@ -12,6 +12,7 @@ export function Products(): JSX.Element {
   const [openToast, setOpenToast] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleCloseAlert = (): void => {
     setOpenToast(false);
@@ -24,6 +25,7 @@ export function Products(): JSX.Element {
   };
 
   async function getProducts(): Promise<void> {
+    setLoading(true);
     const productService = new ProductService();
 
     try {
@@ -33,6 +35,8 @@ export function Products(): JSX.Element {
       // const { response } = error as AxiosError;
       displayNotificationMessage(true, 'Error ao buscar dados de produto!');
       setAllProducts(LISTPRODUCTS);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -55,7 +59,14 @@ export function Products(): JSX.Element {
         textButton='CADASTRAR'
         icon="add"
       >
-        <TableProduct allProducts={allProducts} />
+        {loading ? (
+          allProducts.map((item) => (
+            <Skeleton key={item.id}  variant="text" width="100%" height={100} />
+          )))
+          :
+          (<TableProduct allProducts={allProducts} />)
+        }
+
         <Typography variant="h6">Caso demostre erro os dados exibidos são de testes</Typography>
       </LayoutBaseDePagina>
     </>

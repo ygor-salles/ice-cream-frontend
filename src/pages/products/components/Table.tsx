@@ -22,7 +22,7 @@ export function TableProduct({ allProducts }: Props): JSX.Element {
           <TableRow>
             <TableCell>Nome</TableCell>
             <TableCell>Preço</TableCell>
-            <TableCell>Ações</TableCell>
+            <TableCell style={{ display: 'flex', justifyContent: 'center' }} >Ações</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

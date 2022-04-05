@@ -32,7 +32,14 @@ export const DrawerProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <DrawerContext.Provider value={{ isDrawerOpen, drawerOptions, toggleDrawerOpen, setDrawerOptions: handleSetDrawerOptions }}>
+    <DrawerContext.Provider
+      value={{
+        isDrawerOpen,
+        drawerOptions,
+        toggleDrawerOpen,
+        setDrawerOptions: handleSetDrawerOptions,
+      }}
+    >
       {children}
     </DrawerContext.Provider>
   );

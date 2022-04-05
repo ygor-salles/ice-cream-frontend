@@ -21,12 +21,12 @@ export const DarkTheme = createTheme({
       default: '#202124',
     },
     info: {
-      main: '#ffffff'
-    }
+      main: '#ffffff',
+    },
   },
   typography: {
     allVariants: {
       color: 'white',
-    }
+    },
   },
 });

@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { useDrawerContext } from '../shared/contexts';
 import { Dashboard, Payments, Products, Providers, Sales, Users, Clients } from '../pages';
-import { RegisterProduct } from '../pages/products/register/RegisterProduct';
 import { RegisterClient } from '../pages/clients/register/RegisterClient';
-import { RegisterSale } from '../pages/sales/register/RegisterSale';
-import { RegisterProvider } from '../pages/providers/register/RegisterProvider';
-import { RegisterUser } from '../pages/users/register/RegisterUser';
 import { RegisterPayment } from '../pages/payments/register/RegisterPayment';
+import { RegisterProduct } from '../pages/products/register/RegisterProduct';
+import { RegisterProvider } from '../pages/providers/register/RegisterProvider';
+import { RegisterSale } from '../pages/sales/register/RegisterSale';
+import { RegisterUser } from '../pages/users/register/RegisterUser';
+import { useDrawerContext } from '../shared/contexts';
 
-export const AppRoutes = () => {
+export function AppRoutes() {
   const { setDrawerOptions } = useDrawerContext();
 
   useEffect(() => {
@@ -73,4 +73,4 @@ export const AppRoutes = () => {
       <Route path="*" element={<Navigate to="/home" />} />
     </Routes>
   );
-};
+}

@@ -5,15 +5,20 @@ import {
   TableRow,
   Typography,
   Icon,
+  // useMediaQuery,
+  // Theme,
 } from '@mui/material';
 import { useState } from 'react';
+
 import { IProductDTO } from '../../../dtos/IProductDTO';
 import { DialogEdit } from './DialogEdit';
 
 export function Row({ name, price, description }: IProductDTO): JSX.Element {
+  // const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+
   const [open, setOpen] = useState(false);
   const [dialogEdit, setDialogEdit] = useState(false);
-  const [dialogDelete, setDialogDelete] = useState(false);
+  // const [dialogDelete, setDialogDelete] = useState(false);
 
   const handleClickOpenEdit = () => {
     setDialogEdit(true);
@@ -23,13 +28,13 @@ export function Row({ name, price, description }: IProductDTO): JSX.Element {
     setDialogEdit(false);
   };
 
-  const handleClickOpenDelete = () => {
-    setDialogDelete(true);
-  };
+  // const handleClickOpenDelete = () => {
+  //   setDialogDelete(true);
+  // };
 
-  const handleCloseDelete = () => {
-    setDialogDelete(false);
-  };
+  // const handleCloseDelete = () => {
+  //   setDialogDelete(false);
+  // };
 
   const handleEdit = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     event.stopPropagation();
@@ -43,7 +48,7 @@ export function Row({ name, price, description }: IProductDTO): JSX.Element {
 
   return (
     <>
-      {dialogEdit &&
+      {dialogEdit && (
         <DialogEdit
           name={name}
           price={price}
@@ -52,21 +57,32 @@ export function Row({ name, price, description }: IProductDTO): JSX.Element {
           handleCloseEdit={handleCloseEdit}
           dialogEdit={dialogEdit}
         />
-      }
+      )}
       <TableRow sx={{ '& > *': { borderBottom: 'none' } }} onClick={() => setOpen(!open)}>
-        <TableCell style={{ borderBottom: 'none' }} >{name}</TableCell>
-        <TableCell style={{ borderBottom: 'none' }} >{price}</TableCell>
-        <TableCell style={{ borderBottom: 'none', display: 'flex', justifyContent: 'space-between' }} >
-          <Icon color="secondary" onClick={(e) => handleEdit(e)} >edit</Icon>
-          <Icon color="warning" onClick={(e) => handleDelete(e)} >delete</Icon>
+        <TableCell style={{ borderBottom: 'none' }}>{name}</TableCell>
+        <TableCell style={{ borderBottom: 'none' }}>{price}</TableCell>
+        <TableCell
+          style={{ borderBottom: 'none', display: 'flex', justifyContent: 'space-between' }}
+        >
+          <Icon color="secondary" onClick={e => handleEdit(e)}>
+            edit
+          </Icon>
+          <Icon color="warning" onClick={e => handleDelete(e)}>
+            delete
+          </Icon>
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: '10px', paddingTop: 0, borderTop: 'none' }} colSpan={3} >
-          <Collapse in={open} timeout="auto" unmountOnExit >
-            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" >
+        <TableCell style={{ paddingBottom: '10px', paddingTop: 0, borderTop: 'none' }} colSpan={3}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Box component="div">
-                <Typography variant='h6'>Descrição</Typography>
+                <Typography variant="h6">Descrição</Typography>
                 {description}
               </Box>
             </Box>

@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material';
+
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 
 export function RegisterSale(): JSX.Element {

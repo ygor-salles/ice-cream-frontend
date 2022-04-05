@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import { api } from '../../../shared/services/api';
 
@@ -19,7 +20,6 @@ export function RegisterClient(): JSX.Element {
         debit: Number(formData.get('debit')),
       });
       console.log(data);
-
     } catch (error) {
       console.log('FALHA', error);
     }
@@ -44,8 +44,8 @@ export function RegisterClient(): JSX.Element {
           }}
         >
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
-            <Card sx={{ padding: '20px' }} >
-              <Grid container spacing={5} >
+            <Card sx={{ padding: '20px' }}>
+              <Grid container spacing={5}>
                 <Grid item xs={12}>
                   <TextField
                     name="name"
@@ -53,8 +53,8 @@ export function RegisterClient(): JSX.Element {
                     fullWidth
                     id="name"
                     label="Nome do cliente"
-                    variant='standard'
-                    type={'text'}
+                    variant="standard"
+                    type="text"
                     autoFocus
                   />
                 </Grid>
@@ -65,8 +65,8 @@ export function RegisterClient(): JSX.Element {
                     fullWidth
                     id="phone"
                     label="Telefone de contato"
-                    variant='standard'
-                    type={'text'}
+                    variant="standard"
+                    type="text"
                     autoFocus
                   />
                 </Grid>
@@ -76,21 +76,21 @@ export function RegisterClient(): JSX.Element {
                     fullWidth
                     id="debit"
                     label="Débito"
-                    variant='standard'
-                    type={'number'}
+                    variant="standard"
+                    type="number"
                     autoFocus
                   />
                 </Grid>
               </Grid>
-              <Grid container sx={{ mt: 6 }} >
+              <Grid container sx={{ mt: 6 }}>
                 <Grid item display="flex" justifyContent="flex-end" width="100%">
                   <Button
                     type="submit"
                     variant="contained"
-                    fullWidth={smDown ? true : false}
+                    fullWidth={!!smDown}
                     sx={{ bgcolor: 'primary.light' }}
                   >
-                  CADASTRAR
+                    CADASTRAR
                   </Button>
                 </Grid>
               </Grid>

@@ -1,6 +1,16 @@
-import { Theme, useMediaQuery, useTheme, IconButton, Icon, Typography, Button, Container } from '@mui/material';
+import {
+  Theme,
+  useMediaQuery,
+  useTheme,
+  IconButton,
+  Icon,
+  Typography,
+  Button,
+  Container,
+} from '@mui/material';
 import { Box } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
+
 import { useDrawerContext } from '../contexts';
 
 interface ILayoutBaseDePaginaProps {
@@ -10,7 +20,11 @@ interface ILayoutBaseDePaginaProps {
   icon: string;
 }
 export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
-  children, titulo, navigatePage, textButton, icon,
+  children,
+  titulo,
+  navigatePage,
+  textButton,
+  icon,
 }) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const mdDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
@@ -22,7 +36,6 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
 
   return (
     <Box height="100%" display="flex" flexDirection="column" gap={1}>
-
       {/* header */}
       <Box
         padding={1}
@@ -30,15 +43,16 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
         alignItems="center"
         justifyContent="space-between"
         gap={1}
+        // eslint-disable-next-line no-nested-ternary
         height={theme.spacing(smDown ? 8 : mdDown ? 8 : 12)}
         sx={{ margin: smDown ? '0' : '0 20px 0 20px' }}
         component="header"
-        bgcolor={ smDown ? 'primary.light' : ''}
+        bgcolor={smDown ? 'primary.light' : ''}
       >
         <Box display="flex" alignItems="center">
           {smDown && (
             <IconButton onClick={toggleDrawerOpen}>
-              <Icon color='info' >menu</Icon>
+              <Icon color="info">menu</Icon>
             </IconButton>
           )}
 
@@ -47,41 +61,40 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
               overflow="hidden"
               whiteSpace="nowrap"
               textOverflow="ellipses"
-              variant='h5'
-              color='white'
-            >
-              {titulo}
-            </Typography>) : (
-            <Typography
-              overflow="hidden"
-              whiteSpace="nowrap"
-              textOverflow="ellipses"
-              variant='h4'
+              variant="h5"
+              color="white"
             >
               {titulo}
             </Typography>
+          ) : (
+            <Typography overflow="hidden" whiteSpace="nowrap" textOverflow="ellipses" variant="h4">
+              {titulo}
+            </Typography>
           )}
-
         </Box>
 
-        {smDown ?
+        {smDown ? (
           <Button
-            color='info'
-            variant='outlined'
+            color="info"
+            variant="outlined"
             startIcon={<Icon>{icon}</Icon>}
             onClick={() => navigate(navigatePage)}
-          >{textButton}</Button>
-          :
+          >
+            {textButton}
+          </Button>
+        ) : (
           <Button
-            variant='contained'
+            variant="contained"
             startIcon={<Icon>{icon}</Icon>}
             onClick={() => navigate(navigatePage)}
-          >{textButton}</Button>
-        }
+          >
+            {textButton}
+          </Button>
+        )}
       </Box>
 
       {/* main - section */}
-      <Box flex={1} overflow="auto" component="section" >
+      <Box flex={1} overflow="auto" component="section">
         <Container maxWidth="xl">
           <Box
             sx={{

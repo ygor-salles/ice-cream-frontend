@@ -1,5 +1,6 @@
 import { Skeleton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+
 import { LISTPRODUCTS } from '../../assets/mocks/ListProducts';
 import { IProductDTO } from '../../dtos/IProductDTO';
 import SnackBar from '../../shared/components/SnackBar';
@@ -54,18 +55,18 @@ export function Products(): JSX.Element {
         severity={error ? 'error' : 'success'}
       />
       <LayoutBaseDePagina
-        titulo='Produtos'
-        navigatePage='/products/create'
-        textButton='CADASTRAR'
+        titulo="Produtos"
+        navigatePage="/products/create"
+        textButton="CADASTRAR"
         icon="add"
       >
         {loading ? (
-          allProducts.map((item) => (
-            <Skeleton key={item.id}  variant="text" width="100%" height={100} />
-          )))
-          :
-          (<TableProduct allProducts={allProducts} />)
-        }
+          allProducts.map(item => (
+            <Skeleton key={item.id} variant="text" width="100%" height={100} />
+          ))
+        ) : (
+          <TableProduct allProducts={allProducts} />
+        )}
 
         <Typography variant="h6">Caso demostre erro os dados exibidos são de testes</Typography>
       </LayoutBaseDePagina>

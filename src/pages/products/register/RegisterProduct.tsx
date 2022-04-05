@@ -1,13 +1,13 @@
+import { Card, Theme, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { Card } from '@mui/material';
-import { Theme, useMediaQuery } from '@mui/material';
+import { useState } from 'react';
+
+import SnackBar from '../../../shared/components/SnackBar';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import ProductService from '../../../shared/services/ProductService';
-import { useState } from 'react';
-import SnackBar from '../../../shared/components/SnackBar';
 
 export function RegisterProduct(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -53,10 +53,15 @@ export function RegisterProduct(): JSX.Element {
         message={message}
         severity={error ? 'error' : 'success'}
       />
-      <LayoutBaseDePagina titulo="Cadastro produto" navigatePage="/products" textButton="VOLTAR" icon="arrow_back" >
+      <LayoutBaseDePagina
+        titulo="Cadastro produto"
+        navigatePage="/products"
+        textButton="VOLTAR"
+        icon="arrow_back"
+      >
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
-          <Card sx={{ padding: '20px' }} >
-            <Grid container spacing={5} >
+          <Card sx={{ padding: '20px' }}>
+            <Grid container spacing={5}>
               <Grid item xs={12}>
                 <TextField
                   name="name"
@@ -64,8 +69,8 @@ export function RegisterProduct(): JSX.Element {
                   fullWidth
                   id="name"
                   label="Nome do produto"
-                  variant='standard'
-                  type={'text'}
+                  variant="standard"
+                  type="text"
                   autoFocus
                 />
               </Grid>
@@ -76,8 +81,8 @@ export function RegisterProduct(): JSX.Element {
                   fullWidth
                   id="price"
                   label="Preço"
-                  variant='standard'
-                  type={'number'}
+                  variant="standard"
+                  type="number"
                   autoFocus
                 />
               </Grid>
@@ -87,18 +92,18 @@ export function RegisterProduct(): JSX.Element {
                   fullWidth
                   id="description"
                   label="Descrição"
-                  variant='standard'
-                  type={'text'}
+                  variant="standard"
+                  type="text"
                   autoFocus
                 />
               </Grid>
             </Grid>
-            <Grid container sx={{ mt: 6 }} >
+            <Grid container sx={{ mt: 6 }}>
               <Grid item display="flex" justifyContent="flex-end" width="100%">
                 <Button
                   type="submit"
                   variant="contained"
-                  fullWidth={smDown ? true : false}
+                  fullWidth={!!smDown}
                   sx={{ bgcolor: 'primary' }}
                 >
                   CADASTRAR

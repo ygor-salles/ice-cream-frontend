@@ -4,5 +4,5 @@ export interface IProductDTO {
   price: number;
   description?: string;
   created_at?: Date;
-  updated_at?: Date
+  updated_at?: Date;
 }

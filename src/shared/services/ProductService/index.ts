@@ -23,9 +23,12 @@ export default class ProductService {
     return data;
   }
 
-  public async updateById(dataRequest: IUpdateProductDTORequest): Promise<IUpdateProductDTOResponse> {
+  public async updateById(
+    dataRequest: IUpdateProductDTORequest,
+  ): Promise<IUpdateProductDTOResponse> {
     const { data } = await api.post<IUpdateProductDTOResponse>(
-      `${this.route}/${dataRequest.id}`, dataRequest
+      `${this.route}/${dataRequest.id}`,
+      dataRequest,
     );
     return data;
   }

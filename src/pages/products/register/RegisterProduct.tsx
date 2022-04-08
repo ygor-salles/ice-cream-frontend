@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Card, Theme, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -7,7 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
-import { IProductDTO } from '../../../shared/dtos/IProductDTO';
+import { IProductDTO, schemaCreateProduct } from '../../../shared/dtos/IProductDTO';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import ProductService from '../../../shared/services/ProductService';
 
@@ -22,7 +23,14 @@ export function RegisterProduct(): JSX.Element {
     setOpenToast(false);
   };
 
-  const { handleSubmit, control } = useForm<IProductDTO>();
+  const { handleSubmit, control } = useForm<IProductDTO>({
+    resolver: yupResolver(schemaCreateProduct),
+    defaultValues: {
+      name: '',
+      price: 0,
+      description: '',
+    },
+  });
 
   const displayNotificationMessage = (error: boolean, message: string): void => {
     setOpenToast(true);
@@ -68,8 +76,6 @@ export function RegisterProduct(): JSX.Element {
                 <Controller
                   name="name"
                   control={control}
-                  rules={{ required: 'Nome é obrigatório' }}
-                  defaultValue=""
                   render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <TextFieldApp
                       name="name"
@@ -88,8 +94,6 @@ export function RegisterProduct(): JSX.Element {
                 <Controller
                   name="price"
                   control={control}
-                  rules={{ required: 'Preço é obrigatório', min: 0.01 }}
-                  defaultValue={0}
                   render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <TextFieldApp
                       name="price"
@@ -108,7 +112,6 @@ export function RegisterProduct(): JSX.Element {
                 <Controller
                   name="description"
                   control={control}
-                  defaultValue=""
                   render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <TextFieldApp
                       name="description"

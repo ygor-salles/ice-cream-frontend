@@ -3,10 +3,13 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import { useFormik } from 'formik';
 import { useState } from 'react';
 
-import SnackBar from '../../../shared/components/SnackBar';
+import Snackbar from '../../../shared/components/snackBar/SnackBar';
+import TextFieldApp from '../../../shared/components/textField/TextField';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
+import { schemaCreateProduct } from '../../../shared/schemas/productSchema';
 import ProductService from '../../../shared/services/ProductService';
 
 export function RegisterProduct(): JSX.Element {
@@ -20,33 +23,45 @@ export function RegisterProduct(): JSX.Element {
     setOpenToast(false);
   };
 
-  const displayNotificationMessage = (error: boolean, message: string): void => {
-    setOpenToast(true);
-    setError(error);
-    setMessage(message);
-  };
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      price: '',
+      description: '',
+    },
+    validationSchema: schemaCreateProduct,
+    onSubmit: values => {
+      console.log(values);
+    },
+  });
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const productService = new ProductService();
+  // const displayNotificationMessage = (error: boolean, message: string): void => {
+  //   setOpenToast(true);
+  //   setError(error);
+  //   setMessage(message);
+  // };
 
-    try {
-      await productService.create({
-        name: String(formData.get('name')),
-        price: Number(formData.get('price')),
-        description: String(formData.get('description')),
-      });
-      displayNotificationMessage(false, 'Produto cadastrado com sucesso!');
-    } catch (error) {
-      // const { response } = error as AxiosError;
-      displayNotificationMessage(true, 'Error ao cadastrar o produto!');
-    }
-  };
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   const formData = new FormData(event.currentTarget);
+  //   const productService = new ProductService();
+
+  //   try {
+  //     await productService.create({
+  //       name: String(formData.get('name')),
+  //       price: Number(formData.get('price')),
+  //       description: String(formData.get('description')),
+  //     });
+  //     displayNotificationMessage(false, 'Produto cadastrado com sucesso!');
+  //   } catch (error) {
+  //     // const { response } = error as AxiosError;
+  //     displayNotificationMessage(true, 'Error ao cadastrar o produto!');
+  //   }
+  // };
 
   return (
     <>
-      <SnackBar
+      <Snackbar
         open={openToast}
         onCloseAlert={handleCloseAlert}
         onCloseSnack={handleCloseAlert}
@@ -59,42 +74,50 @@ export function RegisterProduct(): JSX.Element {
         textButton="VOLTAR"
         icon="arrow_back"
       >
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={formik.handleSubmit}
+          sx={{ mt: 3, width: '100%' }}
+        >
           <Card sx={{ padding: '20px' }}>
             <Grid container spacing={5}>
               <Grid item xs={12}>
-                <TextField
-                  name="name"
-                  required
-                  fullWidth
+                <TextFieldApp
                   id="name"
+                  name="name"
                   label="Nome do produto"
-                  variant="standard"
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
                   type="text"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="price"
                   required
-                  fullWidth
-                  id="price"
-                  label="Preço"
-                  variant="standard"
-                  type="number"
-                  autoFocus
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  name="description"
-                  fullWidth
+                <TextFieldApp
+                  id="price"
+                  name="price"
+                  label="Preço"
+                  value={formik.values.price}
+                  onChange={formik.handleChange}
+                  error={formik.touched.price && Boolean(formik.errors.price)}
+                  helperText={formik.touched.price && formik.errors.price}
+                  type="number"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextFieldApp
                   id="description"
+                  name="description"
                   label="Descrição"
-                  variant="standard"
+                  value={formik.values.description}
+                  onChange={formik.handleChange}
+                  error={formik.touched.description && Boolean(formik.errors.description)}
+                  helperText={formik.touched.description && formik.errors.description}
                   type="text"
-                  autoFocus
                 />
               </Grid>
             </Grid>

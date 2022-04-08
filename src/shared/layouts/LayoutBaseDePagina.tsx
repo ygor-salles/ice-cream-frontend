@@ -7,8 +7,8 @@ import {
   Typography,
   Button,
   Container,
+  Box,
 } from '@mui/material';
-import { Box } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 
 import { useDrawerContext } from '../contexts';

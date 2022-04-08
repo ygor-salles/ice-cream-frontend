@@ -2,8 +2,8 @@ import { Skeleton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import { LISTPRODUCTS } from '../../assets/mocks/ListProducts';
-import { IProductDTO } from '../../dtos/IProductDTO';
-import SnackBar from '../../shared/components/SnackBar';
+import SnackBar from '../../shared/components/snackBar/SnackBar';
+import { IProductDTO } from '../../shared/dtos/IProductDTO';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 import ProductService from '../../shared/services/ProductService';
 import { TableProduct } from './components/Table';

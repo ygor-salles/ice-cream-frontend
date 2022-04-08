@@ -1,4 +1,4 @@
-import { IProductDTO } from '../../dtos/IProductDTO';
+import { IProductDTO } from '../../shared/dtos/IProductDTO';
 
 export const LISTPRODUCTS: IProductDTO[] = [
   {

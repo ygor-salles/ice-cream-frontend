@@ -1,16 +1,21 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Card, Theme, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { useFormik } from 'formik';
 import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
 import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import { schemaCreateProduct } from '../../../shared/schemas/productSchema';
 import ProductService from '../../../shared/services/ProductService';
+
+interface IFormInputs {
+  name: string;
+}
 
 export function RegisterProduct(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -23,17 +28,17 @@ export function RegisterProduct(): JSX.Element {
     setOpenToast(false);
   };
 
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      price: '',
-      description: '',
-    },
-    validationSchema: schemaCreateProduct,
-    onSubmit: values => {
-      console.log(values);
-    },
+  const {
+    handleSubmit,
+    control,
+    // reset,
+    // register,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(schemaCreateProduct),
   });
+
+  const onSubmit = (data: any) => console.log(data);
 
   // const displayNotificationMessage = (error: boolean, message: string): void => {
   //   setOpenToast(true);
@@ -77,47 +82,30 @@ export function RegisterProduct(): JSX.Element {
         <Box
           component="form"
           noValidate
-          onSubmit={formik.handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           sx={{ mt: 3, width: '100%' }}
         >
           <Card sx={{ padding: '20px' }}>
             <Grid container spacing={5}>
               <Grid item xs={12}>
-                <TextFieldApp
-                  id="name"
+                <Controller
                   name="name"
-                  label="Nome do produto"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  error={formik.touched.name && Boolean(formik.errors.name)}
-                  helperText={formik.touched.name && formik.errors.name}
-                  type="text"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextFieldApp
-                  id="price"
-                  name="price"
-                  label="Preço"
-                  value={formik.values.price}
-                  onChange={formik.handleChange}
-                  error={formik.touched.price && Boolean(formik.errors.price)}
-                  helperText={formik.touched.price && formik.errors.price}
-                  type="number"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextFieldApp
-                  id="description"
-                  name="description"
-                  label="Descrição"
-                  value={formik.values.description}
-                  onChange={formik.handleChange}
-                  error={formik.touched.description && Boolean(formik.errors.description)}
-                  helperText={formik.touched.description && formik.errors.description}
-                  type="text"
+                  control={control}
+                  rules={{ required: true }}
+                  defaultValue=""
+                  render={({ field: { onChange, value } }) => (
+                    <TextFieldApp
+                      id="name"
+                      name="name"
+                      label="Nome do produto"
+                      value={value}
+                      onChange={onChange}
+                      error={Boolean(errors.name)}
+                      helperText={errors?.name?.message || ''}
+                      type="text"
+                      required
+                    />
+                  )}
                 />
               </Grid>
             </Grid>

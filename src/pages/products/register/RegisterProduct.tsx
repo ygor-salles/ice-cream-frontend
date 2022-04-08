@@ -1,21 +1,15 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Card, Theme, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
+import { IProductDTO } from '../../../shared/dtos/IProductDTO';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import { schemaCreateProduct } from '../../../shared/schemas/productSchema';
 import ProductService from '../../../shared/services/ProductService';
-
-interface IFormInputs {
-  name: string;
-}
 
 export function RegisterProduct(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -28,41 +22,24 @@ export function RegisterProduct(): JSX.Element {
     setOpenToast(false);
   };
 
-  const {
-    handleSubmit,
-    control,
-    // reset,
-    // register,
-    formState: { errors },
-  } = useForm<IFormInputs>({
-    resolver: yupResolver(schemaCreateProduct),
-  });
+  const { handleSubmit, control } = useForm<IProductDTO>();
 
-  const onSubmit = (data: any) => console.log(data);
+  const displayNotificationMessage = (error: boolean, message: string): void => {
+    setOpenToast(true);
+    setError(error);
+    setMessage(message);
+  };
 
-  // const displayNotificationMessage = (error: boolean, message: string): void => {
-  //   setOpenToast(true);
-  //   setError(error);
-  //   setMessage(message);
-  // };
-
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.currentTarget);
-  //   const productService = new ProductService();
-
-  //   try {
-  //     await productService.create({
-  //       name: String(formData.get('name')),
-  //       price: Number(formData.get('price')),
-  //       description: String(formData.get('description')),
-  //     });
-  //     displayNotificationMessage(false, 'Produto cadastrado com sucesso!');
-  //   } catch (error) {
-  //     // const { response } = error as AxiosError;
-  //     displayNotificationMessage(true, 'Error ao cadastrar o produto!');
-  //   }
-  // };
+  const onSubmit = async (data: IProductDTO) => {
+    const productService = new ProductService();
+    try {
+      await productService.create(data);
+      displayNotificationMessage(false, 'Produto cadastrado com sucesso!');
+    } catch (error) {
+      // const { response } = error as AxiosError;
+      displayNotificationMessage(true, 'Error ao cadastrar o produto!');
+    }
+  };
 
   return (
     <>
@@ -91,19 +68,56 @@ export function RegisterProduct(): JSX.Element {
                 <Controller
                   name="name"
                   control={control}
-                  rules={{ required: true }}
+                  rules={{ required: 'Nome é obrigatório' }}
                   defaultValue=""
-                  render={({ field: { onChange, value } }) => (
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <TextFieldApp
-                      id="name"
                       name="name"
                       label="Nome do produto"
                       value={value}
                       onChange={onChange}
-                      error={Boolean(errors.name)}
-                      helperText={errors?.name?.message || ''}
+                      error={!!error}
+                      helperText={error ? error.message : null}
                       type="text"
                       required
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  name="price"
+                  control={control}
+                  rules={{ required: 'Preço é obrigatório', min: 0.01 }}
+                  defaultValue={0}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextFieldApp
+                      name="price"
+                      label="Preço do produto"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      type="number"
+                      required
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  name="description"
+                  control={control}
+                  defaultValue=""
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextFieldApp
+                      name="description"
+                      label="Descrição do produto"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      type="text"
                     />
                   )}
                 />

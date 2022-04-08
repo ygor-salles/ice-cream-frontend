@@ -11,6 +11,7 @@ interface SnackbarProps {
   open?: boolean;
   autoHideDuration?: number;
   onCloseSnack?: (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     event: Event | React.SyntheticEvent<any, Event>,
     reason: SnackbarCloseReason,
   ) => void;

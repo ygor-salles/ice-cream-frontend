@@ -1,7 +1,6 @@
 import { TextField } from '@mui/material';
 
 interface TextFieldAppProps {
-  id?: string;
   name?: string;
   label: React.ReactNode;
   value: string | number | undefined;
@@ -27,7 +26,6 @@ interface TextFieldAppProps {
 // }));
 
 export default function TextFieldApp({
-  id,
   name,
   label,
   value,
@@ -40,7 +38,6 @@ export default function TextFieldApp({
 }: TextFieldAppProps): JSX.Element {
   return (
     <TextField
-      id={id}
       name={name}
       label={label}
       value={value}

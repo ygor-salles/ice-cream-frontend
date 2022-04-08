@@ -8,7 +8,12 @@ import { Controller, useForm } from 'react-hook-form';
 
 import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
-import { IProductDTO, schemaCreateProduct } from '../../../shared/dtos/IProductDTO';
+import {
+  IFormProduct,
+  IProductDTO,
+  schemaCreateProduct,
+  transformObject,
+} from '../../../shared/dtos/IProductDTO';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import ProductService from '../../../shared/services/ProductService';
 
@@ -23,11 +28,11 @@ export function RegisterProduct(): JSX.Element {
     setOpenToast(false);
   };
 
-  const { handleSubmit, control } = useForm<IProductDTO>({
+  const { handleSubmit, control } = useForm<IFormProduct>({
     resolver: yupResolver(schemaCreateProduct),
     defaultValues: {
       name: '',
-      price: 0,
+      price: '',
       description: '',
     },
   });
@@ -38,7 +43,9 @@ export function RegisterProduct(): JSX.Element {
     setMessage(message);
   };
 
-  const onSubmit = async (data: IProductDTO) => {
+  const onSubmit = async (dataForm: IFormProduct) => {
+    const data: IProductDTO = transformObject(dataForm);
+
     const productService = new ProductService();
     try {
       await productService.create(data);
@@ -84,7 +91,6 @@ export function RegisterProduct(): JSX.Element {
                       onChange={onChange}
                       error={!!error}
                       helperText={error ? error.message : null}
-                      type="text"
                       required
                     />
                   )}
@@ -120,7 +126,6 @@ export function RegisterProduct(): JSX.Element {
                       onChange={onChange}
                       error={!!error}
                       helperText={error ? error.message : null}
-                      type="text"
                     />
                   )}
                 />

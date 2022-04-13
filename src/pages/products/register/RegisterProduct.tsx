@@ -100,15 +100,23 @@ export function RegisterProduct(): JSX.Element {
                 <Controller
                   name="price"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                  render={({ field: { value: valueForm }, fieldState: { error } }) => (
                     <TextFieldApp
                       name="price"
                       label="Preço do produto"
-                      value={value}
-                      onChange={onChange}
+                      // value={valueForm}
+                      onChange={event => {
+                        let { value } = event.target;
+                        // event.target.value = currency(value);
+                        value = value.replace(/\D/g, '');
+                        value = value.replace(/(\d)(\d{2})$/, '$1,$2');
+                        value = value.replace(/(?=(\d{3})+(\D))\B/g, '.');
+                        // eslint-disable-next-line no-param-reassign
+                        event.target.value = value;
+                      }}
                       error={!!error}
                       helperText={error ? error.message : null}
-                      type="number"
+                      inputMode="numeric"
                       required
                     />
                   )}

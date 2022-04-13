@@ -30,7 +30,8 @@ export const transformObject = (dataForm: IFormProduct): IProductDTO => {
 
 export const schemaCreateProduct = yup.object().shape({
   name: yup.string().required('Nome é obrigatório'),
-  price: yup.number().min(0.01, 'min. 1 centavo').required('Preço é obrigatório'),
+  price: yup.string().required('Preço é obrigatório'),
+  // price: yup.number().min(0.01, 'min. 1 centavo').required('Preço é obrigatório'),
   // price: yup.string().matches(masks.NUMBER.regex, 'Deve ser somente números'),
   description: yup.string().optional(),
 });

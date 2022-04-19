@@ -112,6 +112,7 @@ export function RegisterProduct(): JSX.Element {
                       onChange={onChange}
                       error={!!error}
                       helperText={error ? error.message : null}
+                      inputMode="numeric"
                       required
                     />
                   )}

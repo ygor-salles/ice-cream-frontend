@@ -9,8 +9,8 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  Box,
 } from '@mui/material';
-import { Box } from '@mui/system';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 
 import logoImg from '../../../assets/logo.png';

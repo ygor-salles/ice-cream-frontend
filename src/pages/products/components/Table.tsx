@@ -8,7 +8,7 @@ import {
   Paper,
 } from '@mui/material';
 
-import { IProductDTO } from '../../../dtos/IProductDTO';
+import { IProductDTO } from '../../../shared/dtos/IProductDTO';
 import { Row } from './Row';
 
 type Props = {

@@ -1,11 +1,20 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Card, Theme, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
 import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
-import SnackBar from '../../../shared/components/SnackBar';
+import Snackbar from '../../../shared/components/snackBar/SnackBar';
+import TextFieldApp from '../../../shared/components/textField/TextField';
+import Mask from '../../../shared/constants/masks';
+import {
+  IFormProduct,
+  IProductDTO,
+  schemaCreateProduct,
+  transformObject,
+} from '../../../shared/dtos/IProductDTO';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import ProductService from '../../../shared/services/ProductService';
 
@@ -20,23 +29,29 @@ export function RegisterProduct(): JSX.Element {
     setOpenToast(false);
   };
 
+  const { handleSubmit, control } = useForm<IFormProduct>({
+    resolver: yupResolver(schemaCreateProduct),
+    defaultValues: {
+      name: '',
+      price: '',
+      description: '',
+    },
+  });
+
   const displayNotificationMessage = (error: boolean, message: string): void => {
     setOpenToast(true);
     setError(error);
     setMessage(message);
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const productService = new ProductService();
+  const onSubmit = async (dataForm: IFormProduct) => {
+    const data: IProductDTO = transformObject(dataForm);
 
+    console.log(data);
+
+    const productService = new ProductService();
     try {
-      await productService.create({
-        name: String(formData.get('name')),
-        price: Number(formData.get('price')),
-        description: String(formData.get('description')),
-      });
+      await productService.create(data);
       displayNotificationMessage(false, 'Produto cadastrado com sucesso!');
     } catch (error) {
       // const { response } = error as AxiosError;
@@ -46,7 +61,7 @@ export function RegisterProduct(): JSX.Element {
 
   return (
     <>
-      <SnackBar
+      <Snackbar
         open={openToast}
         onCloseAlert={handleCloseAlert}
         onCloseSnack={handleCloseAlert}
@@ -59,42 +74,64 @@ export function RegisterProduct(): JSX.Element {
         textButton="VOLTAR"
         icon="arrow_back"
       >
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{ mt: 3, width: '100%' }}
+        >
           <Card sx={{ padding: '20px' }}>
             <Grid container spacing={5}>
               <Grid item xs={12}>
-                <TextField
+                <Controller
                   name="name"
-                  required
-                  fullWidth
-                  id="name"
-                  label="Nome do produto"
-                  variant="standard"
-                  type="text"
-                  autoFocus
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextFieldApp
+                      name="name"
+                      label="Nome do produto"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      required
+                    />
+                  )}
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <Controller
                   name="price"
-                  required
-                  fullWidth
-                  id="price"
-                  label="Preço"
-                  variant="standard"
-                  type="number"
-                  autoFocus
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextFieldApp
+                      name="price"
+                      label="Preço do produto"
+                      mask={Mask.currency}
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      inputMode="numeric"
+                      required
+                    />
+                  )}
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <Controller
                   name="description"
-                  fullWidth
-                  id="description"
-                  label="Descrição"
-                  variant="standard"
-                  type="text"
-                  autoFocus
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextFieldApp
+                      name="description"
+                      label="Descrição do produto"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                    />
+                  )}
                 />
               </Grid>
             </Grid>

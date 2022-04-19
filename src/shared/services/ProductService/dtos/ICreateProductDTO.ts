@@ -1,7 +1,7 @@
 export interface ICreateProductDTORequest {
   name: string;
   price: number;
-  description: string;
+  description?: string;
 }
 
 export interface ICreateProductDTOResponse {

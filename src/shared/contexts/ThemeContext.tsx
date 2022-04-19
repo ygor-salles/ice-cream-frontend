@@ -1,5 +1,4 @@
-import { ThemeProvider } from '@mui/material';
-import { Box } from '@mui/system';
+import { ThemeProvider, Box } from '@mui/material';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
 import { DarkTheme, LightTheme } from '../themes';

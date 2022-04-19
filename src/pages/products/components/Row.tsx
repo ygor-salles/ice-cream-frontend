@@ -5,16 +5,16 @@ import {
   TableRow,
   Typography,
   Icon,
-  // useMediaQuery,
-  // Theme,
+  useMediaQuery,
+  Theme,
 } from '@mui/material';
 import { useState } from 'react';
 
-import { IProductDTO } from '../../../dtos/IProductDTO';
+import { IProductDTO } from '../../../shared/dtos/IProductDTO';
 import { DialogEdit } from './DialogEdit';
 
 export function Row({ name, price, description }: IProductDTO): JSX.Element {
-  // const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const [open, setOpen] = useState(false);
   const [dialogEdit, setDialogEdit] = useState(false);
@@ -62,9 +62,17 @@ export function Row({ name, price, description }: IProductDTO): JSX.Element {
         <TableCell style={{ borderBottom: 'none' }}>{name}</TableCell>
         <TableCell style={{ borderBottom: 'none' }}>{price}</TableCell>
         <TableCell
-          style={{ borderBottom: 'none', display: 'flex', justifyContent: 'space-between' }}
+          style={{
+            borderBottom: 'none',
+            display: 'flex',
+            justifyContent: smDown ? 'space-between' : 'center',
+          }}
         >
-          <Icon color="secondary" onClick={e => handleEdit(e)}>
+          <Icon
+            color="secondary"
+            style={{ marginRight: smDown ? '0' : '20px' }}
+            onClick={e => handleEdit(e)}
+          >
             edit
           </Icon>
           <Icon color="warning" onClick={e => handleDelete(e)}>

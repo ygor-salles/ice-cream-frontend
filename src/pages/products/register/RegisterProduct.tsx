@@ -8,6 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
+import Mask from '../../../shared/constants/masks';
 import {
   IFormProduct,
   IProductDTO,
@@ -45,6 +46,8 @@ export function RegisterProduct(): JSX.Element {
 
   const onSubmit = async (dataForm: IFormProduct) => {
     const data: IProductDTO = transformObject(dataForm);
+
+    console.log(data);
 
     const productService = new ProductService();
     try {
@@ -100,23 +103,15 @@ export function RegisterProduct(): JSX.Element {
                 <Controller
                   name="price"
                   control={control}
-                  render={({ field: { value: valueForm }, fieldState: { error } }) => (
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <TextFieldApp
                       name="price"
                       label="Preço do produto"
-                      // value={valueForm}
-                      onChange={event => {
-                        let { value } = event.target;
-                        // event.target.value = currency(value);
-                        value = value.replace(/\D/g, '');
-                        value = value.replace(/(\d)(\d{2})$/, '$1,$2');
-                        value = value.replace(/(?=(\d{3})+(\D))\B/g, '.');
-                        // eslint-disable-next-line no-param-reassign
-                        event.target.value = value;
-                      }}
+                      mask={Mask.currency}
+                      value={value}
+                      onChange={onChange}
                       error={!!error}
                       helperText={error ? error.message : null}
-                      inputMode="numeric"
                       required
                     />
                   )}

@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-// import masks from '../constants/masks';
+import Mask from '../constants/masks';
 
 export interface IProductDTO {
   id?: number;
@@ -20,7 +20,7 @@ export interface IFormProduct {
 export const transformObject = (dataForm: IFormProduct): IProductDTO => {
   const object: IProductDTO = {
     name: dataForm.name,
-    price: Number(dataForm.price),
+    price: Mask.convertCurrency(dataForm.price),
   };
   if (dataForm.description.length) {
     object.description = dataForm.description;
@@ -31,7 +31,5 @@ export const transformObject = (dataForm: IFormProduct): IProductDTO => {
 export const schemaCreateProduct = yup.object().shape({
   name: yup.string().required('Nome é obrigatório'),
   price: yup.string().required('Preço é obrigatório'),
-  // price: yup.number().min(0.01, 'min. 1 centavo').required('Preço é obrigatório'),
-  // price: yup.string().matches(masks.NUMBER.regex, 'Deve ser somente números'),
   description: yup.string().optional(),
 });

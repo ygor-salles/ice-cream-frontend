@@ -1,4 +1,17 @@
-import { TextField, TextFieldProps } from '@mui/material';
+import { TextField } from '@mui/material';
+
+interface TextFieldPropsApp {
+  name?: string;
+  label: React.ReactNode;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: boolean;
+  helperText?: string;
+  mask?: (value: string) => string;
+  type?: React.HTMLInputTypeAttribute;
+  required?: boolean;
+  inputMode?: 'email' | 'search' | 'tel' | 'text' | 'url' | 'none' | 'numeric' | 'decimal';
+}
 
 // const StyledTextField = styled(MuiTextField)(({ inputProps }: any) => ({
 //   '& label.Mui-focused': {
@@ -13,13 +26,32 @@ import { TextField, TextFieldProps } from '@mui/material';
 //   ...inputProps.customstyles,
 // }));
 
-export default function TextFieldApp({ ...props }: TextFieldProps): JSX.Element {
+export default function TextFieldApp({
+  name,
+  label,
+  value,
+  onChange,
+  error,
+  helperText,
+  mask,
+  type,
+  required,
+  inputMode,
+}: TextFieldPropsApp): JSX.Element {
   return (
     <TextField
-      variant={props.variant || 'standard'}
-      fullWidth={props.fullWidth || true}
-      autoFocus={props.autoFocus || true}
-      {...props}
+      name={name}
+      label={label}
+      value={mask ? mask(value) : value || ''}
+      onChange={onChange}
+      error={error}
+      helperText={helperText}
+      type={type}
+      required={required}
+      variant="standard"
+      fullWidth
+      autoFocus
+      inputMode={inputMode}
     />
   );
 }

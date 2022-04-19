@@ -107,12 +107,13 @@ export function RegisterProduct(): JSX.Element {
                     <TextFieldApp
                       name="price"
                       label="Preço do produto"
+                      type="text"
+                      inputMode="decimal"
                       mask={Mask.currency}
                       value={value}
                       onChange={onChange}
                       error={!!error}
                       helperText={error ? error.message : null}
-                      inputMode="numeric"
                       required
                     />
                   )}

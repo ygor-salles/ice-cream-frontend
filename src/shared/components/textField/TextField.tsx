@@ -42,16 +42,16 @@ export default function TextFieldApp({
     <TextField
       name={name}
       label={label}
+      type={type}
+      inputMode={inputMode}
       value={mask ? mask(value) : value || ''}
       onChange={onChange}
       error={error}
       helperText={helperText}
-      type={type}
       required={required}
       variant="standard"
       fullWidth
       autoFocus
-      inputMode={inputMode}
     />
   );
 }

@@ -1,6 +1,7 @@
-import { TextField } from '@mui/material';
+import { InputProps, TextField } from '@mui/material';
 
 interface TextFieldPropsApp {
+  id?: string;
   name?: string;
   label: React.ReactNode;
   value: string;
@@ -11,6 +12,7 @@ interface TextFieldPropsApp {
   type?: React.HTMLInputTypeAttribute;
   required?: boolean;
   inputMode?: 'email' | 'search' | 'tel' | 'text' | 'url' | 'none' | 'numeric' | 'decimal';
+  InputProps?: Partial<InputProps>;
 }
 
 // const StyledTextField = styled(MuiTextField)(({ inputProps }: any) => ({
@@ -27,6 +29,7 @@ interface TextFieldPropsApp {
 // }));
 
 export default function TextFieldApp({
+  id,
   name,
   label,
   value,
@@ -37,19 +40,22 @@ export default function TextFieldApp({
   type,
   required,
   inputMode,
+  InputProps,
 }: TextFieldPropsApp): JSX.Element {
   return (
     <TextField
-      name={name}
       label={label}
-      type={type}
-      inputMode={inputMode}
       value={mask ? mask(value) : value || ''}
       onChange={onChange}
+      name={name}
+      id={id}
+      InputProps={InputProps}
+      variant="standard"
+      type={type}
+      inputMode={inputMode}
       error={error}
       helperText={helperText}
       required={required}
-      variant="standard"
       fullWidth
       autoFocus
     />

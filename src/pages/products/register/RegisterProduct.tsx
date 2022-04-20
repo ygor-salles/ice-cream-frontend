@@ -6,9 +6,9 @@ import Grid from '@mui/material/Grid';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
 import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
-import Mask from '../../../shared/constants/masks';
 import {
   IFormProduct,
   IProductDTO,
@@ -46,8 +46,6 @@ export function RegisterProduct(): JSX.Element {
 
   const onSubmit = async (dataForm: IFormProduct) => {
     const data: IProductDTO = transformObject(dataForm);
-
-    console.log(data);
 
     const productService = new ProductService();
     try {
@@ -105,13 +103,16 @@ export function RegisterProduct(): JSX.Element {
                   control={control}
                   render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <TextFieldApp
-                      name="price"
                       label="Preço do produto"
-                      type="text"
-                      inputMode="decimal"
-                      mask={Mask.currency}
                       value={value}
                       onChange={onChange}
+                      name="price"
+                      id="price"
+                      InputProps={{
+                        inputComponent: NumberFormatCustom as any,
+                      }}
+                      // type="text"
+                      // inputMode="decimal"
                       error={!!error}
                       helperText={error ? error.message : null}
                       required

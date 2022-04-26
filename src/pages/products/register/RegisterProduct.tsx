@@ -111,8 +111,6 @@ export function RegisterProduct(): JSX.Element {
                       InputProps={{
                         inputComponent: NumberFormatCustom as any,
                       }}
-                      // type="text"
-                      // inputMode="decimal"
                       error={!!error}
                       helperText={error ? error.message : null}
                       required

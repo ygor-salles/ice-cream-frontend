@@ -61,9 +61,7 @@ export function Products(): JSX.Element {
         icon="add"
       >
         {loading ? (
-          allProducts.map(item => (
-            <Skeleton key={item.id} variant="text" width="100%" height={100} />
-          ))
+          <Skeleton variant="rectangular" width="100%" height={200} />
         ) : (
           <TableProduct allProducts={allProducts} />
         )}

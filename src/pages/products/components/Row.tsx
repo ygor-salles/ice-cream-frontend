@@ -3,38 +3,33 @@ import {
   Collapse,
   TableCell,
   TableRow,
-  Typography,
   Icon,
   useMediaQuery,
   Theme,
+  Table,
+  TableHead,
+  TableBody,
 } from '@mui/material';
 import { useState } from 'react';
 
+import DialogInfo from '../../../shared/components/dialog/Dialog';
 import { IProductDTO } from '../../../shared/dtos/IProductDTO';
+import formatDate from '../../../shared/utils/formatDate';
+import { formatNumberToCurrency } from '../../../shared/utils/formatNumberToCurrency';
 import { DialogEdit } from './DialogEdit';
 
-export function Row({ name, price, description }: IProductDTO): JSX.Element {
+export function Row({
+  name,
+  price,
+  description,
+  created_at,
+  updated_at,
+}: IProductDTO): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const [open, setOpen] = useState(false);
   const [dialogEdit, setDialogEdit] = useState(false);
-  // const [dialogDelete, setDialogDelete] = useState(false);
-
-  const handleClickOpenEdit = () => {
-    setDialogEdit(true);
-  };
-
-  const handleCloseEdit = () => {
-    setDialogEdit(false);
-  };
-
-  // const handleClickOpenDelete = () => {
-  //   setDialogDelete(true);
-  // };
-
-  // const handleCloseDelete = () => {
-  //   setDialogDelete(false);
-  // };
+  const [dialogDelete, setDialogDelete] = useState(false);
 
   const handleEdit = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     event.stopPropagation();
@@ -43,24 +38,18 @@ export function Row({ name, price, description }: IProductDTO): JSX.Element {
 
   const handleDelete = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     event.stopPropagation();
-    console.log('Deletar');
+    setDialogDelete(true);
+  };
+
+  const submitDelete = () => {
+    console.log('Submit delete');
   };
 
   return (
     <>
-      {dialogEdit && (
-        <DialogEdit
-          name={name}
-          price={price}
-          description={description}
-          handleClickOpenEdit={handleClickOpenEdit}
-          handleCloseEdit={handleCloseEdit}
-          dialogEdit={dialogEdit}
-        />
-      )}
       <TableRow sx={{ '& > *': { borderBottom: 'none' } }} onClick={() => setOpen(!open)}>
         <TableCell style={{ borderBottom: 'none' }}>{name}</TableCell>
-        <TableCell style={{ borderBottom: 'none' }}>{price}</TableCell>
+        <TableCell style={{ borderBottom: 'none' }}>{formatNumberToCurrency(price)}</TableCell>
         <TableCell
           style={{
             borderBottom: 'none',
@@ -70,12 +59,12 @@ export function Row({ name, price, description }: IProductDTO): JSX.Element {
         >
           <Icon
             color="secondary"
-            style={{ marginRight: smDown ? '0' : '20px' }}
+            style={{ marginRight: smDown ? '0' : '20px', cursor: 'pointer' }}
             onClick={e => handleEdit(e)}
           >
             edit
           </Icon>
-          <Icon color="warning" onClick={e => handleDelete(e)}>
+          <Icon color="warning" onClick={e => handleDelete(e)} style={{ cursor: 'pointer' }}>
             delete
           </Icon>
         </TableCell>
@@ -89,14 +78,58 @@ export function Row({ name, price, description }: IProductDTO): JSX.Element {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Box component="div">
-                <Typography variant="h6">Descrição</Typography>
-                {description}
+              <Box component="div" width="100%" display="flex" flexDirection="column">
+                <Table size="small" aria-label="purchases">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Descrição</TableCell>
+                      <TableCell align="right">Data criação</TableCell>
+                      <TableCell align="right">Data atualização</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        {description}
+                      </TableCell>
+                      <TableCell align="right">
+                        {formatDate(new Date(created_at)) || '00/00/0000'}
+                      </TableCell>
+                      <TableCell align="right">
+                        {formatDate(new Date(updated_at)) || '00/00/0000'}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </Box>
             </Box>
           </Collapse>
         </TableCell>
       </TableRow>
+
+      {dialogEdit && (
+        <DialogEdit
+          smDown={smDown}
+          name={name}
+          price="250"
+          description={description}
+          handleClose={() => setDialogEdit(false)}
+          open={dialogEdit}
+        />
+      )}
+
+      {dialogDelete && (
+        <DialogInfo
+          // smDown={smDown}
+          open={dialogDelete}
+          handleSubmit={submitDelete}
+          handleClose={() => setDialogDelete(false)}
+          textButtonClose="CANCELAR"
+          textButtonSubmit="DELETAR"
+          title="DELETAR PRODUTO"
+          text="Tem certeza que deseja deletar este produto?"
+        />
+      )}
     </>
   );
 }

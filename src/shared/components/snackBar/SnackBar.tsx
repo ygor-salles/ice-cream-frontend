@@ -31,7 +31,7 @@ export default function Snackbar({
   onCloseAlert,
   open,
   severity,
-  sx = { width: '350px', position: 'absolute', marginTop: '50px' },
+  sx = { width: '350px', position: 'absolute', marginTop: '150px' },
   anchorOrigin = { vertical: 'top', horizontal: 'center' },
 }: SnackbarProps) {
   const StyledSnackbar = styled(MuiSnackBar)(() => ({}));

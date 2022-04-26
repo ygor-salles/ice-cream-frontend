@@ -21,7 +21,7 @@ export function TableProduct({ allProducts }: Props): JSX.Element {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell>Nome</TableCell>
+            <TableCell style={{ display: 'flex' }}>Nome</TableCell>
             <TableCell>Preço</TableCell>
             <TableCell style={{ display: 'flex', justifyContent: 'center' }}>Ações</TableCell>
           </TableRow>
@@ -33,6 +33,8 @@ export function TableProduct({ allProducts }: Props): JSX.Element {
               name={item.name}
               price={item.price}
               description={item.description || ''}
+              created_at={item.created_at}
+              updated_at={item.updated_at}
               key={item.id}
             />
           ))}

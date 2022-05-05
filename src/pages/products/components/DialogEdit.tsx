@@ -71,18 +71,16 @@ export function DialogEdit({
   };
 
   const onSubmit = async (dataForm: IFormProduct) => {
-    console.log(dataForm);
+    const data: IProductDTO = transformObject(dataForm);
 
-    // const data: IProductDTO = transformObject(dataForm);
-
-    // const productService = new ProductService();
-    // try {
-    //   const response = await productService.updateById(data);
-    //   displayNotificationMessage(false, 'Produto cadastrado com sucesso!');
-    // } catch (error) {
-    //   // const { response } = error as AxiosError;
-    //   displayNotificationMessage(true, 'Error ao cadastrar o produto!');
-    // }
+    const productService = new ProductService();
+    try {
+      const response = await productService.updateById(data);
+      displayNotificationMessage(false, 'Produto cadastrado com sucesso!');
+    } catch (error) {
+      // const { response } = error as AxiosError;
+      displayNotificationMessage(true, 'Error ao cadastrar o produto!');
+    }
   };
 
   return (

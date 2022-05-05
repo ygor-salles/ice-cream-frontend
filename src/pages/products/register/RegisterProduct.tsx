@@ -141,7 +141,11 @@ export function RegisterProduct(): JSX.Element {
                   type="submit"
                   variant="contained"
                   fullWidth={!!smDown}
-                  sx={{ bgcolor: 'primary' }}
+                  sx={{
+                    bgcolor: 'primary',
+                    padding: smDown ? '10px' : 'auto',
+                    fontSize: smDown ? '1rem' : 'auto',
+                  }}
                 >
                   CADASTRAR
                 </Button>

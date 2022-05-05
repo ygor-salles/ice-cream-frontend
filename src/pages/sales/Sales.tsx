@@ -8,7 +8,7 @@ export function Sales(): JSX.Element {
       textButton="CADASTRAR"
       icon="add"
     >
-      Forms vendas
+      Exibição vendas
     </LayoutBaseDePagina>
   );
 }

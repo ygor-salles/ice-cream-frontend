@@ -111,7 +111,7 @@ export function Row({
         <DialogEdit
           smDown={smDown}
           name={name}
-          price="250"
+          price={price.toFixed(2).replace('.', '')}
           description={description}
           handleClose={() => setDialogEdit(false)}
           open={dialogEdit}

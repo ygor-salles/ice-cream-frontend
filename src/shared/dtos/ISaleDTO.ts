@@ -1,0 +1,58 @@
+import * as yup from 'yup';
+
+import Mask from '../constants/masks';
+
+export enum EnumTypeSale {
+  PIX = 'PIX',
+  CARD = 'CARD',
+  MONEY = 'MONEY',
+  DEBIT = 'DEBIT',
+}
+
+export interface ISaleDTO {
+  id?: number;
+  product_id: number;
+  type_sale: EnumTypeSale;
+  client_id?: number;
+  observation?: string;
+  total: number;
+  created_at?: Date | string;
+  updated_at?: Date | string;
+}
+
+export interface IFormSale {
+  product_id: string;
+  type_sale: string;
+  client_id?: string;
+  observation?: string;
+  total: string;
+}
+
+export const transformObjectSale = (dataForm: IFormSale): ISaleDTO => {
+  const objectSale: ISaleDTO = {
+    product_id: Number(dataForm.product_id),
+    total: Mask.convertCurrency(dataForm.total),
+    type_sale: EnumTypeSale.MONEY,
+  };
+
+  if (dataForm.observation.length) {
+    objectSale.observation = dataForm.observation;
+  }
+  if (dataForm.client_id.length) {
+    objectSale.client_id = Number(dataForm.client_id);
+  }
+
+  return objectSale;
+};
+
+export const schemaCreateSale = yup.object().shape({
+  product_id: yup.string().required('Seleção de produto é obrigatório'),
+  // type_sale: yup
+  //   .mixed<keyof typeof EnumTypeSale>()
+  //   .oneOf(Object.values(EnumTypeSale))
+  //   .required('Tipo de venda é obrigatório'),
+  type_sale: yup.string().required('Tipo de venda é obrigatório'),
+  client_id: yup.string().optional(),
+  observation: yup.string().optional(),
+  total: yup.string().required('Total da venda é obrigatório'),
+});

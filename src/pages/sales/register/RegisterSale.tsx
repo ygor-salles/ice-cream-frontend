@@ -1,16 +1,234 @@
-import { Typography } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  Card,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Theme,
+  useMediaQuery,
+} from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
+import { LISTCLIENTS } from '../../../assets/mocks/ListClients';
+import { LISTPRODUCTS } from '../../../assets/mocks/ListProducts';
+import { LISTTYPESALES } from '../../../assets/mocks/ListTypeSales';
+import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
+import SelectApp from '../../../shared/components/select/Select';
+import Snackbar from '../../../shared/components/snackBar/SnackBar';
+import TextFieldApp from '../../../shared/components/textField/TextField';
+import { IProductDTO } from '../../../shared/dtos/IProductDTO';
+import {
+  IFormSale,
+  ISaleDTO,
+  schemaCreateSale,
+  transformObjectSale,
+  EnumTypeSale,
+} from '../../../shared/dtos/ISaleDTO';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
+import SaleService from '../../../shared/services/SaleService';
 
 export function RegisterSale(): JSX.Element {
+  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+
+  const [openToast, setOpenToast] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const handleCloseAlert = (): void => {
+    setOpenToast(false);
+  };
+
+  const { handleSubmit, control, setValue } = useForm<IFormSale>({
+    resolver: yupResolver(schemaCreateSale),
+    defaultValues: {
+      product_id: '',
+      type_sale: '',
+      client_id: '',
+      observation: '',
+      total: '',
+    },
+  });
+
+  const displayNotificationMessage = (error: boolean, message: string): void => {
+    setOpenToast(true);
+    setError(error);
+    setMessage(message);
+  };
+
+  const onSubmit = async (dataForm: any) => {
+    console.log(dataForm);
+
+    // const data: ISaleDTO = transformObjectSale(dataForm);
+
+    // const saleService = new SaleService();
+    // try {
+    //   await saleService.create(data);
+    //   displayNotificationMessage(false, 'Venda registrada com sucesso!');
+    // } catch (error) {
+    //   // const { response } = error as AxiosError;
+    //   displayNotificationMessage(true, 'Error ao cadastrar o produto!');
+    // }
+  };
+
   return (
-    <LayoutBaseDePagina
-      titulo="Cadastro venda"
-      navigatePage="/sales"
-      textButton="VOLTAR"
-      icon="arrow_back"
-    >
-      <Typography>Cadastro de Venda</Typography>
-    </LayoutBaseDePagina>
+    <>
+      <Snackbar
+        open={openToast}
+        onCloseAlert={handleCloseAlert}
+        onCloseSnack={handleCloseAlert}
+        message={message}
+        severity={error ? 'error' : 'success'}
+      />
+      <LayoutBaseDePagina
+        titulo="Cadastro venda"
+        navigatePage="/sales"
+        textButton="VENDAS"
+        icon="sell"
+      >
+        <Box
+          component="form"
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{ mt: 3, width: '100%' }}
+        >
+          <Card sx={{ padding: '20px' }}>
+            <Grid container spacing={5}>
+              <Grid item xs={12}>
+                {/* <Controller
+                  name="product_id"
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <FormControl fullWidth required variant="standard" error={!!error}>
+                      <InputLabel>Produto</InputLabel>
+                      <Select name="product_id" value={value} label="Produto" onChange={onChange}>
+                        {LISTPRODUCTS.map(item => (
+                          <MenuItem key={item.id} value={item.id}>
+                            {item.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
+                /> */}
+                <Controller
+                  name="product_id"
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <SelectApp
+                      array={LISTPRODUCTS}
+                      label="Produto"
+                      // value={value}
+                      onChange={e => {
+                        const { id, price } = e.target.value as any;
+                        setValue('product_id', id);
+                        setValue('total', price);
+                      }}
+                      name="product_id"
+                      error={!!error}
+                      required
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Controller
+                  name="type_sale"
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <SelectApp
+                      array={LISTTYPESALES}
+                      label="Tipo de venda"
+                      value={value}
+                      onChange={onChange}
+                      name="type_sale"
+                      error={!!error}
+                      required
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Controller
+                  name="client_id"
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <SelectApp
+                      array={LISTCLIENTS}
+                      label="Cliente"
+                      value={value}
+                      onChange={onChange}
+                      name="client_id"
+                      error={!!error}
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Controller
+                  name="observation"
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextFieldApp
+                      name="observation"
+                      label="Observação"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Controller
+                  name="total"
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextFieldApp
+                      label="Total"
+                      value={value}
+                      onChange={onChange}
+                      name="total"
+                      id="total"
+                      InputProps={{
+                        inputComponent: NumberFormatCustom as any,
+                      }}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      required
+                    />
+                  )}
+                />
+              </Grid>
+            </Grid>
+            <Grid container sx={{ mt: 6 }}>
+              <Grid item display="flex" justifyContent="flex-end" width="100%">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth={!!smDown}
+                  sx={{
+                    bgcolor: 'primary',
+                    padding: smDown ? '10px' : 'auto',
+                    fontSize: smDown ? '1rem' : 'auto',
+                  }}
+                >
+                  CADASTRAR
+                </Button>
+              </Grid>
+            </Grid>
+          </Card>
+        </Box>
+      </LayoutBaseDePagina>
+    </>
   );
 }

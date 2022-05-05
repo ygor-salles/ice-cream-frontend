@@ -32,7 +32,7 @@ export function AppRoutes() {
       },
       {
         icon: 'sell',
-        path: '/sales',
+        path: '/sales/create',
         label: 'Vendas',
       },
       {
@@ -70,7 +70,7 @@ export function AppRoutes() {
       <Route path="/users/create" element={<RegisterUser />} />
       <Route path="/payments/create" element={<RegisterPayment />} />
 
-      <Route path="*" element={<Navigate to="/home" />} />
+      <Route path="*" element={<Navigate to="/sales/create" />} />
     </Routes>
   );
 }

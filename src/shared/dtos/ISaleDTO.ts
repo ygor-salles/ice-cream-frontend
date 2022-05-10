@@ -4,9 +4,9 @@ import Mask from '../constants/masks';
 
 export enum EnumTypeSale {
   PIX = 'PIX',
-  CARD = 'CARD',
-  MONEY = 'MONEY',
-  DEBIT = 'DEBIT',
+  CARD = 'CARTÃO',
+  MONEY = 'DINHEIRO',
+  DEBIT = 'FIADO',
 }
 
 export interface ISaleDTO {
@@ -52,7 +52,19 @@ export const schemaCreateSale = yup.object().shape({
   //   .oneOf(Object.values(EnumTypeSale))
   //   .required('Tipo de venda é obrigatório'),
   type_sale: yup.string().required('Tipo de venda é obrigatório'),
-  client_id: yup.string().optional(),
+  client_id: yup.string(),
+  observation: yup.string().optional(),
+  total: yup.string().required('Total da venda é obrigatório'),
+});
+
+export const schemaCreateSaleWithCustomer = yup.object().shape({
+  product_id: yup.string().required('Seleção de produto é obrigatório'),
+  // type_sale: yup
+  //   .mixed<keyof typeof EnumTypeSale>()
+  //   .oneOf(Object.values(EnumTypeSale))
+  //   .required('Tipo de venda é obrigatório'),
+  type_sale: yup.string().required('Tipo de venda é obrigatório'),
+  client_id: yup.string().required('Cliente é obrigatório para venda fiado'),
   observation: yup.string().optional(),
   total: yup.string().required('Total da venda é obrigatório'),
 });

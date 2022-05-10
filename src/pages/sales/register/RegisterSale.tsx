@@ -29,6 +29,7 @@ import {
   schemaCreateSale,
   transformObjectSale,
   EnumTypeSale,
+  schemaCreateSaleWithCustomer,
 } from '../../../shared/dtos/ISaleDTO';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import SaleService from '../../../shared/services/SaleService';
@@ -40,13 +41,16 @@ export function RegisterSale(): JSX.Element {
   const [openToast, setOpenToast] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
+  const [requiredClient, setRequiredClient] = useState(false);
 
   const handleCloseAlert = (): void => {
     setOpenToast(false);
   };
 
   const { handleSubmit, control, setValue } = useForm<IFormSale>({
-    resolver: yupResolver(schemaCreateSale),
+    resolver: yupResolver(
+      requiredClient === false ? schemaCreateSale : schemaCreateSaleWithCustomer,
+    ),
     defaultValues: {
       product_id: '',
       type_sale: '',
@@ -63,6 +67,7 @@ export function RegisterSale(): JSX.Element {
   };
 
   const onSubmit = async (dataForm: any) => {
+    console.log(requiredClient);
     console.log(dataForm);
 
     // const data: ISaleDTO = transformObjectSale(dataForm);
@@ -134,6 +139,11 @@ export function RegisterSale(): JSX.Element {
                       onChange={onChange}
                       error={!!error}
                       required
+                      onBlur={() => {
+                        if (value === EnumTypeSale.DEBIT) {
+                          setRequiredClient(true);
+                        }
+                      }}
                     />
                   )}
                 />
@@ -151,6 +161,7 @@ export function RegisterSale(): JSX.Element {
                       value={value}
                       onChange={onChange}
                       error={!!error}
+                      required={requiredClient}
                     />
                   )}
                 />

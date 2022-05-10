@@ -1,24 +1,25 @@
+import { EnumTypeSale } from '../../shared/dtos/ISaleDTO';
+
 interface TypeSale {
   id: number;
   name: string;
 }
 
-
 export const LISTTYPESALES: TypeSale[] = [
   {
     id: 1,
-    name: 'PIX',
+    name: EnumTypeSale.PIX,
   },
   {
     id: 2,
-    name: 'CARTÃO',
+    name: EnumTypeSale.CARD,
   },
   {
     id: 3,
-    name: 'DINHEIRO',
+    name: EnumTypeSale.MONEY,
   },
   {
     id: 4,
-    name: 'FIADO',
+    name: EnumTypeSale.DEBIT,
   },
-]
+];

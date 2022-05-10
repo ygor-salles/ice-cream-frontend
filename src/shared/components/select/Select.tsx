@@ -5,10 +5,12 @@ interface SelectPropsApp {
   error?: boolean;
   label: React.ReactNode;
   name?: string;
-  value?: any;
+  value?: string;
   onChange: (event: SelectChangeEvent<string>, child: React.ReactNode) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   array: any[];
+  setId?: boolean;
+  onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 }
 
 export default function SelectApp({
@@ -19,13 +21,15 @@ export default function SelectApp({
   value,
   onChange,
   array,
+  setId,
+  onBlur,
 }: SelectPropsApp): JSX.Element {
   return (
     <FormControl fullWidth required={required} variant="standard" error={error}>
       <InputLabel>{label}</InputLabel>
-      <Select name={name} value={value} label={label} onChange={onChange}>
+      <Select name={name} value={value} label={label} onChange={onChange} onBlur={onBlur}>
         {array.map(item => (
-          <MenuItem key={item.id} value={item}>
+          <MenuItem key={item.id} value={setId ? item.id : item.name}>
             {item.name}
           </MenuItem>
         ))}

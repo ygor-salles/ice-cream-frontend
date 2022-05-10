@@ -86,7 +86,6 @@ export function RegisterProduct(): JSX.Element {
                   control={control}
                   render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <TextFieldApp
-                      name="name"
                       label="Nome do produto"
                       value={value}
                       onChange={onChange}
@@ -106,8 +105,6 @@ export function RegisterProduct(): JSX.Element {
                       label="Preço do produto"
                       value={value}
                       onChange={onChange}
-                      name="price"
-                      id="price"
                       InputProps={{
                         inputComponent: NumberFormatCustom as any,
                       }}
@@ -124,7 +121,6 @@ export function RegisterProduct(): JSX.Element {
                   control={control}
                   render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <TextFieldApp
-                      name="description"
                       label="Descrição do produto"
                       value={value}
                       onChange={onChange}

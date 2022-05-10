@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Card,
@@ -31,6 +32,7 @@ import {
 } from '../../../shared/dtos/ISaleDTO';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import SaleService from '../../../shared/services/SaleService';
+import formatNumberToCurrencyInput from '../../../shared/utils/formaNumberToCurrencyInput';
 
 export function RegisterSale(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -99,38 +101,22 @@ export function RegisterSale(): JSX.Element {
           <Card sx={{ padding: '20px' }}>
             <Grid container spacing={5}>
               <Grid item xs={12}>
-                {/* <Controller
-                  name="product_id"
-                  control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <FormControl fullWidth required variant="standard" error={!!error}>
-                      <InputLabel>Produto</InputLabel>
-                      <Select name="product_id" value={value} label="Produto" onChange={onChange}>
-                        {LISTPRODUCTS.map(item => (
-                          <MenuItem key={item.id} value={item.id}>
-                            {item.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  )}
-                /> */}
                 <Controller
                   name="product_id"
                   control={control}
                   render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <SelectApp
                       array={LISTPRODUCTS}
+                      setId
                       label="Produto"
-                      // value={value}
-                      onChange={e => {
-                        const { id, price } = e.target.value as any;
-                        setValue('product_id', id);
-                        setValue('total', price);
-                      }}
-                      name="product_id"
+                      value={value}
+                      onChange={onChange}
                       error={!!error}
                       required
+                      onBlur={() => {
+                        const product = LISTPRODUCTS.find(product => product.id === Number(value));
+                        setValue('total', formatNumberToCurrencyInput(product.price));
+                      }}
                     />
                   )}
                 />
@@ -146,7 +132,6 @@ export function RegisterSale(): JSX.Element {
                       label="Tipo de venda"
                       value={value}
                       onChange={onChange}
-                      name="type_sale"
                       error={!!error}
                       required
                     />
@@ -161,10 +146,10 @@ export function RegisterSale(): JSX.Element {
                   render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <SelectApp
                       array={LISTCLIENTS}
+                      setId
                       label="Cliente"
                       value={value}
                       onChange={onChange}
-                      name="client_id"
                       error={!!error}
                     />
                   )}
@@ -177,7 +162,6 @@ export function RegisterSale(): JSX.Element {
                   control={control}
                   render={({ field: { onChange, value }, fieldState: { error } }) => (
                     <TextFieldApp
-                      name="observation"
                       label="Observação"
                       value={value}
                       onChange={onChange}
@@ -197,8 +181,6 @@ export function RegisterSale(): JSX.Element {
                       label="Total"
                       value={value}
                       onChange={onChange}
-                      name="total"
-                      id="total"
                       InputProps={{
                         inputComponent: NumberFormatCustom as any,
                       }}

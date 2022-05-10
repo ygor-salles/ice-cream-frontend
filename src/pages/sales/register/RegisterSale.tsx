@@ -101,10 +101,10 @@ export function RegisterSale(): JSX.Element {
           component="form"
           noValidate
           onSubmit={handleSubmit(onSubmit)}
-          sx={{ mt: 3, width: '100%' }}
+          sx={{ mt: 1, width: '100%' }}
         >
           <Card sx={{ padding: '20px' }}>
-            <Grid container spacing={5}>
+            <Grid container spacing={4}>
               <Grid item xs={12}>
                 <Controller
                   name="product_id"
@@ -120,8 +120,10 @@ export function RegisterSale(): JSX.Element {
                       required
                       onBlur={() => {
                         const product = LISTPRODUCTS.find(product => product.id === Number(value));
-                        setValue('total', formatNumberToCurrencyInput(product.price));
+                        if (product.price)
+                          setValue('total', formatNumberToCurrencyInput(product.price));
                       }}
+                      helperText={error ? error.message : null}
                     />
                   )}
                 />
@@ -144,6 +146,7 @@ export function RegisterSale(): JSX.Element {
                           setRequiredClient(true);
                         }
                       }}
+                      helperText={error ? error.message : null}
                     />
                   )}
                 />
@@ -162,6 +165,7 @@ export function RegisterSale(): JSX.Element {
                       onChange={onChange}
                       error={!!error}
                       required={requiredClient}
+                      helperText={error ? error.message : null}
                     />
                   )}
                 />
@@ -171,14 +175,8 @@ export function RegisterSale(): JSX.Element {
                 <Controller
                   name="observation"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextFieldApp
-                      label="Observação"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                    />
+                  render={({ field: { onChange, value } }) => (
+                    <TextFieldApp label="Observação" value={value} onChange={onChange} />
                   )}
                 />
               </Grid>

@@ -76,10 +76,10 @@ export function RegisterProduct(): JSX.Element {
           component="form"
           noValidate
           onSubmit={handleSubmit(onSubmit)}
-          sx={{ mt: 3, width: '100%' }}
+          sx={{ mt: 1, width: '100%' }}
         >
           <Card sx={{ padding: '20px' }}>
-            <Grid container spacing={5}>
+            <Grid container spacing={4}>
               <Grid item xs={12}>
                 <Controller
                   name="name"

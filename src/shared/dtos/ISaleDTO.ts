@@ -47,11 +47,10 @@ export const transformObjectSale = (dataForm: IFormSale): ISaleDTO => {
 
 export const schemaCreateSale = yup.object().shape({
   product_id: yup.string().required('Seleção de produto é obrigatório'),
-  // type_sale: yup
-  //   .mixed<keyof typeof EnumTypeSale>()
-  //   .oneOf(Object.values(EnumTypeSale))
-  //   .required('Tipo de venda é obrigatório'),
-  type_sale: yup.string().required('Tipo de venda é obrigatório'),
+  type_sale: yup
+    .mixed<EnumTypeSale>()
+    .oneOf(Object.values(EnumTypeSale))
+    .required('Tipo de venda é obrigatório'),
   client_id: yup.string(),
   observation: yup.string().optional(),
   total: yup.string().required('Total da venda é obrigatório'),
@@ -59,11 +58,10 @@ export const schemaCreateSale = yup.object().shape({
 
 export const schemaCreateSaleWithCustomer = yup.object().shape({
   product_id: yup.string().required('Seleção de produto é obrigatório'),
-  // type_sale: yup
-  //   .mixed<keyof typeof EnumTypeSale>()
-  //   .oneOf(Object.values(EnumTypeSale))
-  //   .required('Tipo de venda é obrigatório'),
-  type_sale: yup.string().required('Tipo de venda é obrigatório'),
+  type_sale: yup
+    .mixed<EnumTypeSale>()
+    .oneOf(Object.values(EnumTypeSale))
+    .required('Tipo de venda é obrigatório'),
   client_id: yup.string().required('Cliente é obrigatório para venda fiado'),
   observation: yup.string().optional(),
   total: yup.string().required('Total da venda é obrigatório'),

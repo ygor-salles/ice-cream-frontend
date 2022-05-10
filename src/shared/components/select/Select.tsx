@@ -1,4 +1,11 @@
-import { Select, FormControl, InputLabel, MenuItem, SelectChangeEvent } from '@mui/material';
+import {
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  SelectChangeEvent,
+  FormHelperText,
+} from '@mui/material';
 
 interface SelectPropsApp {
   required?: boolean;
@@ -11,6 +18,7 @@ interface SelectPropsApp {
   array: any[];
   setId?: boolean;
   onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  helperText?: string;
 }
 
 export default function SelectApp({
@@ -23,6 +31,7 @@ export default function SelectApp({
   array,
   setId,
   onBlur,
+  helperText,
 }: SelectPropsApp): JSX.Element {
   return (
     <FormControl fullWidth required={required} variant="standard" error={error}>
@@ -34,6 +43,7 @@ export default function SelectApp({
           </MenuItem>
         ))}
       </Select>
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
 }

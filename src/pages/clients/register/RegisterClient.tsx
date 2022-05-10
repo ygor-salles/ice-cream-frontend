@@ -43,9 +43,9 @@ export function RegisterClient(): JSX.Element {
             alignItems: 'center',
           }}
         >
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>
             <Card sx={{ padding: '20px' }}>
-              <Grid container spacing={5}>
+              <Grid container spacing={4}>
                 <Grid item xs={12}>
                   <TextField
                     name="name"

@@ -106,7 +106,7 @@ export function DialogEdit({
         >
           <DialogTitle id="responsive-dialog-title">EDITAR PRODUTO</DialogTitle>
           <DialogContent>
-            <Grid container spacing={5}>
+            <Grid container spacing={4}>
               <Grid item xs={12}>
                 <Controller
                   name="name"

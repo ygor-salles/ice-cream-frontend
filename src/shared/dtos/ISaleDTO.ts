@@ -4,7 +4,7 @@ import Mask from '../constants/masks';
 
 export enum EnumTypeSale {
   PIX = 'PIX',
-  CARD = 'CARTÃO',
+  CARD = 'CARTAO',
   MONEY = 'DINHEIRO',
   DEBIT = 'FIADO',
 }

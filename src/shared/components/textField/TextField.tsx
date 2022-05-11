@@ -1,4 +1,7 @@
 import { InputProps, TextField } from '@mui/material';
+import styled from 'styled-components';
+
+import { useAppThemeContext } from '../../contexts';
 
 interface TextFieldPropsApp {
   id?: string;
@@ -15,18 +18,19 @@ interface TextFieldPropsApp {
   InputProps?: Partial<InputProps>;
 }
 
-// const StyledTextField = styled(MuiTextField)(({ inputProps }: any) => ({
-//   '& label.Mui-focused': {
-//     color: inputProps.labelcolor || colors.primary.dark,
-//   },
-//   '& .MuiOutlinedInput-root': {
-//     '&.Mui-focused fieldset': {
-//       borderColor: inputProps.bordercolor || colors.primary.dark,
-//     },
-//   },
-
-//   ...inputProps.customstyles,
-// }));
+const StyledTextField = styled(TextField)(() => ({
+  '& label.Mui-focused': {
+    color: useAppThemeContext().themeName === 'dark' ? 'white' : 'auto',
+  },
+  '& .css-1u4qbjr-MuiInputBase-root-MuiInput-root:after': {
+    borderBottom: useAppThemeContext().themeName === 'dark' ? 'white' : 'auto',
+  },
+  // '& .MuiOutlinedInput-root': {
+  //   '&.Mui-focused fieldset': {
+  //     borderBottom: useAppThemeContext().themeName === 'dark' ? 'white' : 'auto',
+  //   },
+  // },
+}));
 
 export default function TextFieldApp({
   id,
@@ -43,7 +47,7 @@ export default function TextFieldApp({
   InputProps,
 }: TextFieldPropsApp): JSX.Element {
   return (
-    <TextField
+    <StyledTextField
       label={label}
       value={mask ? mask(value) : value || ''}
       onChange={onChange}

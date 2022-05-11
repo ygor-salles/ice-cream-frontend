@@ -120,7 +120,7 @@ export function RegisterSale(): JSX.Element {
                       required
                       onBlur={() => {
                         const product = LISTPRODUCTS.find(product => product.id === Number(value));
-                        if (product.price)
+                        if (product?.price)
                           setValue('total', formatNumberToCurrencyInput(product.price));
                       }}
                       helperText={error ? error.message : null}

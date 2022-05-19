@@ -8,6 +8,7 @@ import { LayoutBaseDePagina } from '../../shared/layouts';
 import ProductService from '../../shared/services/ProductService';
 import { TableProduct } from './components/Table';
 
+// deploy 19/05/2022
 export function Products(): JSX.Element {
   const [allProducts, setAllProducts] = useState<IProductDTO[]>([]);
   const [openToast, setOpenToast] = useState(false);

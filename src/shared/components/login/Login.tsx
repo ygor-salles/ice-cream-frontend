@@ -1,22 +1,13 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CircularProgress,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Card, CardContent, CircularProgress, Grid, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
 import { useState } from 'react';
-import * as yup from 'yup';
+import { Controller, useForm } from 'react-hook-form';
 
 import { useAuthContext } from '../../contexts';
-
-const loginSchema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().required().min(5),
-});
+import { IFormLogin, schemaLogin } from '../../dtos/ILoginDTO';
+import Snackbar from '../snackBar/SnackBar';
+import TextFieldApp from '../textField/TextField';
 
 interface ILoginProps {
   children: React.ReactNode;
@@ -26,89 +17,119 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
   const { isAuthenticated, login } = useAuthContext();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [openToast, setOpenToast] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const [passwordError, setPasswordError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const handleCloseAlert = (): void => {
+    setOpenToast(false);
+  };
 
-  const handleSubmit = () => {
+  const { handleSubmit, control } = useForm<IFormLogin>({
+    resolver: yupResolver(schemaLogin),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const displayNotificationMessage = (error: boolean, message: string): void => {
+    setOpenToast(true);
+    setError(error);
+    setMessage(message);
+  };
+
+  const onSubmit = async ({ email, password }: IFormLogin) => {
     setIsLoading(true);
 
-    loginSchema
-      .validate({ email, password }, { abortEarly: false })
-      .then(dadosValidados => {
-        login(dadosValidados.email, dadosValidados.password).then(() => {
-          setIsLoading(false);
-        });
-      })
-      .catch((errors: yup.ValidationError) => {
-        setIsLoading(false);
-
-        errors.inner.forEach(error => {
-          if (error.path === 'email') {
-            setEmailError(error.message);
-          } else if (error.path === 'password') {
-            setPasswordError(error.message);
-          }
-        });
-      });
+    login(email, password)
+      .then(() => setIsLoading(false))
+      .catch(err => displayNotificationMessage(true, err))
+      .finally(() => setIsLoading(false));
   };
 
   // eslint-disable-next-line react/jsx-no-useless-fragment
   if (isAuthenticated) return <>{children}</>;
 
   return (
-    <Box width="100vw" height="100vh" display="flex" alignItems="center" justifyContent="center">
-      <Card>
-        <CardContent>
-          <Box display="flex" flexDirection="column" gap={2} width={250}>
-            <Typography variant="h6" align="center">
-              Login
-            </Typography>
-
-            <TextField
-              fullWidth
-              type="email"
-              label="Email"
-              value={email}
-              disabled={isLoading}
-              error={!!emailError}
-              helperText={emailError}
-              onKeyDown={() => setEmailError('')}
-              onChange={e => setEmail(e.target.value)}
-            />
-
-            <TextField
-              fullWidth
-              label="Senha"
-              type="password"
-              value={password}
-              disabled={isLoading}
-              error={!!passwordError}
-              helperText={passwordError}
-              onKeyDown={() => setPasswordError('')}
-              onChange={e => setPassword(e.target.value)}
-            />
-          </Box>
-        </CardContent>
-        <CardActions>
-          <Box width="100%" display="flex" justifyContent="center">
-            <Button
-              variant="contained"
-              disabled={isLoading}
-              onClick={handleSubmit}
-              endIcon={
-                isLoading ? (
-                  <CircularProgress variant="indeterminate" color="inherit" size={20} />
-                ) : undefined
-              }
+    <>
+      <Snackbar
+        open={openToast}
+        onCloseAlert={handleCloseAlert}
+        onCloseSnack={handleCloseAlert}
+        message={message}
+        severity={error ? 'error' : 'success'}
+      />
+      <Box width="100vw" height="100vh" display="flex" alignItems="center" justifyContent="center">
+        <Card>
+          <CardContent>
+            <Box
+              component="form"
+              noValidate
+              display="flex"
+              flexDirection="column"
+              gap={2}
+              width={250}
+              onSubmit={handleSubmit(onSubmit)}
             >
-              Entrar
-            </Button>
-          </Box>
-        </CardActions>
-      </Card>
-    </Box>
+              <Typography variant="h6" align="center">
+                Login
+              </Typography>
+
+              <Grid item>
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextFieldApp
+                      label="E-mail"
+                      type="email"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      required
+                      disabled={isLoading}
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Grid item sx={{ mt: 2, mb: 2 }}>
+                <Controller
+                  name="password"
+                  control={control}
+                  render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextFieldApp
+                      label="Senha"
+                      type="password"
+                      value={value}
+                      onChange={onChange}
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      required
+                      disabled={isLoading}
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={isLoading}
+                endIcon={
+                  isLoading ? (
+                    <CircularProgress variant="indeterminate" color="inherit" size={20} />
+                  ) : undefined
+                }
+              >
+                Entrar
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
+    </>
   );
 };

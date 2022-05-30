@@ -33,11 +33,11 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
     const authService = new AuthService();
 
     try {
-      const result = await authService.login({ email, password });
-      localStorage.setItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN, JSON.stringify(result.token));
-      setAccessToken(result.token);
+      const { token } = await authService.login({ email, password });
+      localStorage.setItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN, JSON.stringify(token));
+      setAccessToken(token);
     } catch (err) {
-      console.log(err);
+      throw new Error(err);
     }
   }, []);
 

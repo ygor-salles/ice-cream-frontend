@@ -14,7 +14,7 @@ import {
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 
 import logoImg from '../../../assets/logo.png';
-import { useAppThemeContext, useDrawerContext } from '../../contexts';
+import { useAppThemeContext, useAuthContext, useDrawerContext } from '../../contexts';
 
 interface IListItemLinkProps {
   to: string;
@@ -53,6 +53,7 @@ export const MenuLateral: React.FC = ({ children }) => {
 
   const { isDrawerOpen, drawerOptions, toggleDrawerOpen } = useDrawerContext();
   const { toggleTheme } = useAppThemeContext();
+  const { logout } = useAuthContext();
 
   return (
     <>
@@ -112,6 +113,19 @@ export const MenuLateral: React.FC = ({ children }) => {
                 </ListItemIcon>
                 <ListItemText
                   primary="Alternar tema"
+                  primaryTypographyProps={{
+                    fontFamily: 'Poppins',
+                    fontWeight: 500,
+                    color: 'white',
+                  }}
+                />
+              </ListItemButton>
+              <ListItemButton onClick={logout}>
+                <ListItemIcon>
+                  <Icon color="info">logout</Icon>
+                </ListItemIcon>
+                <ListItemText
+                  primary="Sair"
                   primaryTypographyProps={{
                     fontFamily: 'Poppins',
                     fontWeight: 500,

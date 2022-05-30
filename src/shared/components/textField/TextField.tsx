@@ -16,6 +16,7 @@ interface TextFieldPropsApp {
   required?: boolean;
   inputMode?: 'email' | 'search' | 'tel' | 'text' | 'url' | 'none' | 'numeric' | 'decimal';
   InputProps?: Partial<InputProps>;
+  disabled?: boolean;
 }
 
 const StyledTextField = styled(TextField)(() => ({
@@ -45,6 +46,7 @@ export default function TextFieldApp({
   required,
   inputMode,
   InputProps,
+  disabled,
 }: TextFieldPropsApp): JSX.Element {
   return (
     <StyledTextField
@@ -62,6 +64,7 @@ export default function TextFieldApp({
       required={required}
       fullWidth
       autoFocus
+      disabled={disabled}
     />
   );
 }

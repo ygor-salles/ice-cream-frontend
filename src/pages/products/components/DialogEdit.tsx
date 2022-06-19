@@ -24,6 +24,7 @@ import {
 import ProductService from '../../../shared/services/ProductService';
 
 interface DialogEditProps {
+  id: number;
   name: string;
   price: string;
   description?: string;
@@ -40,6 +41,7 @@ const StyledButton = styled(Button)(() => ({
 }));
 
 export function DialogEdit({
+  id,
   name,
   price,
   description,
@@ -75,7 +77,7 @@ export function DialogEdit({
 
     const productService = new ProductService();
     try {
-      await productService.updateById(data);
+      await productService.updateById({ ...data, id });
       displayNotificationMessage(false, 'Produto atualizado com sucesso!');
     } catch (error) {
       // const { response } = error as AxiosError;

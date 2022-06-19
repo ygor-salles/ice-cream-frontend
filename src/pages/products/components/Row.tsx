@@ -13,6 +13,7 @@ import {
 import { useState } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
+import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import { IProductDTO } from '../../../shared/dtos/IProductDTO';
 import ProductService from '../../../shared/services/ProductService';
 import formatDate from '../../../shared/utils/formatDate';
@@ -62,9 +63,11 @@ export function Row({
     try {
       await productService.deleteById(id);
       displayNotificationMessage(false, 'Produto deletado com sucesso!');
+      setDialogDelete(false);
     } catch (err) {
       // const { response } = error as AxiosError;
       displayNotificationMessage(true, 'Error ao deletar produto!');
+      setDialogDelete(false);
     }
   };
 
@@ -130,9 +133,18 @@ export function Row({
         </TableCell>
       </TableRow>
 
+      <Snackbar
+        open={openToast}
+        onCloseAlert={handleCloseAlert}
+        onCloseSnack={handleCloseAlert}
+        message={message}
+        severity={error ? 'error' : 'success'}
+      />
+
       {dialogEdit && (
         <DialogEdit
           smDown={smDown}
+          id={id}
           name={name}
           price={price.toFixed(2).replace('.', '')}
           description={description}

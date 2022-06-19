@@ -1,14 +1,12 @@
-import { Skeleton, Typography } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import { LISTPRODUCTS } from '../../assets/mocks/ListProducts';
 import SnackBar from '../../shared/components/snackBar/SnackBar';
 import { IProductDTO } from '../../shared/dtos/IProductDTO';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 import ProductService from '../../shared/services/ProductService';
 import { TableProduct } from './components/Table';
 
-// deploy 19/05/2022
 export function Products(): JSX.Element {
   const [allProducts, setAllProducts] = useState<IProductDTO[]>([]);
   const [openToast, setOpenToast] = useState(false);
@@ -16,11 +14,11 @@ export function Products(): JSX.Element {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleCloseAlert = (): void => {
+  const handleCloseAlert = () => {
     setOpenToast(false);
   };
 
-  const displayNotificationMessage = (error: boolean, message: string): void => {
+  const displayNotificationMessage = (error: boolean, message: string) => {
     setOpenToast(true);
     setError(error);
     setMessage(message);
@@ -36,7 +34,6 @@ export function Products(): JSX.Element {
     } catch (error) {
       // const { response } = error as AxiosError;
       displayNotificationMessage(true, 'Error ao buscar dados de produto!');
-      setAllProducts(LISTPRODUCTS);
     } finally {
       setLoading(false);
     }

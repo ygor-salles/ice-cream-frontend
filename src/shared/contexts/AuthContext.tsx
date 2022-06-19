@@ -22,7 +22,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
     const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN);
 
     if (accessToken) {
-      setAccessToken(JSON.parse(accessToken));
+      setAccessToken(accessToken);
     } else {
       setAccessToken(undefined);
     }
@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
 
     try {
       const { token } = await authService.login({ email, password });
-      localStorage.setItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN, JSON.stringify(token));
+      localStorage.setItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN, token);
       setAccessToken(token);
     } catch (err) {
       throw new Error(err);

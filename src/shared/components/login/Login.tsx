@@ -44,7 +44,9 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
 
     login(email, password)
       .then(() => setIsLoading(false))
-      .catch(err => displayNotificationMessage(true, err))
+      .catch(err =>
+        displayNotificationMessage(true, 'Erro ao efetuar login, verfique as credenciais'),
+      )
       .finally(() => setIsLoading(false));
   };
 
@@ -54,7 +56,7 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
   return (
     <>
       <Snackbar
-        open={openToast}
+        open={openToast && !isAuthenticated}
         onCloseAlert={handleCloseAlert}
         onCloseSnack={handleCloseAlert}
         message={message}

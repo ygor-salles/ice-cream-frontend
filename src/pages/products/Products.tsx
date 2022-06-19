@@ -66,8 +66,6 @@ export function Products(): JSX.Element {
         ) : (
           <TableProduct allProducts={allProducts} />
         )}
-
-        <Typography variant="h6">Caso demostre erro os dados exibidos são de testes</Typography>
       </LayoutBaseDePagina>
     </>
   );

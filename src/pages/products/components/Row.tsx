@@ -14,11 +14,13 @@ import { useState } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
 import { IProductDTO } from '../../../shared/dtos/IProductDTO';
+import ProductService from '../../../shared/services/ProductService';
 import formatDate from '../../../shared/utils/formatDate';
 import { formatNumberToCurrency } from '../../../shared/utils/formatNumberToCurrency';
 import { DialogEdit } from './DialogEdit';
 
 export function Row({
+  id,
   name,
   price,
   description,
@@ -31,6 +33,14 @@ export function Row({
   const [dialogEdit, setDialogEdit] = useState(false);
   const [dialogDelete, setDialogDelete] = useState(false);
 
+  const [openToast, setOpenToast] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const handleCloseAlert = (): void => {
+    setOpenToast(false);
+  };
+
   const handleEdit = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     event.stopPropagation();
     setDialogEdit(true);
@@ -41,8 +51,21 @@ export function Row({
     setDialogDelete(true);
   };
 
-  const submitDelete = () => {
-    console.log('Submit delete');
+  const displayNotificationMessage = (error: boolean, message: string): void => {
+    setOpenToast(true);
+    setError(error);
+    setMessage(message);
+  };
+
+  const submitDelete = async (id: number) => {
+    const productService = new ProductService();
+    try {
+      await productService.deleteById(id);
+      displayNotificationMessage(false, 'Produto deletado com sucesso!');
+    } catch (err) {
+      // const { response } = error as AxiosError;
+      displayNotificationMessage(true, 'Error ao deletar produto!');
+    }
   };
 
   return (
@@ -123,6 +146,7 @@ export function Row({
           // smDown={smDown}
           open={dialogDelete}
           handleSubmit={submitDelete}
+          id={id}
           handleClose={() => setDialogDelete(false)}
           textButtonClose="CANCELAR"
           textButtonSubmit="DELETAR"

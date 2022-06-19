@@ -26,7 +26,7 @@ export default class ProductService {
   public async updateById(
     dataRequest: IUpdateProductDTORequest,
   ): Promise<IUpdateProductDTOResponse> {
-    const { data } = await api.post<IUpdateProductDTOResponse>(
+    const { data } = await api.put<IUpdateProductDTOResponse>(
       `${this.route}/${dataRequest.id}`,
       dataRequest,
     );
@@ -34,7 +34,7 @@ export default class ProductService {
   }
 
   public async deleteById(id: number): Promise<IDeleteProductDTOResponse> {
-    const { data } = await api.get<IDeleteProductDTOResponse>(`${this.route}/${id}`);
+    const { data } = await api.delete<IDeleteProductDTOResponse>(`${this.route}/${id}`);
     return data;
   }
 }

@@ -75,11 +75,11 @@ export function DialogEdit({
 
     const productService = new ProductService();
     try {
-      const response = await productService.updateById(data);
-      displayNotificationMessage(false, 'Produto cadastrado com sucesso!');
+      await productService.updateById(data);
+      displayNotificationMessage(false, 'Produto atualizado com sucesso!');
     } catch (error) {
       // const { response } = error as AxiosError;
-      displayNotificationMessage(true, 'Error ao cadastrar o produto!');
+      displayNotificationMessage(true, 'Error ao atualizar produto!');
     }
   };
 

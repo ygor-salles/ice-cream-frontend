@@ -107,28 +107,24 @@ export function Row({ product, onSubmitUpdate, onSubmitDelete }: IRowProps): JSX
         </TableCell>
       </TableRow>
 
-      {dialogEdit && (
-        <DialogEdit
-          smDown={smDown}
-          product={product}
-          onSubmitUpdate={onSubmitUpdate}
-          handleClose={() => setDialogEdit(false)}
-          open={dialogEdit}
-        />
-      )}
+      <DialogEdit
+        smDown={smDown}
+        product={product}
+        onSubmitUpdate={onSubmitUpdate}
+        handleClose={() => setDialogEdit(false)}
+        open={dialogEdit}
+      />
 
-      {dialogDelete && (
-        <DialogInfo
-          open={dialogDelete}
-          handleSubmit={onSubmitDelete}
-          id={product.id}
-          handleClose={() => setDialogDelete(false)}
-          textButtonClose="CANCELAR"
-          textButtonSubmit="DELETAR"
-          title="DELETAR PRODUTO"
-          text="Tem certeza que deseja deletar este produto?"
-        />
-      )}
+      <DialogInfo
+        open={dialogDelete}
+        handleSubmit={onSubmitDelete}
+        id={product.id}
+        handleClose={() => setDialogDelete(false)}
+        textButtonClose="CANCELAR"
+        textButtonSubmit="DELETAR"
+        title="DELETAR PRODUTO"
+        text="Tem certeza que deseja deletar este produto?"
+      />
     </>
   );
 }

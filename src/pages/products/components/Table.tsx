@@ -12,14 +12,20 @@ import {
 import { useState } from 'react';
 
 import { TablePaginationActions } from '../../../shared/components';
-import { IProductDTO } from '../../../shared/dtos/IProductDTO';
+import { IFormProduct, IProductDTO } from '../../../shared/dtos/IProductDTO';
 import { Row } from './Row';
 
-type Props = {
+interface ITableProductProps {
   allProducts: IProductDTO[];
-};
+  onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
+  onSubmitDelete: (id: number) => Promise<void>;
+}
 
-export function TableProduct({ allProducts }: Props): JSX.Element {
+export function TableProduct({
+  allProducts,
+  onSubmitUpdate,
+  onSubmitDelete,
+}: ITableProductProps): JSX.Element {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -42,7 +48,7 @@ export function TableProduct({ allProducts }: Props): JSX.Element {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell style={{ display: 'flex' }}>Nome</TableCell>
+            <TableCell>Nome</TableCell>
             <TableCell>Preço</TableCell>
             <TableCell style={{ display: 'flex', justifyContent: 'center' }}>Ações</TableCell>
           </TableRow>
@@ -54,12 +60,16 @@ export function TableProduct({ allProducts }: Props): JSX.Element {
             : allProducts
           ).map(item => (
             <Row
-              id={item.id}
-              name={item.name}
-              price={item.price}
-              description={item.description || ''}
-              created_at={item.created_at}
-              updated_at={item.updated_at}
+              product={{
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                description: item.description || '',
+                created_at: item.created_at,
+                updated_at: item.updated_at,
+              }}
+              onSubmitDelete={onSubmitDelete}
+              onSubmitUpdate={onSubmitUpdate}
               key={item.id}
             />
           ))}

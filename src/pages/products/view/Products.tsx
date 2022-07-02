@@ -1,11 +1,12 @@
+/* eslint-disable react/jsx-no-bind */
 import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import SnackBar from '../../shared/components/snackBar/SnackBar';
-import { IProductDTO } from '../../shared/dtos/IProductDTO';
-import { LayoutBaseDePagina } from '../../shared/layouts';
-import ProductService from '../../shared/services/ProductService';
-import { TableProduct } from './components/Table';
+import SnackBar from '../../../shared/components/snackBar/SnackBar';
+import { IFormProduct, IProductDTO, transformObject } from '../../../shared/dtos/IProductDTO';
+import { LayoutBaseDePagina } from '../../../shared/layouts';
+import ProductService from '../../../shared/services/ProductService';
+import { TableProduct } from '../components/Table';
 
 export function Products(): JSX.Element {
   const [allProducts, setAllProducts] = useState<IProductDTO[]>([]);
@@ -39,6 +40,30 @@ export function Products(): JSX.Element {
     }
   }
 
+  async function handleSubmitUpdate(dataForm: IFormProduct) {
+    const data: IProductDTO = transformObject(dataForm);
+
+    const productService = new ProductService();
+    try {
+      await productService.updateById({ ...data, id: dataForm.id });
+      displayNotificationMessage(false, 'Produto atualizado com sucesso!');
+    } catch (error) {
+      // const { response } = error as AxiosError;
+      displayNotificationMessage(true, 'Error ao atualizar produto!');
+    }
+  }
+
+  async function handleSubmitDelete(id: number) {
+    const productService = new ProductService();
+    try {
+      await productService.deleteById(id);
+      displayNotificationMessage(false, 'Produto deletado com sucesso!');
+    } catch (err) {
+      // const { response } = error as AxiosError;
+      displayNotificationMessage(true, 'Error ao deletar produto!');
+    }
+  }
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -52,6 +77,7 @@ export function Products(): JSX.Element {
         message={message}
         severity={error ? 'error' : 'success'}
       />
+
       <LayoutBaseDePagina
         titulo="Produtos"
         navigatePage="/products/create"
@@ -61,7 +87,11 @@ export function Products(): JSX.Element {
         {loading ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableProduct allProducts={allProducts} />
+          <TableProduct
+            allProducts={allProducts}
+            onSubmitUpdate={handleSubmitUpdate}
+            onSubmitDelete={handleSubmitDelete}
+          />
         )}
       </LayoutBaseDePagina>
     </>

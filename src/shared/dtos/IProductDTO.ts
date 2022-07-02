@@ -12,6 +12,7 @@ export interface IProductDTO {
 }
 
 export interface IFormProduct {
+  id?: number;
   name: string;
   price: string;
   description: string;

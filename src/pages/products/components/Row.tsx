@@ -1,81 +1,45 @@
 import {
   Box,
   Collapse,
-  TableCell,
-  TableRow,
   Icon,
-  useMediaQuery,
-  Theme,
   Table,
-  TableHead,
   TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Theme,
+  useMediaQuery,
 } from '@mui/material';
 import { useState } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
-import Snackbar from '../../../shared/components/snackBar/SnackBar';
-import { IProductDTO } from '../../../shared/dtos/IProductDTO';
-import ProductService from '../../../shared/services/ProductService';
+import { IFormProduct, IProductDTO } from '../../../shared/dtos/IProductDTO';
 import formatDate from '../../../shared/utils/formatDate';
 import { formatNumberToCurrency } from '../../../shared/utils/formatNumberToCurrency';
 import { DialogEdit } from './DialogEdit';
 
-export function Row({
-  id,
-  name,
-  price,
-  description,
-  created_at,
-  updated_at,
-}: IProductDTO): JSX.Element {
+interface IRowProps {
+  product: IProductDTO;
+  onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
+  onSubmitDelete: (id: number) => Promise<void>;
+}
+
+export function Row({ product, onSubmitUpdate, onSubmitDelete }: IRowProps): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const [open, setOpen] = useState(false);
+
   const [dialogEdit, setDialogEdit] = useState(false);
+
   const [dialogDelete, setDialogDelete] = useState(false);
-
-  const [openToast, setOpenToast] = useState(false);
-  const [error, setError] = useState(false);
-  const [message, setMessage] = useState('');
-
-  const handleCloseAlert = (): void => {
-    setOpenToast(false);
-  };
-
-  const handleEdit = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    event.stopPropagation();
-    setDialogEdit(true);
-  };
-
-  const handleDelete = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    event.stopPropagation();
-    setDialogDelete(true);
-  };
-
-  const displayNotificationMessage = (error: boolean, message: string): void => {
-    setOpenToast(true);
-    setError(error);
-    setMessage(message);
-  };
-
-  const submitDelete = async (id: number) => {
-    const productService = new ProductService();
-    try {
-      await productService.deleteById(id);
-      displayNotificationMessage(false, 'Produto deletado com sucesso!');
-      setDialogDelete(false);
-    } catch (err) {
-      // const { response } = error as AxiosError;
-      displayNotificationMessage(true, 'Error ao deletar produto!');
-      setDialogDelete(false);
-    }
-  };
 
   return (
     <>
       <TableRow sx={{ '& > *': { borderBottom: 'none' } }} onClick={() => setOpen(!open)}>
-        <TableCell style={{ borderBottom: 'none' }}>{name}</TableCell>
-        <TableCell style={{ borderBottom: 'none' }}>{formatNumberToCurrency(price)}</TableCell>
+        <TableCell style={{ borderBottom: 'none' }}>{product.name}</TableCell>
+        <TableCell style={{ borderBottom: 'none' }}>
+          {formatNumberToCurrency(product.price)}
+        </TableCell>
         <TableCell
           style={{
             borderBottom: 'none',
@@ -86,11 +50,21 @@ export function Row({
           <Icon
             color="secondary"
             style={{ marginRight: smDown ? '0' : '20px', cursor: 'pointer' }}
-            onClick={e => handleEdit(e)}
+            onClick={e => {
+              e.stopPropagation();
+              setDialogEdit(true);
+            }}
           >
             edit
           </Icon>
-          <Icon color="warning" onClick={e => handleDelete(e)} style={{ cursor: 'pointer' }}>
+          <Icon
+            color="warning"
+            onClick={e => {
+              e.stopPropagation();
+              setDialogDelete(true);
+            }}
+            style={{ cursor: 'pointer' }}
+          >
             delete
           </Icon>
         </TableCell>
@@ -116,13 +90,13 @@ export function Row({
                   <TableBody>
                     <TableRow>
                       <TableCell component="th" scope="row">
-                        {description}
+                        {product.description}
                       </TableCell>
                       <TableCell align="right">
-                        {formatDate(new Date(created_at)) || '00/00/0000'}
+                        {formatDate(new Date(product.created_at)) || '00/00/0000'}
                       </TableCell>
                       <TableCell align="right">
-                        {formatDate(new Date(updated_at)) || '00/00/0000'}
+                        {formatDate(new Date(product.updated_at)) || '00/00/0000'}
                       </TableCell>
                     </TableRow>
                   </TableBody>
@@ -133,21 +107,11 @@ export function Row({
         </TableCell>
       </TableRow>
 
-      <Snackbar
-        open={openToast}
-        onCloseAlert={handleCloseAlert}
-        onCloseSnack={handleCloseAlert}
-        message={message}
-        severity={error ? 'error' : 'success'}
-      />
-
       {dialogEdit && (
         <DialogEdit
           smDown={smDown}
-          id={id}
-          name={name}
-          price={price.toFixed(2).replace('.', '')}
-          description={description}
+          product={product}
+          onSubmitUpdate={onSubmitUpdate}
           handleClose={() => setDialogEdit(false)}
           open={dialogEdit}
         />
@@ -155,10 +119,9 @@ export function Row({
 
       {dialogDelete && (
         <DialogInfo
-          // smDown={smDown}
           open={dialogDelete}
-          handleSubmit={submitDelete}
-          id={id}
+          handleSubmit={onSubmitDelete}
+          id={product.id}
           handleClose={() => setDialogDelete(false)}
           textButtonClose="CANCELAR"
           textButtonSubmit="DELETAR"

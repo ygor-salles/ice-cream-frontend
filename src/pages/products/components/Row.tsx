@@ -12,26 +12,20 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-import DialogInfo from '../../../shared/components/dialog/Dialog';
-import { IFormProduct, IProductDTO } from '../../../shared/dtos/IProductDTO';
+import { IProductDTO } from '../../../shared/dtos/IProductDTO';
 import formatDate from '../../../shared/utils/formatDate';
 import { formatNumberToCurrency } from '../../../shared/utils/formatNumberToCurrency';
-import { DialogEdit } from './DialogEdit';
 
 interface IRowProps {
   product: IProductDTO;
-  onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
-  onSubmitDelete: (id: number) => Promise<void>;
+  onClickEdit: (data: IProductDTO) => void;
+  onClickDelete: (data: IProductDTO) => void;
 }
 
-export function Row({ product, onSubmitUpdate, onSubmitDelete }: IRowProps): JSX.Element {
+export function Row({ product, onClickEdit, onClickDelete }: IRowProps): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const [open, setOpen] = useState(false);
-
-  const [dialogEdit, setDialogEdit] = useState(false);
-
-  const [dialogDelete, setDialogDelete] = useState(false);
 
   return (
     <>
@@ -52,7 +46,7 @@ export function Row({ product, onSubmitUpdate, onSubmitDelete }: IRowProps): JSX
             style={{ marginRight: smDown ? '0' : '20px', cursor: 'pointer' }}
             onClick={e => {
               e.stopPropagation();
-              setDialogEdit(true);
+              onClickEdit(product);
             }}
           >
             edit
@@ -61,7 +55,7 @@ export function Row({ product, onSubmitUpdate, onSubmitDelete }: IRowProps): JSX
             color="warning"
             onClick={e => {
               e.stopPropagation();
-              setDialogDelete(true);
+              onClickDelete(product);
             }}
             style={{ cursor: 'pointer' }}
           >
@@ -106,25 +100,6 @@ export function Row({ product, onSubmitUpdate, onSubmitDelete }: IRowProps): JSX
           </Collapse>
         </TableCell>
       </TableRow>
-
-      <DialogEdit
-        smDown={smDown}
-        product={product}
-        onSubmitUpdate={onSubmitUpdate}
-        handleClose={() => setDialogEdit(false)}
-        open={dialogEdit}
-      />
-
-      <DialogInfo
-        open={dialogDelete}
-        handleSubmit={onSubmitDelete}
-        id={product.id}
-        handleClose={() => setDialogDelete(false)}
-        textButtonClose="CANCELAR"
-        textButtonSubmit="DELETAR"
-        title="DELETAR PRODUTO"
-        text="Tem certeza que deseja deletar este produto?"
-      />
     </>
   );
 }

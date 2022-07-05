@@ -12,19 +12,19 @@ import {
 import { useState } from 'react';
 
 import { TablePaginationActions } from '../../../shared/components';
-import { IFormProduct, IProductDTO } from '../../../shared/dtos/IProductDTO';
+import { IProductDTO } from '../../../shared/dtos/IProductDTO';
 import { Row } from './Row';
 
 interface ITableProductProps {
   allProducts: IProductDTO[];
-  onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
-  onSubmitDelete: (id: number) => Promise<void>;
+  onClickEdit: (data: IProductDTO) => void;
+  onClickDelete: (data: IProductDTO) => void;
 }
 
 export function TableProduct({
   allProducts,
-  onSubmitUpdate,
-  onSubmitDelete,
+  onClickEdit,
+  onClickDelete,
 }: ITableProductProps): JSX.Element {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -68,8 +68,8 @@ export function TableProduct({
                 created_at: item.created_at,
                 updated_at: item.updated_at,
               }}
-              onSubmitDelete={onSubmitDelete}
-              onSubmitUpdate={onSubmitUpdate}
+              onClickEdit={onClickEdit}
+              onClickDelete={onClickDelete}
               key={item.id}
             />
           ))}

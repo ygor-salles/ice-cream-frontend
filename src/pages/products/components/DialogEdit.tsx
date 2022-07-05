@@ -18,8 +18,8 @@ import { IFormProduct, IProductDTO, schemaCreateProduct } from '../../../shared/
 interface DialogEditProps {
   smDown?: boolean;
   product: IProductDTO;
-  onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
   open: boolean;
+  onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
   handleClose: () => void;
 }
 

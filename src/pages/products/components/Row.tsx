@@ -20,18 +20,30 @@ import { DialogEdit } from './DialogEdit';
 
 interface IRowProps {
   product: IProductDTO;
+  dialogEdit: boolean;
+  dialogDelete: boolean;
+  onOpenDialogEdit: () => void;
+  onCloseDialogEdit: () => void;
+  onOpenDialogDelete: () => void;
+  onCloseDialogDelete: () => void;
   onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
   onSubmitDelete: (id: number) => Promise<void>;
 }
 
-export function Row({ product, onSubmitUpdate, onSubmitDelete }: IRowProps): JSX.Element {
+export function Row({
+  product,
+  dialogEdit,
+  dialogDelete,
+  onOpenDialogEdit,
+  onCloseDialogEdit,
+  onOpenDialogDelete,
+  onCloseDialogDelete,
+  onSubmitUpdate,
+  onSubmitDelete,
+}: IRowProps): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const [open, setOpen] = useState(false);
-
-  const [dialogEdit, setDialogEdit] = useState(false);
-
-  const [dialogDelete, setDialogDelete] = useState(false);
 
   return (
     <>
@@ -50,18 +62,18 @@ export function Row({ product, onSubmitUpdate, onSubmitDelete }: IRowProps): JSX
           <Icon
             color="secondary"
             style={{ marginRight: smDown ? '0' : '20px', cursor: 'pointer' }}
-            onClick={e => {
+            onClick={(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
               e.stopPropagation();
-              setDialogEdit(true);
+              onOpenDialogEdit();
             }}
           >
             edit
           </Icon>
           <Icon
             color="warning"
-            onClick={e => {
+            onClick={(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
               e.stopPropagation();
-              setDialogDelete(true);
+              onOpenDialogDelete();
             }}
             style={{ cursor: 'pointer' }}
           >
@@ -111,7 +123,7 @@ export function Row({ product, onSubmitUpdate, onSubmitDelete }: IRowProps): JSX
         smDown={smDown}
         product={product}
         onSubmitUpdate={onSubmitUpdate}
-        handleClose={() => setDialogEdit(false)}
+        handleClose={onCloseDialogEdit}
         open={dialogEdit}
       />
 
@@ -119,7 +131,7 @@ export function Row({ product, onSubmitUpdate, onSubmitDelete }: IRowProps): JSX
         open={dialogDelete}
         handleSubmit={onSubmitDelete}
         id={product.id}
-        handleClose={() => setDialogDelete(false)}
+        handleClose={onCloseDialogDelete}
         textButtonClose="CANCELAR"
         textButtonSubmit="DELETAR"
         title="DELETAR PRODUTO"

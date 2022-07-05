@@ -17,12 +17,24 @@ import { Row } from './Row';
 
 interface ITableProductProps {
   allProducts: IProductDTO[];
+  dialogEdit: boolean;
+  dialogDelete: boolean;
+  onOpenDialogEdit: () => void;
+  onCloseDialogEdit: () => void;
+  onOpenDialogDelete: () => void;
+  onCloseDialogDelete: () => void;
   onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
   onSubmitDelete: (id: number) => Promise<void>;
 }
 
 export function TableProduct({
   allProducts,
+  dialogEdit,
+  dialogDelete,
+  onOpenDialogEdit,
+  onCloseDialogEdit,
+  onOpenDialogDelete,
+  onCloseDialogDelete,
   onSubmitUpdate,
   onSubmitDelete,
 }: ITableProductProps): JSX.Element {
@@ -68,6 +80,12 @@ export function TableProduct({
                 created_at: item.created_at,
                 updated_at: item.updated_at,
               }}
+              dialogEdit={dialogEdit}
+              dialogDelete={dialogDelete}
+              onOpenDialogEdit={onOpenDialogEdit}
+              onCloseDialogEdit={onCloseDialogEdit}
+              onOpenDialogDelete={onOpenDialogDelete}
+              onCloseDialogDelete={onCloseDialogDelete}
               onSubmitDelete={onSubmitDelete}
               onSubmitUpdate={onSubmitUpdate}
               key={item.id}

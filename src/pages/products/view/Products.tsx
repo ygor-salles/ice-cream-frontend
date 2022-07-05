@@ -3,6 +3,7 @@ import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import SnackBar from '../../../shared/components/snackBar/SnackBar';
+import { Table } from '../../../shared/components/table/Table';
 import { IFormProduct, IProductDTO, transformObject } from '../../../shared/dtos/IProductDTO';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import ProductService from '../../../shared/services/ProductService';
@@ -14,10 +15,16 @@ export function Products(): JSX.Element {
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [dialogEdit, setDialogEdit] = useState(false);
+  const [dialogDelete, setDialogDelete] = useState(false);
 
-  const handleCloseAlert = () => {
-    setOpenToast(false);
-  };
+  const handleOpenDialogEdit = () => setDialogEdit(true);
+  const handleCloseDialogEdit = () => setDialogEdit(false);
+
+  const handleOpenDialogDelete = () => setDialogDelete(true);
+  const handleCloseDialogDelete = () => setDialogDelete(true);
+
+  const handleCloseAlert = () => setOpenToast(false);
 
   const displayNotificationMessage = (error: boolean, message: string) => {
     setOpenToast(true);
@@ -68,6 +75,10 @@ export function Products(): JSX.Element {
     getProducts();
   }, []);
 
+  const testeEdit = (item: any) => console.log('Edit', item);
+
+  const testeDelete = (item: any) => console.log('Delete', item);
+
   return (
     <>
       <SnackBar
@@ -87,10 +98,24 @@ export function Products(): JSX.Element {
         {loading ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableProduct
-            allProducts={allProducts}
-            onSubmitUpdate={handleSubmitUpdate}
-            onSubmitDelete={handleSubmitDelete}
+          // <TableProduct
+          //   allProducts={allProducts}
+          //   dialogEdit={dialogEdit}
+          //   dialogDelete={dialogDelete}
+          //   onOpenDialogEdit={handleOpenDialogEdit}
+          //   onCloseDialogEdit={handleCloseDialogEdit}
+          //   onOpenDialogDelete={handleOpenDialogDelete}
+          //   onCloseDialogDelete={handleCloseDialogDelete}
+          //   onSubmitUpdate={handleSubmitUpdate}
+          //   onSubmitDelete={handleSubmitDelete}
+          // />
+          <Table
+            rows={allProducts}
+            columns={['Nome', 'Preço']}
+            tableName="table-products"
+            propertiesCollapse={['id', 'description', 'created_at', 'updated_at']}
+            onChangeEdit={testeEdit}
+            onChangeDelete={testeDelete}
           />
         )}
       </LayoutBaseDePagina>

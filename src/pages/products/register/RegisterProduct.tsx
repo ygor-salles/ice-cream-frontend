@@ -25,8 +25,12 @@ export function RegisterProduct(): JSX.Element {
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
 
-  const handleCloseAlert = (): void => {
-    setOpenToast(false);
+  const handleCloseAlert = () => setOpenToast(false);
+
+  const displayNotificationMessage = (error: boolean, message: string) => {
+    setOpenToast(true);
+    setError(error);
+    setMessage(message);
   };
 
   const { handleSubmit, control } = useForm<IFormProduct>({
@@ -38,24 +42,18 @@ export function RegisterProduct(): JSX.Element {
     },
   });
 
-  const displayNotificationMessage = (error: boolean, message: string): void => {
-    setOpenToast(true);
-    setError(error);
-    setMessage(message);
-  };
-
-  const onSubmit = async (dataForm: IFormProduct) => {
+  async function handleSubmitCreate(dataForm: IFormProduct) {
     const data: IProductDTO = transformObject(dataForm);
 
     const productService = new ProductService();
     try {
       await productService.create(data);
-      displayNotificationMessage(false, 'Produto cadastrado com sucesso!');
+      displayNotificationMessage(false, 'Produto atualizado com sucesso!');
     } catch (error) {
       // const { response } = error as AxiosError;
-      displayNotificationMessage(true, 'Error ao cadastrar o produto!');
+      displayNotificationMessage(false, 'Produto atualizado com sucesso!');
     }
-  };
+  }
 
   return (
     <>
@@ -75,7 +73,7 @@ export function RegisterProduct(): JSX.Element {
         <Box
           component="form"
           noValidate
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(handleSubmitCreate)}
           sx={{ mt: 1, width: '100%' }}
         >
           <Card sx={{ padding: '20px' }}>

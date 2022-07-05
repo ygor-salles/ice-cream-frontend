@@ -1,5 +1,5 @@
 export * from './dashboard/Dashboard';
-export * from './products/Products';
+export * from './products/view/Products';
 export * from './payments/Payments';
 export * from './providers/Providers';
 export * from './sales/Sales';

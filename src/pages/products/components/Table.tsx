@@ -15,11 +15,17 @@ import { TablePaginationActions } from '../../../shared/components';
 import { IProductDTO } from '../../../shared/dtos/IProductDTO';
 import { Row } from './Row';
 
-type Props = {
+interface ITableProductProps {
   allProducts: IProductDTO[];
-};
+  onClickEdit: (data: IProductDTO) => void;
+  onClickDelete: (data: IProductDTO) => void;
+}
 
-export function TableProduct({ allProducts }: Props): JSX.Element {
+export function TableProduct({
+  allProducts,
+  onClickEdit,
+  onClickDelete,
+}: ITableProductProps): JSX.Element {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -42,7 +48,7 @@ export function TableProduct({ allProducts }: Props): JSX.Element {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell style={{ display: 'flex' }}>Nome</TableCell>
+            <TableCell>Nome</TableCell>
             <TableCell>Preço</TableCell>
             <TableCell style={{ display: 'flex', justifyContent: 'center' }}>Ações</TableCell>
           </TableRow>
@@ -54,12 +60,16 @@ export function TableProduct({ allProducts }: Props): JSX.Element {
             : allProducts
           ).map(item => (
             <Row
-              id={item.id}
-              name={item.name}
-              price={item.price}
-              description={item.description || ''}
-              created_at={item.created_at}
-              updated_at={item.updated_at}
+              product={{
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                description: item.description || '',
+                created_at: item.created_at,
+                updated_at: item.updated_at,
+              }}
+              onClickEdit={onClickEdit}
+              onClickDelete={onClickDelete}
               key={item.id}
             />
           ))}

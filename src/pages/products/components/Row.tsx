@@ -12,35 +12,17 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-import DialogInfo from '../../../shared/components/dialog/Dialog';
-import { IFormProduct, IProductDTO } from '../../../shared/dtos/IProductDTO';
+import { IProductDTO } from '../../../shared/dtos/IProductDTO';
 import formatDate from '../../../shared/utils/formatDate';
 import { formatNumberToCurrency } from '../../../shared/utils/formatNumberToCurrency';
-import { DialogEdit } from './DialogEdit';
 
 interface IRowProps {
   product: IProductDTO;
-  dialogEdit: boolean;
-  dialogDelete: boolean;
-  onOpenDialogEdit: () => void;
-  onCloseDialogEdit: () => void;
-  onOpenDialogDelete: () => void;
-  onCloseDialogDelete: () => void;
-  onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
-  onSubmitDelete: (id: number) => Promise<void>;
+  onClickEdit: (data: IProductDTO) => void;
+  onClickDelete: (data: IProductDTO) => void;
 }
 
-export function Row({
-  product,
-  dialogEdit,
-  dialogDelete,
-  onOpenDialogEdit,
-  onCloseDialogEdit,
-  onOpenDialogDelete,
-  onCloseDialogDelete,
-  onSubmitUpdate,
-  onSubmitDelete,
-}: IRowProps): JSX.Element {
+export function Row({ product, onClickEdit, onClickDelete }: IRowProps): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const [open, setOpen] = useState(false);
@@ -62,18 +44,18 @@ export function Row({
           <Icon
             color="secondary"
             style={{ marginRight: smDown ? '0' : '20px', cursor: 'pointer' }}
-            onClick={(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+            onClick={e => {
               e.stopPropagation();
-              onOpenDialogEdit();
+              onClickEdit(product);
             }}
           >
             edit
           </Icon>
           <Icon
             color="warning"
-            onClick={(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+            onClick={e => {
               e.stopPropagation();
-              onOpenDialogDelete();
+              onClickDelete(product);
             }}
             style={{ cursor: 'pointer' }}
           >
@@ -118,25 +100,6 @@ export function Row({
           </Collapse>
         </TableCell>
       </TableRow>
-
-      <DialogEdit
-        smDown={smDown}
-        product={product}
-        onSubmitUpdate={onSubmitUpdate}
-        handleClose={onCloseDialogEdit}
-        open={dialogEdit}
-      />
-
-      <DialogInfo
-        open={dialogDelete}
-        handleSubmit={onSubmitDelete}
-        id={product.id}
-        handleClose={onCloseDialogDelete}
-        textButtonClose="CANCELAR"
-        textButtonSubmit="DELETAR"
-        title="DELETAR PRODUTO"
-        text="Tem certeza que deseja deletar este produto?"
-      />
     </>
   );
 }

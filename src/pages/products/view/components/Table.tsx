@@ -11,8 +11,8 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-import { TablePaginationActions } from '../../../shared/components';
-import { IProductDTO } from '../../../shared/dtos/IProductDTO';
+import { TablePaginationActions } from '../../../../shared/components';
+import { IProductDTO } from '../../../../shared/dtos/IProductDTO';
 import { Row } from './Row';
 
 interface ITableProductProps {

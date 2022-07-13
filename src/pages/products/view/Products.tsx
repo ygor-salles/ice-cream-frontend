@@ -7,8 +7,8 @@ import SnackBar from '../../../shared/components/snackBar/SnackBar';
 import { IFormProduct, IProductDTO, transformObject } from '../../../shared/dtos/IProductDTO';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import ProductService from '../../../shared/services/ProductService';
-import { DialogEdit } from '../components/DialogEdit';
-import { TableProduct } from '../components/Table';
+import { DialogEdit } from './components/DialogEdit';
+import { TableProduct } from './components/Table';
 
 export function Products(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));

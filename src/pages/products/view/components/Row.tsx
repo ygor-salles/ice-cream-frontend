@@ -12,9 +12,9 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-import { IProductDTO } from '../../../shared/dtos/IProductDTO';
-import formatDate from '../../../shared/utils/formatDate';
-import { formatNumberToCurrency } from '../../../shared/utils/formatNumberToCurrency';
+import { IProductDTO } from '../../../../shared/dtos/IProductDTO';
+import formatDate from '../../../../shared/utils/formatDate';
+import { formatNumberToCurrency } from '../../../../shared/utils/formatNumberToCurrency';
 
 interface IRowProps {
   product: IProductDTO;

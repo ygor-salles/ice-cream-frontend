@@ -11,9 +11,13 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
-import { NumberFormatCustom } from '../../../shared/components';
-import TextFieldApp from '../../../shared/components/textField/TextField';
-import { IFormProduct, IProductDTO, schemaCreateProduct } from '../../../shared/dtos/IProductDTO';
+import { NumberFormatCustom } from '../../../../shared/components';
+import TextFieldApp from '../../../../shared/components/textField/TextField';
+import {
+  IFormProduct,
+  IProductDTO,
+  schemaCreateProduct,
+} from '../../../../shared/dtos/IProductDTO';
 
 interface DialogEditProps {
   smDown?: boolean;

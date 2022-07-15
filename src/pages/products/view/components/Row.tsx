@@ -1,7 +1,5 @@
 import {
-  Box,
   Collapse,
-  Icon,
   Table,
   TableBody,
   TableCell,
@@ -15,6 +13,14 @@ import { useState } from 'react';
 import { IProductDTO } from '../../../../shared/dtos/IProductDTO';
 import formatDate from '../../../../shared/utils/formatDate';
 import { formatNumberToCurrency } from '../../../../shared/utils/formatNumberToCurrency';
+import {
+  Container,
+  Content,
+  StyledIcon,
+  TableCellActionContent,
+  TableCellBdNone,
+  TableCellCollapse,
+} from './styles';
 
 interface IRowProps {
   product: IProductDTO;
@@ -30,49 +36,35 @@ export function Row({ product, onClickEdit, onClickDelete }: IRowProps): JSX.Ele
   return (
     <>
       <TableRow sx={{ '& > *': { borderBottom: 'none' } }} onClick={() => setOpen(!open)}>
-        <TableCell style={{ borderBottom: 'none' }}>{product.name}</TableCell>
-        <TableCell style={{ borderBottom: 'none' }}>
-          {formatNumberToCurrency(product.price)}
-        </TableCell>
-        <TableCell
-          style={{
-            borderBottom: 'none',
-            display: 'flex',
-            justifyContent: smDown ? 'space-between' : 'center',
-          }}
-        >
-          <Icon
+        <TableCellBdNone>{product.name}</TableCellBdNone>
+        <TableCellBdNone>{formatNumberToCurrency(product.price)}</TableCellBdNone>
+        <TableCellActionContent smDown={smDown}>
+          <StyledIcon
             color="secondary"
-            style={{ marginRight: smDown ? '0' : '20px', cursor: 'pointer' }}
+            mgRight
             onClick={e => {
               e.stopPropagation();
               onClickEdit(product);
             }}
           >
             edit
-          </Icon>
-          <Icon
+          </StyledIcon>
+          <StyledIcon
             color="warning"
             onClick={e => {
               e.stopPropagation();
               onClickDelete(product);
             }}
-            style={{ cursor: 'pointer' }}
           >
             delete
-          </Icon>
-        </TableCell>
+          </StyledIcon>
+        </TableCellActionContent>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: '10px', paddingTop: 0, borderTop: 'none' }} colSpan={3}>
+        <TableCellCollapse colSpan={3}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box
-              display="flex"
-              flexDirection="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Box component="div" width="100%" display="flex" flexDirection="column">
+            <Container>
+              <Content>
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
@@ -95,10 +87,10 @@ export function Row({ product, onClickEdit, onClickDelete }: IRowProps): JSX.Ele
                     </TableRow>
                   </TableBody>
                 </Table>
-              </Box>
-            </Box>
+              </Content>
+            </Container>
           </Collapse>
-        </TableCell>
+        </TableCellCollapse>
       </TableRow>
     </>
   );

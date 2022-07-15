@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { TablePaginationActions } from '../../../../shared/components';
 import { IProductDTO } from '../../../../shared/dtos/IProductDTO';
 import { Row } from './Row';
+import { TableCellAction } from './styles';
 
 interface ITableProductProps {
   allProducts: IProductDTO[];
@@ -50,7 +51,7 @@ export function TableProduct({
           <TableRow>
             <TableCell>Nome</TableCell>
             <TableCell>Preço</TableCell>
-            <TableCell style={{ display: 'flex', justifyContent: 'center' }}>Ações</TableCell>
+            <TableCellAction>Ações</TableCellAction>
           </TableRow>
         </TableHead>
 

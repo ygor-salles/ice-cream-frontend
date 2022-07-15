@@ -1,15 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-} from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-import styled from 'styled-components';
 
 import { NumberFormatCustom } from '../../../../shared/components';
 import TextFieldApp from '../../../../shared/components/textField/TextField';
@@ -18,6 +9,7 @@ import {
   IProductDTO,
   schemaCreateProduct,
 } from '../../../../shared/dtos/IProductDTO';
+import { Form, StyledButton, StyledDialogActions } from './styles';
 
 interface DialogEditProps {
   smDown?: boolean;
@@ -26,13 +18,6 @@ interface DialogEditProps {
   onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
   handleClose: () => void;
 }
-
-const StyledButton = styled(Button)(() => ({
-  backgroundColor: '#ffffff',
-  '&:hover': {
-    backgroundColor: '#ffffff',
-  },
-}));
 
 export function DialogEdit({
   product,
@@ -58,12 +43,7 @@ export function DialogEdit({
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
     >
-      <Box
-        component="form"
-        noValidate
-        onSubmit={handleSubmit(onSubmitUpdate)}
-        sx={{ width: '100%', height: smDown ? '100vh' : 'auto', display: 'contents' }}
-      >
+      <Form noValidate onSubmit={handleSubmit(onSubmitUpdate)} smDown={smDown}>
         <DialogTitle id="responsive-dialog-title">EDITAR PRODUTO</DialogTitle>
         <DialogContent>
           <Grid container spacing={4}>
@@ -123,15 +103,15 @@ export function DialogEdit({
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions style={{ justifyContent: 'space-between' }}>
+        <StyledDialogActions>
           <StyledButton variant="outlined" type="button" onClick={handleClose}>
             CANCELAR
           </StyledButton>
           <Button variant="contained" type="submit">
             EDITAR
           </Button>
-        </DialogActions>
-      </Box>
+        </StyledDialogActions>
+      </Form>
     </Dialog>
   );
 }

@@ -1,8 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Card, Theme, useMediaQuery } from '@mui/material';
-import Box from '@mui/material/Box';
+import { CircularProgress, Theme, useMediaQuery } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -17,6 +17,7 @@ import {
 } from '../../../shared/dtos/IProductDTO';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import ProductService from '../../../shared/services/ProductService';
+import { Form, StyledCard } from './styles';
 
 export function RegisterProduct(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -24,6 +25,7 @@ export function RegisterProduct(): JSX.Element {
   const [openToast, setOpenToast] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleCloseAlert = () => setOpenToast(false);
 
@@ -33,7 +35,7 @@ export function RegisterProduct(): JSX.Element {
     setMessage(message);
   };
 
-  const { handleSubmit, control } = useForm<IFormProduct>({
+  const { handleSubmit, control, reset } = useForm<IFormProduct>({
     resolver: yupResolver(schemaCreateProduct),
     defaultValues: {
       name: '',
@@ -43,15 +45,19 @@ export function RegisterProduct(): JSX.Element {
   });
 
   async function handleSubmitCreate(dataForm: IFormProduct) {
+    setLoading(true);
     const data: IProductDTO = transformObject(dataForm);
 
     const productService = new ProductService();
     try {
       await productService.create(data);
-      displayNotificationMessage(false, 'Produto atualizado com sucesso!');
+      displayNotificationMessage(false, 'Produto cadastrado com sucesso!');
     } catch (error) {
-      // const { response } = error as AxiosError;
-      displayNotificationMessage(false, 'Produto atualizado com sucesso!');
+      const { response } = error as AxiosError;
+      displayNotificationMessage(true, `Erro ao cadastrar produto - ${response?.data?.message}`);
+    } finally {
+      setLoading(false);
+      reset();
     }
   }
 
@@ -70,13 +76,8 @@ export function RegisterProduct(): JSX.Element {
         textButton="VOLTAR"
         icon="arrow_back"
       >
-        <Box
-          component="form"
-          noValidate
-          onSubmit={handleSubmit(handleSubmitCreate)}
-          sx={{ mt: 1, width: '100%' }}
-        >
-          <Card sx={{ padding: '20px' }}>
+        <Form noValidate onSubmit={handleSubmit(handleSubmitCreate)}>
+          <StyledCard>
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <Controller
@@ -90,6 +91,7 @@ export function RegisterProduct(): JSX.Element {
                       error={!!error}
                       helperText={error ? error.message : null}
                       required
+                      disabled={loading}
                     />
                   )}
                 />
@@ -109,6 +111,7 @@ export function RegisterProduct(): JSX.Element {
                       error={!!error}
                       helperText={error ? error.message : null}
                       required
+                      disabled={loading}
                     />
                   )}
                 />
@@ -124,6 +127,7 @@ export function RegisterProduct(): JSX.Element {
                       onChange={onChange}
                       error={!!error}
                       helperText={error ? error.message : null}
+                      disabled={loading}
                     />
                   )}
                 />
@@ -140,13 +144,19 @@ export function RegisterProduct(): JSX.Element {
                     padding: smDown ? '10px' : 'auto',
                     fontSize: smDown ? '1rem' : 'auto',
                   }}
+                  endIcon={
+                    loading ? (
+                      <CircularProgress variant="indeterminate" color="inherit" size={20} />
+                    ) : undefined
+                  }
+                  disabled={loading}
                 >
                   CADASTRAR
                 </Button>
               </Grid>
             </Grid>
-          </Card>
-        </Box>
+          </StyledCard>
+        </Form>
       </LayoutBaseDePagina>
     </>
   );

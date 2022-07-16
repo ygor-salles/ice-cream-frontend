@@ -1,5 +1,6 @@
 import {
   Collapse,
+  Icon,
   Table,
   TableBody,
   TableCell,
@@ -41,7 +42,7 @@ export function Row({ product, onClickEdit, onClickDelete }: IRowProps): JSX.Ele
         <TableCellActionContent smDown={smDown}>
           <StyledIcon
             color="secondary"
-            mgRight
+            mgRight={smDown}
             onClick={e => {
               e.stopPropagation();
               onClickEdit(product);
@@ -49,15 +50,16 @@ export function Row({ product, onClickEdit, onClickDelete }: IRowProps): JSX.Ele
           >
             edit
           </StyledIcon>
-          <StyledIcon
+          <Icon
             color="warning"
+            style={{ cursor: 'pointer' }}
             onClick={e => {
               e.stopPropagation();
               onClickDelete(product);
             }}
           >
             delete
-          </StyledIcon>
+          </Icon>
         </TableCellActionContent>
       </TableRow>
       <TableRow>

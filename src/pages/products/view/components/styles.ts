@@ -5,6 +5,14 @@ interface TableCellActionContentProps {
   smDown: boolean;
 }
 
+interface StyledIconProps {
+  mgRight?: boolean;
+}
+
+interface FormProps {
+  smDown?: boolean;
+}
+
 export const TableCellAction = styled(TableCell)`
   display: flex;
   justify-content: center;
@@ -14,7 +22,9 @@ export const TableCellBdNone = styled(TableCell)`
   border: none;
 `;
 
-export const TableCellActionContent = styled(TableCell)<TableCellActionContentProps>`
+export const TableCellActionContent = styled(TableCell).withConfig({
+  shouldForwardProp: prop => !['smDown'].includes(prop),
+})<TableCellActionContentProps>`
   display: flex;
   border-bottom: none;
   justify-content: ${props => (props.smDown ? 'space-between' : 'center')};
@@ -26,9 +36,11 @@ export const TableCellCollapse = styled(TableCell)`
   border-top: none;
 `;
 
-export const StyledIcon = styled(Icon)<{ mgRight?: boolean }>`
+export const StyledIcon = styled(Icon).withConfig({
+  shouldForwardProp: prop => !['mgRight'].includes(prop),
+})<StyledIconProps>`
   cursor: pointer;
-  margin-right: ${props => (props.mgRight ? '20px' : '0')};
+  margin-right: ${props => (props.mgRight ? '0' : '20px')};
 `;
 
 export const Container = styled.div`
@@ -52,7 +64,7 @@ export const StyledButton = styled(Button)`
   }
 `;
 
-export const Form = styled.form<{ smDown?: boolean }>`
+export const Form = styled.form<FormProps>`
   width: 100%;
   height: ${props => (props.smDown ? '100vh' : 'auto')};
   display: contents;

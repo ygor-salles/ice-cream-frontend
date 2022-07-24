@@ -5,17 +5,17 @@ import { useEffect, useState } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
 import SnackBar from '../../../shared/components/snackBar/SnackBar';
-import { IFormClient, IClientDTO, transformObjectClient } from '../../../shared/dtos/IClientDTO';
+import { IFormUser, IUserDTO, transformObjectUser } from '../../../shared/dtos/IUserDTO';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import ClientService from '../../../shared/services/ClientService';
+import UserService from '../../../shared/services/UserService';
 import { DialogEdit } from './components/DialogEdit';
-import { TableClient } from './components/Table';
+import { TableUser } from './components/Table';
 
-export function Clients(): JSX.Element {
+export function Users(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const [allClients, setAllClients] = useState<IClientDTO[]>([]);
-  const [dataActionTable, setDataActionTable] = useState<IClientDTO>();
+  const [allUsers, setAllUsers] = useState<IUserDTO[]>([]);
+  const [dataActionTable, setDataActionTable] = useState<IUserDTO>();
   const [openToast, setOpenToast] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
@@ -31,66 +31,66 @@ export function Clients(): JSX.Element {
     setMessage(message);
   };
 
-  const handleClickEdit = (data: IClientDTO) => {
+  const handleClickEdit = (data: IUserDTO) => {
     setDataActionTable(data);
     setShowModalEdit(true);
   };
 
-  const handleClickDelete = (data: IClientDTO) => {
+  const handleClickDelete = (data: IUserDTO) => {
     setDataActionTable(data);
     setShowModalDelete(true);
   };
 
-  async function getClients(): Promise<void> {
+  async function getUsers(): Promise<void> {
     setLoading(true);
-    const clientService = new ClientService();
+    const userService = new UserService();
 
     try {
-      const listClients = await clientService.loadAll();
-      setAllClients(listClients);
+      const listUsers = await userService.loadAll();
+      setAllUsers(listUsers);
     } catch (error) {
       const { response } = error as AxiosError;
       displayNotificationMessage(
         true,
-        `Error ao buscar dados de clientes! - ${response?.data?.message}`,
+        `Error ao buscar dados de usuários! - ${response?.data?.message}`,
       );
     } finally {
       setLoading(false);
     }
   }
 
-  async function handleSubmitUpdate(dataForm: IFormClient) {
-    const data: IClientDTO = transformObjectClient(dataForm);
+  async function handleSubmitUpdate(dataForm: IFormUser) {
+    const data: IUserDTO = transformObjectUser(dataForm);
 
-    const clientService = new ClientService();
+    const userService = new UserService();
     try {
-      await clientService.updateById({ ...data, id: dataForm.id });
-      displayNotificationMessage(false, 'Cliente atualizado com sucesso!');
-      getClients();
+      await userService.updateById({ ...data, id: dataForm.id });
+      displayNotificationMessage(false, 'Usuário atualizado com sucesso!');
+      getUsers();
     } catch (error) {
       // const { response } = error as AxiosError;
-      displayNotificationMessage(true, 'Error ao atualizar cliente!');
+      displayNotificationMessage(true, 'Error ao atualizar usuário!');
     } finally {
       setShowModalEdit(false);
     }
   }
 
   async function handleSubmitDelete(id: number) {
-    const clientService = new ClientService();
+    const userService = new UserService();
     try {
-      await clientService.deleteById(id);
-      displayNotificationMessage(false, 'Cliente deletado com sucesso!');
-      getClients();
+      await userService.deleteById(id);
+      displayNotificationMessage(false, 'Usuário deletado com sucesso!');
+      getUsers();
     } catch (err) {
       // const { response } = error as AxiosError;
-      displayNotificationMessage(true, 'Error ao deletar cliente!');
+      displayNotificationMessage(true, 'Error ao deletar usuário!');
     } finally {
       setShowModalDelete(false);
     }
   }
 
   useEffect(() => {
-    getClients();
+    getUsers();
   }, []);
 
   return (
@@ -104,16 +104,16 @@ export function Clients(): JSX.Element {
       />
 
       <LayoutBaseDePagina
-        titulo="Clientes"
-        navigatePage="/clients/create"
+        titulo="Usuários"
+        navigatePage="/users/create"
         textButton="CADASTRAR"
         icon="add"
       >
         {loading ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableClient
-            allClients={allClients}
+          <TableUser
+            allUsers={allUsers}
             onClickEdit={handleClickEdit}
             onClickDelete={handleClickDelete}
           />
@@ -123,7 +123,7 @@ export function Clients(): JSX.Element {
       {showModalEdit && dataActionTable && (
         <DialogEdit
           smDown={smDown}
-          client={dataActionTable}
+          user={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={() => setShowModalEdit(false)}
           open={showModalEdit}
@@ -139,7 +139,7 @@ export function Clients(): JSX.Element {
           textButtonClose="CANCELAR"
           textButtonSubmit="DELETAR"
           title="DELETAR CLIENTE"
-          text="Tem certeza que deseja deletar este cliente?"
+          text="Tem certeza que deseja deletar este usuário?"
         />
       )}
     </>

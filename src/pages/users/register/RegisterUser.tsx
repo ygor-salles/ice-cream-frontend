@@ -6,7 +6,6 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
 import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
 import {
@@ -108,9 +107,6 @@ export function RegisterUser(): JSX.Element {
                       type="email"
                       value={value}
                       onChange={onChange}
-                      InputProps={{
-                        inputComponent: NumberFormatCustom as any,
-                      }}
                       error={!!error}
                       helperText={error ? error.message : null}
                       required

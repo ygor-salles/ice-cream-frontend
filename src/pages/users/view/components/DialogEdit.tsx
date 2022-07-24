@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 
-import { NumberFormatCustom } from '../../../../shared/components';
 import TextFieldApp from '../../../../shared/components/textField/TextField';
 import { IFormUser, IUserDTO, schemaCreateUser } from '../../../../shared/dtos/IUserDTO';
 import { Form, StyledButton, StyledDialogActions } from './styles';
@@ -86,7 +85,7 @@ export function DialogEdit({
                 render={({ field: { onChange, value }, fieldState: { error } }) => (
                   <TextFieldApp
                     name="password"
-                    label="Nome"
+                    label="Senha"
                     type="password"
                     value={value}
                     onChange={onChange}
@@ -104,7 +103,7 @@ export function DialogEdit({
                 render={({ field: { onChange, value }, fieldState: { error } }) => (
                   <TextFieldApp
                     name="role"
-                    label="Nome"
+                    label="Acesso"
                     value={value}
                     onChange={onChange}
                     error={!!error}

@@ -172,32 +172,18 @@ export function RegisterSale(): JSX.Element {
               </Grid>
 
               <Grid item xs={12}>
-                <Controller
-                  name="observation"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <TextFieldApp label="Observação" value={value} onChange={onChange} />
-                  )}
-                />
+                <TextFieldApp name="observation" control={control} label="Observação" />
               </Grid>
 
               <Grid item xs={12}>
-                <Controller
+                <TextFieldApp
                   name="total"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextFieldApp
-                      label="Total"
-                      value={value}
-                      onChange={onChange}
-                      InputProps={{
-                        inputComponent: NumberFormatCustom as any,
-                      }}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      required
-                    />
-                  )}
+                  label="Total"
+                  InputProps={{
+                    inputComponent: NumberFormatCustom as any,
+                  }}
+                  required
                 />
               </Grid>
             </Grid>

@@ -1,4 +1,5 @@
 import { InputProps, TextField } from '@mui/material';
+import { Control, Controller } from 'react-hook-form';
 import styled from 'styled-components';
 
 import { useAppThemeContext } from '../../contexts';
@@ -6,11 +7,8 @@ import { useAppThemeContext } from '../../contexts';
 interface TextFieldPropsApp {
   id?: string;
   name?: string;
+  control: Control<any>;
   label: React.ReactNode;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error?: boolean;
-  helperText?: string;
   mask?: (value: string) => string;
   type?: React.HTMLInputTypeAttribute;
   required?: boolean;
@@ -36,11 +34,8 @@ const StyledTextField = styled(TextField)(() => ({
 export default function TextFieldApp({
   id,
   name,
+  control,
   label,
-  value,
-  onChange,
-  error,
-  helperText,
   mask,
   type,
   required,
@@ -49,22 +44,27 @@ export default function TextFieldApp({
   disabled,
 }: TextFieldPropsApp): JSX.Element {
   return (
-    <StyledTextField
-      label={label}
-      value={mask ? mask(value) : value || ''}
-      onChange={onChange}
+    <Controller
       name={name}
-      id={id}
-      InputProps={InputProps}
-      variant="standard"
-      type={type}
-      inputMode={inputMode}
-      error={error}
-      helperText={helperText}
-      required={required}
-      fullWidth
-      autoFocus
-      disabled={disabled}
+      control={control}
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
+        <StyledTextField
+          label={label}
+          value={mask ? mask(value) : value || ''}
+          onChange={onChange}
+          id={id}
+          InputProps={InputProps}
+          variant="standard"
+          type={type}
+          inputMode={inputMode}
+          error={!!error}
+          helperText={error ? error.message : null}
+          required={required}
+          fullWidth
+          autoFocus
+          disabled={disabled}
+        />
+      )}
     />
   );
 }

@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
@@ -81,72 +81,36 @@ export function RegisterUser(): JSX.Element {
           <StyledCard>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                <Controller
+                <TextFieldApp
                   name="name"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextFieldApp
-                      label="Nome"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      required
-                      disabled={loading}
-                    />
-                  )}
+                  label="Nome"
+                  required
+                  disabled={loading}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Controller
+                <TextFieldApp
                   name="email"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextFieldApp
-                      label="E-mail"
-                      type="email"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      required
-                      disabled={loading}
-                    />
-                  )}
+                  label="E-mail"
+                  type="email"
+                  required
+                  disabled={loading}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Controller
+                <TextFieldApp
                   name="password"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextFieldApp
-                      label="Senha"
-                      type="password"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      disabled={loading}
-                    />
-                  )}
+                  label="Senha"
+                  type="password"
+                  required
+                  disabled={loading}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Controller
-                  name="role"
-                  control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextFieldApp
-                      label="Acesso"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      disabled={loading}
-                    />
-                  )}
-                />
+                <TextFieldApp name="role" control={control} label="Acesso" disabled={loading} />
               </Grid>
             </Grid>
             <Grid container sx={{ mt: 6 }}>

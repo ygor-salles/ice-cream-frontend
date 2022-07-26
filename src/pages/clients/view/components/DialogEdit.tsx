@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import { NumberFormatCustom } from '../../../../shared/components';
 import TextFieldApp from '../../../../shared/components/textField/TextField';
@@ -44,58 +44,21 @@ export function DialogEdit({
         <DialogContent>
           <Grid container spacing={4}>
             <Grid item xs={12}>
-              <Controller
-                name="name"
-                control={control}
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                  <TextFieldApp
-                    name="name"
-                    label="Nome"
-                    value={value}
-                    onChange={onChange}
-                    error={!!error}
-                    helperText={error ? error.message : null}
-                    required
-                  />
-                )}
-              />
+              <TextFieldApp name="name" control={control} label="Nome do cliente" required />
             </Grid>
             <Grid item xs={12}>
-              <Controller
+              <TextFieldApp
                 name="debit"
                 control={control}
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                  <TextFieldApp
-                    label="Débito do Cliente"
-                    value={value}
-                    onChange={onChange}
-                    name="debit"
-                    id="price"
-                    InputProps={{
-                      inputComponent: NumberFormatCustom as any,
-                    }}
-                    error={!!error}
-                    helperText={error ? error.message : null}
-                    required
-                  />
-                )}
+                label="Dívida do cliente"
+                InputProps={{
+                  inputComponent: NumberFormatCustom as any,
+                }}
+                required
               />
             </Grid>
             <Grid item xs={12}>
-              <Controller
-                name="phone"
-                control={control}
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                  <TextFieldApp
-                    name="phone"
-                    label="Telefone"
-                    value={value}
-                    onChange={onChange}
-                    error={!!error}
-                    helperText={error ? error.message : null}
-                  />
-                )}
-              />
+              <TextFieldApp name="phone" control={control} label="Telefone" />
             </Grid>
           </Grid>
         </DialogContent>

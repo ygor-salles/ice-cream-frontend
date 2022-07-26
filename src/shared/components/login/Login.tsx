@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Card, CardContent, CircularProgress, Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import { useAuthContext } from '../../contexts';
 import { IFormLogin, schemaLogin } from '../../dtos/ILoginDTO';
@@ -79,40 +79,24 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
               </Typography>
 
               <Grid item>
-                <Controller
+                <TextFieldApp
                   name="email"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextFieldApp
-                      label="E-mail"
-                      type="email"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      required
-                      disabled={isLoading}
-                    />
-                  )}
+                  label="E-mail"
+                  type="email"
+                  required
+                  disabled={isLoading}
                 />
               </Grid>
 
               <Grid item sx={{ mt: 2, mb: 2 }}>
-                <Controller
+                <TextFieldApp
                   name="password"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextFieldApp
-                      label="Senha"
-                      type="password"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      required
-                      disabled={isLoading}
-                    />
-                  )}
+                  label="Senha"
+                  type="password"
+                  required
+                  disabled={isLoading}
                 />
               </Grid>
 

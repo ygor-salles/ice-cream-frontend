@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import TextFieldApp from '../../../../shared/components/textField/TextField';
 import { IFormUser, IUserDTO, schemaCreateUser } from '../../../../shared/dtos/IUserDTO';
@@ -44,74 +44,22 @@ export function DialogEdit({
         <DialogContent>
           <Grid container spacing={4}>
             <Grid item xs={12}>
-              <Controller
-                name="name"
-                control={control}
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                  <TextFieldApp
-                    name="name"
-                    label="Nome"
-                    value={value}
-                    onChange={onChange}
-                    error={!!error}
-                    helperText={error ? error.message : null}
-                    required
-                  />
-                )}
-              />
+              <TextFieldApp name="name" control={control} label="Nome" required />
             </Grid>
             <Grid item xs={12}>
-              <Controller
-                name="email"
-                control={control}
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                  <TextFieldApp
-                    name="email"
-                    label="E-mail"
-                    type="email"
-                    value={value}
-                    onChange={onChange}
-                    error={!!error}
-                    helperText={error ? error.message : null}
-                    required
-                  />
-                )}
-              />
+              <TextFieldApp name="email" control={control} label="E-mail" type="email" required />
             </Grid>
             <Grid item xs={12}>
-              <Controller
+              <TextFieldApp
                 name="password"
                 control={control}
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                  <TextFieldApp
-                    name="password"
-                    label="Senha"
-                    type="password"
-                    value={value}
-                    onChange={onChange}
-                    error={!!error}
-                    helperText={error ? error.message : null}
-                    required
-                  />
-                )}
+                label="Senha"
+                type="password"
+                required
               />
             </Grid>
             <Grid item xs={12}>
-              <Controller
-                name="role"
-                control={control}
-                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                  <TextFieldApp
-                    name="role"
-                    label="Acesso"
-                    value={value}
-                    onChange={onChange}
-                    error={!!error}
-                    helperText={error ? error.message : null}
-                    required
-                  />
-                )}
-              />
+              <TextFieldApp name="role" control={control} label="Acesso" />
             </Grid>
           </Grid>
         </DialogContent>

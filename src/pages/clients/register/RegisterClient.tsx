@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
 import Snackbar from '../../../shared/components/snackBar/SnackBar';
@@ -80,57 +80,28 @@ export function RegisterClient(): JSX.Element {
           <StyledCard>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                <Controller
+                <TextFieldApp
                   name="name"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextFieldApp
-                      label="Nome do cliente"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      required
-                      disabled={loading}
-                    />
-                  )}
+                  label="Nome do cliente"
+                  required
+                  disabled={loading}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Controller
+                <TextFieldApp
                   name="debit"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextFieldApp
-                      label="Dívida do cliente"
-                      value={value}
-                      onChange={onChange}
-                      InputProps={{
-                        inputComponent: NumberFormatCustom as any,
-                      }}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      required
-                      disabled={loading}
-                    />
-                  )}
+                  label="Dívida do cliente"
+                  InputProps={{
+                    inputComponent: NumberFormatCustom as any,
+                  }}
+                  required
+                  disabled={loading}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Controller
-                  name="phone"
-                  control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextFieldApp
-                      label="Telefone"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      disabled={loading}
-                    />
-                  )}
-                />
+                <TextFieldApp name="phone" control={control} label="Telefone" disabled={loading} />
               </Grid>
             </Grid>
             <Grid container sx={{ mt: 6 }}>

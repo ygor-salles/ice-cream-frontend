@@ -1,19 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Card,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Theme,
-  useMediaQuery,
-} from '@mui/material';
+import { Card, Theme, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import { LISTCLIENTS } from '../../../assets/mocks/ListClients';
 import { LISTPRODUCTS } from '../../../assets/mocks/ListProducts';
@@ -106,68 +98,49 @@ export function RegisterSale(): JSX.Element {
           <Card sx={{ padding: '20px' }}>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                <Controller
+                <SelectApp
                   name="product_id"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <SelectApp
-                      array={LISTPRODUCTS}
-                      setId
-                      label="Produto"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      required
-                      onBlur={() => {
-                        const product = LISTPRODUCTS.find(product => product.id === Number(value));
-                        if (product?.price)
-                          setValue('total', formatNumberToCurrencyInput(product.price));
-                      }}
-                      helperText={error ? error.message : null}
-                    />
-                  )}
+                  array={LISTPRODUCTS}
+                  setId
+                  label="Produto"
+                  required
+                  onClose={event => {
+                    const product = LISTPRODUCTS.find(
+                      product => product.id === Number(event.currentTarget.id),
+                    );
+                    if (product?.price) {
+                      setValue('total', formatNumberToCurrencyInput(product.price));
+                    }
+                  }}
                 />
               </Grid>
 
               <Grid item xs={12}>
-                <Controller
+                <SelectApp
                   name="type_sale"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <SelectApp
-                      array={LISTTYPESALES}
-                      label="Tipo de venda"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      required
-                      onBlur={() => {
-                        if (value === EnumTypeSale.DEBIT) {
-                          setRequiredClient(true);
-                        }
-                      }}
-                      helperText={error ? error.message : null}
-                    />
-                  )}
+                  array={LISTTYPESALES}
+                  label="Tipo de venda"
+                  required
+                  onClose={event => {
+                    if (event.currentTarget.id === EnumTypeSale.DEBIT) {
+                      setRequiredClient(true);
+                    } else {
+                      setRequiredClient(false);
+                    }
+                  }}
                 />
               </Grid>
 
               <Grid item xs={12}>
-                <Controller
+                <SelectApp
                   name="client_id"
                   control={control}
-                  render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <SelectApp
-                      array={LISTCLIENTS}
-                      setId
-                      label="Cliente"
-                      value={value}
-                      onChange={onChange}
-                      error={!!error}
-                      required={requiredClient}
-                      helperText={error ? error.message : null}
-                    />
-                  )}
+                  array={LISTCLIENTS}
+                  setId
+                  label="Cliente"
+                  required={requiredClient}
                 />
               </Grid>
 

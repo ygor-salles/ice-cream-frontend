@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { useAppThemeContext } from '../../contexts';
 
 interface TextFieldPropsApp {
-  id?: string;
   name?: string;
   control: Control<any>;
   label: React.ReactNode;
@@ -32,7 +31,6 @@ const StyledTextField = styled(TextField)(() => ({
 }));
 
 export default function TextFieldApp({
-  id,
   name,
   control,
   label,
@@ -52,7 +50,6 @@ export default function TextFieldApp({
           label={label}
           value={mask ? mask(value) : value || ''}
           onChange={onChange}
-          id={id}
           InputProps={InputProps}
           variant="standard"
           type={type}

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useAppThemeContext } from '../../contexts';
 
 interface TextFieldPropsApp {
-  name?: string;
+  name: string;
   control: Control<any>;
   label: React.ReactNode;
   mask?: (value: string) => string;

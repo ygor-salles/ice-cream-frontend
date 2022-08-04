@@ -8,6 +8,7 @@ interface SelectPropsApp {
   array: any[];
   label: React.ReactNode;
   required?: boolean;
+  disabled?: boolean;
   setId?: boolean;
   onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   onClose?: (event: React.SyntheticEvent<Element, Event>) => void;
@@ -19,6 +20,7 @@ export default function SelectApp({
   array,
   label,
   required,
+  disabled,
   setId,
   onBlur,
   onClose,
@@ -28,7 +30,13 @@ export default function SelectApp({
       name={name}
       control={control}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <FormControl fullWidth required={required} variant="standard" error={!!error}>
+        <FormControl
+          fullWidth
+          required={required}
+          disabled={disabled}
+          variant="standard"
+          error={!!error}
+        >
           <InputLabel>{label}</InputLabel>
           <Select
             name={name}

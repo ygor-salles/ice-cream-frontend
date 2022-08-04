@@ -1,6 +1,6 @@
 export * from './dashboard/Dashboard';
 export * from './products/view/Products';
-export * from './payments/Payments';
+export * from './payments/view/Payments';
 export * from './providers/view/Providers';
 export * from './sales/Sales';
 export * from './clients/view/Clients';

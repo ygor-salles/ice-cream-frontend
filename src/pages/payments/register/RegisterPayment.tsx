@@ -1,12 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { CircularProgress, Theme, useMediaQuery } from '@mui/material';
+import { CircularProgress, Skeleton, Theme, useMediaQuery } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { AxiosError } from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { LISTCLIENTS } from '../../../assets/mocks/ListClients';
 import { NumberFormatCustom } from '../../../shared/components';
 import SelectApp from '../../../shared/components/select/Select';
 import Snackbar from '../../../shared/components/snackBar/SnackBar';
@@ -17,6 +16,7 @@ import {
   schemaCreatePayment,
   transformObjectPayment,
 } from '../../../shared/dtos/IPaymentDTO';
+import { useClient } from '../../../shared/hooks/network/useClient';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import PaymentService from '../../../shared/services/PaymentService';
 import { Form, StyledCard } from './styles';
@@ -63,6 +63,12 @@ export function RegisterPayment(): JSX.Element {
     }
   }
 
+  const { allClients, loadingClients, getClients } = useClient();
+
+  useEffect(() => {
+    getClients();
+  }, []);
+
   return (
     <>
       <Snackbar
@@ -78,66 +84,70 @@ export function RegisterPayment(): JSX.Element {
         textButton="VOLTAR"
         icon="arrow_back"
       >
-        <Form noValidate onSubmit={handleSubmit(handleSubmitCreate)}>
-          <StyledCard>
-            <Grid container spacing={4}>
-              <Grid item xs={12}>
-                <TextFieldApp
-                  name="value"
-                  control={control}
-                  label="Valor do pagamento"
-                  InputProps={{
-                    inputComponent: NumberFormatCustom as any,
-                  }}
-                  required
-                  disabled={loading}
-                />
+        {loadingClients ? (
+          <Skeleton variant="rectangular" width="100%" height={300} />
+        ) : (
+          <Form noValidate onSubmit={handleSubmit(handleSubmitCreate)}>
+            <StyledCard>
+              <Grid container spacing={4}>
+                <Grid item xs={12}>
+                  <TextFieldApp
+                    name="value"
+                    control={control}
+                    label="Valor do pagamento"
+                    InputProps={{
+                      inputComponent: NumberFormatCustom as any,
+                    }}
+                    required
+                    disabled={loading}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <SelectApp
+                    name="client_id"
+                    control={control}
+                    array={allClients}
+                    setId
+                    label="Cliente"
+                    required
+                    disabled={loading}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextFieldApp
+                    name="observation"
+                    control={control}
+                    label="Observação"
+                    disabled={loading}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <SelectApp
-                  name="client_id"
-                  control={control}
-                  array={LISTCLIENTS}
-                  setId
-                  label="Cliente"
-                  required
-                  disabled={loading}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextFieldApp
-                  name="observation"
-                  control={control}
-                  label="Observação"
-                  disabled={loading}
-                />
-              </Grid>
-            </Grid>
 
-            <Grid container sx={{ mt: 6 }}>
-              <Grid item display="flex" justifyContent="flex-end" width="100%">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  fullWidth={!!smDown}
-                  sx={{
-                    bgcolor: 'primary',
-                    padding: smDown ? '10px' : 'auto',
-                    fontSize: smDown ? '1rem' : 'auto',
-                  }}
-                  endIcon={
-                    loading ? (
-                      <CircularProgress variant="indeterminate" color="inherit" size={20} />
-                    ) : undefined
-                  }
-                  disabled={loading}
-                >
-                  CADASTRAR
-                </Button>
+              <Grid container sx={{ mt: 6 }}>
+                <Grid item display="flex" justifyContent="flex-end" width="100%">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    fullWidth={!!smDown}
+                    sx={{
+                      bgcolor: 'primary',
+                      padding: smDown ? '10px' : 'auto',
+                      fontSize: smDown ? '1rem' : 'auto',
+                    }}
+                    endIcon={
+                      loading ? (
+                        <CircularProgress variant="indeterminate" color="inherit" size={20} />
+                      ) : undefined
+                    }
+                    disabled={loading}
+                  >
+                    CADASTRAR
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
-          </StyledCard>
-        </Form>
+            </StyledCard>
+          </Form>
+        )}
       </LayoutBaseDePagina>
     </>
   );

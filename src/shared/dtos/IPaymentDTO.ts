@@ -1,5 +1,7 @@
 import * as yup from 'yup';
 
+import Mask from '../constants/masks';
+
 export interface IPaymentDTO {
   id?: number;
   value: number;
@@ -18,7 +20,7 @@ export interface IFormPayment {
 
 export const transformObjectPayment = (dataForm: IFormPayment): IPaymentDTO => {
   const object: IPaymentDTO = {
-    value: Number(dataForm.value),
+    value: Mask.convertCurrency(dataForm.value),
     client_id: Number(dataForm.client_id),
   };
   if (dataForm.observation.length) {

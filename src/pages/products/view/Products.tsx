@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-no-bind */
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
-import { IFormProduct, IProductDTO } from '../../../shared/dtos/IProductDTO';
 import { useProduct } from '../../../shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import { DialogEdit } from './components/DialogEdit';
@@ -12,37 +11,20 @@ import { TableProduct } from './components/Table';
 export function Products(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const [dataActionTable, setDataActionTable] = useState<IProductDTO>();
-  const [showModalEdit, setShowModalEdit] = useState(false);
-  const [showModalDelete, setShowModalDelete] = useState(false);
-
   const {
     allProducts,
     loadingProducts,
+    showModalEdit,
+    showModalDelete,
+    dataActionTable,
+    handleClickEdit,
+    handleClickDelete,
+    handleCloseModalEdit,
+    handleCloseModalDelete,
     getProducts,
-    handleSubmitDeleteProduct,
-    handleSubmitUpdateProduct,
+    handleSubmitDelete,
+    handleSubmitUpdate,
   } = useProduct();
-
-  const handleClickEdit = (data: IProductDTO) => {
-    setDataActionTable(data);
-    setShowModalEdit(true);
-  };
-
-  const handleClickDelete = (data: IProductDTO) => {
-    setDataActionTable(data);
-    setShowModalDelete(true);
-  };
-
-  async function handleSubmitUpdate(dataForm: IFormProduct) {
-    await handleSubmitUpdateProduct(dataForm);
-    setShowModalEdit(false);
-  }
-
-  async function handleSubmitDelete(id: number) {
-    await handleSubmitDeleteProduct(id);
-    setShowModalDelete(false);
-  }
 
   useEffect(() => {
     getProducts();
@@ -72,7 +54,7 @@ export function Products(): JSX.Element {
           smDown={smDown}
           product={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
-          handleClose={() => setShowModalEdit(false)}
+          handleClose={handleCloseModalEdit}
           open={showModalEdit}
         />
       )}
@@ -82,7 +64,7 @@ export function Products(): JSX.Element {
           open={showModalDelete}
           handleSubmit={handleSubmitDelete}
           id={dataActionTable?.id}
-          handleClose={() => setShowModalDelete(false)}
+          handleClose={handleCloseModalDelete}
           textButtonClose="CANCELAR"
           textButtonSubmit="DELETAR"
           title="DELETAR PRODUTO"

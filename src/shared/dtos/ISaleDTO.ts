@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 
 import Mask from '../constants/masks';
+import { convetSalesType } from '../utils/convertTypes';
 
 export enum EnumTypeSale {
   PIX = 'PIX',
@@ -32,7 +33,7 @@ export const transformObjectSale = (dataForm: IFormSale): ISaleDTO => {
   const objectSale: ISaleDTO = {
     product_id: Number(dataForm.product_id),
     total: Mask.convertCurrency(dataForm.total),
-    type_sale: EnumTypeSale.MONEY,
+    type_sale: convetSalesType(dataForm.type_sale),
   };
 
   if (dataForm.observation.length) {

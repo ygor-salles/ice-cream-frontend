@@ -9,11 +9,11 @@ import { useForm } from 'react-hook-form';
 
 import { LISTCLIENTS } from '../../../assets/mocks/ListClients';
 import { LISTPRODUCTS } from '../../../assets/mocks/ListProducts';
-import { LISTTYPESALES } from '../../../assets/mocks/ListTypeSales';
 import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
 import SelectApp from '../../../shared/components/select/Select';
 import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
+import { LISTTYPESALES } from '../../../shared/constants/listTypeSales';
 import { IProductDTO } from '../../../shared/dtos/IProductDTO';
 import {
   IFormSale,

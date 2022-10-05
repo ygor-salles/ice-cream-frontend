@@ -66,6 +66,7 @@ export function TableProduct({
                 name: item.name,
                 price: item.price,
                 description: item.description || '',
+                type: item.type,
                 created_at: item.created_at,
                 updated_at: item.updated_at,
               }}

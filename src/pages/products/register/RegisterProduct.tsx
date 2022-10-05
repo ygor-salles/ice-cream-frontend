@@ -5,7 +5,9 @@ import Grid from '@mui/material/Grid';
 import { useForm } from 'react-hook-form';
 
 import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
+import SelectApp from '../../../shared/components/select/Select';
 import TextFieldApp from '../../../shared/components/textField/TextField';
+import { LISTTYPEPRODUCTS } from '../../../shared/constants/listTypeProduct';
 import { IFormProduct, schemaCreateProduct } from '../../../shared/dtos/IProductDTO';
 import { useProduct } from '../../../shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
@@ -22,8 +24,13 @@ export function RegisterProduct(): JSX.Element {
       name: '',
       price: '',
       description: '',
+      type: '',
     },
   });
+
+  const teste = (dataForm: IFormProduct) => {
+    console.log(dataForm);
+  };
 
   return (
     <LayoutBaseDePagina
@@ -33,8 +40,8 @@ export function RegisterProduct(): JSX.Element {
       icon="arrow_back"
     >
       <Form
-        noValidate
-        onSubmit={handleSubmit((data: IFormProduct) => handleSubmitCreate(data, reset))}
+        // onSubmit={handleSubmit((data: IFormProduct) => handleSubmitCreate(data, reset))}
+        onSubmit={handleSubmit(teste)}
       >
         <StyledCard>
           <Grid container spacing={4}>
@@ -67,6 +74,15 @@ export function RegisterProduct(): JSX.Element {
                 disabled={loading}
               />
             </Grid>
+            <Grid item xs={12}>
+              <SelectApp
+                name="type"
+                control={control}
+                array={LISTTYPEPRODUCTS}
+                label="Tipo"
+                required
+              />
+            </Grid>
           </Grid>
           <Grid container sx={{ mt: 6 }}>
             <Grid item display="flex" justifyContent="flex-end" width="100%">
@@ -86,7 +102,7 @@ export function RegisterProduct(): JSX.Element {
                 }
                 disabled={loading}
               >
-                CADASTRAR
+                CADASTRARdsds
               </Button>
             </Grid>
           </Grid>

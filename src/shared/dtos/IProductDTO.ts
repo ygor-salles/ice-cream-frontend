@@ -46,7 +46,7 @@ export const schemaCreateProduct = yup.object().shape({
   name: yup.string().required('Nome é obrigatório'),
   price: yup.string().required('Preço é obrigatório'),
   description: yup.string().optional(),
-  type_sale: yup
+  type: yup
     .mixed<EnumTypeProduct>()
     .oneOf(Object.values(EnumTypeProduct))
     .required('Tipo de produto é obrigatório'),

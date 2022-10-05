@@ -48,7 +48,7 @@ export default function SelectApp({
           >
             {array.map(item => (
               <MenuItem
-                key={item.id}
+                key={item.id ? item.id : item.name}
                 value={setId ? item.id : item.name}
                 id={setId ? item.id : item.name}
               >

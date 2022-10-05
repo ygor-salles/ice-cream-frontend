@@ -1,7 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CircularProgress, Theme, useMediaQuery } from '@mui/material';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
 import { useForm } from 'react-hook-form';
 
 import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
@@ -11,7 +10,7 @@ import { LISTTYPEPRODUCTS } from '../../../shared/constants/listTypeProduct';
 import { IFormProduct, schemaCreateProduct } from '../../../shared/dtos/IProductDTO';
 import { useProduct } from '../../../shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import { Form, StyledCard } from './styles';
+import { Form, StyledCard, GridForm, ContentButton } from './styles';
 
 export function RegisterProduct(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -28,10 +27,6 @@ export function RegisterProduct(): JSX.Element {
     },
   });
 
-  const teste = (dataForm: IFormProduct) => {
-    console.log(dataForm);
-  };
-
   return (
     <LayoutBaseDePagina
       titulo="Cadastro produto"
@@ -40,72 +35,63 @@ export function RegisterProduct(): JSX.Element {
       icon="arrow_back"
     >
       <Form
-        // onSubmit={handleSubmit((data: IFormProduct) => handleSubmitCreate(data, reset))}
-        onSubmit={handleSubmit(teste)}
+        noValidate
+        onSubmit={handleSubmit((data: IFormProduct) => handleSubmitCreate(data, reset))}
       >
         <StyledCard>
-          <Grid container spacing={4}>
-            <Grid item xs={12}>
-              <TextFieldApp
-                name="name"
-                control={control}
-                label="Nome do produto"
-                required
-                disabled={loading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextFieldApp
-                name="price"
-                control={control}
-                label="Preço do produto"
-                InputProps={{
-                  inputComponent: NumberFormatCustom as any,
-                }}
-                required
-                disabled={loading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextFieldApp
-                name="description"
-                control={control}
-                label="Descrição do produto"
-                disabled={loading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <SelectApp
-                name="type"
-                control={control}
-                array={LISTTYPEPRODUCTS}
-                label="Tipo"
-                required
-              />
-            </Grid>
-          </Grid>
-          <Grid container sx={{ mt: 6 }}>
-            <Grid item display="flex" justifyContent="flex-end" width="100%">
-              <Button
-                type="submit"
-                variant="contained"
-                fullWidth={!!smDown}
-                sx={{
-                  bgcolor: 'primary',
-                  padding: smDown ? '10px' : 'auto',
-                  fontSize: smDown ? '1rem' : 'auto',
-                }}
-                endIcon={
-                  loading ? (
-                    <CircularProgress variant="indeterminate" color="inherit" size={20} />
-                  ) : undefined
-                }
-                disabled={loading}
-              >
-                CADASTRARdsds
-              </Button>
-            </Grid>
-          </Grid>
+          <GridForm>
+            <TextFieldApp
+              name="name"
+              control={control}
+              label="Nome do produto"
+              required
+              disabled={loading}
+            />
+            <TextFieldApp
+              name="price"
+              control={control}
+              label="Preço do produto"
+              InputProps={{
+                inputComponent: NumberFormatCustom as any,
+              }}
+              required
+              disabled={loading}
+            />
+            <TextFieldApp
+              name="description"
+              control={control}
+              label="Descrição do produto"
+              disabled={loading}
+            />
+            <SelectApp
+              name="type"
+              control={control}
+              array={LISTTYPEPRODUCTS}
+              label="Tipo"
+              required
+            />
+          </GridForm>
+
+          <ContentButton>
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth={!!smDown}
+              sx={{
+                bgcolor: 'primary',
+                padding: smDown ? '10px' : 'auto',
+                fontSize: smDown ? '1rem' : 'auto',
+              }}
+              endIcon={
+                loading ? (
+                  <CircularProgress variant="indeterminate" color="inherit" size={20} />
+                ) : undefined
+              }
+              disabled={loading}
+            >
+              CADASTRAR
+            </Button>
+          </ContentButton>
         </StyledCard>
       </Form>
     </LayoutBaseDePagina>

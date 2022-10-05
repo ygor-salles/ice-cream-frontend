@@ -9,3 +9,17 @@ export const Form = styled.form`
 export const StyledCard = styled(Card)`
   padding: 20px;
 `;
+
+export const GridForm = styled.div`
+  display: grid;
+  grid-template-columns: auto;
+  gap: 40px;
+`;
+
+export const ContentButton = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: 30px;
+`;

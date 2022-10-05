@@ -1,8 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { CircularProgress, Theme, useMediaQuery } from '@mui/material';
-import Button from '@mui/material/Button';
+import { Theme, useMediaQuery } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
+import ButtonSubmitApp from '../../../shared/components/button/ButtonSubmitApp';
 import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
 import SelectApp from '../../../shared/components/select/Select';
 import TextFieldApp from '../../../shared/components/textField/TextField';
@@ -10,14 +10,19 @@ import { LISTTYPEPRODUCTS } from '../../../shared/constants/listTypeProduct';
 import { IFormProduct, schemaCreateProduct } from '../../../shared/dtos/IProductDTO';
 import { useProduct } from '../../../shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import { Form, StyledCard, GridForm, ContentButton } from './styles';
+import { Form, StyledCard, GridForm } from './styles';
 
 export function RegisterProduct(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmitCreate, loadingForm: loading } = useProduct();
 
-  const { handleSubmit, control, reset } = useForm<IFormProduct>({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    // formState: { isDirty, isValid },
+  } = useForm<IFormProduct>({
     resolver: yupResolver(schemaCreateProduct),
     defaultValues: {
       name: '',
@@ -69,29 +74,11 @@ export function RegisterProduct(): JSX.Element {
               array={LISTTYPEPRODUCTS}
               label="Tipo"
               required
+              disabled={loading}
             />
           </GridForm>
 
-          <ContentButton>
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth={!!smDown}
-              sx={{
-                bgcolor: 'primary',
-                padding: smDown ? '10px' : 'auto',
-                fontSize: smDown ? '1rem' : 'auto',
-              }}
-              endIcon={
-                loading ? (
-                  <CircularProgress variant="indeterminate" color="inherit" size={20} />
-                ) : undefined
-              }
-              disabled={loading}
-            >
-              CADASTRAR
-            </Button>
-          </ContentButton>
+          <ButtonSubmitApp loading={loading} smDown={smDown} textButton="CADASTRAR" />
         </StyledCard>
       </Form>
     </LayoutBaseDePagina>

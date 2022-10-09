@@ -1,15 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import { NumberFormatCustom } from '../../../../shared/components';
+import FooterDialogActions from '../../../../shared/components/footerDialogActions/FooterDialogActions';
+import SelectApp from '../../../../shared/components/select/Select';
 import TextFieldApp from '../../../../shared/components/textField/TextField';
+import { LISTTYPEPRODUCTS } from '../../../../shared/constants/listTypeProduct';
 import {
   IFormProduct,
   IProductDTO,
   schemaCreateProduct,
 } from '../../../../shared/dtos/IProductDTO';
-import { Form, StyledButton, StyledDialogActions } from './styles';
+import { Form } from './styles';
 
 interface DialogEditProps {
   smDown?: boolean;
@@ -33,6 +36,7 @@ export function DialogEdit({
       name: product.name,
       price: product.price.toFixed(2).replace('.', ''),
       description: product.description,
+      type: product.type,
     },
   });
 
@@ -64,16 +68,17 @@ export function DialogEdit({
             <Grid item xs={12}>
               <TextFieldApp name="description" control={control} label="Descrição do produto" />
             </Grid>
+            <Grid item xs={12}>
+              <SelectApp name="type" control={control} array={LISTTYPEPRODUCTS} label="Tipo" />
+            </Grid>
           </Grid>
         </DialogContent>
-        <StyledDialogActions>
-          <StyledButton variant="outlined" type="button" onClick={handleClose}>
-            CANCELAR
-          </StyledButton>
-          <Button variant="contained" type="submit">
-            EDITAR
-          </Button>
-        </StyledDialogActions>
+
+        <FooterDialogActions
+          textButtonConfirm="EDITAR"
+          textButtonCancel="CANCELAR"
+          onClose={handleClose}
+        />
       </Form>
     </Dialog>
   );

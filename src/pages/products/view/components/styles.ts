@@ -1,4 +1,4 @@
-import { Button, DialogActions, Icon, TableCell } from '@mui/material';
+import { Icon, TableCell } from '@mui/material';
 import styled from 'styled-components';
 
 interface TableCellActionContentProps {
@@ -56,20 +56,8 @@ export const Content = styled.div`
   width: 100%;
 `;
 
-export const StyledButton = styled(Button)`
-  background-color: #ffffff;
-
-  &:hover {
-    background-color: #ffffff;
-  }
-`;
-
 export const Form = styled.form<FormProps>`
   width: 100%;
   height: ${props => (props.smDown ? '100vh' : 'auto')};
   display: contents;
-`;
-
-export const StyledDialogActions = styled(DialogActions)`
-  justify-content: space-between;
 `;

@@ -20,6 +20,7 @@ interface DialogEditProps {
   open: boolean;
   onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
   handleClose: () => void;
+  loading: boolean;
 }
 
 export function DialogEdit({
@@ -28,6 +29,7 @@ export function DialogEdit({
   onSubmitUpdate,
   open,
   handleClose,
+  loading,
 }: DialogEditProps): JSX.Element {
   const { handleSubmit, control } = useForm<IFormProduct>({
     resolver: yupResolver(schemaCreateProduct),
@@ -52,7 +54,13 @@ export function DialogEdit({
         <DialogContent>
           <Grid container spacing={4}>
             <Grid item xs={12}>
-              <TextFieldApp name="name" control={control} label="Nome do produto" required />
+              <TextFieldApp
+                name="name"
+                control={control}
+                label="Nome do produto"
+                required
+                disabled={loading}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
@@ -60,16 +68,29 @@ export function DialogEdit({
                 control={control}
                 label="Preço do produto"
                 InputProps={{
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   inputComponent: NumberFormatCustom as any,
                 }}
                 required
+                disabled={loading}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextFieldApp name="description" control={control} label="Descrição do produto" />
+              <TextFieldApp
+                name="description"
+                control={control}
+                label="Descrição do produto"
+                disabled={loading}
+              />
             </Grid>
             <Grid item xs={12}>
-              <SelectApp name="type" control={control} array={LISTTYPEPRODUCTS} label="Tipo" />
+              <SelectApp
+                name="type"
+                control={control}
+                array={LISTTYPEPRODUCTS}
+                label="Tipo"
+                disabled={loading}
+              />
             </Grid>
           </Grid>
         </DialogContent>
@@ -78,6 +99,7 @@ export function DialogEdit({
           textButtonConfirm="EDITAR"
           textButtonCancel="CANCELAR"
           onClose={handleClose}
+          loading={loading}
         />
       </Form>
     </Dialog>

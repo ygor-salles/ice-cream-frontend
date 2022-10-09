@@ -17,6 +17,7 @@ export function Products(): JSX.Element {
     showModalEdit,
     showModalDelete,
     dataActionTable,
+    loadingForm,
     handleClickEdit,
     handleClickDelete,
     handleCloseModalEdit,
@@ -56,6 +57,7 @@ export function Products(): JSX.Element {
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}
           open={showModalEdit}
+          loading={loadingForm}
         />
       )}
 
@@ -69,6 +71,7 @@ export function Products(): JSX.Element {
           textButtonSubmit="DELETAR"
           title="DELETAR PRODUTO"
           text="Tem certeza que deseja deletar este produto?"
+          loading={loadingForm}
         />
       )}
     </>

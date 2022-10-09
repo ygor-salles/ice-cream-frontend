@@ -18,6 +18,7 @@ interface DialogAppProps {
   textButtonSubmit: string;
   title: string;
   text: string;
+  loading?: boolean;
 }
 
 const StyledButton = styled(Button)(() => ({
@@ -37,6 +38,7 @@ export default function DialogInfo({
   textButtonSubmit,
   title,
   text,
+  loading,
 }: DialogAppProps) {
   return (
     <Dialog
@@ -50,10 +52,10 @@ export default function DialogInfo({
         <DialogContentText>{text || ''}</DialogContentText>
       </DialogContent>
       <DialogActions style={{ justifyContent: 'space-between' }}>
-        <StyledButton autoFocus variant="outlined" onClick={handleClose}>
+        <StyledButton autoFocus variant="outlined" onClick={handleClose} disabled={loading}>
           {textButtonClose}
         </StyledButton>
-        <Button variant="contained" onClick={() => handleSubmit(id)}>
+        <Button variant="contained" onClick={() => handleSubmit(id)} disabled={loading}>
           {textButtonSubmit}
         </Button>
       </DialogActions>

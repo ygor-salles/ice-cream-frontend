@@ -64,6 +64,7 @@ export function useProduct() {
   }
 
   async function handleSubmitUpdate(dataForm: IFormProduct) {
+    setLoadingForm(true);
     const data: IProductDTO = transformObject(dataForm);
 
     try {
@@ -75,10 +76,12 @@ export function useProduct() {
       addToast(`Erro ao atualizar produto! - ${response?.data?.message}`, ToastType.error);
     } finally {
       setShowModalEdit(false);
+      setLoadingForm(false);
     }
   }
 
   async function handleSubmitDelete(id: number) {
+    setLoadingForm(true);
     try {
       await productService.deleteById(id);
       addToast('Produto deletado com sucesso!', ToastType.success);
@@ -88,6 +91,7 @@ export function useProduct() {
       addToast(`Error ao deletar produto! - ${response?.data?.message}`, ToastType.error);
     } finally {
       setShowModalDelete(false);
+      setLoadingForm(false);
     }
   }
 

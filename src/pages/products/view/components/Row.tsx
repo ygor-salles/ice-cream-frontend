@@ -1,6 +1,7 @@
 import {
   Collapse,
   Icon,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -27,9 +28,15 @@ interface IRowProps {
   product: IProductDTO;
   onClickEdit: (data: IProductDTO) => void;
   onClickDelete: (data: IProductDTO) => void;
+  onSubmitSwitchToogle: (isActive: boolean, productId: number) => Promise<void>;
 }
 
-export function Row({ product, onClickEdit, onClickDelete }: IRowProps): JSX.Element {
+export function Row({
+  product,
+  onClickEdit,
+  onClickDelete,
+  onSubmitSwitchToogle,
+}: IRowProps): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const [open, setOpen] = useState(false);
@@ -39,6 +46,13 @@ export function Row({ product, onClickEdit, onClickDelete }: IRowProps): JSX.Ele
       <TableRow sx={{ '& > *': { borderBottom: 'none' } }} onClick={() => setOpen(!open)}>
         <TableCellBdNone>{product.name}</TableCellBdNone>
         <TableCellBdNone>{formatNumberToCurrency(product.price)}</TableCellBdNone>
+        <TableCellBdNone>
+          <Switch
+            onClick={e => e.stopPropagation()}
+            onChange={e => onSubmitSwitchToogle(e.target.checked, product.id)}
+            defaultChecked={product.status}
+          />
+        </TableCellBdNone>
         <TableCellActionContent smDown={smDown}>
           <StyledIcon
             color="secondary"
@@ -63,7 +77,7 @@ export function Row({ product, onClickEdit, onClickDelete }: IRowProps): JSX.Ele
         </TableCellActionContent>
       </TableRow>
       <TableRow>
-        <TableCellCollapse colSpan={3}>
+        <TableCellCollapse colSpan={4}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Container>
               <Content>

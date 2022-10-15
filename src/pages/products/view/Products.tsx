@@ -25,6 +25,7 @@ export function Products(): JSX.Element {
     getProducts,
     handleSubmitDelete,
     handleSubmitUpdate,
+    handleSubmitSwitchToogle,
   } = useProduct();
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export function Products(): JSX.Element {
             allProducts={allProducts}
             onClickEdit={handleClickEdit}
             onClickDelete={handleClickDelete}
+            onSubmitSwitchToogle={handleSubmitSwitchToogle}
           />
         )}
       </LayoutBaseDePagina>

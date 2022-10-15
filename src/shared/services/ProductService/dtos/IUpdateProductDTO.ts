@@ -6,6 +6,7 @@ export interface IUpdateProductDTORequest {
   price?: number;
   description?: string;
   type?: EnumTypeProduct;
+  status?: boolean;
   created_at?: Date | string;
   updated_at?: Date | string;
 }

@@ -95,6 +95,16 @@ export function useProduct() {
     }
   }
 
+  async function handleSubmitSwitchToogle(isActive: boolean, productId: number) {
+    try {
+      await productService.updateById({ status: isActive, id: productId });
+      addToast('Produto atualizado com sucesso!', ToastType.success);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(`Erro ao atualizar produto! - ${response?.data?.message}`, ToastType.error);
+    }
+  }
+
   return {
     allProducts,
     loadingProducts,
@@ -110,5 +120,6 @@ export function useProduct() {
     handleSubmitCreate,
     handleSubmitUpdate,
     handleSubmitDelete,
+    handleSubmitSwitchToogle,
   };
 }

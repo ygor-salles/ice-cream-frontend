@@ -20,12 +20,14 @@ interface ITableProductProps {
   allProducts: IProductDTO[];
   onClickEdit: (data: IProductDTO) => void;
   onClickDelete: (data: IProductDTO) => void;
+  onSubmitSwitchToogle: (isActive: boolean, productId: number) => Promise<void>;
 }
 
 export function TableProduct({
   allProducts,
   onClickEdit,
   onClickDelete,
+  onSubmitSwitchToogle,
 }: ITableProductProps): JSX.Element {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -51,6 +53,7 @@ export function TableProduct({
           <TableRow>
             <TableCell>Nome</TableCell>
             <TableCell>Preço</TableCell>
+            <TableCell>Em estoque</TableCell>
             <TableCellAction>Ações</TableCellAction>
           </TableRow>
         </TableHead>
@@ -67,17 +70,19 @@ export function TableProduct({
                 price: item.price,
                 description: item.description || '',
                 type: item.type,
+                status: item.status,
                 created_at: item.created_at,
                 updated_at: item.updated_at,
               }}
               onClickEdit={onClickEdit}
               onClickDelete={onClickDelete}
+              onSubmitSwitchToogle={onSubmitSwitchToogle}
               key={item.id}
             />
           ))}
           {emptyAllProducts > 0 && (
             <TableRow style={{ height: 53 * emptyAllProducts }}>
-              <TableCell colSpan={6} />
+              <TableCell colSpan={7} />
             </TableRow>
           )}
         </TableBody>
@@ -87,7 +92,7 @@ export function TableProduct({
             <TablePagination
               labelRowsPerPage=""
               rowsPerPageOptions={[5, 10, 15]}
-              colSpan={3}
+              colSpan={4}
               count={allProducts.length}
               rowsPerPage={rowsPerPage}
               page={page}

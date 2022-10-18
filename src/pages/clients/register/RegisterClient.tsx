@@ -101,7 +101,14 @@ export function RegisterClient(): JSX.Element {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextFieldApp name="phone" control={control} label="Telefone" disabled={loading} />
+                <TextFieldApp
+                  name="phone"
+                  control={control}
+                  label="Telefone"
+                  type="tel"
+                  mask="(99) 99999-9999"
+                  disabled={loading}
+                />
               </Grid>
             </Grid>
             <Grid container sx={{ mt: 6 }}>

@@ -58,7 +58,13 @@ export function DialogEdit({
               />
             </Grid>
             <Grid item xs={12}>
-              <TextFieldApp name="phone" control={control} label="Telefone" />
+              <TextFieldApp
+                name="phone"
+                control={control}
+                label="Telefone"
+                type="tel"
+                mask="(99) 99999-9999"
+              />
             </Grid>
           </Grid>
         </DialogContent>

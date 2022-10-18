@@ -1,67 +1,83 @@
-import { InputProps, TextField } from '@mui/material';
+import { InputProps } from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
-import styled from 'styled-components';
+import InputMask from 'react-input-mask';
 
-import { useAppThemeContext } from '../../contexts';
+import { StyledTextField } from './styles';
 
 interface TextFieldPropsApp {
   name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
   label: React.ReactNode;
-  mask?: (value: string) => string;
   type?: React.HTMLInputTypeAttribute;
   required?: boolean;
   inputMode?: 'email' | 'search' | 'tel' | 'text' | 'url' | 'none' | 'numeric' | 'decimal';
   InputProps?: Partial<InputProps>;
   disabled?: boolean;
+  mask?: string;
 }
-
-const StyledTextField = styled(TextField)(() => ({
-  '& label.Mui-focused': {
-    color: useAppThemeContext().themeName === 'dark' ? 'white' : 'auto',
-  },
-  '& .css-1u4qbjr-MuiInputBase-root-MuiInput-root:after': {
-    borderBottom: useAppThemeContext().themeName === 'dark' ? 'white' : 'auto',
-  },
-  // '& .MuiOutlinedInput-root': {
-  //   '&.Mui-focused fieldset': {
-  //     borderBottom: useAppThemeContext().themeName === 'dark' ? 'white' : 'auto',
-  //   },
-  // },
-}));
 
 export default function TextFieldApp({
   name,
   control,
   label,
-  mask,
   type,
   required,
   inputMode,
   InputProps,
   disabled,
+  mask,
 }: TextFieldPropsApp): JSX.Element {
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <StyledTextField
-          label={label}
-          value={mask ? mask(value) : value || ''}
-          onChange={onChange}
-          InputProps={InputProps}
-          variant="standard"
-          type={type}
-          inputMode={inputMode}
-          error={!!error}
-          helperText={error ? error.message : null}
-          required={required}
-          fullWidth
-          autoFocus
-          disabled={disabled}
-        />
-      )}
+      render={({ field: { onChange, value }, fieldState: { error } }) =>
+        mask ? (
+          <InputMask
+            mask={mask}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            maskChar={null}
+            value={value || ''}
+            onChange={onChange}
+            required={required}
+            disabled={disabled}
+            autoFocus
+          >
+            {() => (
+              <StyledTextField
+                value={value || ''}
+                onChange={onChange}
+                required={required}
+                disabled={disabled}
+                autoFocus
+                variant="standard"
+                label={label}
+                error={!!error}
+                helperText={error ? error.message : null}
+                fullWidth
+              />
+            )}
+          </InputMask>
+        ) : (
+          <StyledTextField
+            label={label}
+            value={value || ''}
+            onChange={onChange}
+            InputProps={InputProps}
+            variant="standard"
+            type={type}
+            inputMode={inputMode}
+            error={!!error}
+            helperText={error ? error.message : null}
+            required={required}
+            fullWidth
+            autoFocus
+            disabled={disabled}
+          />
+        )
+      }
     />
   );
 }

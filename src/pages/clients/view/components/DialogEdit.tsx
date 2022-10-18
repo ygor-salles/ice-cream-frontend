@@ -1,11 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import { NumberFormatCustom } from '../../../../shared/components';
+import FooterDialogActions from '../../../../shared/components/footerDialogActions/FooterDialogActions';
 import TextFieldApp from '../../../../shared/components/textField/TextField';
-import { IFormClient, IClientDTO, schemaCreateClient } from '../../../../shared/dtos/IClientDTO';
-import { Form, StyledButton, StyledDialogActions } from './styles';
+import { IClientDTO, IFormClient, schemaCreateClient } from '../../../../shared/dtos/IClientDTO';
+import { Form } from './styles';
 
 interface DialogEditProps {
   smDown?: boolean;
@@ -13,6 +14,7 @@ interface DialogEditProps {
   open: boolean;
   onSubmitUpdate: (dataForm: IFormClient) => Promise<void>;
   handleClose: () => void;
+  loading: boolean;
 }
 
 export function DialogEdit({
@@ -21,6 +23,7 @@ export function DialogEdit({
   onSubmitUpdate,
   open,
   handleClose,
+  loading,
 }: DialogEditProps): JSX.Element {
   const { handleSubmit, control } = useForm<IFormClient>({
     resolver: yupResolver(schemaCreateClient),
@@ -44,7 +47,13 @@ export function DialogEdit({
         <DialogContent>
           <Grid container spacing={4}>
             <Grid item xs={12}>
-              <TextFieldApp name="name" control={control} label="Nome do cliente" required />
+              <TextFieldApp
+                name="name"
+                control={control}
+                label="Nome do cliente"
+                required
+                disabled={loading}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
@@ -52,9 +61,11 @@ export function DialogEdit({
                 control={control}
                 label="Dívida do cliente"
                 InputProps={{
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   inputComponent: NumberFormatCustom as any,
                 }}
                 required
+                disabled={loading}
               />
             </Grid>
             <Grid item xs={12}>
@@ -64,18 +75,17 @@ export function DialogEdit({
                 label="Telefone"
                 type="tel"
                 mask="(99) 99999-9999"
+                disabled={loading}
               />
             </Grid>
           </Grid>
         </DialogContent>
-        <StyledDialogActions>
-          <StyledButton variant="outlined" type="button" onClick={handleClose}>
-            CANCELAR
-          </StyledButton>
-          <Button variant="contained" type="submit">
-            EDITAR
-          </Button>
-        </StyledDialogActions>
+        <FooterDialogActions
+          textButtonConfirm="EDITAR"
+          textButtonCancel="CANCELAR"
+          onClose={handleClose}
+          loading={loading}
+        />
       </Form>
     </Dialog>
   );

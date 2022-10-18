@@ -18,7 +18,7 @@ export interface IFormClient {
   debit: string;
 }
 
-export const transformObjectClient = (dataForm: IFormClient): IClientDTO => {
+export const transformObject = (dataForm: IFormClient): IClientDTO => {
   const object: IClientDTO = {
     name: dataForm.name,
     debit: Mask.convertCurrency(dataForm.debit),

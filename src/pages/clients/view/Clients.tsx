@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
 import SnackBar from '../../../shared/components/snackBar/SnackBar';
-import { IFormClient, IClientDTO, transformObjectClient } from '../../../shared/dtos/IClientDTO';
+import { IFormClient, IClientDTO, transformObject } from '../../../shared/dtos/IClientDTO';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import ClientService from '../../../shared/services/ClientService';
 import { DialogEdit } from './components/DialogEdit';
@@ -60,7 +60,7 @@ export function Clients(): JSX.Element {
   }
 
   async function handleSubmitUpdate(dataForm: IFormClient) {
-    const data: IClientDTO = transformObjectClient(dataForm);
+    const data: IClientDTO = transformObject(dataForm);
 
     const clientService = new ClientService();
     try {

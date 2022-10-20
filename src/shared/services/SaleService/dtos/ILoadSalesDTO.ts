@@ -5,6 +5,7 @@ export interface ILoadSaleDTOResponse {
   total: number;
   type_sale: EnumTypeSale;
   observation?: string;
+  amount: number;
   product_id: number;
   client_id?: number;
   created_at: Date;

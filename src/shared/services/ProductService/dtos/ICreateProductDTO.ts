@@ -12,6 +12,7 @@ export interface ICreateProductDTOResponse {
   price: number;
   description: string;
   type: EnumTypeProduct;
+  status: boolean;
   id: number;
   created_at: Date;
   updated_at: Date;

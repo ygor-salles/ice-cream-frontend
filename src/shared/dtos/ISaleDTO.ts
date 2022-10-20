@@ -16,6 +16,7 @@ export interface ISaleDTO {
   type_sale: EnumTypeSale;
   client_id?: number;
   observation?: string;
+  amount: number;
   total: number;
   created_at?: Date | string;
   updated_at?: Date | string;
@@ -26,14 +27,16 @@ export interface IFormSale {
   type_sale: string;
   client_id?: string;
   observation?: string;
+  amount?: string;
   total: string;
 }
 
-export const transformObjectSale = (dataForm: IFormSale): ISaleDTO => {
+export const transformObject = (dataForm: IFormSale): ISaleDTO => {
   const objectSale: ISaleDTO = {
     product_id: Number(dataForm.product_id),
     total: Mask.convertCurrency(dataForm.total),
     type_sale: convetSalesType(dataForm.type_sale),
+    amount: Number(dataForm.amount),
   };
 
   if (dataForm.observation.length) {
@@ -54,6 +57,7 @@ export const schemaCreateSale = yup.object().shape({
     .required('Tipo de venda é obrigatório'),
   client_id: yup.string(),
   observation: yup.string().optional(),
+  amount: yup.string().required('Quantidade de produto é obrigatório'),
   total: yup.string().required('Total da venda é obrigatório'),
 });
 
@@ -65,5 +69,6 @@ export const schemaCreateSaleWithCustomer = yup.object().shape({
     .required('Tipo de venda é obrigatório'),
   client_id: yup.string().required('Cliente é obrigatório para venda fiado'),
   observation: yup.string().optional(),
+  amount: yup.string().required('Quantidade de produto é obrigatório'),
   total: yup.string().required('Total da venda é obrigatório'),
 });

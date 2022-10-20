@@ -33,12 +33,16 @@ export function useProduct() {
   const handleCloseModalEdit = () => setShowModalEdit(false);
   const handleCloseModalDelete = () => setShowModalDelete(false);
 
-  async function getProducts(): Promise<void> {
+  async function getProducts(onlyActive?: boolean): Promise<void> {
     setLoadingProducts(true);
 
     try {
       const listProducts = await productService.loadAll();
-      setAllProducts(listProducts);
+      if (onlyActive) {
+        setAllProducts(listProducts.filter(item => item.status));
+      } else {
+        setAllProducts(listProducts);
+      }
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Error ao buscar dados de produto! ${response?.data?.message}`, ToastType.error);

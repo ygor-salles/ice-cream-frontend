@@ -12,6 +12,7 @@ export interface ICreateSaleDTOResponse {
   total: number;
   type_sale: EnumTypeSale;
   observation?: string;
+  amount: number;
   product_id: number;
   client_id?: number;
   id: number;

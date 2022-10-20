@@ -1,45 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Card, Theme, useMediaQuery } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import { useState } from 'react';
+import { Skeleton, Theme, useMediaQuery } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { LISTCLIENTS } from '../../../assets/mocks/ListClients';
-import { LISTPRODUCTS } from '../../../assets/mocks/ListProducts';
+import ButtonSubmitApp from '../../../shared/components/button/ButtonSubmitApp';
 import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
 import SelectApp from '../../../shared/components/select/Select';
-import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
+import TextFieldCount from '../../../shared/components/textFieldCount/TextFieldCount';
 import { LISTTYPESALES } from '../../../shared/constants/listTypeSales';
-import { IProductDTO } from '../../../shared/dtos/IProductDTO';
 import {
-  IFormSale,
-  ISaleDTO,
-  schemaCreateSale,
-  transformObjectSale,
   EnumTypeSale,
+  IFormSale,
+  schemaCreateSale,
   schemaCreateSaleWithCustomer,
 } from '../../../shared/dtos/ISaleDTO';
+import { useClient } from '../../../shared/hooks/network/useClient';
+import { useProduct } from '../../../shared/hooks/network/useProduct';
+import { useSale } from '../../../shared/hooks/network/useSale';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import SaleService from '../../../shared/services/SaleService';
 import formatNumberToCurrencyInput from '../../../shared/utils/formaNumberToCurrencyInput';
+import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterSale(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const [openToast, setOpenToast] = useState(false);
-  const [error, setError] = useState(false);
-  const [message, setMessage] = useState('');
   const [requiredClient, setRequiredClient] = useState(false);
 
-  const handleCloseAlert = (): void => {
-    setOpenToast(false);
-  };
-
-  const { handleSubmit, control, setValue } = useForm<IFormSale>({
+  const { handleSubmit, control, setValue, reset } = useForm<IFormSale>({
     resolver: yupResolver(
       requiredClient === false ? schemaCreateSale : schemaCreateSaleWithCustomer,
     ),
@@ -48,137 +37,97 @@ export function RegisterSale(): JSX.Element {
       type_sale: '',
       client_id: '',
       observation: '',
+      amount: '1',
       total: '',
     },
   });
 
-  const displayNotificationMessage = (error: boolean, message: string): void => {
-    setOpenToast(true);
-    setError(error);
-    setMessage(message);
-  };
+  const { handleSubmitCreate, loadingForm: loading } = useSale();
 
-  const onSubmit = async (dataForm: any) => {
-    console.log(requiredClient);
-    console.log(dataForm);
+  const { getProducts, allProducts, loadingProducts } = useProduct();
 
-    // const data: ISaleDTO = transformObjectSale(dataForm);
+  const { getClients, allClients, loadingClients } = useClient();
 
-    // const saleService = new SaleService();
-    // try {
-    //   await saleService.create(data);
-    //   displayNotificationMessage(false, 'Venda registrada com sucesso!');
-    // } catch (error) {
-    //   // const { response } = error as AxiosError;
-    //   displayNotificationMessage(true, 'Error ao cadastrar o produto!');
-    // }
-  };
+  useEffect(() => {
+    // getProducts(true);
+    // getClients();
+  }, []);
 
   return (
-    <>
-      <Snackbar
-        open={openToast}
-        onCloseAlert={handleCloseAlert}
-        onCloseSnack={handleCloseAlert}
-        message={message}
-        severity={error ? 'error' : 'success'}
-      />
-      <LayoutBaseDePagina
-        titulo="Cadastro venda"
-        navigatePage="/sales"
-        textButton="VENDAS"
-        icon="sell"
-      >
-        <Box
-          component="form"
+    <LayoutBaseDePagina
+      titulo="Cadastro venda"
+      navigatePage="/sales"
+      textButton="VENDAS"
+      icon="sell"
+    >
+      {loadingProducts || loadingClients ? (
+        <Skeleton variant="rectangular" width="100%" height={450} />
+      ) : (
+        <Form
           noValidate
-          onSubmit={handleSubmit(onSubmit)}
-          sx={{ mt: 1, width: '100%' }}
+          onSubmit={handleSubmit((data: IFormSale) => handleSubmitCreate(data, reset))}
         >
-          <Card sx={{ padding: '20px' }}>
-            <Grid container spacing={4}>
-              <Grid item xs={12}>
-                <SelectApp
-                  name="product_id"
-                  control={control}
-                  array={LISTPRODUCTS}
-                  setId
-                  label="Produto"
-                  required
-                  onClose={event => {
-                    const product = LISTPRODUCTS.find(
-                      product => product.id === Number(event.currentTarget.id),
-                    );
-                    if (product?.price) {
-                      setValue('total', formatNumberToCurrencyInput(product.price));
-                    }
-                  }}
-                />
-              </Grid>
+          <StyledCard>
+            <GridForm>
+              <SelectApp
+                name="product_id"
+                control={control}
+                array={allProducts}
+                setId
+                label="Produto"
+                required
+                onClose={event => {
+                  const product = allProducts.find(
+                    product => product.id === Number(event.currentTarget.id),
+                  );
+                  if (product?.price) {
+                    setValue('total', formatNumberToCurrencyInput(product.price));
+                  }
+                }}
+                disabled={loading}
+              />
+              <TextFieldCount name="amount" control={control} label="Quantidade" />
+              <SelectApp
+                name="type_sale"
+                control={control}
+                array={LISTTYPESALES}
+                label="Tipo de venda"
+                required
+                onClose={event => {
+                  if (event.currentTarget.id === EnumTypeSale.DEBIT) {
+                    setRequiredClient(true);
+                  } else {
+                    setRequiredClient(false);
+                  }
+                }}
+                disabled={loading}
+              />
+              <SelectApp
+                name="client_id"
+                control={control}
+                array={allClients}
+                setId
+                label="Cliente"
+                required={requiredClient}
+                disabled={loading}
+              />
+              <TextFieldApp name="observation" control={control} label="Observação" />
+              <TextFieldApp
+                name="total"
+                control={control}
+                label="Total"
+                InputProps={{
+                  inputComponent: NumberFormatCustom as any,
+                }}
+                required
+                disabled={loading}
+              />
+            </GridForm>
 
-              <Grid item xs={12}>
-                <SelectApp
-                  name="type_sale"
-                  control={control}
-                  array={LISTTYPESALES}
-                  label="Tipo de venda"
-                  required
-                  onClose={event => {
-                    if (event.currentTarget.id === EnumTypeSale.DEBIT) {
-                      setRequiredClient(true);
-                    } else {
-                      setRequiredClient(false);
-                    }
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <SelectApp
-                  name="client_id"
-                  control={control}
-                  array={LISTCLIENTS}
-                  setId
-                  label="Cliente"
-                  required={requiredClient}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextFieldApp name="observation" control={control} label="Observação" />
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextFieldApp
-                  name="total"
-                  control={control}
-                  label="Total"
-                  InputProps={{
-                    inputComponent: NumberFormatCustom as any,
-                  }}
-                  required
-                />
-              </Grid>
-            </Grid>
-            <Grid container sx={{ mt: 6 }}>
-              <Grid item display="flex" justifyContent="flex-end" width="100%">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  fullWidth={!!smDown}
-                  sx={{
-                    bgcolor: 'primary',
-                    padding: smDown ? '10px' : 'auto',
-                    fontSize: smDown ? '1rem' : 'auto',
-                  }}
-                >
-                  CADASTRAR
-                </Button>
-              </Grid>
-            </Grid>
-          </Card>
-        </Box>
-      </LayoutBaseDePagina>
-    </>
+            <ButtonSubmitApp loading={loading} smDown={smDown} textButton="CADASTRAR" />
+          </StyledCard>
+        </Form>
+      )}
+    </LayoutBaseDePagina>
   );
 }

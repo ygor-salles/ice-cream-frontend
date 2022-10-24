@@ -86,7 +86,7 @@ export function RegisterSale(): JSX.Element {
                 }}
                 disabled={loading}
               />
-              <TextFieldCount name="amount" control={control} label="Quantidade" />
+              <TextFieldCount name="amount" control={control} label="Quantidade" defaultValue={1} />
               <SelectApp
                 name="type_sale"
                 control={control}

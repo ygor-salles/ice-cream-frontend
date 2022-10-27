@@ -3,7 +3,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 
-// import TextFieldApp from '../textField/TextField';
+import { useAppThemeContext } from '../../contexts';
 import {
   Container,
   ButtonIcon,
@@ -31,6 +31,8 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
 }) => {
   const [count, setCount] = useState(defaultValue);
 
+  const { themeName } = useAppThemeContext();
+
   return (
     <Container>
       <Controller
@@ -38,7 +40,9 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
         control={control}
         render={({ field: { onChange }, fieldState: { error } }) => (
           <>
-            <Label isError={!!error?.message || false}>{label} *</Label>
+            <Label isError={!!error?.message || false} isDarkTheme={themeName === 'dark'}>
+              {label} *
+            </Label>
 
             <ContainerInput>
               <ButtonIcon
@@ -46,7 +50,7 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
                 onClick={() => {
                   if (count >= 2) {
                     setCount(defaultValue => defaultValue - 1);
-                    onChange(defaultValue - 1);
+                    onChange(count - 1);
                   }
                   if (count === undefined) {
                     setCount(defaultValue);
@@ -69,15 +73,17 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
                 maxLength={3}
                 isNumericString
                 isError={!!error?.message || false}
+                isDarkTheme={themeName === 'dark'}
               />
               <ButtonIcon
                 type="button"
                 isButtonAdd
                 onClick={() => {
                   setCount(defaultValue => defaultValue + 1);
+                  onChange(count + 1);
                   if (count === undefined) {
                     setCount(defaultValue);
-                    onChange(defaultValue + 1);
+                    onChange(defaultValue);
                   }
                 }}
                 disabled={disabled}

@@ -30,19 +30,20 @@ export function useSale() {
   }
 
   async function handleSubmitCreate(dataForm: IFormSale, reset: UseFormReset<IFormSale>) {
-    setLoadingForm(true);
-    const data: ISaleDTO = transformObject(dataForm);
+    console.log(dataForm);
+    // setLoadingForm(true);
+    // const data: ISaleDTO = transformObject(dataForm);
 
-    try {
-      await saleService.create(data);
-      addToast('Venda cadastrada com sucesso!', ToastType.success);
-    } catch (error) {
-      const { response } = error as AxiosError;
-      addToast(`Erro ao cadastrar venda - ${response?.data?.message}`, ToastType.error);
-    } finally {
-      setLoadingForm(false);
-      reset();
-    }
+    // try {
+    //   await saleService.create(data);
+    //   addToast('Venda cadastrada com sucesso!', ToastType.success);
+    // } catch (error) {
+    //   const { response } = error as AxiosError;
+    //   addToast(`Erro ao cadastrar venda - ${response?.data?.message}`, ToastType.error);
+    // } finally {
+    //   setLoadingForm(false);
+    //   reset();
+    // }
   }
 
   return {

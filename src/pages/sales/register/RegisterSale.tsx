@@ -49,8 +49,8 @@ export function RegisterSale(): JSX.Element {
   const { getClients, allClients, loadingClients } = useClient();
 
   useEffect(() => {
-    // getProducts(true);
-    // getClients();
+    getProducts(true);
+    getClients();
   }, []);
 
   return (

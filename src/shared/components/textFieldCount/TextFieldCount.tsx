@@ -20,7 +20,7 @@ interface TextFieldCountProps {
   label: React.ReactNode;
   defaultValue: number;
   disabled?: boolean;
-  handleOperation?: () => void;
+  handleOperation: () => void;
 }
 
 const TextFieldCount: React.FC<TextFieldCountProps> = ({

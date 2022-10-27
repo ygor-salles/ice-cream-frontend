@@ -107,7 +107,7 @@ export function RegisterSale(): JSX.Element {
                     formatNumberToCurrencyInput(Number(getValues('amount')) * unitPrice.current),
                   );
                 }}
-                disabled={isDisabledTextFieldCount}
+                disabled={loading || isDisabledTextFieldCount}
               />
               <SelectApp
                 name="type_sale"

@@ -68,8 +68,17 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
                 decimalScale={0}
                 value={count !== defaultValue ? count : defaultValue}
                 onChange={e => {
-                  setCount(undefined);
-                  onChange(e.target.value);
+                  const inputValue = e.target.value;
+
+                  if (!inputValue.length) {
+                    onChange('');
+                  }
+
+                  if (Number(inputValue) >= 1) {
+                    setCount(undefined);
+                    onChange(inputValue);
+                    handleOperation();
+                  }
                 }}
                 disabled={disabled}
                 min={1}

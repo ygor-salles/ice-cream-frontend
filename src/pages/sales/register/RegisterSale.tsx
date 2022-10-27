@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import ButtonSubmitApp from '../../../shared/components/button/ButtonSubmitApp';
@@ -28,7 +28,7 @@ export function RegisterSale(): JSX.Element {
 
   const [requiredClient, setRequiredClient] = useState(false);
 
-  const { handleSubmit, control, setValue, reset } = useForm<IFormSale>({
+  const { handleSubmit, control, setValue, reset, getValues } = useForm<IFormSale>({
     resolver: yupResolver(
       requiredClient === false ? schemaCreateSale : schemaCreateSaleWithCustomer,
     ),
@@ -47,6 +47,8 @@ export function RegisterSale(): JSX.Element {
   const { getProducts, allProducts, loadingProducts } = useProduct();
 
   const { getClients, allClients, loadingClients } = useClient();
+
+  const unitPrice = useRef<number>(null);
 
   useEffect(() => {
     getProducts(true);
@@ -81,12 +83,24 @@ export function RegisterSale(): JSX.Element {
                     product => product.id === Number(event.currentTarget.id),
                   );
                   if (product?.price) {
+                    unitPrice.current = product.price;
                     setValue('total', formatNumberToCurrencyInput(product.price));
                   }
                 }}
                 disabled={loading}
               />
-              <TextFieldCount name="amount" control={control} label="Quantidade" defaultValue={1} />
+              <TextFieldCount
+                name="amount"
+                control={control}
+                label="Quantidade"
+                defaultValue={1}
+                handleOperation={() => {
+                  setValue(
+                    'total',
+                    formatNumberToCurrencyInput(Number(getValues('amount')) * unitPrice.current),
+                  );
+                }}
+              />
               <SelectApp
                 name="type_sale"
                 control={control}

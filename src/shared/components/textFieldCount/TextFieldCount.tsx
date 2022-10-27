@@ -1,6 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 
 import { useAppThemeContext } from '../../contexts';
@@ -21,6 +20,8 @@ interface TextFieldCountProps {
   defaultValue: number;
   disabled?: boolean;
   handleOperation: () => void;
+  stateCount: number;
+  setStateCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const TextFieldCount: React.FC<TextFieldCountProps> = ({
@@ -30,9 +31,9 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
   disabled,
   defaultValue,
   handleOperation,
+  stateCount,
+  setStateCount,
 }) => {
-  const [count, setCount] = useState(defaultValue);
-
   const { themeName } = useAppThemeContext();
 
   return (
@@ -50,12 +51,12 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
               <ButtonIcon
                 type="button"
                 onClick={() => {
-                  if (count >= 2) {
-                    setCount(defaultValue => defaultValue - 1);
-                    onChange(count - 1);
+                  if (stateCount >= 2) {
+                    setStateCount(defaultValue => defaultValue - 1);
+                    onChange(stateCount - 1);
                   }
-                  if (count === undefined) {
-                    setCount(defaultValue);
+                  if (stateCount === undefined) {
+                    setStateCount(defaultValue);
                     onChange(defaultValue);
                   }
                   handleOperation();
@@ -66,17 +67,17 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
               </ButtonIcon>
               <StyledNumberFormat
                 decimalScale={0}
-                value={count !== defaultValue ? count : defaultValue}
+                value={stateCount !== defaultValue ? stateCount : defaultValue}
                 onChange={e => {
                   const inputValue = e.target.value;
 
                   if (!inputValue.length) {
                     onChange('');
-                    setCount(undefined);
+                    setStateCount(undefined);
                   }
 
                   if (Number(inputValue) >= 1) {
-                    setCount(undefined);
+                    setStateCount(undefined);
                     onChange(inputValue);
                     handleOperation();
                   }
@@ -92,10 +93,10 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
                 type="button"
                 isButtonAdd
                 onClick={() => {
-                  setCount(defaultValue => defaultValue + 1);
-                  onChange(count + 1);
-                  if (count === undefined) {
-                    setCount(defaultValue);
+                  setStateCount(defaultValue => defaultValue + 1);
+                  onChange(stateCount + 1);
+                  if (stateCount === undefined) {
+                    setStateCount(defaultValue);
                     onChange(defaultValue);
                   }
                   handleOperation();

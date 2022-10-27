@@ -29,6 +29,9 @@ export function RegisterSale(): JSX.Element {
   const [requiredClient, setRequiredClient] = useState(false);
 
   const defaultValueAmount = '1';
+  const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
+  const [count, setCount] = useState(Number(defaultValueAmount));
+
   const { handleSubmit, control, setValue, reset, getValues } = useForm<IFormSale>({
     resolver: yupResolver(
       requiredClient === false ? schemaCreateSale : schemaCreateSaleWithCustomer,
@@ -50,7 +53,6 @@ export function RegisterSale(): JSX.Element {
   const { getClients, allClients, loadingClients } = useClient();
 
   const unitPrice = useRef<number>(null);
-  const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
 
   useEffect(() => {
     getProducts(true);
@@ -71,8 +73,11 @@ export function RegisterSale(): JSX.Element {
           noValidate
           onSubmit={handleSubmit((data: IFormSale) => {
             handleSubmitCreate(data, reset);
-            setValue('amount', defaultValueAmount);
             setIsDisabledTextFieldCount(true);
+            setTimeout(() => {
+              setValue('amount', defaultValueAmount);
+              setCount(Number(defaultValueAmount));
+            }, 1000);
           })}
         >
           <StyledCard>
@@ -101,6 +106,8 @@ export function RegisterSale(): JSX.Element {
                 control={control}
                 label="Quantidade"
                 defaultValue={Number(defaultValueAmount)}
+                stateCount={count}
+                setStateCount={setCount}
                 handleOperation={() => {
                   setValue(
                     'total',

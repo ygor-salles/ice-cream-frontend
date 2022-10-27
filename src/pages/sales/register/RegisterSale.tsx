@@ -28,6 +28,7 @@ export function RegisterSale(): JSX.Element {
 
   const [requiredClient, setRequiredClient] = useState(false);
 
+  const defaultValueAmount = '1';
   const { handleSubmit, control, setValue, reset, getValues } = useForm<IFormSale>({
     resolver: yupResolver(
       requiredClient === false ? schemaCreateSale : schemaCreateSaleWithCustomer,
@@ -37,7 +38,7 @@ export function RegisterSale(): JSX.Element {
       type_sale: '',
       client_id: '',
       observation: '',
-      amount: '1',
+      amount: defaultValueAmount,
       total: '',
     },
   });
@@ -49,6 +50,7 @@ export function RegisterSale(): JSX.Element {
   const { getClients, allClients, loadingClients } = useClient();
 
   const unitPrice = useRef<number>(null);
+  const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
 
   useEffect(() => {
     getProducts(true);
@@ -67,7 +69,11 @@ export function RegisterSale(): JSX.Element {
       ) : (
         <Form
           noValidate
-          onSubmit={handleSubmit((data: IFormSale) => handleSubmitCreate(data, reset))}
+          onSubmit={handleSubmit((data: IFormSale) => {
+            handleSubmitCreate(data, reset);
+            setValue('amount', defaultValueAmount);
+            setIsDisabledTextFieldCount(true);
+          })}
         >
           <StyledCard>
             <GridForm>
@@ -85,6 +91,7 @@ export function RegisterSale(): JSX.Element {
                   if (product?.price) {
                     unitPrice.current = product.price;
                     setValue('total', formatNumberToCurrencyInput(product.price));
+                    setIsDisabledTextFieldCount(false);
                   }
                 }}
                 disabled={loading}
@@ -93,13 +100,14 @@ export function RegisterSale(): JSX.Element {
                 name="amount"
                 control={control}
                 label="Quantidade"
-                defaultValue={1}
+                defaultValue={Number(defaultValueAmount)}
                 handleOperation={() => {
                   setValue(
                     'total',
                     formatNumberToCurrencyInput(Number(getValues('amount')) * unitPrice.current),
                   );
                 }}
+                disabled={isDisabledTextFieldCount}
               />
               <SelectApp
                 name="type_sale"

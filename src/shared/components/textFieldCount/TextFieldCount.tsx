@@ -72,6 +72,7 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
 
                   if (!inputValue.length) {
                     onChange('');
+                    setCount(undefined);
                   }
 
                   if (Number(inputValue) >= 1) {

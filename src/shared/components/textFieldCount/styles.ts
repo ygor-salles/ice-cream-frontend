@@ -74,7 +74,6 @@ export const StyledNumberFormat = styled(NumberFormat).withConfig({
 
   :disabled {
     background-color: transparent;
-    color: #000;
     font-size: larger;
     font-weight: 500;
   }

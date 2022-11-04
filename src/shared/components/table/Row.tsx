@@ -8,6 +8,7 @@ import { IColumnConfig } from './TableApp';
 
 interface RowProps {
   columnConfig: IColumnConfig;
+  columnConfigCollapse: IColumnConfig;
   tableName: string;
   columnConfigKeys: string[];
   components: {
@@ -34,6 +35,7 @@ interface RowProps {
 
 const Row: React.FC<RowProps> = ({
   columnConfig,
+  columnConfigCollapse,
   columnConfigKeys,
   columnConfigKeysCollapse,
   components,
@@ -68,8 +70,8 @@ const Row: React.FC<RowProps> = ({
                       {React.Children.toArray(
                         columnConfigKeysCollapse.map(key => (
                           <StyledTableCell
-                            align={columnConfig[key]?.align}
-                            width={columnConfig[key]?.width}
+                            align={columnConfigCollapse[key]?.align}
+                            width={columnConfigCollapse[key]?.width}
                           >
                             {renderCellHeaderCollapse(key)}
                           </StyledTableCell>
@@ -83,8 +85,8 @@ const Row: React.FC<RowProps> = ({
                         React.Children.toArray(
                           columnConfigKeysCollapse.map(key => (
                             <StyledTableCell
-                              align={columnConfig[key]?.align}
-                              width={columnConfig[key]?.width}
+                              align={columnConfigCollapse[key]?.align}
+                              width={columnConfigCollapse[key]?.width}
                             >
                               {componentsCollapse[key] &&
                                 componentsCollapse[key](rowData[key], rowData, rowIndex)}

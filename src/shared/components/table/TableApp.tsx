@@ -4,11 +4,14 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
 } from '@mui/material';
 import React, { useState } from 'react';
 
+import { TablePaginationActions } from '../total-pagination-actions/TotalPaginationActions';
 import Row from './Row';
 import { StyledTableCell } from './styles';
 
@@ -104,6 +107,7 @@ const TableApp: React.FC<TableAppProps> = ({
               ).map((rowData, rowIndex) => (
                 <Row
                   columnConfig={columnConfig}
+                  columnConfigCollapse={columnConfigCollapse}
                   columnConfigKeys={columnConfigKeys}
                   columnConfigKeysCollapse={columnConfigKeysCollapse}
                   components={components}
@@ -118,10 +122,32 @@ const TableApp: React.FC<TableAppProps> = ({
           )}
           {emptyAllData > 0 && (
             <TableRow style={{ height: 53 * emptyAllData }}>
-              <TableCell colSpan={7} />
+              <TableCell colSpan={columnConfigKeys.length} />
             </TableRow>
           )}
         </TableBody>
+
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              labelRowsPerPage=""
+              rowsPerPageOptions={[5, 10, 15]}
+              colSpan={columnConfigKeys.length}
+              count={data.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                inputProps: {
+                  'aria-label': 'Pag.',
+                },
+                native: true,
+              }}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );

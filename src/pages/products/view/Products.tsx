@@ -1,27 +1,27 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/jsx-no-bind */
-import { Skeleton, Theme, useMediaQuery } from '@mui/material';
+import { Icon, Skeleton, Switch, Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
 import TableApp from '../../../shared/components/table/TableApp';
+import { IProductDTO } from '../../../shared/dtos/IProductDTO';
 import { useProduct } from '../../../shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
+import formatDate from '../../../shared/utils/formatDate';
+import { formatNumberToCurrency } from '../../../shared/utils/formatNumberToCurrency';
 import { DialogEdit } from './components/DialogEdit';
 import { TableProduct } from './components/Table';
-
-const columnType = {
-  NAME: 'name',
-  PRICE: 'price',
-  STATUS: 'status',
-};
-
-const columnTypeCollapse = {
-  DESCRIPTION: 'description',
-  CREATED_AT: 'created_at',
-  UPDATED_AT: 'updated_at',
-};
+import {
+  columnConfig,
+  columnConfigCollapse,
+  columnLabel,
+  columnLabelCollapse,
+  columnType,
+  columnTypeCollapse,
+} from './constants';
+import { ActionContent, StyledIcon } from './styles';
 
 export function Products(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -47,42 +47,60 @@ export function Products(): JSX.Element {
     getProducts();
   }, []);
 
-  const columnConfig = {
-    [columnType.NAME]: { order: 1 },
-    [columnType.PRICE]: { order: 2 },
-    [columnType.STATUS]: { order: 3 },
-  };
+  const _renderBasicTextCell = (value: string) => <span>{value || '--'}</span>;
 
-  const columnConfigCollapse = {
-    [columnTypeCollapse.DESCRIPTION]: { order: 1 },
-    [columnTypeCollapse.CREATED_AT]: { order: 2 },
-    [columnTypeCollapse.UPDATED_AT]: { order: 3 },
-  };
+  const _renderBasicToCurrency = (value: number) => <span>{formatNumberToCurrency(value)}</span>;
 
-  const columnLabel = {
-    [columnType.NAME]: 'Nome',
-    [columnType.PRICE]: 'Preço',
-    [columnType.STATUS]: 'Status',
-  };
+  const _renderSwitchToggle = (value: boolean, { id }: IProductDTO) => (
+    <Switch
+      onClick={e => e.stopPropagation()}
+      onChange={e => handleSubmitSwitchToogle(e.target.checked, id)}
+      defaultChecked={value}
+    />
+  );
 
-  const columnLabelCollapse = {
-    [columnTypeCollapse.DESCRIPTION]: 'Descrição',
-    [columnTypeCollapse.CREATED_AT]: 'Data criação',
-    [columnTypeCollapse.UPDATED_AT]: 'Data atualização',
-  };
+  const _renderBasicDate = (value: string | Date) => (
+    <span>{formatDate(new Date(value)) || '00/00/0000'}</span>
+  );
 
-  const _renderBasicTextCell = value => <span>{value || '--'}</span>;
+  const _renderAction = (value: string, rowData: IProductDTO) => {
+    return (
+      <ActionContent smDown={smDown}>
+        <StyledIcon
+          color="secondary"
+          mgRight={smDown}
+          onClick={e => {
+            e.stopPropagation();
+            handleClickEdit(rowData);
+          }}
+        >
+          edit
+        </StyledIcon>
+        <Icon
+          color="warning"
+          style={{ cursor: 'pointer' }}
+          onClick={e => {
+            e.stopPropagation();
+            handleClickDelete(rowData);
+          }}
+        >
+          delete
+        </Icon>
+      </ActionContent>
+    );
+  };
 
   const components = {
     [columnType.NAME]: _renderBasicTextCell,
-    [columnType.PRICE]: _renderBasicTextCell,
-    [columnType.STATUS]: _renderBasicTextCell,
+    [columnType.PRICE]: _renderBasicToCurrency,
+    [columnType.STATUS]: _renderSwitchToggle,
+    [columnType.ACTION]: _renderAction,
   };
 
   const componentsCollapse = {
     [columnTypeCollapse.DESCRIPTION]: _renderBasicTextCell,
-    [columnTypeCollapse.CREATED_AT]: _renderBasicTextCell,
-    [columnTypeCollapse.UPDATED_AT]: _renderBasicTextCell,
+    [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
+    [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
   };
 
   return (

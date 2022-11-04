@@ -17,6 +17,12 @@ const columnType = {
   STATUS: 'status',
 };
 
+const columnTypeCollapse = {
+  DESCRIPTION: 'description',
+  CREATED_AT: 'created_at',
+  UPDATED_AT: 'updated_at',
+};
+
 export function Products(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
@@ -43,8 +49,14 @@ export function Products(): JSX.Element {
 
   const columnConfig = {
     [columnType.NAME]: { order: 1 },
-    [columnType.PRICE]: { order: 1 },
-    [columnType.STATUS]: { order: 2 },
+    [columnType.PRICE]: { order: 2 },
+    [columnType.STATUS]: { order: 3 },
+  };
+
+  const columnConfigCollapse = {
+    [columnTypeCollapse.DESCRIPTION]: { order: 1 },
+    [columnTypeCollapse.CREATED_AT]: { order: 2 },
+    [columnTypeCollapse.UPDATED_AT]: { order: 3 },
   };
 
   const columnLabel = {
@@ -53,12 +65,24 @@ export function Products(): JSX.Element {
     [columnType.STATUS]: 'Status',
   };
 
+  const columnLabelCollapse = {
+    [columnTypeCollapse.DESCRIPTION]: 'Descrição',
+    [columnTypeCollapse.CREATED_AT]: 'Data criação',
+    [columnTypeCollapse.UPDATED_AT]: 'Data atualização',
+  };
+
   const _renderBasicTextCell = value => <span>{value || '--'}</span>;
 
   const components = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.PRICE]: _renderBasicTextCell,
     [columnType.STATUS]: _renderBasicTextCell,
+  };
+
+  const componentsCollapse = {
+    [columnTypeCollapse.DESCRIPTION]: _renderBasicTextCell,
+    [columnTypeCollapse.CREATED_AT]: _renderBasicTextCell,
+    [columnTypeCollapse.UPDATED_AT]: _renderBasicTextCell,
   };
 
   return (
@@ -83,7 +107,10 @@ export function Products(): JSX.Element {
             data={allProducts}
             components={components}
             columnConfig={columnConfig}
-            renderCellHeaderTitle={key => columnLabel[key]}
+            renderCellHeader={key => columnLabel[key]}
+            columnConfigCollapse={columnConfigCollapse}
+            componentsCollapse={componentsCollapse}
+            renderCellHeaderCollapse={key => columnLabelCollapse[key]}
           />
         )}
       </LayoutBaseDePagina>

@@ -1,4 +1,8 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable @typescript-eslint/ban-types */
 import {
+  Collapse,
   Paper,
   Table,
   TableBody,
@@ -9,7 +13,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 
-import { StyledTableCell, StyledTableRow } from './styles';
+import { StyledTableCell, StyledTableRow, TableCellCollapse, Container, Content } from './styles';
 
 interface IColumnConfig {
   noHeader?: boolean;
@@ -24,30 +28,42 @@ interface IColumnConfig {
 interface TableAppProps {
   tableName: string;
   columnConfig: IColumnConfig;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  columnConfigCollapse: IColumnConfig;
   data: any[];
-  // eslint-disable-next-line react/no-unused-prop-types
   components: {
     [x: string]: (
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       value?: any,
       data?: object,
       rowIndex?: number,
       isChecked?: boolean,
     ) => JSX.Element;
   };
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  renderCellHeaderTitle: (key: string) => {};
+  componentsCollapse: {
+    [x: string]: (
+      value?: any,
+      data?: object,
+      rowIndex?: number,
+      isChecked?: boolean,
+    ) => JSX.Element;
+  };
+  renderCellHeader: (key: string) => {};
+  renderCellHeaderCollapse: (key: string) => {};
 }
 
 const TableApp: React.FC<TableAppProps> = ({
   tableName,
   columnConfig,
+  columnConfigCollapse,
   data,
-  renderCellHeaderTitle,
   components,
+  componentsCollapse,
+  renderCellHeader,
+  renderCellHeaderCollapse,
 }) => {
   const columnConfigKeys = [...Object.entries(columnConfig).map(([key, value]) => key)];
+  const columnConfigKeysCollapse = [
+    ...Object.entries(columnConfigCollapse).map(([key, value]) => key),
+  ];
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -65,6 +81,8 @@ const TableApp: React.FC<TableAppProps> = ({
     setPage(0);
   };
 
+  const [open, setOpen] = useState(false);
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label={tableName}>
@@ -73,7 +91,7 @@ const TableApp: React.FC<TableAppProps> = ({
             {React.Children.toArray(
               columnConfigKeys.map(key => (
                 <StyledTableCell align={columnConfig[key]?.align} width={columnConfig[key]?.align}>
-                  <span>{renderCellHeaderTitle(key)}</span>
+                  <span>{renderCellHeader(key)}</span>
                 </StyledTableCell>
               )),
             )}
@@ -82,20 +100,59 @@ const TableApp: React.FC<TableAppProps> = ({
 
         <TableBody>
           {React.Children.toArray(
-            // eslint-disable-next-line prettier/prettier
             Object.values((rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map((rowData, rowIndex) => (
-                <StyledTableRow>
-                  {React.Children.toArray(
-                    columnConfigKeys.map(key => (
-                      <StyledTableCell
-                        align={columnConfig[key]?.align}
-                        width={columnConfig[key]?.align}
-                      >
-                        {components[key] && components[key](rowData[key], rowData, rowIndex)}
-                      </StyledTableCell>
-                    )),
-                  )}
-                </StyledTableRow>
+                <>
+                  <StyledTableRow onClick={() => setOpen(!open)}>
+                    {React.Children.toArray(
+                      columnConfigKeys.map(key => (
+                        <StyledTableCell
+                          align={columnConfig[key]?.align}
+                          width={columnConfig[key]?.width}
+                        >
+                          {components[key] && components[key](rowData[key], rowData, rowIndex)}
+                        </StyledTableCell>
+                      )),
+                    )}
+                  </StyledTableRow>
+
+                  <TableRow>
+                    <TableCellCollapse colSpan={columnConfigKeys.length}>
+                      <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Container>
+                          <Content>
+                            <Table size="small" aria-label={`${tableName}-collapse`}>
+                              <TableHead>
+                                <TableRow>
+                                  {React.Children.toArray(
+                                    columnConfigKeysCollapse.map(key => (
+                                      <StyledTableCell
+                                        align={columnConfig[key]?.align}
+                                        width={columnConfig[key]?.width}
+                                      >
+                                        {renderCellHeaderCollapse(key)}
+                                      </StyledTableCell>
+                                    )),
+                                  )}
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                <TableRow>
+                                  {Object.values(React.Children.toArray(
+                                    columnConfigKeysCollapse.map(key => (
+                                      <StyledTableCell align={columnConfig[key]?.align} width={columnConfig[key]?.width} >
+                                        {componentsCollapse[key] && componentsCollapse[key](rowData[key], rowData, rowIndex)}
+                                      </StyledTableCell>
+                                    ))
+                                  ))}
+                                </TableRow>
+                              </TableBody>
+                            </Table>
+                          </Content>
+                        </Container>
+                      </Collapse>
+                    </TableCellCollapse>
+                  </TableRow>
+                </>
               )),
             ),
           )}

@@ -1,8 +1,4 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable @typescript-eslint/ban-types */
 import {
-  Collapse,
   Paper,
   Table,
   TableBody,
@@ -13,9 +9,10 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 
-import { StyledTableCell, StyledTableRow, TableCellCollapse, Container, Content } from './styles';
+import Row from './Row';
+import { StyledTableCell } from './styles';
 
-interface IColumnConfig {
+export interface IColumnConfig {
   noHeader?: boolean;
   width?: number;
   centerContent?: boolean;
@@ -46,7 +43,9 @@ interface TableAppProps {
       isChecked?: boolean,
     ) => JSX.Element;
   };
+  // eslint-disable-next-line @typescript-eslint/ban-types
   renderCellHeader: (key: string) => {};
+  // eslint-disable-next-line @typescript-eslint/ban-types
   renderCellHeaderCollapse: (key: string) => {};
 }
 
@@ -81,8 +80,6 @@ const TableApp: React.FC<TableAppProps> = ({
     setPage(0);
   };
 
-  const [open, setOpen] = useState(false);
-
   return (
     <TableContainer component={Paper}>
       <Table aria-label={tableName}>
@@ -100,59 +97,22 @@ const TableApp: React.FC<TableAppProps> = ({
 
         <TableBody>
           {React.Children.toArray(
-            Object.values((rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map((rowData, rowIndex) => (
-                <>
-                  <StyledTableRow onClick={() => setOpen(!open)}>
-                    {React.Children.toArray(
-                      columnConfigKeys.map(key => (
-                        <StyledTableCell
-                          align={columnConfig[key]?.align}
-                          width={columnConfig[key]?.width}
-                        >
-                          {components[key] && components[key](rowData[key], rowData, rowIndex)}
-                        </StyledTableCell>
-                      )),
-                    )}
-                  </StyledTableRow>
-
-                  <TableRow>
-                    <TableCellCollapse colSpan={columnConfigKeys.length}>
-                      <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Container>
-                          <Content>
-                            <Table size="small" aria-label={`${tableName}-collapse`}>
-                              <TableHead>
-                                <TableRow>
-                                  {React.Children.toArray(
-                                    columnConfigKeysCollapse.map(key => (
-                                      <StyledTableCell
-                                        align={columnConfig[key]?.align}
-                                        width={columnConfig[key]?.width}
-                                      >
-                                        {renderCellHeaderCollapse(key)}
-                                      </StyledTableCell>
-                                    )),
-                                  )}
-                                </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                <TableRow>
-                                  {Object.values(React.Children.toArray(
-                                    columnConfigKeysCollapse.map(key => (
-                                      <StyledTableCell align={columnConfig[key]?.align} width={columnConfig[key]?.width} >
-                                        {componentsCollapse[key] && componentsCollapse[key](rowData[key], rowData, rowIndex)}
-                                      </StyledTableCell>
-                                    ))
-                                  ))}
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                          </Content>
-                        </Container>
-                      </Collapse>
-                    </TableCellCollapse>
-                  </TableRow>
-                </>
+            Object.values(
+              (rowsPerPage > 0
+                ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : data
+              ).map((rowData, rowIndex) => (
+                <Row
+                  columnConfig={columnConfig}
+                  columnConfigKeys={columnConfigKeys}
+                  columnConfigKeysCollapse={columnConfigKeysCollapse}
+                  components={components}
+                  componentsCollapse={componentsCollapse}
+                  renderCellHeaderCollapse={renderCellHeaderCollapse}
+                  rowData={rowData}
+                  rowIndex={rowIndex}
+                  tableName={tableName}
+                />
               )),
             ),
           )}

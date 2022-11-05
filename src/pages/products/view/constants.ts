@@ -30,7 +30,7 @@ export const columnTypeCollapse = {
 
 export const columnConfigCollapse = {
   [columnTypeCollapse.DESCRIPTION]: { order: 1 },
-  [columnTypeCollapse.CREATED_AT]: { order: 2 },
+  [columnTypeCollapse.CREATED_AT]: { order: 2, align: 'right' },
   [columnTypeCollapse.UPDATED_AT]: { order: 3, align: 'right' },
 };
 

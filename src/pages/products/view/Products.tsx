@@ -63,7 +63,7 @@ export function Products(): JSX.Element {
     <span>{formatDate(new Date(value)) || '00/00/0000'}</span>
   );
 
-  const _renderAction = (value: string, rowData: IProductDTO) => {
+  const _renderAction = (value: string, { description, ...rowData }: IProductDTO) => {
     return (
       <ActionContent smDown={smDown}>
         <StyledIcon
@@ -71,7 +71,9 @@ export function Products(): JSX.Element {
           mgRight={smDown}
           onClick={e => {
             e.stopPropagation();
-            handleClickEdit(rowData);
+            // eslint-disable-next-line no-param-reassign
+            description = description || '';
+            handleClickEdit({ ...rowData, description });
           }}
         >
           edit

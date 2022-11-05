@@ -11,8 +11,7 @@ export const StyledTableCell = styled(TableCell).withConfig({
   shouldForwardProp: prop => !['width', 'align', 'borderNone'].includes(prop),
 })<ITableCell>`
   border: ${props => props.borderNone && 'none'};
-  display: ${props => props.align && 'flex'};
-  justify-content: ${props => props.align && props.align};
+  text-align: ${props => props.align && props.align};
   width: ${props => props.width && props.width};
 `;
 

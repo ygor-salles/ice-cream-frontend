@@ -13,6 +13,10 @@ interface FormProps {
   smDown?: boolean;
 }
 
+interface ActionContentProps {
+  smDown?: boolean;
+}
+
 export const TableCellAction = styled(TableCell)`
   display: flex;
   justify-content: center;
@@ -60,4 +64,10 @@ export const Form = styled.form<FormProps>`
   width: 100%;
   height: ${props => (props.smDown ? '100vh' : 'auto')};
   display: contents;
+`;
+
+export const ActionContent = styled.div<ActionContentProps>`
+  display: flex;
+  border-bottom: none;
+  justify-content: ${props => (props.smDown ? 'space-between' : 'center')};
 `;

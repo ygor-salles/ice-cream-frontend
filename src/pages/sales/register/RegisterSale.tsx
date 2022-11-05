@@ -90,13 +90,19 @@ export function RegisterSale(): JSX.Element {
                 label="Produto"
                 required
                 onClose={event => {
-                  const product = allProducts.find(
-                    product => product.id === Number(event.currentTarget.id),
-                  );
-                  if (product?.price) {
-                    unitPrice.current = product.price;
-                    setValue('total', formatNumberToCurrencyInput(product.price));
-                    setIsDisabledTextFieldCount(false);
+                  if (event.currentTarget.id) {
+                    const product = allProducts.find(
+                      product => product.id === Number(event.currentTarget.id),
+                    );
+                    if (product?.price) {
+                      unitPrice.current = product.price;
+                      setValue('total', formatNumberToCurrencyInput(product.price));
+                      setIsDisabledTextFieldCount(false);
+                    }
+                  } else {
+                    setCount(Number(defaultValueAmount));
+                    setValue('total', '');
+                    setIsDisabledTextFieldCount(true);
                   }
                 }}
                 disabled={loading}

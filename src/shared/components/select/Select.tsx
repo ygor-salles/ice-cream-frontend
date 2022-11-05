@@ -46,6 +46,9 @@ export default function SelectApp({
             onBlur={onBlur}
             onClose={onClose}
           >
+            <MenuItem value="">
+              <em>Selecione</em>
+            </MenuItem>
             {array.map(item => (
               <MenuItem
                 key={item.id ? item.id : item.name}

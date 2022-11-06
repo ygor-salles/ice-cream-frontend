@@ -1,18 +1,17 @@
-/* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable react/jsx-no-bind */
 import { Icon, Skeleton, Switch, Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
+import {
+  _renderBasicDate,
+  _renderBasicTextCell,
+  _renderBasicToCurrency,
+} from '../../../shared/components/renderCellTable/RenderCellTable';
 import TableApp from '../../../shared/components/table/TableApp';
 import { IProductDTO } from '../../../shared/dtos/IProductDTO';
 import { useProduct } from '../../../shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import formatDate from '../../../shared/utils/formatDate';
-import { formatNumberToCurrency } from '../../../shared/utils/formatNumberToCurrency';
 import { DialogEdit } from './components/DialogEdit';
-import { TableProduct } from './components/Table';
 import {
   columnConfig,
   columnConfigCollapse,
@@ -47,20 +46,12 @@ export function Products(): JSX.Element {
     getProducts();
   }, []);
 
-  const _renderBasicTextCell = (value: string) => <span>{value || '--'}</span>;
-
-  const _renderBasicToCurrency = (value: number) => <span>{formatNumberToCurrency(value)}</span>;
-
   const _renderSwitchToggle = (value: boolean, { id }: IProductDTO) => (
     <Switch
       onClick={e => e.stopPropagation()}
       onChange={e => handleSubmitSwitchToogle(e.target.checked, id)}
       defaultChecked={value}
     />
-  );
-
-  const _renderBasicDate = (value: string | Date) => (
-    <span>{formatDate(new Date(value)) || '00/00/0000'}</span>
   );
 
   const _renderAction = (value: string, { description, ...rowData }: IProductDTO) => {
@@ -116,12 +107,6 @@ export function Products(): JSX.Element {
         {loadingProducts ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          // <TableProduct
-          //   allProducts={allProducts}
-          //   onClickEdit={handleClickEdit}
-          //   onClickDelete={handleClickDelete}
-          //   onSubmitSwitchToogle={handleSubmitSwitchToogle}
-          // />
           <TableApp
             tableName="table-products"
             data={allProducts}

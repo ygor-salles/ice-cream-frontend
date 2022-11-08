@@ -14,38 +14,15 @@ import React, { useState } from 'react';
 import { TablePaginationActions } from '../total-pagination-actions/TotalPaginationActions';
 import Row from './Row';
 import { StyledTableCell } from './styles';
-
-export interface IColumnConfig {
-  noHeader?: boolean;
-  width?: number;
-  centerContent?: boolean;
-  align?: string;
-  noSorting?: boolean;
-  order?: number;
-  noPadding?: boolean;
-}
+import { ITypeColumnConfig, ITypeComponents } from './types';
 
 interface TableAppProps {
   tableName: string;
-  columnConfig: IColumnConfig;
-  columnConfigCollapse: IColumnConfig;
-  data: any[];
-  components: {
-    [x: string]: (
-      value?: any,
-      data?: object,
-      rowIndex?: number,
-      isChecked?: boolean,
-    ) => JSX.Element;
-  };
-  componentsCollapse: {
-    [x: string]: (
-      value?: any,
-      data?: object,
-      rowIndex?: number,
-      isChecked?: boolean,
-    ) => JSX.Element;
-  };
+  columnConfig: ITypeColumnConfig;
+  columnConfigCollapse: ITypeColumnConfig;
+  data: object[];
+  components: ITypeComponents;
+  componentsCollapse: ITypeComponents;
   // eslint-disable-next-line @typescript-eslint/ban-types
   renderCellHeader: (key: string) => {};
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -90,7 +67,7 @@ const TableApp: React.FC<TableAppProps> = ({
           <TableRow>
             {React.Children.toArray(
               columnConfigKeys.map(key => (
-                <StyledTableCell align={columnConfig[key]?.align} width={columnConfig[key]?.align}>
+                <StyledTableCell align={columnConfig[key]?.align} width={columnConfig[key]?.width}>
                   <span>{renderCellHeader(key)}</span>
                 </StyledTableCell>
               )),

@@ -4,30 +4,16 @@ import { Collapse, Table, TableBody, TableHead, TableRow } from '@mui/material';
 import React, { useState } from 'react';
 
 import { StyledTableRow, StyledTableCell, TableCellCollapse, Container, Content } from './styles';
-import { IColumnConfig } from './TableApp';
+import { ITypeColumnConfig, ITypeComponents } from './types';
 
 interface RowProps {
-  columnConfig: IColumnConfig;
-  columnConfigCollapse: IColumnConfig;
+  columnConfig: ITypeColumnConfig;
+  columnConfigCollapse: ITypeColumnConfig;
   tableName: string;
   columnConfigKeys: string[];
-  components: {
-    [x: string]: (
-      value?: any,
-      data?: object,
-      rowIndex?: number,
-      isChecked?: boolean,
-    ) => JSX.Element;
-  };
+  components: ITypeComponents;
   columnConfigKeysCollapse: string[];
-  componentsCollapse: {
-    [x: string]: (
-      value?: any,
-      data?: object,
-      rowIndex?: number,
-      isChecked?: boolean,
-    ) => JSX.Element;
-  };
+  componentsCollapse: ITypeComponents;
   rowData: any;
   rowIndex: number;
   renderCellHeaderCollapse: (key: string) => {};

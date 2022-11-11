@@ -21,9 +21,9 @@ export interface IFormClient {
 export const transformObject = (dataForm: IFormClient): IClientDTO => {
   const object: IClientDTO = {
     name: dataForm.name,
-    debit: Mask.convertCurrency(dataForm.debit),
+    debit: dataForm.debit.length === 0 ? 0 : Mask.convertCurrency(dataForm.debit),
   };
-  if (dataForm.phone.length) {
+  if (dataForm.phone.length && dataForm.phone !== '(') {
     object.phone = dataForm.phone;
   }
   return object;
@@ -31,6 +31,6 @@ export const transformObject = (dataForm: IFormClient): IClientDTO => {
 
 export const schemaCreateClient = yup.object().shape({
   name: yup.string().required('Nome é obrigatório'),
-  debit: yup.string().required('Preço é obrigatório'),
+  debit: yup.string().optional(),
   phone: yup.string().optional(),
 });

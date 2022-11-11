@@ -52,7 +52,6 @@ export function RegisterClient(): JSX.Element {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 inputComponent: NumberFormatCustom as any,
               }}
-              required
               disabled={loading}
             />
             <TextFieldApp

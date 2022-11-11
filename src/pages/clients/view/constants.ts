@@ -19,7 +19,7 @@ export const columnConfig: ITypeColumnConfig = {
 
 export const columnLabel: ITypeColumnLabel = {
   [columnType.NAME]: 'Nome',
-  [columnType.DEBIT]: 'Preço',
+  [columnType.DEBIT]: 'Dívida',
   [columnType.ACTION]: 'Ações',
 };
 
@@ -38,7 +38,7 @@ export const columnConfigCollapse: ITypeColumnConfig = {
 };
 
 export const columnLabelCollapse: ITypeColumnLabel = {
-  [columnTypeCollapse.PHONE]: 'Descrição',
+  [columnTypeCollapse.PHONE]: 'Telefone',
   [columnTypeCollapse.CREATED_AT]: 'Data criação',
   [columnTypeCollapse.UPDATED_AT]: 'Data atualização',
 };

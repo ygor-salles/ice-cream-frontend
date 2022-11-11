@@ -4,7 +4,6 @@ import formatDate from '../../utils/formatDate';
 import { formatNumberToCurrency } from '../../utils/formatNumberToCurrency';
 import { ActionContent, StyledIcon } from './styles';
 
-/* eslint-disable react/jsx-no-bind */
 export const _renderBasicTextCell = (value: string) => <span>{value || '--'}</span>;
 
 export const _renderBasicToCurrency = (value: number) => (

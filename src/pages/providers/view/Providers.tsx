@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 

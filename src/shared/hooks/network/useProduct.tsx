@@ -91,6 +91,7 @@ export function useProduct() {
     try {
       await productService.deleteById(id);
       addToast('Produto deletado com sucesso!', ToastType.success);
+      getProducts();
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Error ao deletar produto! - ${response?.data?.message}`, ToastType.error);

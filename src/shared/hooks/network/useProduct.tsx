@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { UseFormReset } from 'react-hook-form';
 
 import { ToastType } from '../../components/snackBar/enum';
@@ -19,6 +19,8 @@ export function useProduct() {
 
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
+
+  const timerRef = useRef(null);
 
   const handleClickEdit = (data: IProductDTO) => {
     setDataActionTable(data);
@@ -89,7 +91,6 @@ export function useProduct() {
     try {
       await productService.deleteById(id);
       addToast('Produto deletado com sucesso!', ToastType.success);
-      getProducts();
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Error ao deletar produto! - ${response?.data?.message}`, ToastType.error);
@@ -103,6 +104,7 @@ export function useProduct() {
     try {
       await productService.updateById({ status: isActive, id: productId });
       addToast('Produto atualizado com sucesso!', ToastType.success);
+      timerRef.current = setTimeout(() => getProducts(), 1500);
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Erro ao atualizar produto! - ${response?.data?.message}`, ToastType.error);
@@ -116,6 +118,7 @@ export function useProduct() {
     showModalEdit,
     showModalDelete,
     dataActionTable,
+    timerRef,
     handleClickEdit,
     handleClickDelete,
     handleCloseModalEdit,

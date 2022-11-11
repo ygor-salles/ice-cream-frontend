@@ -34,6 +34,7 @@ export function Products(): JSX.Element {
     showModalDelete,
     dataActionTable,
     loadingForm,
+    timerRef,
     handleClickEdit,
     handleClickDelete,
     handleCloseModalEdit,
@@ -46,6 +47,8 @@ export function Products(): JSX.Element {
 
   useEffect(() => {
     getProducts();
+
+    return () => clearTimeout(timerRef.current);
   }, []);
 
   const _renderSwitchToggle = (value: boolean, { id }: IProductDTO) => {

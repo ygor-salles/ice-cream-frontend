@@ -1,5 +1,4 @@
 import { Icon, Switch } from '@mui/material';
-import { useState } from 'react';
 
 import formatDate from '../../utils/formatDate';
 import { formatNumberToCurrency } from '../../utils/formatNumberToCurrency';
@@ -26,18 +25,13 @@ export const SwitchComponent: React.FC<SwitchComponentProps> = ({
   id,
   value,
   onSubmitSwitchToogle,
-}) => {
-  return (
-    <>
-      <Switch
-        onClick={e => e.stopPropagation()}
-        onChange={e => onSubmitSwitchToogle(e.target.checked, id)}
-        checked={value}
-      />
-      <span>{value === true ? 'true' : 'false'}</span>
-    </>
-  );
-};
+}) => (
+  <Switch
+    onClick={e => e.stopPropagation()}
+    onChange={e => onSubmitSwitchToogle(e.target.checked, id)}
+    defaultChecked={value}
+  />
+);
 
 interface ActionComponentProps {
   smDown: boolean;

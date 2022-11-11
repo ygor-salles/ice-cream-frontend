@@ -20,7 +20,7 @@ interface TableAppProps {
   tableName: string;
   columnConfig: ITypeColumnConfig;
   columnConfigCollapse: ITypeColumnConfig;
-  data: object[];
+  data: any[];
   components: ITypeComponents;
   componentsCollapse: ITypeComponents;
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -76,26 +76,25 @@ const TableApp: React.FC<TableAppProps> = ({
         </TableHead>
 
         <TableBody>
-          {React.Children.toArray(
-            Object.values(
-              (rowsPerPage > 0
-                ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                : data
-              ).map((rowData, rowIndex) => (
-                <Row
-                  columnConfig={columnConfig}
-                  columnConfigCollapse={columnConfigCollapse}
-                  columnConfigKeys={columnConfigKeys}
-                  columnConfigKeysCollapse={columnConfigKeysCollapse}
-                  components={components}
-                  componentsCollapse={componentsCollapse}
-                  renderCellHeaderCollapse={renderCellHeaderCollapse}
-                  rowData={rowData}
-                  rowIndex={rowIndex}
-                  tableName={tableName}
-                />
-              )),
-            ),
+          {Object.values(
+            (rowsPerPage > 0
+              ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : data
+            ).map((rowData, rowIndex) => (
+              <Row
+                columnConfig={columnConfig}
+                columnConfigCollapse={columnConfigCollapse}
+                columnConfigKeys={columnConfigKeys}
+                columnConfigKeysCollapse={columnConfigKeysCollapse}
+                components={components}
+                componentsCollapse={componentsCollapse}
+                renderCellHeaderCollapse={renderCellHeaderCollapse}
+                rowData={rowData}
+                rowIndex={rowIndex}
+                tableName={tableName}
+                key={rowData.id ?? `${tableName}-${rowIndex}`}
+              />
+            )),
           )}
           {emptyAllData > 0 && (
             <TableRow style={{ height: 53 * emptyAllData }}>

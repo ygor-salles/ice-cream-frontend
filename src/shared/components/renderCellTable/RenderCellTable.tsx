@@ -14,6 +14,10 @@ export const _renderBasicDate = (value: string | Date) => (
   <span>{formatDate(new Date(value)) || '00/00/0000'}</span>
 );
 
+export const _renderTextCellYesOrNo = (value: boolean) => (
+  <span>{value ? 'Sim' : 'Não' || '--'}</span>
+);
+
 interface SwitchComponentProps {
   value: boolean;
   id: number;

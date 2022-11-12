@@ -1,15 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import CheckboxApp from '../../../../shared/components/checkbox/CheckboxApp';
+import FooterDialogActions from '../../../../shared/components/footerDialogActions/FooterDialogActions';
 import TextFieldApp from '../../../../shared/components/textField/TextField';
 import {
   IFormProvider,
   IProviderDTO,
   schemaCreateProvider,
 } from '../../../../shared/dtos/IProviderDTO';
-import { Form, StyledButton, StyledDialogActions } from './styles';
+import { Form } from './styles';
 
 interface DialogEditProps {
   smDown?: boolean;
@@ -17,6 +18,7 @@ interface DialogEditProps {
   open: boolean;
   onSubmitUpdate: (dataForm: IFormProvider) => Promise<void>;
   handleClose: () => void;
+  loading: boolean;
 }
 
 export function DialogEdit({
@@ -25,6 +27,7 @@ export function DialogEdit({
   onSubmitUpdate,
   open,
   handleClose,
+  loading,
 }: DialogEditProps): JSX.Element {
   const { handleSubmit, control } = useForm<IFormProvider>({
     resolver: yupResolver(schemaCreateProvider),
@@ -48,28 +51,33 @@ export function DialogEdit({
         <DialogContent>
           <Grid container spacing={4}>
             <Grid item xs={12}>
-              <TextFieldApp name="name" control={control} label="Nome do fornecedor" required />
+              <TextFieldApp
+                name="name"
+                control={control}
+                label="Nome do fornecedor"
+                required
+                disabled={loading}
+              />
             </Grid>
             <Grid item xs={12}>
-              <TextFieldApp name="phone" control={control} label="Telefone" />
+              <TextFieldApp name="phone" control={control} label="Telefone" disabled={loading} />
             </Grid>
             <Grid item xs={12}>
               <CheckboxApp
                 name="its_ice_cream_shoop"
                 control={control}
                 label="Fornecedor da sorveteria"
+                disabled={loading}
               />
             </Grid>
           </Grid>
         </DialogContent>
-        <StyledDialogActions>
-          <StyledButton variant="outlined" type="button" onClick={handleClose}>
-            CANCELAR
-          </StyledButton>
-          <Button variant="contained" type="submit">
-            EDITAR
-          </Button>
-        </StyledDialogActions>
+        <FooterDialogActions
+          textButtonConfirm="EDITAR"
+          textButtonCancel="CANCELAR"
+          onClose={handleClose}
+          loading={loading}
+        />
       </Form>
     </Dialog>
   );

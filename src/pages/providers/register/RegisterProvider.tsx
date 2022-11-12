@@ -1,40 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { CircularProgress, Theme, useMediaQuery } from '@mui/material';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import { AxiosError } from 'axios';
-import { useState } from 'react';
+import { Theme, useMediaQuery } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
+import ButtonSubmitApp from '../../../shared/components/button/ButtonSubmitApp';
 import CheckboxApp from '../../../shared/components/checkbox/CheckboxApp';
-import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
-import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
-import {
-  IFormProvider,
-  IProviderDTO,
-  schemaCreateProvider,
-  transformObject,
-} from '../../../shared/dtos/IProviderDTO';
+import { IFormProvider, schemaCreateProvider } from '../../../shared/dtos/IProviderDTO';
+import { useProvider } from '../../../shared/hooks/network/useProvider';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import ProviderService from '../../../shared/services/ProviderService';
-import { Form, StyledCard } from './styles';
+import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterProvider(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
-  const [openToast, setOpenToast] = useState(false);
-  const [error, setError] = useState(false);
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleCloseAlert = () => setOpenToast(false);
-
-  const displayNotificationMessage = (error: boolean, message: string) => {
-    setOpenToast(true);
-    setError(error);
-    setMessage(message);
-  };
 
   const { handleSubmit, control, reset } = useForm<IFormProvider>({
     resolver: yupResolver(schemaCreateProvider),
@@ -45,87 +22,40 @@ export function RegisterProvider(): JSX.Element {
     },
   });
 
-  async function handleSubmitCreate(dataForm: IFormProvider) {
-    setLoading(true);
-    const data: IProviderDTO = transformObject(dataForm);
-
-    const providerService = new ProviderService();
-    try {
-      await providerService.create(data);
-      displayNotificationMessage(false, 'Fornecedor cadastrado com sucesso!');
-    } catch (error) {
-      const { response } = error as AxiosError;
-      displayNotificationMessage(true, `Erro ao cadastrar fornecedor - ${response?.data?.message}`);
-    } finally {
-      setLoading(false);
-      reset();
-    }
-  }
+  const { handleSubmitCreate, loadingForm: loading } = useProvider();
 
   return (
-    <>
-      <Snackbar
-        open={openToast}
-        onCloseAlert={handleCloseAlert}
-        onCloseSnack={handleCloseAlert}
-        message={message}
-        severity={error ? 'error' : 'success'}
-      />
-      <LayoutBaseDePagina
-        titulo="Cadastro fornecedor"
-        navigatePage="/providers"
-        textButton="VOLTAR"
-        icon="arrow_back"
+    <LayoutBaseDePagina
+      titulo="Cadastro fornecedor"
+      navigatePage="/providers"
+      textButton="VOLTAR"
+      icon="arrow_back"
+    >
+      <Form
+        noValidate
+        onSubmit={handleSubmit((data: IFormProvider) => handleSubmitCreate(data, reset))}
       >
-        <Form noValidate onSubmit={handleSubmit(handleSubmitCreate)}>
-          <StyledCard>
-            <Grid container spacing={4}>
-              <Grid item xs={12}>
-                <TextFieldApp
-                  name="name"
-                  control={control}
-                  label="Nome do fornecedor"
-                  required
-                  disabled={loading}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextFieldApp name="phone" control={control} label="Telefone" disabled={loading} />
-              </Grid>
-              <Grid item xs={12}>
-                <CheckboxApp
-                  name="its_ice_cream_shoop"
-                  control={control}
-                  label="Fornecedor da sorveteria"
-                  disabled={loading}
-                />
-              </Grid>
-            </Grid>
-            <Grid container sx={{ mt: 6 }}>
-              <Grid item display="flex" justifyContent="flex-end" width="100%">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  fullWidth={!!smDown}
-                  sx={{
-                    bgcolor: 'primary',
-                    padding: smDown ? '10px' : 'auto',
-                    fontSize: smDown ? '1rem' : 'auto',
-                  }}
-                  endIcon={
-                    loading ? (
-                      <CircularProgress variant="indeterminate" color="inherit" size={20} />
-                    ) : undefined
-                  }
-                  disabled={loading}
-                >
-                  CADASTRAR
-                </Button>
-              </Grid>
-            </Grid>
-          </StyledCard>
-        </Form>
-      </LayoutBaseDePagina>
-    </>
+        <StyledCard>
+          <GridForm>
+            <TextFieldApp
+              name="name"
+              control={control}
+              label="Nome do fornecedor"
+              required
+              disabled={loading}
+            />
+            <TextFieldApp name="phone" control={control} label="Telefone" disabled={loading} />
+            <CheckboxApp
+              name="its_ice_cream_shoop"
+              control={control}
+              label="Fornecedor da sorveteria"
+              disabled={loading}
+            />
+          </GridForm>
+
+          <ButtonSubmitApp loading={loading} smDown={smDown} textButton="CADASTRAR" />
+        </StyledCard>
+      </Form>
+    </LayoutBaseDePagina>
   );
 }

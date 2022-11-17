@@ -3,7 +3,6 @@ import { Button, Dialog, DialogContent, DialogTitle, Grid } from '@mui/material'
 import { useForm } from 'react-hook-form';
 
 import { LISTCLIENTS } from '../../../../assets/mocks/ListClients';
-import { NumberFormatCustom } from '../../../../shared/components';
 import SelectApp from '../../../../shared/components/select/Select';
 import TextFieldApp from '../../../../shared/components/textField/TextField';
 import {
@@ -54,9 +53,7 @@ export function DialogEdit({
                 name="value"
                 control={control}
                 label="Valor do pagamento"
-                InputProps={{
-                  inputComponent: NumberFormatCustom as any,
-                }}
+                currency
                 required
               />
             </Grid>

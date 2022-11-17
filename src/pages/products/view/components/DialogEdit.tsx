@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
-import { NumberFormatCustom } from '../../../../shared/components';
 import FooterDialogActions from '../../../../shared/components/footerDialogActions/FooterDialogActions';
 import SelectApp from '../../../../shared/components/select/Select';
 import TextFieldApp from '../../../../shared/components/textField/TextField';
@@ -67,10 +66,7 @@ export function DialogEdit({
                 name="price"
                 control={control}
                 label="Preço do produto"
-                InputProps={{
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  inputComponent: NumberFormatCustom as any,
-                }}
+                currency
                 required
                 disabled={loading}
               />

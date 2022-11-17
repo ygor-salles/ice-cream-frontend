@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
-import { NumberFormatCustom } from '../../../../shared/components';
 import FooterDialogActions from '../../../../shared/components/footerDialogActions/FooterDialogActions';
 import TextFieldApp from '../../../../shared/components/textField/TextField';
 import { IClientDTO, IFormClient, schemaCreateClient } from '../../../../shared/dtos/IClientDTO';
@@ -60,10 +59,7 @@ export function DialogEdit({
                 name="debit"
                 control={control}
                 label="Dívida do cliente"
-                InputProps={{
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  inputComponent: NumberFormatCustom as any,
-                }}
+                currency
                 required
                 disabled={loading}
               />
@@ -73,8 +69,7 @@ export function DialogEdit({
                 name="phone"
                 control={control}
                 label="Telefone"
-                type="tel"
-                mask="(99) 99999-9999"
+                mask="(00) 00000-0000"
                 disabled={loading}
               />
             </Grid>

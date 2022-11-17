@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import ButtonSubmitApp from '../../../shared/components/button/ButtonSubmitApp';
-import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
 import SelectApp from '../../../shared/components/select/Select';
 import TextFieldApp from '../../../shared/components/textField/TextField';
 import TextFieldCount from '../../../shared/components/textFieldCount/TextFieldCount';
@@ -151,9 +150,7 @@ export function RegisterSale(): JSX.Element {
                 name="total"
                 control={control}
                 label="Total"
-                InputProps={{
-                  inputComponent: NumberFormatCustom as any,
-                }}
+                currency
                 required
                 disabled={loading}
               />

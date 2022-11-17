@@ -6,7 +6,6 @@ import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { NumberFormatCustom } from '../../../shared/components';
 import SelectApp from '../../../shared/components/select/Select';
 import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
@@ -95,9 +94,7 @@ export function RegisterPayment(): JSX.Element {
                     name="value"
                     control={control}
                     label="Valor do pagamento"
-                    InputProps={{
-                      inputComponent: NumberFormatCustom as any,
-                    }}
+                    currency
                     required
                     disabled={loading}
                   />

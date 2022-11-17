@@ -3,12 +3,11 @@ import { Theme, useMediaQuery } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import ButtonSubmitApp from '../../../shared/components/button/ButtonSubmitApp';
-import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
 import TextFieldApp from '../../../shared/components/textField/TextField';
 import { IFormClient, schemaCreateClient } from '../../../shared/dtos/IClientDTO';
 import { useClient } from '../../../shared/hooks/network/useClient';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import { Form, StyledCard, GridForm } from './styles';
+import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterClient(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -48,18 +47,14 @@ export function RegisterClient(): JSX.Element {
               name="debit"
               control={control}
               label="Dívida do cliente"
-              InputProps={{
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                inputComponent: NumberFormatCustom as any,
-              }}
+              currency
               disabled={loading}
             />
             <TextFieldApp
               name="phone"
               control={control}
               label="Telefone"
-              type="tel"
-              mask="(99) 99999-9999"
+              mask="(00) 00000-0000"
               disabled={loading}
             />
           </GridForm>

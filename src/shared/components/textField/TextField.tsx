@@ -1,8 +1,7 @@
-import { InputProps } from '@mui/material';
-import { useRef } from 'react';
 import { Control, Controller } from 'react-hook-form';
-import InputMask from 'react-input-mask';
 
+import { NumberFormatCustom } from '../number-format-custom/NumberFormatCustom';
+import { TextMaskCustom } from '../text-mask-custom/TextMaskCustom';
 import { StyledTextField } from './styles';
 
 interface TextFieldPropsApp {
@@ -13,10 +12,9 @@ interface TextFieldPropsApp {
   type?: React.HTMLInputTypeAttribute;
   required?: boolean;
   inputMode?: 'email' | 'search' | 'tel' | 'text' | 'url' | 'none' | 'numeric' | 'decimal';
-  InputProps?: Partial<InputProps>;
   disabled?: boolean;
   mask?: string;
-  focus?: boolean;
+  currency?: boolean;
 }
 
 export default function TextFieldApp({
@@ -26,64 +24,36 @@ export default function TextFieldApp({
   type,
   required,
   inputMode,
-  InputProps,
   disabled,
   mask,
-  focus,
+  currency,
 }: TextFieldPropsApp): JSX.Element {
-  const inputRef = useRef<HTMLInputElement>(null!);
-
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange, value }, fieldState: { error } }) =>
-        mask ? (
-          <InputMask
-            mask={mask}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            maskChar=" "
-            value={value || ''}
-            onChange={onChange}
-            required={required}
-            disabled={disabled}
-            autoFocus={focus || true}
-          >
-            {() => (
-              <StyledTextField
-                value={value || ''}
-                onChange={onChange}
-                required={required}
-                disabled={disabled}
-                autoFocus={focus || true}
-                inputRef={inputRef}
-                variant="standard"
-                label={label}
-                error={!!error}
-                helperText={error ? error.message : null}
-                fullWidth
-              />
-            )}
-          </InputMask>
-        ) : (
-          <StyledTextField
-            label={label}
-            value={value || ''}
-            onChange={onChange}
-            InputProps={InputProps}
-            variant="standard"
-            type={type}
-            inputMode={inputMode}
-            error={!!error}
-            helperText={error ? error.message : null}
-            required={required}
-            fullWidth
-            autoFocus
-            disabled={disabled}
-          />
-        )
-      }
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
+        <StyledTextField
+          label={label}
+          value={value || ''}
+          onChange={onChange}
+          InputProps={
+            mask
+              ? { inputComponent: TextMaskCustom as any, inputProps: { mask } }
+              : currency
+              ? { inputComponent: NumberFormatCustom as any }
+              : undefined
+          }
+          variant="standard"
+          type={type}
+          inputMode={inputMode}
+          error={!!error}
+          helperText={error ? error.message : null}
+          required={required}
+          fullWidth
+          disabled={disabled}
+        />
+      )}
     />
   );
 }

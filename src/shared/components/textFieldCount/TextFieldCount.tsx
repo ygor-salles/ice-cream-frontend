@@ -33,11 +33,12 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
   handleOperation,
   stateCount,
   setStateCount,
+  ...rest
 }) => {
   const { themeName } = useAppThemeContext();
 
   return (
-    <Container>
+    <Container {...rest}>
       <Controller
         name={name}
         control={control}

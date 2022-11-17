@@ -3,14 +3,13 @@ import { Theme, useMediaQuery } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import ButtonSubmitApp from '../../../shared/components/button/ButtonSubmitApp';
-import { NumberFormatCustom } from '../../../shared/components/number-format-custom/NumberFormatCustom';
 import SelectApp from '../../../shared/components/select/Select';
 import TextFieldApp from '../../../shared/components/textField/TextField';
 import { LISTTYPEPRODUCTS } from '../../../shared/constants/listTypeProduct';
 import { IFormProduct, schemaCreateProduct } from '../../../shared/dtos/IProductDTO';
 import { useProduct } from '../../../shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import { Form, StyledCard, GridForm } from './styles';
+import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterProduct(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -56,9 +55,7 @@ export function RegisterProduct(): JSX.Element {
               name="price"
               control={control}
               label="Preço do produto"
-              InputProps={{
-                inputComponent: NumberFormatCustom as any,
-              }}
+              currency
               required
               disabled={loading}
             />

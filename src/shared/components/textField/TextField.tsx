@@ -1,4 +1,5 @@
 import { InputProps } from '@mui/material';
+import { useRef } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import InputMask from 'react-input-mask';
 
@@ -15,6 +16,7 @@ interface TextFieldPropsApp {
   InputProps?: Partial<InputProps>;
   disabled?: boolean;
   mask?: string;
+  focus?: boolean;
 }
 
 export default function TextFieldApp({
@@ -27,7 +29,10 @@ export default function TextFieldApp({
   InputProps,
   disabled,
   mask,
+  focus,
 }: TextFieldPropsApp): JSX.Element {
+  const inputRef = useRef<HTMLInputElement>(null!);
+
   return (
     <Controller
       name={name}
@@ -38,12 +43,12 @@ export default function TextFieldApp({
             mask={mask}
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            maskChar={null}
+            maskChar=" "
             value={value || ''}
             onChange={onChange}
             required={required}
             disabled={disabled}
-            autoFocus
+            autoFocus={focus || true}
           >
             {() => (
               <StyledTextField
@@ -51,7 +56,8 @@ export default function TextFieldApp({
                 onChange={onChange}
                 required={required}
                 disabled={disabled}
-                autoFocus
+                autoFocus={focus || true}
+                inputRef={inputRef}
                 variant="standard"
                 label={label}
                 error={!!error}

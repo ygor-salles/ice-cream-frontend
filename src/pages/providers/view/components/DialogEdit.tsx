@@ -60,7 +60,14 @@ export function DialogEdit({
               />
             </Grid>
             <Grid item xs={12}>
-              <TextFieldApp name="phone" control={control} label="Telefone" disabled={loading} />
+              <TextFieldApp
+                name="phone"
+                type="tel"
+                mask="(99) 99999-9999"
+                control={control}
+                label="Telefone"
+                disabled={loading}
+              />
             </Grid>
             <Grid item xs={12}>
               <CheckboxApp

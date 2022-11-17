@@ -44,7 +44,14 @@ export function RegisterProvider(): JSX.Element {
               required
               disabled={loading}
             />
-            <TextFieldApp name="phone" control={control} label="Telefone" disabled={loading} />
+            <TextFieldApp
+              name="phone"
+              control={control}
+              type="tel"
+              mask="(99) 99999-9999"
+              label="Telefone"
+              disabled={loading}
+            />
             <CheckboxApp
               name="its_ice_cream_shoop"
               control={control}

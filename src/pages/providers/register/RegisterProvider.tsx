@@ -48,7 +48,7 @@ export function RegisterProvider(): JSX.Element {
               name="phone"
               control={control}
               type="tel"
-              mask="(99) 99999-9999"
+              mask="(00) 00000-0000"
               label="Telefone"
               disabled={loading}
             />

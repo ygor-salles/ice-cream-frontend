@@ -1,3 +1,4 @@
+import { LocalPhone, PhoneAndroid } from '@mui/icons-material';
 import { TextField } from '@mui/material';
 import styled from 'styled-components';
 
@@ -16,3 +17,11 @@ export const StyledTextField = styled(TextField)(() => ({
   //   },
   // },
 }));
+
+export const StyledPhoneAndroid = styled(PhoneAndroid)`
+  cursor: pointer;
+`;
+
+export const StyledLocalPhone = styled(LocalPhone)`
+  cursor: pointer;
+`;

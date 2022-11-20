@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 
 import { NumberFormatCustom } from '../number-format-custom/NumberFormatCustom';
 import { TextMaskCustom } from '../text-mask-custom/TextMaskCustom';
-import { StyledTextField } from './styles';
+import { StyledTextField, StyledLocalPhone, StyledPhoneAndroid } from './styles';
 
 interface TextFieldPropsApp {
   name: string;
@@ -28,6 +29,8 @@ export default function TextFieldApp({
   mask,
   currency,
 }: TextFieldPropsApp): JSX.Element {
+  const [maskState, setMaskState] = useState(mask);
+
   return (
     <Controller
       name={name}
@@ -39,7 +42,17 @@ export default function TextFieldApp({
           onChange={onChange}
           InputProps={
             mask
-              ? { inputComponent: TextMaskCustom as any, inputProps: { mask } }
+              ? {
+                  inputComponent: TextMaskCustom as any,
+                  inputProps: { mask: maskState },
+                  endAdornment:
+                    type === 'tel' &&
+                    (maskState.length >= 15 ? (
+                      <StyledLocalPhone onClick={() => setMaskState('(00) 0000-0000')} />
+                    ) : (
+                      <StyledPhoneAndroid onClick={() => setMaskState('(00) 00000-0000')} />
+                    )),
+                }
               : currency
               ? { inputComponent: NumberFormatCustom as any }
               : undefined

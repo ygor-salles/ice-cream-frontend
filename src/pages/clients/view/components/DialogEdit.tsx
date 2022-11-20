@@ -69,6 +69,7 @@ export function DialogEdit({
                 name="phone"
                 control={control}
                 label="Telefone"
+                type="tel"
                 mask="(00) 00000-0000"
                 disabled={loading}
               />

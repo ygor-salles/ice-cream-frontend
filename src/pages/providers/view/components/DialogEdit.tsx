@@ -63,7 +63,7 @@ export function DialogEdit({
               <TextFieldApp
                 name="phone"
                 type="tel"
-                mask="(99) 99999-9999"
+                mask="(00) 00000-0000"
                 control={control}
                 label="Telefone"
                 disabled={loading}

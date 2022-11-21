@@ -1,10 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
+import FooterDialogActions from '../../../../shared/components/footerDialogActions/FooterDialogActions';
+import SelectApp from '../../../../shared/components/select/Select';
 import TextFieldApp from '../../../../shared/components/textField/TextField';
-import { IFormUser, IUserDTO, schemaCreateUser } from '../../../../shared/dtos/IUserDTO';
-import { Form, StyledButton, StyledDialogActions } from './styles';
+import { LISTTYPEUSERS } from '../../../../shared/constants/listTypeUsers';
+import { IFormUser, IUserDTO, schemaEditUser } from '../../../../shared/dtos/IUserDTO';
+import { Form } from './styles';
 
 interface DialogEditProps {
   smDown?: boolean;
@@ -12,6 +15,7 @@ interface DialogEditProps {
   open: boolean;
   onSubmitUpdate: (dataForm: IFormUser) => Promise<void>;
   handleClose: () => void;
+  loading: boolean;
 }
 
 export function DialogEdit({
@@ -20,14 +24,15 @@ export function DialogEdit({
   onSubmitUpdate,
   open,
   handleClose,
+  loading,
 }: DialogEditProps): JSX.Element {
   const { handleSubmit, control } = useForm<IFormUser>({
-    resolver: yupResolver(schemaCreateUser),
+    resolver: yupResolver(schemaEditUser),
     defaultValues: {
       id: user.id,
       name: user.name,
       email: user.email,
-      password: user.password,
+      password: '',
       role: user.role,
     },
   });
@@ -44,10 +49,23 @@ export function DialogEdit({
         <DialogContent>
           <Grid container spacing={4}>
             <Grid item xs={12}>
-              <TextFieldApp name="name" control={control} label="Nome" required />
+              <TextFieldApp
+                name="name"
+                control={control}
+                label="Nome"
+                required
+                disabled={loading}
+              />
             </Grid>
             <Grid item xs={12}>
-              <TextFieldApp name="email" control={control} label="E-mail" type="email" required />
+              <TextFieldApp
+                name="email"
+                control={control}
+                label="E-mail"
+                type="email"
+                required
+                disabled={loading}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
@@ -55,22 +73,27 @@ export function DialogEdit({
                 control={control}
                 label="Senha"
                 type="password"
-                required
+                disabled={loading}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextFieldApp name="role" control={control} label="Acesso" />
+              <SelectApp
+                name="role"
+                control={control}
+                label="Acesso"
+                array={LISTTYPEUSERS}
+                required
+                disabled={loading}
+              />
             </Grid>
           </Grid>
         </DialogContent>
-        <StyledDialogActions>
-          <StyledButton variant="outlined" type="button" onClick={handleClose}>
-            CANCELAR
-          </StyledButton>
-          <Button variant="contained" type="submit">
-            EDITAR
-          </Button>
-        </StyledDialogActions>
+        <FooterDialogActions
+          textButtonConfirm="EDITAR"
+          textButtonCancel="CANCELAR"
+          onClose={handleClose}
+          loading={loading}
+        />
       </Form>
     </Dialog>
   );

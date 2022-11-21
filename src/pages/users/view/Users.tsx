@@ -1,120 +1,92 @@
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
-import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
-import SnackBar from '../../../shared/components/snackBar/SnackBar';
-import { IFormUser, IUserDTO, transformObjectUser } from '../../../shared/dtos/IUserDTO';
+import {
+  ActionComponent,
+  _renderBasicDate,
+  _renderBasicTextCell,
+  _renderRoleCell,
+} from '../../../shared/components/renderCellTable/RenderCellTable';
+import TableApp from '../../../shared/components/table/TableApp';
+import { ITypeComponents } from '../../../shared/components/table/types';
+import { IUserDTO } from '../../../shared/dtos/IUserDTO';
+import { useUser } from '../../../shared/hooks/network/useUser';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import UserService from '../../../shared/services/UserService';
 import { DialogEdit } from './components/DialogEdit';
-import { TableUser } from './components/Table';
+import {
+  columnConfig,
+  columnConfigCollapse,
+  columnLabel,
+  columnLabelCollapse,
+  columnType,
+  columnTypeCollapse,
+} from './constants';
 
 export function Users(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const [allUsers, setAllUsers] = useState<IUserDTO[]>([]);
-  const [dataActionTable, setDataActionTable] = useState<IUserDTO>();
-  const [openToast, setOpenToast] = useState(false);
-  const [error, setError] = useState(false);
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [showModalEdit, setShowModalEdit] = useState(false);
-  const [showModalDelete, setShowModalDelete] = useState(false);
-
-  const handleCloseAlert = () => setOpenToast(false);
-
-  const displayNotificationMessage = (error: boolean, message: string) => {
-    setOpenToast(true);
-    setError(error);
-    setMessage(message);
-  };
-
-  const handleClickEdit = (data: IUserDTO) => {
-    setDataActionTable(data);
-    setShowModalEdit(true);
-  };
-
-  const handleClickDelete = (data: IUserDTO) => {
-    setDataActionTable(data);
-    setShowModalDelete(true);
-  };
-
-  async function getUsers(): Promise<void> {
-    setLoading(true);
-    const userService = new UserService();
-
-    try {
-      const listUsers = await userService.loadAll();
-      setAllUsers(listUsers);
-    } catch (error) {
-      const { response } = error as AxiosError;
-      displayNotificationMessage(
-        true,
-        `Error ao buscar dados de usuários! - ${response?.data?.message}`,
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleSubmitUpdate(dataForm: IFormUser) {
-    const data: IUserDTO = transformObjectUser(dataForm);
-
-    const userService = new UserService();
-    try {
-      await userService.updateById({ ...data, id: dataForm.id });
-      displayNotificationMessage(false, 'Usuário atualizado com sucesso!');
-      getUsers();
-    } catch (error) {
-      // const { response } = error as AxiosError;
-      displayNotificationMessage(true, 'Error ao atualizar usuário!');
-    } finally {
-      setShowModalEdit(false);
-    }
-  }
-
-  async function handleSubmitDelete(id: number) {
-    const userService = new UserService();
-    try {
-      await userService.deleteById(id);
-      displayNotificationMessage(false, 'Usuário deletado com sucesso!');
-      getUsers();
-    } catch (err) {
-      // const { response } = error as AxiosError;
-      displayNotificationMessage(true, 'Error ao deletar usuário!');
-    } finally {
-      setShowModalDelete(false);
-    }
-  }
+  const {
+    allUsers,
+    loadingUsers,
+    showModalEdit,
+    showModalDelete,
+    dataActionTable,
+    loadingForm,
+    handleClickEdit,
+    handleClickDelete,
+    handleCloseModalEdit,
+    handleCloseModalDelete,
+    getUsers,
+    handleSubmitDelete,
+    handleSubmitUpdate,
+  } = useUser();
 
   useEffect(() => {
     getUsers();
   }, []);
 
+  const _renderAction = (value: string, data: IUserDTO) => (
+    <ActionComponent
+      smDown={smDown}
+      rowData={data}
+      handleClickEdit={handleClickEdit}
+      handleClickDelete={handleClickDelete}
+    />
+  );
+
+  const components: ITypeComponents = {
+    [columnType.NAME]: _renderBasicTextCell,
+    [columnType.ROLE]: _renderRoleCell,
+    [columnType.ACTION]: _renderAction,
+  };
+
+  const componentsCollapse: ITypeComponents = {
+    [columnTypeCollapse.EMAIL]: _renderBasicTextCell,
+    [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
+    [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
+  };
+
   return (
     <>
-      <SnackBar
-        open={openToast}
-        onCloseAlert={handleCloseAlert}
-        onCloseSnack={handleCloseAlert}
-        message={message}
-        severity={error ? 'error' : 'success'}
-      />
-
       <LayoutBaseDePagina
         titulo="Usuários"
         navigatePage="/users/create"
         textButton="CADASTRAR"
         icon="add"
       >
-        {loading ? (
+        {loadingUsers ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableUser
-            allUsers={allUsers}
-            onClickEdit={handleClickEdit}
-            onClickDelete={handleClickDelete}
+          <TableApp
+            tableName="table-clients"
+            data={allUsers}
+            components={components}
+            columnConfig={columnConfig}
+            renderCellHeader={key => columnLabel[key]}
+            columnConfigCollapse={columnConfigCollapse}
+            componentsCollapse={componentsCollapse}
+            renderCellHeaderCollapse={key => columnLabelCollapse[key]}
           />
         )}
       </LayoutBaseDePagina>
@@ -124,8 +96,9 @@ export function Users(): JSX.Element {
           smDown={smDown}
           user={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
-          handleClose={() => setShowModalEdit(false)}
+          handleClose={handleCloseModalEdit}
           open={showModalEdit}
+          loading={loadingForm}
         />
       )}
 
@@ -134,11 +107,12 @@ export function Users(): JSX.Element {
           open={showModalDelete}
           handleSubmit={handleSubmitDelete}
           id={dataActionTable?.id}
-          handleClose={() => setShowModalDelete(false)}
+          handleClose={handleCloseModalDelete}
           textButtonClose="CANCELAR"
           textButtonSubmit="DELETAR"
           title="DELETAR CLIENTE"
           text="Tem certeza que deseja deletar este usuário?"
+          loading={loadingForm}
         />
       )}
     </>

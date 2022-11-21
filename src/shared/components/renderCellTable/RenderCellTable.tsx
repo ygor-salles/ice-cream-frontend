@@ -1,5 +1,6 @@
 import { Icon, Switch } from '@mui/material';
 
+import { EnumRoleUser } from '../../dtos/IUserDTO';
 import formatDate from '../../utils/formatDate';
 import { formatNumberToCurrency } from '../../utils/formatNumberToCurrency';
 import { ActionContent, StyledIcon } from './styles';
@@ -72,3 +73,10 @@ export const ActionComponent: React.FC<ActionComponentProps> = ({
     </Icon>
   </ActionContent>
 );
+
+export const _renderRoleCell = (value: EnumRoleUser) => {
+  if (value === EnumRoleUser.SUPER) return <span>Admin</span>;
+  if (value === EnumRoleUser.EMPLOYEE) return <span>Funcionário</span>;
+  if (value === EnumRoleUser.NORMAL) return <span>Comum</span>;
+  return <span>--</span>;
+};

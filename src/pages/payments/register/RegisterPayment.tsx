@@ -1,40 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { CircularProgress, Skeleton, Theme, useMediaQuery } from '@mui/material';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { Skeleton, Theme, useMediaQuery } from '@mui/material';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
+import ButtonSubmitApp from '../../../shared/components/button/ButtonSubmitApp';
 import SelectApp from '../../../shared/components/select/Select';
-import Snackbar from '../../../shared/components/snackBar/SnackBar';
 import TextFieldApp from '../../../shared/components/textField/TextField';
-import {
-  IFormPayment,
-  IPaymentDTO,
-  schemaCreatePayment,
-  transformObjectPayment,
-} from '../../../shared/dtos/IPaymentDTO';
+import { IFormPayment, schemaCreatePayment } from '../../../shared/dtos/IPaymentDTO';
 import { useClient } from '../../../shared/hooks/network/useClient';
+import { usePayment } from '../../../shared/hooks/network/usePayment';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import PaymentService from '../../../shared/services/PaymentService';
-import { Form, StyledCard } from './styles';
+import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterPayment(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
-  const [openToast, setOpenToast] = useState(false);
-  const [error, setError] = useState(false);
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleCloseAlert = () => setOpenToast(false);
-
-  const displayNotificationMessage = (error: boolean, message: string) => {
-    setOpenToast(true);
-    setError(error);
-    setMessage(message);
-  };
 
   const { handleSubmit, control, reset } = useForm<IFormPayment>({
     resolver: yupResolver(schemaCreatePayment),
@@ -45,107 +24,59 @@ export function RegisterPayment(): JSX.Element {
     },
   });
 
-  async function handleSubmitCreate(dataForm: IFormPayment) {
-    setLoading(true);
-    const data: IPaymentDTO = transformObjectPayment(dataForm);
-
-    const paymentService = new PaymentService();
-    try {
-      await paymentService.create(data);
-      displayNotificationMessage(false, 'Pagamento cadastrado com sucesso!');
-    } catch (error) {
-      const { response } = error as AxiosError;
-      displayNotificationMessage(true, `Erro ao cadastrar pagamento - ${response?.data?.message}`);
-    } finally {
-      setLoading(false);
-      reset();
-    }
-  }
-
   const { allClients, loadingClients, getClients } = useClient();
+
+  const { handleSubmitCreate, loadingForm: loading } = usePayment();
 
   useEffect(() => {
     getClients();
   }, []);
 
   return (
-    <>
-      <Snackbar
-        open={openToast}
-        onCloseAlert={handleCloseAlert}
-        onCloseSnack={handleCloseAlert}
-        message={message}
-        severity={error ? 'error' : 'success'}
-      />
-      <LayoutBaseDePagina
-        titulo="Cadastro pagamento"
-        navigatePage="/payments"
-        textButton="VOLTAR"
-        icon="arrow_back"
-      >
-        {loadingClients ? (
-          <Skeleton variant="rectangular" width="100%" height={300} />
-        ) : (
-          <Form noValidate onSubmit={handleSubmit(handleSubmitCreate)}>
-            <StyledCard>
-              <Grid container spacing={4}>
-                <Grid item xs={12}>
-                  <TextFieldApp
-                    name="value"
-                    control={control}
-                    label="Valor do pagamento"
-                    currency
-                    required
-                    disabled={loading}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <SelectApp
-                    name="client_id"
-                    control={control}
-                    array={allClients}
-                    setId
-                    label="Cliente"
-                    required
-                    disabled={loading}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextFieldApp
-                    name="observation"
-                    control={control}
-                    label="Observação"
-                    disabled={loading}
-                  />
-                </Grid>
-              </Grid>
+    <LayoutBaseDePagina
+      titulo="Cadastro pagamento"
+      navigatePage="/payments"
+      textButton="VOLTAR"
+      icon="arrow_back"
+    >
+      {loadingClients ? (
+        <Skeleton variant="rectangular" width="100%" height={300} />
+      ) : (
+        <Form
+          noValidate
+          onSubmit={handleSubmit((data: IFormPayment) => handleSubmitCreate(data, reset))}
+        >
+          <StyledCard>
+            <GridForm>
+              <TextFieldApp
+                name="value"
+                control={control}
+                label="Valor do pagamento"
+                currency
+                required
+                disabled={loading}
+              />
+              <SelectApp
+                name="client_id"
+                control={control}
+                array={allClients}
+                setId
+                label="Cliente"
+                required
+                disabled={loading}
+              />
+              <TextFieldApp
+                name="observation"
+                control={control}
+                label="Observação"
+                disabled={loading}
+              />
+            </GridForm>
 
-              <Grid container sx={{ mt: 6 }}>
-                <Grid item display="flex" justifyContent="flex-end" width="100%">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth={!!smDown}
-                    sx={{
-                      bgcolor: 'primary',
-                      padding: smDown ? '10px' : 'auto',
-                      fontSize: smDown ? '1rem' : 'auto',
-                    }}
-                    endIcon={
-                      loading ? (
-                        <CircularProgress variant="indeterminate" color="inherit" size={20} />
-                      ) : undefined
-                    }
-                    disabled={loading}
-                  >
-                    CADASTRAR
-                  </Button>
-                </Grid>
-              </Grid>
-            </StyledCard>
-          </Form>
-        )}
-      </LayoutBaseDePagina>
-    </>
+            <ButtonSubmitApp loading={loading} smDown={smDown} textButton="CADASTRAR" />
+          </StyledCard>
+        </Form>
+      )}
+    </LayoutBaseDePagina>
   );
 }

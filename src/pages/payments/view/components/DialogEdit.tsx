@@ -1,8 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import { LISTCLIENTS } from '../../../../assets/mocks/ListClients';
+import FooterDialogActions from '../../../../shared/components/footerDialogActions/FooterDialogActions';
 import SelectApp from '../../../../shared/components/select/Select';
 import TextFieldApp from '../../../../shared/components/textField/TextField';
 import {
@@ -10,7 +11,7 @@ import {
   IPaymentDTO,
   schemaCreatePayment,
 } from '../../../../shared/dtos/IPaymentDTO';
-import { Form, StyledButton, StyledDialogActions } from './styles';
+import { Form } from './styles';
 
 interface DialogEditProps {
   smDown?: boolean;
@@ -18,6 +19,7 @@ interface DialogEditProps {
   open: boolean;
   onSubmitUpdate: (dataForm: IFormPayment) => Promise<void>;
   handleClose: () => void;
+  loading: boolean;
 }
 
 export function DialogEdit({
@@ -26,6 +28,7 @@ export function DialogEdit({
   onSubmitUpdate,
   open,
   handleClose,
+  loading,
 }: DialogEditProps): JSX.Element {
   const { handleSubmit, control } = useForm<IFormPayment>({
     resolver: yupResolver(schemaCreatePayment),
@@ -55,6 +58,7 @@ export function DialogEdit({
                 label="Valor do pagamento"
                 currency
                 required
+                disabled={loading}
               />
             </Grid>
             <Grid item xs={12}>
@@ -65,21 +69,25 @@ export function DialogEdit({
                 setId
                 label="Cliente"
                 required
+                disabled={loading}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextFieldApp name="observation" control={control} label="Observação" />
+              <TextFieldApp
+                name="observation"
+                control={control}
+                label="Observação"
+                disabled={loading}
+              />
             </Grid>
           </Grid>
         </DialogContent>
-        <StyledDialogActions>
-          <StyledButton variant="outlined" type="button" onClick={handleClose}>
-            CANCELAR
-          </StyledButton>
-          <Button variant="contained" type="submit">
-            EDITAR
-          </Button>
-        </StyledDialogActions>
+        <FooterDialogActions
+          textButtonConfirm="EDITAR"
+          textButtonCancel="CANCELAR"
+          onClose={handleClose}
+          loading={loading}
+        />
       </Form>
     </Dialog>
   );

@@ -1,124 +1,97 @@
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
-import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
-import SnackBar from '../../../shared/components/snackBar/SnackBar';
 import {
-  IFormPayment,
-  IPaymentDTO,
-  transformObjectPayment,
-} from '../../../shared/dtos/IPaymentDTO';
+  ActionComponent,
+  _renderBasicDate,
+  _renderBasicTextCell,
+  _renderBasicToCurrency,
+  _renderPaymentClientName,
+} from '../../../shared/components/renderCellTable/RenderCellTable';
+import TableApp from '../../../shared/components/table/TableApp';
+import { ITypeComponents } from '../../../shared/components/table/types';
+import { IPaymentDTO } from '../../../shared/dtos/IPaymentDTO';
+import { usePayment } from '../../../shared/hooks/network/usePayment';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import PaymentService from '../../../shared/services/PaymentService';
 import { DialogEdit } from './components/DialogEdit';
-import { TablePayment } from './components/Table';
+import {
+  columnConfig,
+  columnConfigCollapse,
+  columnLabel,
+  columnLabelCollapse,
+  columnType,
+  columnTypeCollapse,
+} from './constants';
 
 export function Payments(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const [allPayments, setAllPayments] = useState<IPaymentDTO[]>([]);
-  const [dataActionTable, setDataActionTable] = useState<IPaymentDTO>();
-  const [openToast, setOpenToast] = useState(false);
-  const [error, setError] = useState(false);
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [showModalEdit, setShowModalEdit] = useState(false);
-  const [showModalDelete, setShowModalDelete] = useState(false);
-
-  const handleCloseAlert = () => setOpenToast(false);
-
-  const displayNotificationMessage = (error: boolean, message: string) => {
-    setOpenToast(true);
-    setError(error);
-    setMessage(message);
-  };
-
-  const handleClickEdit = (data: IPaymentDTO) => {
-    setDataActionTable(data);
-    setShowModalEdit(true);
-  };
-
-  const handleClickDelete = (data: IPaymentDTO) => {
-    setDataActionTable(data);
-    setShowModalDelete(true);
-  };
-
-  async function getPayments(): Promise<void> {
-    setLoading(true);
-    const paymentService = new PaymentService();
-
-    try {
-      const listPayments = await paymentService.loadAll();
-      setAllPayments(listPayments);
-    } catch (error) {
-      const { response } = error as AxiosError;
-      displayNotificationMessage(
-        true,
-        `Error ao buscar dados de pagamentos! - ${response?.data?.message}`,
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleSubmitUpdate(dataForm: IFormPayment) {
-    const data: IPaymentDTO = transformObjectPayment(dataForm);
-
-    const paymentService = new PaymentService();
-    try {
-      await paymentService.updateById({ ...data, id: dataForm.id });
-      displayNotificationMessage(false, 'Pagamento atualizado com sucesso!');
-      getPayments();
-    } catch (error) {
-      // const { response } = error as AxiosError;
-      displayNotificationMessage(true, 'Error ao atualizar pagamento!');
-    } finally {
-      setShowModalEdit(false);
-    }
-  }
-
-  async function handleSubmitDelete(id: number) {
-    const paymentService = new PaymentService();
-    try {
-      await paymentService.deleteById(id);
-      displayNotificationMessage(false, 'Pagamento deletado com sucesso!');
-      getPayments();
-    } catch (err) {
-      // const { response } = error as AxiosError;
-      displayNotificationMessage(true, 'Error ao deletar pagamento!');
-    } finally {
-      setShowModalDelete(false);
-    }
-  }
+  const {
+    allPayments,
+    loadingPayments,
+    showModalEdit,
+    showModalDelete,
+    dataActionTable,
+    loadingForm,
+    handleClickEdit,
+    handleClickDelete,
+    handleCloseModalEdit,
+    handleCloseModalDelete,
+    getPayments,
+    handleSubmitDelete,
+    handleSubmitUpdate,
+  } = usePayment();
 
   useEffect(() => {
     getPayments();
   }, []);
 
+  const _renderAction = (value: string, { observation, ...rowData }: IPaymentDTO) => {
+    // eslint-disable-next-line no-param-reassign
+    observation = observation || '';
+    return (
+      <ActionComponent
+        smDown={smDown}
+        rowData={{ observation, ...rowData }}
+        handleClickEdit={handleClickEdit}
+        handleClickDelete={handleClickDelete}
+      />
+    );
+  };
+
+  const components: ITypeComponents = {
+    [columnType.VALUE]: _renderBasicToCurrency,
+    [columnType.CLIENT]: _renderPaymentClientName,
+    [columnType.ACTION]: _renderAction,
+  };
+
+  const componentsCollapse: ITypeComponents = {
+    [columnTypeCollapse.OBSERVATION]: _renderBasicTextCell,
+    [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
+    [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
+  };
+
   return (
     <>
-      <SnackBar
-        open={openToast}
-        onCloseAlert={handleCloseAlert}
-        onCloseSnack={handleCloseAlert}
-        message={message}
-        severity={error ? 'error' : 'success'}
-      />
-
       <LayoutBaseDePagina
         titulo="Pagamentos"
         navigatePage="/payments/create"
         textButton="CADASTRAR"
         icon="add"
       >
-        {loading ? (
+        {loadingPayments ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TablePayment
-            allPayments={allPayments}
-            onClickEdit={handleClickEdit}
-            onClickDelete={handleClickDelete}
+          <TableApp
+            tableName="table-payments"
+            data={allPayments}
+            components={components}
+            columnConfig={columnConfig}
+            renderCellHeader={key => columnLabel[key]}
+            columnConfigCollapse={columnConfigCollapse}
+            componentsCollapse={componentsCollapse}
+            renderCellHeaderCollapse={key => columnLabelCollapse[key]}
           />
         )}
       </LayoutBaseDePagina>
@@ -128,8 +101,9 @@ export function Payments(): JSX.Element {
           smDown={smDown}
           payment={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
-          handleClose={() => setShowModalEdit(false)}
+          handleClose={handleCloseModalEdit}
           open={showModalEdit}
+          loading={loadingForm}
         />
       )}
 
@@ -138,11 +112,12 @@ export function Payments(): JSX.Element {
           open={showModalDelete}
           handleSubmit={handleSubmitDelete}
           id={dataActionTable?.id}
-          handleClose={() => setShowModalDelete(false)}
+          handleClose={handleCloseModalDelete}
           textButtonClose="CANCELAR"
           textButtonSubmit="DELETAR"
-          title="DELETAR CLIENTE"
+          title="DELETAR PAGAMENTO"
           text="Tem certeza que deseja deletar este pagamento?"
+          loading={loadingForm}
         />
       )}
     </>

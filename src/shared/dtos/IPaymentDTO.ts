@@ -18,7 +18,7 @@ export interface IFormPayment {
   client_id: string;
 }
 
-export const transformObjectPayment = (dataForm: IFormPayment): IPaymentDTO => {
+export const transformObject = (dataForm: IFormPayment): IPaymentDTO => {
   const object: IPaymentDTO = {
     value: Mask.convertCurrency(dataForm.value),
     client_id: Number(dataForm.client_id),

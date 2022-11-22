@@ -1,5 +1,6 @@
 import { Icon, Switch } from '@mui/material';
 
+import { IClientDTO } from '../../dtos/IClientDTO';
 import { EnumRoleUser } from '../../dtos/IUserDTO';
 import formatDate from '../../utils/formatDate';
 import { formatNumberToCurrency } from '../../utils/formatNumberToCurrency';
@@ -80,3 +81,5 @@ export const _renderRoleCell = (value: EnumRoleUser) => {
   if (value === EnumRoleUser.NORMAL) return <span>Comum</span>;
   return <span>--</span>;
 };
+
+export const _renderPaymentClientName = ({ name }: IClientDTO) => <span>{name || '--'}</span>;

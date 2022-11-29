@@ -21,7 +21,14 @@ export interface ITypeComponents {
   [x: string]: (value?: any, data?: object, rowIndex?: number, isChecked?: boolean) => JSX.Element;
 }
 
+export enum TypeColumnTableEnum {
+  string = 'string',
+  number = 'number',
+  boolean = 'boolean',
+  timestamp = 'timestamp',
+}
 export interface IRenderInputSearch {
   searchPropertName: string;
   placeholder: string;
+  type: keyof typeof TypeColumnTableEnum;
 }

@@ -45,4 +45,18 @@ export default class Mask {
     }
     return e;
   }
+
+  static convertNumberToString(value: number): string {
+    return value.toFixed(2).replace('.', ',');
+  }
+
+  static convertBooleanToString(value: boolean): string {
+    if (value === true) return 'habilitado';
+    if (value === false) return 'desabilitado';
+    return 'desabilitado';
+  }
+
+  static convertTimestampToDateString(value: Date): string {
+    return new Intl.DateTimeFormat('pt-BR').format(new Date(value));
+  }
 }

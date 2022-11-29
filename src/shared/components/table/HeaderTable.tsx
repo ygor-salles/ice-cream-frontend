@@ -5,11 +5,15 @@ import { useState } from 'react';
 import SelectApp from '../select/Select';
 import TextFieldApp from '../textField/TextField';
 import { ContentFilter, CustomAccordion } from './styles';
-import { IRenderInputSearch } from './types';
+import { IRenderInputSearch, TypeColumnTableEnum } from './types';
 
 interface HeaderTableProps {
   renderInputSearchAndSelect?: IRenderInputSearch[];
-  handleSearch: (value: string, searchPropertName: string) => void;
+  handleSearch: (
+    value: string,
+    searchPropertName: string,
+    type: keyof typeof TypeColumnTableEnum,
+  ) => void;
 }
 
 const HeaderTable: React.FC<HeaderTableProps> = ({ renderInputSearchAndSelect, handleSearch }) => {
@@ -41,7 +45,7 @@ const HeaderTable: React.FC<HeaderTableProps> = ({ renderInputSearchAndSelect, h
                 item => item.placeholder === searchSelectState,
               );
 
-              handleSearch(value, objInputSearch[0].searchPropertName);
+              handleSearch(value, objInputSearch[0].searchPropertName, objInputSearch[0].type);
             }}
             disabled={!searchSelectState.length}
           />

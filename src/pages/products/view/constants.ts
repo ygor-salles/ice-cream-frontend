@@ -44,9 +44,15 @@ export const columnLabelCollapse: ITypeColumnLabel = {
   [columnTypeCollapse.ACTION]: 'Ação',
 };
 
+// Table Filter --------------------------
+
 export const filterTable: IRenderInputSearch[] = [
-  { searchPropertName: columnType.NAME, placeholder: 'nome' },
-  // { searchPropertName: columnType.PRICE, placeholder: 'preço' },
-  // { searchPropertName: columnType.STATUS, placeholder: 'status' },
-  // { searchPropertName: columnTypeCollapse.UPDATED_AT, placeholder: 'data de atualização' },
+  { searchPropertName: columnType.NAME, placeholder: 'nome', type: 'string' },
+  { searchPropertName: columnType.PRICE, placeholder: 'preço', type: 'number' },
+  { searchPropertName: columnType.STATUS, placeholder: 'status', type: 'boolean' },
+  {
+    searchPropertName: columnTypeCollapse.UPDATED_AT,
+    placeholder: 'data de atualização',
+    type: 'timestamp',
+  },
 ];

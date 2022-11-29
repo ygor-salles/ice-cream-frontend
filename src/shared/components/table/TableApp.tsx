@@ -11,11 +11,17 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 
+import Mask from '../../constants/masks';
 import { TablePaginationActions } from '../total-pagination-actions/TotalPaginationActions';
 import HeaderTable from './HeaderTable';
 import Row from './Row';
 import { StyledTableCell } from './styles';
-import { IRenderInputSearch, ITypeColumnConfig, ITypeComponents } from './types';
+import {
+  IRenderInputSearch,
+  ITypeColumnConfig,
+  ITypeComponents,
+  TypeColumnTableEnum,
+} from './types';
 
 interface TableAppProps {
   tableName: string;
@@ -67,13 +73,26 @@ const TableApp: React.FC<TableAppProps> = ({
     setPage(0);
   };
 
-  const handleSearch = (value: string, searchPropertName: string) => {
+  const handleSearch = (
+    value: string,
+    searchPropertName: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type: keyof typeof TypeColumnTableEnum,
+  ) => {
     const newUpdateInstance: any[] = [];
     const textTyped = new RegExp(value.toUpperCase(), 'i');
 
     // eslint-disable-next-line no-restricted-syntax
     for (const instance of data) {
-      if (instance[searchPropertName].match(textTyped)) {
+      if (
+        (type === 'string' && instance[searchPropertName].match(textTyped)) ||
+        (type === 'number' &&
+          Mask.convertNumberToString(instance[searchPropertName]).match(textTyped)) ||
+        (type === 'boolean' &&
+          Mask.convertBooleanToString(instance[searchPropertName]).match(textTyped)) ||
+        (type === 'timestamp' &&
+          Mask.convertTimestampToDateString(instance[searchPropertName]).match(textTyped))
+      ) {
         newUpdateInstance.push(instance);
       } else {
         setDataState(data);

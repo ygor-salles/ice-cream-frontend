@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AttachMoney } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -63,7 +64,7 @@ export function RegisterSale(): JSX.Element {
       titulo="Cadastro venda"
       navigatePage="/sales"
       textButton="VENDAS"
-      icon="sell"
+      icon={<AttachMoney />}
     >
       {loadingProducts || loadingClients ? (
         <Skeleton variant="rectangular" width="100%" height={450} />

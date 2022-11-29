@@ -1,3 +1,5 @@
+import { AddBox } from '@mui/icons-material';
+
 import { LayoutBaseDePagina } from '../../shared/layouts';
 
 export function Sales(): JSX.Element {
@@ -6,7 +8,7 @@ export function Sales(): JSX.Element {
       titulo="Vendas"
       navigatePage="/sales/create"
       textButton="CADASTRAR"
-      icon="add"
+      icon={<AddBox />}
     >
       Exibição vendas
     </LayoutBaseDePagina>

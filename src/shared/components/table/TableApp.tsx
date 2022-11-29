@@ -35,6 +35,7 @@ interface TableAppProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
   renderCellHeaderCollapse: (key: string) => {};
   isMobile: boolean;
+  showFilterState?: boolean;
   renderInputSearchAndSelect?: IRenderInputSearch[];
 }
 
@@ -48,6 +49,7 @@ const TableApp: React.FC<TableAppProps> = ({
   renderCellHeader,
   renderCellHeaderCollapse,
   isMobile,
+  showFilterState,
   renderInputSearchAndSelect,
 }) => {
   const [dataState, setDataState] = useState(data);
@@ -106,9 +108,12 @@ const TableApp: React.FC<TableAppProps> = ({
   return (
     <>
       <HeaderTable
+        open={showFilterState}
         handleSearch={handleSearch}
         renderInputSearchAndSelect={renderInputSearchAndSelect}
+        isMobile={isMobile}
       />
+
       <TableContainer component={Paper}>
         <Table aria-label={tableName}>
           <TableHead>

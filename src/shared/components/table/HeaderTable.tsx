@@ -1,58 +1,59 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { AccordionDetails, AccordionSummary } from '@mui/material';
 import { useState } from 'react';
 
-import SelectApp from '../select/Select';
 import TextFieldApp from '../textField/TextField';
-import { ContentFilter, CustomAccordion } from './styles';
+import { StyledAccordion, CustomSelectApp } from './styles';
 import { IRenderInputSearch, TypeColumnTableEnum } from './types';
 
 interface HeaderTableProps {
+  open?: boolean;
   renderInputSearchAndSelect?: IRenderInputSearch[];
   handleSearch: (
     value: string,
     searchPropertName: string,
     type: keyof typeof TypeColumnTableEnum,
   ) => void;
+  isMobile: boolean;
 }
 
-const HeaderTable: React.FC<HeaderTableProps> = ({ renderInputSearchAndSelect, handleSearch }) => {
+const HeaderTable: React.FC<HeaderTableProps> = ({
+  open,
+  renderInputSearchAndSelect,
+  handleSearch,
+  isMobile,
+  ...rest
+}) => {
   const [searchSelectState, setSearchSelectState] = useState('');
 
-  return (
-    <CustomAccordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>Filtros</AccordionSummary>
-      <AccordionDetails>
-        <ContentFilter>
-          <SelectApp
-            name=""
-            control={undefined}
-            array={renderInputSearchAndSelect.map(item => ({
-              name: item.placeholder,
-            }))}
-            label="Selecione coluna de busca"
-            onChangeStateController={e => {
-              setSearchSelectState(e.target.value as string);
-            }}
-            required
-          />
-          <TextFieldApp
-            name=""
-            control={undefined}
-            label={`Pesquisar ${searchSelectState}`}
-            handleSearch={value => {
-              const objInputSearch = renderInputSearchAndSelect.filter(
-                item => item.placeholder === searchSelectState,
-              );
+  return renderInputSearchAndSelect ? (
+    <StyledAccordion open={open} isMobile={isMobile} {...rest}>
+      <CustomSelectApp
+        name=""
+        control={undefined}
+        array={renderInputSearchAndSelect?.map(item => ({
+          name: item.placeholder,
+        }))}
+        label="Selecione coluna de busca"
+        onChangeStateController={e => {
+          setSearchSelectState(e.target.value as string);
+        }}
+        required
+        isMobile={isMobile}
+      />
+      <TextFieldApp
+        name=""
+        control={undefined}
+        label={`Pesquisar ${searchSelectState}`}
+        handleSearch={value => {
+          const objInputSearch = renderInputSearchAndSelect?.filter(
+            item => item.placeholder === searchSelectState,
+          );
 
-              handleSearch(value, objInputSearch[0].searchPropertName, objInputSearch[0].type);
-            }}
-            disabled={!searchSelectState.length}
-          />
-        </ContentFilter>
-      </AccordionDetails>
-    </CustomAccordion>
-  );
+          handleSearch(value, objInputSearch[0].searchPropertName, objInputSearch[0].type);
+        }}
+        disabled={!searchSelectState.length}
+      />
+    </StyledAccordion>
+  ) : null;
 };
 
 export default HeaderTable;

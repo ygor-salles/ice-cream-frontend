@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ArrowBack } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -37,7 +38,7 @@ export function RegisterPayment(): JSX.Element {
       titulo="Cadastro pagamento"
       navigatePage="/payments"
       textButton="VOLTAR"
-      icon="arrow_back"
+      icon={<ArrowBack />}
     >
       {loadingClients ? (
         <Skeleton variant="rectangular" width="100%" height={300} />

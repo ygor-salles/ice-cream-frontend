@@ -1,5 +1,6 @@
+import { AddBox, FilterAlt } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
 import {
@@ -51,6 +52,8 @@ export function Products(): JSX.Element {
     return () => clearTimeout(timerRef.current);
   }, []);
 
+  const [showFilterState, setShowFilterState] = useState(false);
+
   const _renderSwitchToggle = (value: boolean, { id }: IProductDTO) => {
     return (
       <SwitchComponent id={id} value={value} onSubmitSwitchToogle={handleSubmitSwitchToogle} />
@@ -88,7 +91,11 @@ export function Products(): JSX.Element {
         titulo="Produtos"
         navigatePage="/products/create"
         textButton="CADASTRAR"
-        icon="add"
+        icon={<AddBox />}
+        textButtonRight="FILTRAR"
+        iconRight={<FilterAlt />}
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        onClickRight={() => setShowFilterState(value => !value)}
       >
         {loadingProducts ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
@@ -107,6 +114,7 @@ export function Products(): JSX.Element {
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
             isMobile={smDown}
+            showFilterState={showFilterState}
             renderInputSearchAndSelect={filterTable}
           />
         )}

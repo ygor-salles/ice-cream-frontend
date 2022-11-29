@@ -1,23 +1,26 @@
-import {
-  Theme,
-  useMediaQuery,
-  useTheme,
-  IconButton,
-  Icon,
-  Typography,
-  Button,
-  Container,
-  Box,
-} from '@mui/material';
+import { Theme, useMediaQuery, IconButton, Icon, Button, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import { useDrawerContext } from '../contexts';
+import {
+  Main,
+  Header,
+  Wrapper,
+  Title,
+  Section,
+  ContentChildren,
+  Footer,
+  ButtonFooter,
+} from './styles';
 
 interface ILayoutBaseDePaginaProps {
   titulo: string;
   textButton: string;
   navigatePage: string;
-  icon: string;
+  icon: React.ReactElement;
+  textButtonRight?: string;
+  iconRight?: React.ReactElement;
+  onClickRight?: () => void;
 }
 export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
   children,
@@ -25,89 +28,88 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
   navigatePage,
   textButton,
   icon,
+  iconRight,
+  textButtonRight,
+  onClickRight,
 }) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const mdDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
-  const theme = useTheme();
 
   const { toggleDrawerOpen } = useDrawerContext();
 
   const navigate = useNavigate();
 
   return (
-    <Box height="100%" display="flex" flexDirection="column" gap={1}>
+    <Main>
       {/* header */}
-      <Box
-        padding={1}
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        gap={1}
-        // eslint-disable-next-line no-nested-ternary
-        height={theme.spacing(smDown ? 8 : mdDown ? 8 : 12)}
-        sx={{ margin: smDown ? '0' : '0 20px 0 20px' }}
-        component="header"
-        bgcolor={smDown ? 'primary.light' : ''}
-      >
-        <Box display="flex" alignItems="center">
+      <Header smDown={smDown} mdDown={mdDown}>
+        <Wrapper>
           {smDown && (
             <IconButton onClick={toggleDrawerOpen}>
               <Icon color="info">menu</Icon>
             </IconButton>
           )}
 
-          {smDown ? (
-            <Typography
-              overflow="hidden"
-              whiteSpace="nowrap"
-              textOverflow="ellipses"
-              variant="h5"
-              color="white"
-            >
-              {titulo}
-            </Typography>
-          ) : (
-            <Typography overflow="hidden" whiteSpace="nowrap" textOverflow="ellipses" variant="h4">
-              {titulo}
-            </Typography>
-          )}
-        </Box>
+          <Title smDown={smDown} variant={smDown ? 'h5' : 'h4'}>
+            {titulo}
+          </Title>
+        </Wrapper>
 
-        {smDown ? (
+        {!smDown && (
+          <Wrapper gap>
+            {textButtonRight && iconRight && onClickRight && (
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={iconRight && iconRight}
+                onClick={onClickRight}
+              >
+                {textButtonRight}
+              </Button>
+            )}
+            <Button
+              variant="contained"
+              startIcon={icon && icon}
+              onClick={() => navigate(navigatePage)}
+            >
+              {textButton}
+            </Button>
+          </Wrapper>
+        )}
+
+        {smDown && !textButtonRight && !iconRight && !onClickRight && (
           <Button
             color="info"
             variant="outlined"
-            startIcon={<Icon>{icon}</Icon>}
-            onClick={() => navigate(navigatePage)}
-          >
-            {textButton}
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            startIcon={<Icon>{icon}</Icon>}
+            startIcon={icon && icon}
             onClick={() => navigate(navigatePage)}
           >
             {textButton}
           </Button>
         )}
-      </Box>
+      </Header>
 
-      {/* main - section */}
-      <Box flex={1} overflow="auto" component="section">
+      {/* main section */}
+      <Section>
         <Container maxWidth="xl">
-          <Box
-            sx={{
-              marginTop: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            {children}
-          </Box>
+          <ContentChildren>{children}</ContentChildren>
         </Container>
-      </Box>
-    </Box>
+      </Section>
+
+      {/* footer - apenas para dispositivos mobiles */}
+      {smDown && textButtonRight && iconRight && onClickRight && (
+        <Footer>
+          <ButtonFooter onClick={() => navigate(navigatePage)}>
+            {icon && icon}
+            <span>{textButton}</span>
+          </ButtonFooter>
+
+          <ButtonFooter onClick={onClickRight}>
+            {iconRight && iconRight}
+            <span>{textButtonRight}</span>
+          </ButtonFooter>
+        </Footer>
+      )}
+    </Main>
   );
 };

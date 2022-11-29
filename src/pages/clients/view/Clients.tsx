@@ -1,3 +1,4 @@
+import { AddBox } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 
@@ -77,7 +78,7 @@ export function Clients(): JSX.Element {
         titulo="Clientes"
         navigatePage="/clients/create"
         textButton="CADASTRAR"
-        icon="add"
+        icon={<AddBox />}
       >
         {loadingClients ? (
           <Skeleton variant="rectangular" width="100%" height={450} />

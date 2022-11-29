@@ -1,5 +1,7 @@
-import { Accordion, TableCell, TableRow } from '@mui/material';
-import styled from 'styled-components';
+import { Card, TableCell, TableRow } from '@mui/material';
+import styled, { css } from 'styled-components';
+
+import SelectApp from '../select/Select';
 
 interface ITableCell {
   width?: number;
@@ -10,6 +12,15 @@ interface ITableCell {
 
 interface ITableCellCollapse {
   isMobile: boolean;
+}
+
+interface IStyledAccordion {
+  open: boolean;
+  isMobile?: boolean;
+}
+
+interface ICustomSelectApp {
+  isMobile?: boolean;
 }
 
 export const StyledTableCell = styled(TableCell).withConfig({
@@ -35,11 +46,6 @@ export const TableCellCollapse = styled(TableCell).withConfig({
   border-top: none;
 `;
 
-export const CustomAccordion = styled(Accordion)`
-  width: 100%;
-  margin-bottom: 25px;
-`;
-
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -53,9 +59,34 @@ export const Content = styled.div`
   width: 100%;
 `;
 
-export const ContentFilter = styled.div`
+export const StyledAccordion = styled(Card).withConfig({
+  shouldForwardProp: prop => !['open', 'isMobile'].includes(prop),
+})<IStyledAccordion>`
+  ${({ open }) =>
+    open
+      ? css`
+          overflow: visible;
+          visibility: visible;
+          margin-bottom: 25px;
+          padding: 15px;
+        `
+      : css`
+          height: 0;
+          overflow: hidden;
+          visibility: hidden;
+          padding: 0 15px;
+          /* transition: margin 225ms cubic-bezier(0.4, 0, 0.2, 1),box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1); */
+        `}
+  position: relative;
+  transition: all 0.4s;
+
+  width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: ${props => (props.isMobile ? 'column' : 'row')};
   align-items: center;
-  gap: 30px;
+  gap: ${props => (props.isMobile ? '15px' : '30px')};
+`;
+
+export const CustomSelectApp = styled(SelectApp)<ICustomSelectApp>`
+  width: ${props => (props.isMobile ? '100%' : '40%')};
 `;

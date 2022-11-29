@@ -33,6 +33,7 @@ export default function SelectApp({
   onBlur,
   onClose,
   onChangeStateController,
+  ...rest
 }: SelectPropsApp) {
   return control ? (
     <Controller
@@ -45,6 +46,7 @@ export default function SelectApp({
           disabled={disabled}
           variant="standard"
           error={!!error}
+          {...rest}
         >
           <InputLabel>{label}</InputLabel>
           <Select
@@ -73,7 +75,7 @@ export default function SelectApp({
       )}
     />
   ) : (
-    <FormControl fullWidth required={required} disabled={disabled} variant="standard">
+    <FormControl fullWidth required={required} disabled={disabled} variant="standard" {...rest}>
       <InputLabel>{label}</InputLabel>
       <Select label={label} onChange={onChangeStateController} defaultValue="">
         <MenuItem value="">

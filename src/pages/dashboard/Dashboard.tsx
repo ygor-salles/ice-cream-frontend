@@ -1,3 +1,5 @@
+import { AddBox } from '@mui/icons-material';
+
 import { LayoutBaseDePagina } from '../../shared/layouts';
 
 export function Dashboard() {
@@ -6,7 +8,7 @@ export function Dashboard() {
       titulo="Página inicial"
       navigatePage="/sales"
       textButton="VENDAS"
-      icon="add"
+      icon={<AddBox />}
     >
       Testando
     </LayoutBaseDePagina>

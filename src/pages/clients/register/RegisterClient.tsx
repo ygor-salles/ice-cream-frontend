@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ArrowBack } from '@mui/icons-material';
 import { Theme, useMediaQuery } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
@@ -28,7 +29,7 @@ export function RegisterClient(): JSX.Element {
       titulo="Cadastro cliente"
       navigatePage="/clients"
       textButton="VOLTAR"
-      icon="arrow_back"
+      icon={<ArrowBack />}
     >
       <Form
         noValidate

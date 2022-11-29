@@ -16,12 +16,12 @@ import { useProduct } from '../../../shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import { DialogEdit } from './components/DialogEdit';
 import {
-  columnConfig,
   columnConfigCollapse,
   columnLabel,
   columnLabelCollapse,
   columnType,
   columnTypeCollapse,
+  filterTable,
 } from './constants';
 
 export function Products(): JSX.Element {
@@ -74,13 +74,12 @@ export function Products(): JSX.Element {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.PRICE]: _renderBasicToCurrency,
     [columnType.STATUS]: _renderSwitchToggle,
-    [columnType.ACTION]: _renderAction,
   };
 
   const componentsCollapse: ITypeComponents = {
     [columnTypeCollapse.DESCRIPTION]: _renderBasicTextCell,
-    [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
+    [columnTypeCollapse.ACTION]: _renderAction,
   };
 
   return (
@@ -98,11 +97,17 @@ export function Products(): JSX.Element {
             tableName="table-products"
             data={allProducts}
             components={components}
-            columnConfig={columnConfig}
+            columnConfig={{
+              [columnType.NAME]: { order: 1 },
+              [columnType.PRICE]: { order: 2, align: smDown ? 'right' : undefined },
+              [columnType.STATUS]: { order: 3, align: smDown ? 'right' : undefined },
+            }}
             renderCellHeader={key => columnLabel[key]}
             columnConfigCollapse={columnConfigCollapse}
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
+            isMobile={smDown}
+            renderInputSearchAndSelect={filterTable}
           />
         )}
       </LayoutBaseDePagina>

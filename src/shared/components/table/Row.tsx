@@ -17,6 +17,7 @@ interface RowProps {
   rowData: any;
   rowIndex: number;
   renderCellHeaderCollapse: (key: string) => {};
+  isMobile: boolean;
 }
 
 const Row: React.FC<RowProps> = ({
@@ -30,6 +31,7 @@ const Row: React.FC<RowProps> = ({
   rowData,
   rowIndex,
   renderCellHeaderCollapse,
+  isMobile,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -38,7 +40,11 @@ const Row: React.FC<RowProps> = ({
       <StyledTableRow onClick={() => setOpen(!open)}>
         {React.Children.toArray(
           columnConfigKeys.map(key => (
-            <StyledTableCell align={columnConfig[key]?.align} width={columnConfig[key]?.width}>
+            <StyledTableCell
+              align={columnConfig[key]?.align}
+              width={columnConfig[key]?.width}
+              isMobile={!!isMobile}
+            >
               {components[key] && components[key](rowData[key], rowData, rowIndex)}
             </StyledTableCell>
           )),
@@ -46,7 +52,7 @@ const Row: React.FC<RowProps> = ({
       </StyledTableRow>
 
       <TableRow>
-        <TableCellCollapse colSpan={columnConfigKeys.length}>
+        <TableCellCollapse colSpan={columnConfigKeys.length} isMobile={!!isMobile}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Container>
               <Content>
@@ -58,6 +64,7 @@ const Row: React.FC<RowProps> = ({
                           <StyledTableCell
                             align={columnConfigCollapse[key]?.align}
                             width={columnConfigCollapse[key]?.width}
+                            isMobile={!!isMobile}
                           >
                             {renderCellHeaderCollapse(key)}
                           </StyledTableCell>
@@ -73,6 +80,7 @@ const Row: React.FC<RowProps> = ({
                             <StyledTableCell
                               align={columnConfigCollapse[key]?.align}
                               width={columnConfigCollapse[key]?.width}
+                              isMobile={!!isMobile}
                             >
                               {componentsCollapse[key] &&
                                 componentsCollapse[key](rowData[key], rowData, rowIndex)}

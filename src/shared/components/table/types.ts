@@ -20,3 +20,8 @@ export interface ITypeColumnLabel {
 export interface ITypeComponents {
   [x: string]: (value?: any, data?: object, rowIndex?: number, isChecked?: boolean) => JSX.Element;
 }
+
+export interface IRenderInputSearch {
+  searchPropertName: string;
+  placeholder: string;
+}

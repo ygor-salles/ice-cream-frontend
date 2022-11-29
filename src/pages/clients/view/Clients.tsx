@@ -91,6 +91,7 @@ export function Clients(): JSX.Element {
             columnConfigCollapse={columnConfigCollapse}
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
+            isMobile={smDown}
           />
         )}
       </LayoutBaseDePagina>

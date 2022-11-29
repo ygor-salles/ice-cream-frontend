@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Select, FormControl, InputLabel, MenuItem, FormHelperText } from '@mui/material';
+import {
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  FormHelperText,
+  SelectChangeEvent,
+} from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
 
 interface SelectPropsApp {
@@ -12,6 +19,7 @@ interface SelectPropsApp {
   setId?: boolean;
   onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   onClose?: (event: React.SyntheticEvent<Element, Event>) => void;
+  onChangeStateController?: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
 }
 
 export default function SelectApp({
@@ -24,8 +32,9 @@ export default function SelectApp({
   setId,
   onBlur,
   onClose,
-}: SelectPropsApp): JSX.Element {
-  return (
+  onChangeStateController,
+}: SelectPropsApp) {
+  return control ? (
     <Controller
       name={name}
       control={control}
@@ -63,5 +72,23 @@ export default function SelectApp({
         </FormControl>
       )}
     />
+  ) : (
+    <FormControl fullWidth required={required} disabled={disabled} variant="standard">
+      <InputLabel>{label}</InputLabel>
+      <Select label={label} onChange={onChangeStateController} defaultValue="">
+        <MenuItem value="">
+          <em>Selecione</em>
+        </MenuItem>
+        {array.map(item => (
+          <MenuItem
+            key={item.id ? item.id : item.name}
+            value={setId ? item.id : item.name}
+            id={setId ? item.id : item.name}
+          >
+            {item.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }

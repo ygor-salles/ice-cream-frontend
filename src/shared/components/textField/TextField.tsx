@@ -16,6 +16,8 @@ interface TextFieldPropsApp {
   disabled?: boolean;
   mask?: string;
   currency?: boolean;
+  onChangeStateController?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  handleSearch?: (value: string) => void;
 }
 
 export default function TextFieldApp({
@@ -28,10 +30,12 @@ export default function TextFieldApp({
   disabled,
   mask,
   currency,
+  onChangeStateController,
+  handleSearch,
 }: TextFieldPropsApp): JSX.Element {
   const [maskState, setMaskState] = useState(mask);
 
-  return (
+  return control ? (
     <Controller
       name={name}
       control={control}
@@ -67,6 +71,35 @@ export default function TextFieldApp({
           disabled={disabled}
         />
       )}
+    />
+  ) : (
+    <StyledTextField
+      label={label}
+      onChange={onChangeStateController}
+      onKeyUp={handleSearch ? (e: any) => handleSearch(e.target.value) : undefined}
+      InputProps={
+        mask
+          ? {
+              inputComponent: TextMaskCustom as any,
+              inputProps: { mask: maskState },
+              endAdornment:
+                type === 'tel' &&
+                (maskState.length >= 15 ? (
+                  <StyledLocalPhone onClick={() => setMaskState('(00) 0000-0000')} />
+                ) : (
+                  <StyledPhoneAndroid onClick={() => setMaskState('(00) 00000-0000')} />
+                )),
+            }
+          : currency
+          ? { inputComponent: NumberFormatCustom as any }
+          : undefined
+      }
+      variant="standard"
+      type={type}
+      inputMode={inputMode}
+      required={required}
+      fullWidth
+      disabled={disabled}
     />
   );
 }

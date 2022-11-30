@@ -1,6 +1,6 @@
-import { AddBox } from '@mui/icons-material';
+import { AddBox, FilterAlt } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
 import {
@@ -22,6 +22,7 @@ import {
   columnLabelCollapse,
   columnType,
   columnTypeCollapse,
+  filterTable,
 } from './constants';
 
 export function Users(): JSX.Element {
@@ -47,6 +48,8 @@ export function Users(): JSX.Element {
     getUsers();
   }, []);
 
+  const [showFilterState, setShowFilterState] = useState(false);
+
   const _renderAction = (value: string, data: IUserDTO) => (
     <ActionComponent
       smDown={smDown}
@@ -59,13 +62,13 @@ export function Users(): JSX.Element {
   const components: ITypeComponents = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.ROLE]: _renderRoleCell,
-    [columnType.ACTION]: _renderAction,
+    [columnType.UPDATED_AT]: _renderBasicDate,
   };
 
   const componentsCollapse: ITypeComponents = {
     [columnTypeCollapse.EMAIL]: _renderBasicTextCell,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
-    [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
+    [columnTypeCollapse.ACTION]: _renderAction,
   };
 
   return (
@@ -75,6 +78,9 @@ export function Users(): JSX.Element {
         navigatePage="/users/create"
         textButton="CADASTRAR"
         icon={<AddBox />}
+        textButtonRight="FILTRAR"
+        iconRight={<FilterAlt />}
+        onClickRight={() => setShowFilterState(value => !value)}
       >
         {loadingUsers ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
@@ -89,6 +95,8 @@ export function Users(): JSX.Element {
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
             isMobile={smDown}
+            showFilterState={showFilterState}
+            renderInputSearchAndSelect={filterTable}
           />
         )}
       </LayoutBaseDePagina>

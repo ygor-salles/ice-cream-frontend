@@ -1,11 +1,7 @@
-import {
-  ITypeColumnConfig,
-  ITypeColumnLabel,
-  ITypeColumnType,
-} from '../../../shared/components/table/types';
+import { ITypeColumnConfig, ITypeColumnLabel } from '../../../shared/components/table/types';
 
 // Table Row --------------------------
-export const columnType: ITypeColumnType = {
+export const columnType = {
   VALUE: 'value',
   CLIENT: 'client',
   ACTION: 'action',
@@ -25,7 +21,7 @@ export const columnLabel: ITypeColumnLabel = {
 
 // Table Row Collapse --------------------------
 
-export const columnTypeCollapse: ITypeColumnType = {
+export const columnTypeCollapse = {
   OBSERVATION: 'observation',
   CREATED_AT: 'created_at',
   UPDATED_AT: 'updated_at',

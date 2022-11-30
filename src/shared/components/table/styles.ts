@@ -87,6 +87,8 @@ export const StyledAccordion = styled(Card).withConfig({
   gap: ${props => (props.isMobile ? '15px' : '30px')};
 `;
 
-export const CustomSelectApp = styled(SelectApp)<ICustomSelectApp>`
+export const CustomSelectApp = styled(SelectApp).withConfig({
+  shouldForwardProp: prop => !['isMobile'].includes(prop),
+})<ICustomSelectApp>`
   width: ${props => (props.isMobile ? '100%' : '40%')};
 `;

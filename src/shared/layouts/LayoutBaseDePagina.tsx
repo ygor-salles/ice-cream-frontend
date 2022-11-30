@@ -90,7 +90,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
       </Header>
 
       {/* main section */}
-      <Section>
+      <Section smDown={smDown}>
         <Container maxWidth="xl">
           <ContentChildren>{children}</ContentChildren>
         </Container>

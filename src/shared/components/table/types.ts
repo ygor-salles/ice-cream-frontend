@@ -9,10 +9,6 @@ export interface ITypeColumnConfig {
   [x: string]: IColumnConfig;
 }
 
-export interface ITypeColumnType {
-  [x: string]: string;
-}
-
 export interface ITypeColumnLabel {
   [x: string]: string;
 }

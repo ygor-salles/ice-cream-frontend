@@ -14,6 +14,10 @@ interface WrapperProps {
   gap?: boolean;
 }
 
+interface SectionProps {
+  smDown?: boolean;
+}
+
 export const Main = styled.main`
   height: 100%;
   display: flex;
@@ -56,10 +60,11 @@ export const Divider = styled.hr`
   background-color: rgba(224, 224, 224, 1);
 `;
 
-export const Section = styled.section`
+export const Section = styled.section<SectionProps>`
   flex: 1;
   overflow: auto;
   padding-bottom: 8px;
+  margin-bottom: ${props => props.smDown && '65px'};
 `;
 
 export const ContentChildren = styled.div`
@@ -70,6 +75,11 @@ export const ContentChildren = styled.div`
 `;
 
 export const Footer = styled.footer`
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  height: 65px;
+
   display: flex;
   justify-content: space-around;
   align-items: center;

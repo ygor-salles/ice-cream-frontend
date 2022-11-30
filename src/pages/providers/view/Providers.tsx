@@ -1,6 +1,6 @@
-import { AddBox } from '@mui/icons-material';
+import { AddBox, FilterAlt } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
 import {
@@ -22,6 +22,7 @@ import {
   columnLabelCollapse,
   columnType,
   columnTypeCollapse,
+  filterTable,
 } from './constants';
 
 export function Providers(): JSX.Element {
@@ -47,6 +48,8 @@ export function Providers(): JSX.Element {
     getProviders();
   }, []);
 
+  const [showFilterState, setShowFilterState] = useState(false);
+
   const _renderAction = (value: string, { phone, ...rowData }: IProviderDTO) => {
     // eslint-disable-next-line no-param-reassign
     phone = phone || '';
@@ -63,13 +66,13 @@ export function Providers(): JSX.Element {
   const components: ITypeComponents = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.ITS_ICE_CREAM_SHOP]: _renderTextCellYesOrNo,
-    [columnType.ACTION]: _renderAction,
+    [columnType.UPDATED_AT]: _renderBasicDate,
   };
 
   const componentsCollapse: ITypeComponents = {
     [columnTypeCollapse.PHONE]: _renderBasicTextCell,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
-    [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
+    [columnTypeCollapse.ACTION]: _renderAction,
   };
 
   return (
@@ -79,6 +82,9 @@ export function Providers(): JSX.Element {
         navigatePage="/providers/create"
         textButton="CADASTRAR"
         icon={<AddBox />}
+        textButtonRight="FILTRAR"
+        iconRight={<FilterAlt />}
+        onClickRight={() => setShowFilterState(value => !value)}
       >
         {loadingProviders ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
@@ -93,6 +99,8 @@ export function Providers(): JSX.Element {
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
             isMobile={smDown}
+            showFilterState={showFilterState}
+            renderInputSearchAndSelect={filterTable}
           />
         )}
       </LayoutBaseDePagina>

@@ -1,12 +1,11 @@
 import {
   ITypeColumnConfig,
-  ITypeColumnType,
   ITypeColumnLabel,
   IRenderInputSearch,
 } from '../../../shared/components/table/types';
 
 // Table Row --------------------------
-export const columnType: ITypeColumnType = {
+export const columnType = {
   NAME: 'name',
   PRICE: 'price',
   STATUS: 'status',
@@ -26,7 +25,7 @@ export const columnLabel: ITypeColumnLabel = {
 
 // Table Row Collapse --------------------------
 
-export const columnTypeCollapse: ITypeColumnType = {
+export const columnTypeCollapse = {
   DESCRIPTION: 'description',
   UPDATED_AT: 'updated_at',
   ACTION: 'action',
@@ -49,10 +48,15 @@ export const columnLabelCollapse: ITypeColumnLabel = {
 export const filterTable: IRenderInputSearch[] = [
   { searchPropertName: columnType.NAME, placeholder: 'nome', type: 'string' },
   { searchPropertName: columnType.PRICE, placeholder: 'preço', type: 'number' },
-  { searchPropertName: columnType.STATUS, placeholder: 'status', type: 'boolean' },
+  {
+    searchPropertName: columnType.STATUS,
+    placeholder: 'status (habilitado/desabilitado)',
+    type: 'boolean',
+  },
+
   {
     searchPropertName: columnTypeCollapse.UPDATED_AT,
-    placeholder: 'data de atualização',
+    placeholder: 'Atualização (dd/mm/aaaa)',
     type: 'timestamp',
   },
 ];

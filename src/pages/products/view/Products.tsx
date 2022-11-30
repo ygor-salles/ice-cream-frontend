@@ -94,7 +94,6 @@ export function Products(): JSX.Element {
         icon={<AddBox />}
         textButtonRight="FILTRAR"
         iconRight={<FilterAlt />}
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         onClickRight={() => setShowFilterState(value => !value)}
       >
         {loadingProducts ? (

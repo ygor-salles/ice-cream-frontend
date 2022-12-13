@@ -1,6 +1,6 @@
-import { AddBox } from '@mui/icons-material';
+import { AddBox, FilterAlt } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
 import {
@@ -8,6 +8,7 @@ import {
   _renderBasicDate,
   _renderBasicTextCell,
   _renderBasicToCurrency,
+  _renderPaymentClientDebit,
   _renderPaymentClientName,
 } from '../../../shared/components/renderCellTable/RenderCellTable';
 import TableApp from '../../../shared/components/table/TableApp';
@@ -23,6 +24,8 @@ import {
   columnLabelCollapse,
   columnType,
   columnTypeCollapse,
+  filterTable,
+  mappedColumnSubObject,
 } from './constants';
 
 export function Payments(): JSX.Element {
@@ -48,6 +51,8 @@ export function Payments(): JSX.Element {
     getPayments();
   }, []);
 
+  const [showFilterState, setShowFilterState] = useState(false);
+
   const _renderAction = (value: string, { observation, ...rowData }: IPaymentDTO) => {
     // eslint-disable-next-line no-param-reassign
     observation = observation || '';
@@ -64,13 +69,13 @@ export function Payments(): JSX.Element {
   const components: ITypeComponents = {
     [columnType.VALUE]: _renderBasicToCurrency,
     [columnType.CLIENT]: _renderPaymentClientName,
-    [columnType.ACTION]: _renderAction,
+    [columnType.DEBIT]: _renderPaymentClientDebit,
   };
 
   const componentsCollapse: ITypeComponents = {
     [columnTypeCollapse.OBSERVATION]: _renderBasicTextCell,
-    [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
+    [columnTypeCollapse.ACTION]: _renderAction,
   };
 
   return (
@@ -80,6 +85,9 @@ export function Payments(): JSX.Element {
         navigatePage="/payments/create"
         textButton="CADASTRAR"
         icon={<AddBox />}
+        textButtonRight="FILTRAR"
+        iconRight={<FilterAlt />}
+        onClickRight={() => setShowFilterState(value => !value)}
       >
         {loadingPayments ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
@@ -87,6 +95,7 @@ export function Payments(): JSX.Element {
           <TableApp
             tableName="table-payments"
             data={allPayments}
+            mappedColumnSubObject={mappedColumnSubObject}
             components={components}
             columnConfig={columnConfig}
             renderCellHeader={key => columnLabel[key]}
@@ -94,6 +103,8 @@ export function Payments(): JSX.Element {
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
             isMobile={smDown}
+            showFilterState={showFilterState}
+            renderInputSearchAndSelect={filterTable}
           />
         )}
       </LayoutBaseDePagina>

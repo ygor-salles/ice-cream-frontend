@@ -18,6 +18,8 @@ interface RowProps {
   rowIndex: number;
   renderCellHeaderCollapse: (key: string) => {};
   isMobile: boolean;
+  mappedColumn?: string[];
+  mappedColumnCollapse?: string[];
 }
 
 const Row: React.FC<RowProps> = ({
@@ -32,6 +34,8 @@ const Row: React.FC<RowProps> = ({
   rowIndex,
   renderCellHeaderCollapse,
   isMobile,
+  mappedColumn,
+  mappedColumnCollapse,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -39,15 +43,25 @@ const Row: React.FC<RowProps> = ({
     <>
       <StyledTableRow onClick={() => setOpen(!open)}>
         {React.Children.toArray(
-          columnConfigKeys.map(key => (
-            <StyledTableCell
-              align={columnConfig[key]?.align}
-              width={columnConfig[key]?.width}
-              isMobile={!!isMobile}
-            >
-              {components[key] && components[key](rowData[key], rowData, rowIndex)}
-            </StyledTableCell>
-          )),
+          mappedColumn
+            ? mappedColumn.map(key => (
+                <StyledTableCell
+                  align={columnConfig[key]?.align}
+                  width={columnConfig[key]?.width}
+                  isMobile={!!isMobile}
+                >
+                  {components[key] && components[key](rowData[key], rowData, rowIndex)}
+                </StyledTableCell>
+              ))
+            : columnConfigKeys.map(key => (
+                <StyledTableCell
+                  align={columnConfig[key]?.align}
+                  width={columnConfig[key]?.width}
+                  isMobile={!!isMobile}
+                >
+                  {components[key] && components[key](rowData[key], rowData, rowIndex)}
+                </StyledTableCell>
+              )),
         )}
       </StyledTableRow>
 

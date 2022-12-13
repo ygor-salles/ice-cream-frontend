@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 
 import Mask from '../constants/masks';
+import { IClientDTO } from './IClientDTO';
 
 export interface IPaymentDTO {
   id?: number;
@@ -9,6 +10,8 @@ export interface IPaymentDTO {
   client_id: number;
   created_at?: Date | string;
   updated_at?: Date | string;
+
+  client?: IClientDTO;
 }
 
 export interface IFormPayment {

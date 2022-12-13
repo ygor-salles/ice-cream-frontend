@@ -5,6 +5,10 @@ interface IColumnConfig {
   isControlledComponent?: boolean;
 }
 
+export interface ITypeColumnType {
+  [x: string]: string;
+}
+
 export interface ITypeColumnConfig {
   [x: string]: IColumnConfig;
 }

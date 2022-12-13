@@ -19,6 +19,7 @@ import { StyledTableCell } from './styles';
 import {
   IRenderInputSearch,
   ITypeColumnConfig,
+  ITypeColumnType,
   ITypeComponents,
   TypeColumnTableEnum,
 } from './types';
@@ -37,6 +38,8 @@ interface TableAppProps {
   isMobile: boolean;
   showFilterState?: boolean;
   renderInputSearchAndSelect?: IRenderInputSearch[];
+  mappedColumnSubObject?: ITypeColumnType;
+  mappedColumnSubObjectCollapse?: ITypeColumnType;
 }
 
 const TableApp: React.FC<TableAppProps> = ({
@@ -51,13 +54,24 @@ const TableApp: React.FC<TableAppProps> = ({
   isMobile,
   showFilterState,
   renderInputSearchAndSelect,
+  mappedColumnSubObject,
+  mappedColumnSubObjectCollapse,
 }) => {
   const [dataState, setDataState] = useState(data);
 
   const columnConfigKeys = [...Object.entries(columnConfig).map(([key, value]) => key)];
+
   const columnConfigKeysCollapse = [
     ...Object.entries(columnConfigCollapse).map(([key, value]) => key),
   ];
+
+  const mappedColumn = mappedColumnSubObject
+    ? [...Object.entries(mappedColumnSubObject).map(([key, value]) => value)]
+    : undefined;
+
+  const mappedColumnCollapse = mappedColumnSubObjectCollapse
+    ? [...Object.entries(mappedColumnSubObjectCollapse).map(([key, value]) => value)]
+    : undefined;
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -150,6 +164,8 @@ const TableApp: React.FC<TableAppProps> = ({
                   rowIndex={rowIndex}
                   tableName={tableName}
                   isMobile={isMobile}
+                  mappedColumn={mappedColumn}
+                  mappedColumnCollapse={mappedColumnCollapse}
                   key={rowData.id ?? `${tableName}-${rowIndex}`}
                 />
               )),

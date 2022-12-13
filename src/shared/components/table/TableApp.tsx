@@ -107,7 +107,11 @@ const TableApp: React.FC<TableAppProps> = ({
         (type === 'boolean' &&
           Mask.convertBooleanToString(instance[searchPropertName]).match(textTyped)) ||
         (type === 'timestamp' &&
-          Mask.convertTimestampToDateString(instance[searchPropertName]).match(textTyped))
+          Mask.convertTimestampToDateString(instance[searchPropertName]).match(textTyped)) ||
+        (type === 'yesOrNot' &&
+          Mask.convertBooleanToStringYesOrNot(instance[searchPropertName]).match(textTyped)) ||
+        (type === 'roleUser' &&
+          Mask.convertEnumToStringRoleUser(instance[searchPropertName]).match(textTyped))
       ) {
         newUpdateInstance.push(instance);
       } else {

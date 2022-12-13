@@ -50,7 +50,7 @@ export const filterTable: IRenderInputSearch[] = [
   {
     searchPropertName: columnType.ITS_ICE_CREAM_SHOP,
     placeholder: 'ref. sorveteria',
-    type: 'boolean',
+    type: 'yesOrNot',
   },
   {
     searchPropertName: columnType.UPDATED_AT,

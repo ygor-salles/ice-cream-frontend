@@ -26,6 +26,8 @@ export enum TypeColumnTableEnum {
   number = 'number',
   boolean = 'boolean',
   timestamp = 'timestamp',
+  yesOrNot = 'yesOrNot',
+  roleUser = 'roleUser',
 }
 export interface IRenderInputSearch {
   searchPropertName: string;

@@ -47,7 +47,7 @@ export const columnLabelCollapse: ITypeColumnLabel = {
 
 export const filterTable: IRenderInputSearch[] = [
   { searchPropertName: columnType.NAME, placeholder: 'nome', type: 'string' },
-  { searchPropertName: columnType.ROLE, placeholder: 'acesso', type: 'string' },
+  { searchPropertName: columnType.ROLE, placeholder: 'acesso', type: 'roleUser' },
   {
     searchPropertName: columnType.UPDATED_AT,
     placeholder: 'Atualização (dd/mm/aaaa)',

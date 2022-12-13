@@ -1,3 +1,5 @@
+import { EnumRoleUser } from '../dtos/IUserDTO';
+
 /* eslint-disable no-param-reassign */
 export default class Mask {
   static currency(text: string): string {
@@ -53,10 +55,23 @@ export default class Mask {
   static convertBooleanToString(value: boolean): string {
     if (value === true) return 'habilitado';
     if (value === false) return 'desabilitado';
-    return 'desabilitado';
+    return '';
   }
 
   static convertTimestampToDateString(value: Date): string {
     return new Intl.DateTimeFormat('pt-BR').format(new Date(value));
+  }
+
+  static convertBooleanToStringYesOrNot(value: boolean): string {
+    if (value === true) return 'sim';
+    if (value === false) return 'não';
+    return '';
+  }
+
+  static convertEnumToStringRoleUser(value: EnumRoleUser): string {
+    if (value === EnumRoleUser.SUPER) return 'admin';
+    if (value === EnumRoleUser.NORMAL) return 'comum';
+    if (value === EnumRoleUser.EMPLOYEE) return 'funcionário';
+    return '';
   }
 }

@@ -1,0 +1,15 @@
+export enum RoutesEnum {
+  HOME = '/home',
+  PRODUCTS = '/products',
+  PRODUCTS_CREATE = '/products/create',
+  CLIENTS = '/clients',
+  CLIENTS_CREATE = '/clients/create',
+  SALES = '/sales',
+  SALES_CREATE = '/sales/create',
+  PREVIDERS = '/providers',
+  PREVIDERS_CREATE = '/providers/create',
+  USERS = '/users',
+  USERS_CREATE = '/users/create',
+  PAYMENTS = '/payments',
+  PAYMENTS_CREATE = '/payments/create',
+}

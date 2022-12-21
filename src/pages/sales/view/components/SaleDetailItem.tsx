@@ -1,29 +1,14 @@
 import { Theme, useMediaQuery } from '@mui/material';
 
-import { EnumTypeSale } from '../../../../shared/dtos/ISaleDTO';
+import { InstanceSale } from '../../../../shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import formatDateTime from '../../../../shared/utils/formatDateTime';
 import { formatNumberToCurrency } from '../../../../shared/utils/formatNumberToCurrency';
 import { Text, Title, Value, WrapperDetail, StyledButton, FooterDetail, Li, Ul } from './styles';
 
-interface ISaleDetail {
-  amount?: number;
-  product_name?: string;
-  unit_price?: number;
-  options?: string[];
-  type_sale?: EnumTypeSale;
-  updated_at?: Date | string;
-  observation?: string;
-  total?: number;
-  client?: {
-    name?: string;
-    phone?: string;
-  };
-}
-
 interface SaleDetailItemProps {
   onClose: () => void;
   onDeleteSale: () => void;
-  saleDetail: ISaleDetail;
+  saleDetail: InstanceSale;
 }
 
 const SaleDetailItem: React.FC<SaleDetailItemProps> = ({ onClose, onDeleteSale, saleDetail }) => {
@@ -33,13 +18,13 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({ onClose, onDeleteSale, 
     <>
       <Title>Detalhes de vendas</Title>
       <WrapperDetail borderBottom>
-        <Text>
+        {/* <Text>
           <b>Produto:</b> {`${saleDetail?.amount || '--'} ${saleDetail?.product_name || '--'}`}
         </Text>
         <Text>
           <b>Preço unitário:</b> {formatNumberToCurrency(saleDetail?.unit_price ?? null) || '--'}
         </Text>
-        <Ul>{saleDetail?.options?.map(item => <Li key={item}>{item}</Li>) || '--'}</Ul>
+        <Ul>{saleDetail?.options?.map(item => <Li key={item}>{item}</Li>) || '--'}</Ul> */}
         <Text>
           <b>Tipo de transação:</b> {saleDetail?.type_sale || '--'}
         </Text>

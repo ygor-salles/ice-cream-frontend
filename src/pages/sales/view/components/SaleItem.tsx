@@ -1,24 +1,28 @@
 import { NavigateNext } from '@mui/icons-material';
 
+import { InstanceSale } from '../../../../shared/services/SaleService/dtos/ILoadPagedSalesDTO';
+import formatDateTime from '../../../../shared/utils/formatDateTime';
+import { formatNumberToCurrency } from '../../../../shared/utils/formatNumberToCurrency';
 import { Container, WrapperInfo, Text, WrapperNavigate } from './styles';
 
 interface SaleItemProps {
   onClick: () => void;
+  detailSale: InstanceSale;
 }
 
-const SaleItem: React.FC<SaleItemProps> = ({ onClick }) => {
+const SaleItem: React.FC<SaleItemProps> = ({ onClick, detailSale }) => {
   return (
     <Container onClick={onClick}>
       <WrapperInfo>
-        <Text bold>1 Açaí de 200ml com combinações</Text>
+        <Text bold>{`${detailSale?.amount || '--'} ${detailSale?.product_id || '--'}`}</Text>
         <Text bold mgTop green>
-          R$ 10,50
+          {formatNumberToCurrency(detailSale?.total ?? null) || '--'}
         </Text>
-        <Text>Maria Enilda Cassia</Text>
-        <Text>Pix</Text>
+        <Text>{detailSale?.client?.name || '--'}</Text>
+        <Text>{detailSale?.type_sale || '--'}</Text>
       </WrapperInfo>
       <WrapperNavigate>
-        <Text>20/06/2022</Text>
+        <Text>{formatDateTime(detailSale?.updated_at) || '--'}</Text>
         <NavigateNext fontSize="large" />
       </WrapperNavigate>
     </Container>

@@ -57,5 +57,6 @@ export function useSale() {
     totalPage,
     getSalesPaged,
     handleSubmitCreate,
+    setLoadingSales,
   };
 }

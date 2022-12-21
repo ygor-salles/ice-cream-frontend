@@ -30,7 +30,7 @@ const mockSaleDetail = {
 export function Sales(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { allSales, getSalesPaged, totalPage, loadingSales } = useSale();
+  const { allSales, getSalesPaged, totalPage, loadingSales, setLoadingSales } = useSale();
 
   const [showDetailItem, setShowDetailItem] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
@@ -41,6 +41,7 @@ export function Sales(): JSX.Element {
   }, [searchParams]);
 
   const handleChangePage = (page: number) => {
+    setLoadingSales(true);
     setSearchParams({ page: page.toString() }, { replace: true });
   };
 
@@ -57,7 +58,7 @@ export function Sales(): JSX.Element {
     >
       {!showDetailItem ? (
         loadingSales ? (
-          <Skeleton variant="rectangular" width="100%" height="100%" />
+          <Skeleton variant="rectangular" width="100%" height={500} />
         ) : (
           <>
             {allSales.map(item => (

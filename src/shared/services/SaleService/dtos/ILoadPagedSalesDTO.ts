@@ -1,3 +1,5 @@
+import { IClientDTO } from '../../../dtos/IClientDTO';
+import { IProductDTO } from '../../../dtos/IProductDTO';
 import { EnumTypeSale } from '../../../dtos/ISaleDTO';
 
 export interface InstanceSale {
@@ -9,15 +11,8 @@ export interface InstanceSale {
   created_at: Date | string;
   updated_at: Date | string;
   client_id: number;
-  product_id: number;
-  client: {
-    id?: number;
-    name: string;
-    phone: string;
-    debit?: number;
-    created_at?: Date | string;
-    updated_at?: Date | string;
-  };
+  client: IClientDTO;
+  data_product: IProductDTO;
 }
 
 export interface ILoadPagedSalesDTOResponse {

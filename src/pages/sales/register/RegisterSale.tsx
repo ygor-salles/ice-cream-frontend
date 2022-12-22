@@ -38,6 +38,7 @@ export function RegisterSale(): JSX.Element {
     ),
     defaultValues: {
       product_id: '',
+      data_product: null,
       type_sale: '',
       client_id: '',
       observation: '',
@@ -94,6 +95,11 @@ export function RegisterSale(): JSX.Element {
                     const product = allProducts.find(
                       product => product.id === Number(event.currentTarget.id),
                     );
+
+                    if (product) {
+                      setValue('data_product', product);
+                    }
+
                     if (product?.price) {
                       unitPrice.current = product.price;
                       setValue('total', formatNumberToCurrencyInput(product.price));

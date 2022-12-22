@@ -11,10 +11,14 @@ interface SaleItemProps {
 }
 
 const SaleItem: React.FC<SaleItemProps> = ({ onClick, detailSale }) => {
+  console.log(detailSale);
+
   return (
     <Container onClick={onClick}>
       <WrapperInfo>
-        <Text bold>{`${detailSale?.amount || '--'} ${detailSale?.product_id || '--'}`}</Text>
+        <Text bold>{`${detailSale?.amount || '--'} ${
+          detailSale?.data_product?.name || '--'
+        }`}</Text>
         <Text bold mgTop green>
           {formatNumberToCurrency(detailSale?.total ?? null) || '--'}
         </Text>

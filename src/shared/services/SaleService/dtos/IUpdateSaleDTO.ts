@@ -1,3 +1,4 @@
+import { IProductDTO } from '../../../dtos/IProductDTO';
 import { EnumTypeSale } from '../../../dtos/ISaleDTO';
 
 export interface IUpdateSaleDTORequest {
@@ -6,7 +7,7 @@ export interface IUpdateSaleDTORequest {
   type_sale?: EnumTypeSale;
   observation?: string;
   amount?: number;
-  product_id?: number;
+  product: IProductDTO;
   client_id?: number;
   created_at?: Date | string;
   updated_at?: Date | string;

@@ -2,6 +2,7 @@ import * as yup from 'yup';
 
 import Mask from '../constants/masks';
 import { convetSalesType } from '../utils/convertTypes';
+import { IProductDTO } from './IProductDTO';
 
 export enum EnumTypeSale {
   PIX = 'PIX',
@@ -12,7 +13,7 @@ export enum EnumTypeSale {
 
 export interface ISaleDTO {
   id?: number;
-  product_id: number;
+  data_product: IProductDTO;
   type_sale: EnumTypeSale;
   client_id?: number;
   observation?: string;
@@ -24,6 +25,7 @@ export interface ISaleDTO {
 
 export interface IFormSale {
   product_id: string;
+  data_product: IProductDTO;
   type_sale: string;
   client_id?: string;
   observation?: string;
@@ -33,7 +35,7 @@ export interface IFormSale {
 
 export const transformObject = (dataForm: IFormSale): ISaleDTO => {
   const objectSale: ISaleDTO = {
-    product_id: Number(dataForm.product_id),
+    data_product: dataForm.data_product,
     total: Mask.convertCurrency(dataForm.total),
     type_sale: convetSalesType(dataForm.type_sale),
     amount: Number(dataForm.amount),

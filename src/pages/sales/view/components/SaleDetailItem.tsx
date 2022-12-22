@@ -18,13 +18,15 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({ onClose, onDeleteSale, 
     <>
       <Title>Detalhes de vendas</Title>
       <WrapperDetail borderBottom>
-        {/* <Text>
-          <b>Produto:</b> {`${saleDetail?.amount || '--'} ${saleDetail?.product_name || '--'}`}
+        <Text>
+          <b>Produto:</b>{' '}
+          {`${saleDetail?.amount || '--'} ${saleDetail?.data_product?.name || '--'}`}
         </Text>
         <Text>
-          <b>Preço unitário:</b> {formatNumberToCurrency(saleDetail?.unit_price ?? null) || '--'}
+          <b>Preço unitário:</b>{' '}
+          {formatNumberToCurrency(saleDetail?.data_product?.price ?? null) || '--'}
         </Text>
-        <Ul>{saleDetail?.options?.map(item => <Li key={item}>{item}</Li>) || '--'}</Ul> */}
+        {/* <Ul>{saleDetail?.options?.map(item => <Li key={item}>{item}</Li>) || '--'}</Ul> */}
         <Text>
           <b>Tipo de transação:</b> {saleDetail?.type_sale || '--'}
         </Text>

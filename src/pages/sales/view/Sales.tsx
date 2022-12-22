@@ -5,27 +5,11 @@ import { useSearchParams } from 'react-router-dom';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
 import { Pagination } from '../../../shared/components/pagination/Pagination';
-import { EnumTypeSale } from '../../../shared/dtos/ISaleDTO';
 import { useSale } from '../../../shared/hooks/network/useSale';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import { InstanceSale } from '../../../shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import SaleDetailItem from './components/SaleDetailItem';
 import SaleItem from './components/SaleItem';
-
-const mockSaleDetail = {
-  amount: 1,
-  product_name: 'Açaí de 300ml',
-  unit_price: 4,
-  options: ['Leite condensado', 'Leite em pó', 'Granola', 'Musse de maracujá'],
-  type_sale: EnumTypeSale.PIX,
-  updated_at: new Date(),
-  observation: 'Foi pago pelo fulano',
-  total: 10.5,
-  client: {
-    name: 'Maria Enilda Cássia',
-    phone: '(35) 984092972',
-  },
-};
 
 export function Sales(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();

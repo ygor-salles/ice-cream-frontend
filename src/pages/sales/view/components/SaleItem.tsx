@@ -11,8 +11,6 @@ interface SaleItemProps {
 }
 
 const SaleItem: React.FC<SaleItemProps> = ({ onClick, detailSale }) => {
-  console.log(detailSale);
-
   return (
     <Container onClick={onClick}>
       <WrapperInfo>

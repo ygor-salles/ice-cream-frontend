@@ -18,7 +18,7 @@ export const Container = styled.div`
 export const WrapperInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 2px;
 `;
 
 export const Text = styled(Typography).withConfig({

@@ -14,7 +14,16 @@ import SaleItem from './components/SaleItem';
 export function Sales(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { allSales, getSalesPaged, totalPage, loadingSales, setLoadingSales } = useSale();
+  const {
+    allSales,
+    getSalesPaged,
+    totalPage,
+    loadingSales,
+    setLoadingSales,
+    handleSubmitDelete,
+    loadingForm,
+    reloadPage,
+  } = useSale();
 
   const [showDetailItem, setShowDetailItem] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
@@ -31,7 +40,8 @@ export function Sales(): JSX.Element {
 
   useEffect(() => {
     getSalesPaged(page);
-  }, [page]);
+    setShowDetailItem(false);
+  }, [page, reloadPage]);
 
   return (
     <LayoutBaseDePagina
@@ -78,7 +88,11 @@ export function Sales(): JSX.Element {
         textButtonSubmit="DELETAR"
         textButtonClose="CANCELAR"
         handleClose={() => setShowModalDelete(false)}
-        handleSubmit={() => setShowModalDelete(false)}
+        handleSubmit={() => {
+          handleSubmitDelete(detailItem.id);
+          setShowModalDelete(false);
+        }}
+        loading={loadingForm}
       />
     </LayoutBaseDePagina>
   );

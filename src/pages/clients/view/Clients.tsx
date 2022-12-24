@@ -7,7 +7,7 @@ import {
   ActionComponent,
   _renderBasicDate,
   _renderBasicTextCell,
-  _renderBasicToCurrency,
+  _renderBasicToCurrencyRed,
 } from '../../../shared/components/renderCellTable/RenderCellTable';
 import TableApp from '../../../shared/components/table/TableApp';
 import { ITypeComponents } from '../../../shared/components/table/types';
@@ -65,7 +65,7 @@ export function Clients(): JSX.Element {
 
   const components: ITypeComponents = {
     [columnType.NAME]: _renderBasicTextCell,
-    [columnType.DEBIT]: _renderBasicToCurrency,
+    [columnType.DEBIT]: _renderBasicToCurrencyRed,
     [columnType.UPDATED_AT]: _renderBasicDate,
   };
 

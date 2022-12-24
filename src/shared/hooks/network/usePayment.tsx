@@ -17,20 +17,13 @@ export function usePayment() {
 
   const [dataActionTable, setDataActionTable] = useState<IPaymentDTO>();
 
-  const [showModalEdit, setShowModalEdit] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
-
-  const handleClickEdit = (data: IPaymentDTO) => {
-    setDataActionTable(data);
-    setShowModalEdit(true);
-  };
 
   const handleClickDelete = (data: IPaymentDTO) => {
     setDataActionTable(data);
     setShowModalDelete(true);
   };
 
-  const handleCloseModalEdit = () => setShowModalEdit(false);
   const handleCloseModalDelete = () => setShowModalDelete(false);
 
   async function getPayments(): Promise<void> {
@@ -53,7 +46,7 @@ export function usePayment() {
 
     try {
       await paymentService.create(data);
-      addToast('Paymente cadastrado com sucesso!', ToastType.success);
+      addToast('Pagamento cadastrado com sucesso!', ToastType.success);
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Erro ao cadastrar pagamento - ${response?.data?.message}`, ToastType.error);
@@ -63,28 +56,11 @@ export function usePayment() {
     }
   }
 
-  async function handleSubmitUpdate(dataForm: IFormPayment) {
-    setLoadingForm(true);
-    const data: IPaymentDTO = transformObject(dataForm);
-
-    try {
-      await paymentService.updateById({ ...data, id: dataForm.id });
-      addToast('Paymente atualizado com sucesso!', ToastType.success);
-      getPayments();
-    } catch (error) {
-      const { response } = error as AxiosError;
-      addToast(`Erro ao atualizar pagamento! - ${response?.data?.message}`, ToastType.error);
-    } finally {
-      setShowModalEdit(false);
-      setLoadingForm(false);
-    }
-  }
-
   async function handleSubmitDelete(id: number) {
     setLoadingForm(true);
     try {
       await paymentService.deleteById(id);
-      addToast('Paymente deletado com sucesso!', ToastType.success);
+      addToast('Pagamento deletado com sucesso!', ToastType.success);
       getPayments();
     } catch (error) {
       const { response } = error as AxiosError;
@@ -99,16 +75,12 @@ export function usePayment() {
     allPayments,
     loadingPayments,
     loadingForm,
-    showModalEdit,
     showModalDelete,
     dataActionTable,
-    handleClickEdit,
     handleClickDelete,
-    handleCloseModalEdit,
     handleCloseModalDelete,
     getPayments,
     handleSubmitCreate,
-    handleSubmitUpdate,
     handleSubmitDelete,
   };
 }

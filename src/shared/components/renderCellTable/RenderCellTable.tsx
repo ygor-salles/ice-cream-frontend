@@ -5,12 +5,20 @@ import { IPaymentDTO } from '../../dtos/IPaymentDTO';
 import { EnumRoleUser } from '../../dtos/IUserDTO';
 import formatDate from '../../utils/formatDate';
 import { formatNumberToCurrency } from '../../utils/formatNumberToCurrency';
-import { ActionContent, StyledIcon } from './styles';
+import { ActionContent, StyledIcon, Green, Red } from './styles';
 
 export const _renderBasicTextCell = (value: string) => <span>{value || '--'}</span>;
 
 export const _renderBasicToCurrency = (value: number) => (
   <span>{formatNumberToCurrency(value)}</span>
+);
+
+export const _renderBasicToCurrencyGreen = (value: number) => (
+  <Green>{formatNumberToCurrency(value)}</Green>
+);
+
+export const _renderBasicToCurrencyRed = (value: number) => (
+  <Red>{formatNumberToCurrency(value)}</Red>
 );
 
 export const _renderBasicDate = (value: string | Date) => (
@@ -42,8 +50,8 @@ export const SwitchComponent: React.FC<SwitchComponentProps> = ({
 interface ActionComponentProps {
   smDown: boolean;
   rowData: any;
-  handleClickEdit: (data: any) => void;
-  handleClickDelete: (data: any) => void;
+  handleClickEdit?: (data: any) => void;
+  handleClickDelete?: (data: any) => void;
 }
 
 export const ActionComponent: React.FC<ActionComponentProps> = ({
@@ -53,26 +61,30 @@ export const ActionComponent: React.FC<ActionComponentProps> = ({
   handleClickDelete,
 }) => (
   <ActionContent smDown={smDown}>
-    <StyledIcon
-      color="secondary"
-      mgRight={smDown}
-      onClick={e => {
-        e.stopPropagation();
-        handleClickEdit(rowData);
-      }}
-    >
-      edit
-    </StyledIcon>
-    <Icon
-      color="warning"
-      style={{ cursor: 'pointer' }}
-      onClick={e => {
-        e.stopPropagation();
-        handleClickDelete(rowData);
-      }}
-    >
-      delete
-    </Icon>
+    {!!handleClickEdit && (
+      <StyledIcon
+        color="secondary"
+        mgRight={smDown}
+        onClick={e => {
+          e.stopPropagation();
+          handleClickEdit(rowData);
+        }}
+      >
+        edit
+      </StyledIcon>
+    )}
+    {!!handleClickDelete && (
+      <Icon
+        color="warning"
+        style={{ cursor: 'pointer' }}
+        onClick={e => {
+          e.stopPropagation();
+          handleClickDelete(rowData);
+        }}
+      >
+        delete
+      </Icon>
+    )}
   </ActionContent>
 );
 
@@ -88,5 +100,5 @@ export const _renderPaymentClientName = (data: IClientDTO, { client: { name } }:
 );
 
 export const _renderPaymentClientDebit = (data: IClientDTO, { client: { debit } }: IPaymentDTO) => (
-  <span>{formatNumberToCurrency(debit || null) || '--'}</span>
+  <Red>{formatNumberToCurrency(debit || null) || '--'}</Red>
 );

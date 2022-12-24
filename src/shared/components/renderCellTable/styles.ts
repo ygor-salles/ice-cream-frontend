@@ -22,3 +22,13 @@ export const StyledIcon = styled(Icon).withConfig({
   cursor: pointer;
   margin-right: ${props => (props.mgRight ? '0' : '20px')};
 `;
+
+export const Green = styled.span`
+  color: #4caf50;
+  font-weight: bold;
+`;
+
+export const Red = styled.span`
+  color: #e52e4d;
+  font-weight: bold;
+`;

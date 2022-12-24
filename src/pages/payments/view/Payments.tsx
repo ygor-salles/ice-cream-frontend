@@ -7,7 +7,7 @@ import {
   ActionComponent,
   _renderBasicDate,
   _renderBasicTextCell,
-  _renderBasicToCurrency,
+  _renderBasicToCurrencyGreen,
   _renderPaymentClientDebit,
   _renderPaymentClientName,
 } from '../../../shared/components/renderCellTable/RenderCellTable';
@@ -16,7 +16,6 @@ import { ITypeComponents } from '../../../shared/components/table/types';
 import { IPaymentDTO } from '../../../shared/dtos/IPaymentDTO';
 import { usePayment } from '../../../shared/hooks/network/usePayment';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
-import { DialogEdit } from './components/DialogEdit';
 import {
   columnConfig,
   columnConfigCollapse,
@@ -34,17 +33,13 @@ export function Payments(): JSX.Element {
   const {
     allPayments,
     loadingPayments,
-    showModalEdit,
     showModalDelete,
     dataActionTable,
     loadingForm,
-    handleClickEdit,
     handleClickDelete,
-    handleCloseModalEdit,
     handleCloseModalDelete,
     getPayments,
     handleSubmitDelete,
-    handleSubmitUpdate,
   } = usePayment();
 
   useEffect(() => {
@@ -60,14 +55,13 @@ export function Payments(): JSX.Element {
       <ActionComponent
         smDown={smDown}
         rowData={{ observation, ...rowData }}
-        handleClickEdit={handleClickEdit}
         handleClickDelete={handleClickDelete}
       />
     );
   };
 
   const components: ITypeComponents = {
-    [columnType.VALUE]: _renderBasicToCurrency,
+    [columnType.VALUE]: _renderBasicToCurrencyGreen,
     [columnType.CLIENT]: _renderPaymentClientName,
     [columnType.DEBIT]: _renderPaymentClientDebit,
   };
@@ -108,17 +102,6 @@ export function Payments(): JSX.Element {
           />
         )}
       </LayoutBaseDePagina>
-
-      {showModalEdit && dataActionTable && (
-        <DialogEdit
-          smDown={smDown}
-          payment={dataActionTable}
-          onSubmitUpdate={handleSubmitUpdate}
-          handleClose={handleCloseModalEdit}
-          open={showModalEdit}
-          loading={loadingForm}
-        />
-      )}
 
       {showModalDelete && dataActionTable && (
         <DialogInfo

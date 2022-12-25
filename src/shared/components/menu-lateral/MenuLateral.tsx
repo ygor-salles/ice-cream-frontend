@@ -14,6 +14,7 @@ import {
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 
 import logoImg from '../../../assets/logo.png';
+import { Colors } from '../../../styles/global';
 import { useAppThemeContext, useAuthContext, useDrawerContext } from '../../contexts';
 
 interface IListItemLinkProps {
@@ -37,11 +38,11 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon, label, onClick }
   return (
     <ListItemButton selected={!!match} onClick={handleClick}>
       <ListItemIcon>
-        <Icon style={{ color: 'white' }}>{icon}</Icon>
+        <Icon style={{ color: Colors.WHITE }}>{icon}</Icon>
       </ListItemIcon>
       <ListItemText
         primary={label}
-        primaryTypographyProps={{ fontFamily: 'Poppins', fontWeight: 500, color: 'white' }}
+        primaryTypographyProps={{ fontFamily: 'Poppins', fontWeight: 500, color: Colors.WHITE }}
       />
     </ListItemButton>
   );
@@ -77,9 +78,9 @@ export const MenuLateral: React.FC = ({ children }) => {
             justifyContent="center"
             flexDirection="column"
           >
-            <img src={logoImg} alt="logo" height={32} color="white" />
+            <img src={logoImg} alt="logo" height={32} color={Colors.WHITE} />
             <Typography
-              color="white"
+              color={Colors.WHITE}
               component="div"
               fontFamily="Poppins"
               fontWeight="600"
@@ -89,7 +90,7 @@ export const MenuLateral: React.FC = ({ children }) => {
             </Typography>
           </Box>
 
-          <Divider color="#fff" />
+          <Divider color={Colors.WHITE} />
 
           <Box flex={1}>
             <List component="nav">
@@ -116,7 +117,7 @@ export const MenuLateral: React.FC = ({ children }) => {
                   primaryTypographyProps={{
                     fontFamily: 'Poppins',
                     fontWeight: 500,
-                    color: 'white',
+                    color: Colors.WHITE,
                   }}
                 />
               </ListItemButton>
@@ -129,7 +130,7 @@ export const MenuLateral: React.FC = ({ children }) => {
                   primaryTypographyProps={{
                     fontFamily: 'Poppins',
                     fontWeight: 500,
-                    color: 'white',
+                    color: Colors.WHITE,
                   }}
                 />
               </ListItemButton>

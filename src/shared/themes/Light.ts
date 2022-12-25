@@ -1,27 +1,28 @@
 import { createTheme } from '@mui/material';
-import { green, purple } from '@mui/material/colors';
+
+import { Colors } from '../../styles/global';
 
 // teste
 export const LightTheme = createTheme({
   palette: {
     primary: {
-      main: purple[400],
-      dark: purple[900],
-      light: purple[500],
-      contrastText: '#ffffff',
+      main: Colors.MAIN_PRIMARY_LIGHT,
+      dark: Colors.DARK_PRIMARY_LIGHT,
+      light: Colors.LIGHT_PRIMARY_LIGHT,
+      contrastText: Colors.WHITE,
     },
     secondary: {
-      main: green[500],
-      dark: green[400],
-      light: green[300],
-      contrastText: '#ffffff',
+      main: Colors.MAIN_SECONDARY,
+      dark: Colors.DARK_SECONDARY,
+      light: Colors.LIGHT_SECONDARY,
+      contrastText: Colors.WHITE,
     },
     background: {
-      paper: '#ffffff',
-      default: '#f7f6f3',
+      paper: Colors.BG_PAPER_LIGHT,
+      default: Colors.BG_DEFAULT_LIGHT,
     },
     info: {
-      main: '#ffffff',
+      main: Colors.WHITE,
     },
   },
 });

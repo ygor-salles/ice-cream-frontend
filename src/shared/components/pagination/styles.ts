@@ -1,10 +1,12 @@
 import { Pagination } from '@mui/material';
 import styled from 'styled-components';
 
+import { Colors } from '../../../styles/global';
+
 export const StyledPagination = styled(Pagination)`
   & .Mui-selected {
-    background-color: #ab47bc !important;
-    color: #ffffff;
+    background-color: ${Colors.MAIN_PRIMARY_LIGHT} !important;
+    color: ${Colors.WHITE};
   }
   display: flex;
   justify-content: center;

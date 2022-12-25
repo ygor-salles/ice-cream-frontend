@@ -1,6 +1,8 @@
 import { Button, Typography } from '@mui/material';
 import styled, { css } from 'styled-components';
 
+import { Colors } from '../../../../styles/global';
+
 interface TextProps {
   bold?: boolean;
   mgTop?: boolean;
@@ -12,7 +14,7 @@ export const Container = styled.div`
   justify-content: space-between;
   padding: 10px;
   width: 100%;
-  border-bottom: 1.5px solid rgba(224, 224, 224, 1);
+  border-bottom: 1.5px solid ${Colors.GRAY};
 `;
 
 export const WrapperInfo = styled.div`
@@ -27,8 +29,8 @@ export const Text = styled(Typography).withConfig({
   font-weight: ${props => (props.bold ? '700' : '400')};
   font-size: 14px;
   margin-top: ${props => props.mgTop && '10px'};
-  color: ${props => props.green && '#4caf50'};
-  /* color: ${props => props.green && '#33cc95'}; */
+  color: ${props => props.green && Colors.MAIN_SECONDARY};
+  /* color: ${props => props.green && Colors.GREEN}; */
 `;
 
 export const WrapperNavigate = styled.div`
@@ -38,7 +40,7 @@ export const WrapperNavigate = styled.div`
   align-items: flex-end;
 
   svg {
-    color: rgba(224, 224, 224, 1);
+    color: ${Colors.GRAY};
     font-size: 800;
   }
 `;
@@ -52,7 +54,7 @@ export const WrapperDetail = styled.div<{ borderBottom?: boolean }>`
   margin-top: 30px;
   width: 100%;
   padding: 15px 0;
-  border-bottom: ${props => props.borderBottom && '1px solid rgba(224, 224, 224, 1)'};
+  border-bottom: ${props => props.borderBottom && `1px solid ${Colors.GRAY}`};
 `;
 
 export const Title = styled(Typography)`
@@ -64,7 +66,7 @@ export const Title = styled(Typography)`
 export const Value = styled(Typography)`
   font-weight: 700;
   font-size: 18px;
-  color: #4caf50;
+  color: ${Colors.MAIN_SECONDARY};
 `;
 
 export const StyledButton = styled(Button)`
@@ -95,5 +97,5 @@ export const Ul = styled.ul`
 
 export const Li = styled.li`
   font-size: 14px;
-  color: darkgray;
+  color: ${Colors.DARKGRAY};
 `;

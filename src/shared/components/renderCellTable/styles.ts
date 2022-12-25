@@ -1,6 +1,8 @@
 import { Icon } from '@mui/material';
 import styled from 'styled-components';
 
+import { Colors } from '../../../styles/global';
+
 interface ActionContentProps {
   smDown?: boolean;
 }
@@ -24,11 +26,11 @@ export const StyledIcon = styled(Icon).withConfig({
 `;
 
 export const Green = styled.span`
-  color: #4caf50;
+  color: ${Colors.MAIN_SECONDARY};
   font-weight: bold;
 `;
 
 export const Red = styled.span`
-  color: #e52e4d;
+  color: ${Colors.RED};
   font-weight: bold;
 `;

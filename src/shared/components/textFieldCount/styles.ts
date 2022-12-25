@@ -1,6 +1,8 @@
 import NumberFormat from 'react-number-format';
 import styled, { css } from 'styled-components';
 
+import { Colors } from '../../../styles/global';
+
 interface IButtonIcon {
   isButtonAdd?: boolean;
 }
@@ -32,10 +34,10 @@ export const Label = styled.label<ILabel>`
   ${({ isError, isDarkTheme }) =>
     isDarkTheme
       ? css`
-          color: ${() => (isError ? '#d32f2f' : '#fff')};
+          color: ${() => (isError ? Colors.RED_ERROR : Colors.WHITE)};
         `
       : css`
-          color: ${() => (isError ? '#d32f2f' : 'rgba(0, 0, 0, 0.6)')};
+          color: ${() => (isError ? Colors.RED_ERROR : Colors.TEXT)};
         `}
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-weight: 400;
@@ -57,13 +59,17 @@ export const StyledNumberFormat = styled(NumberFormat).withConfig({
   ${({ isError, isDarkTheme }) =>
     isDarkTheme
       ? css`
-          border-top: ${() => (isError ? 'solid 1px #d32f2f' : 'solid 1px #fff')};
-          border-bottom: ${() => (isError ? 'solid 1px #d32f2f' : 'solid 1px #fff')};
-          color: #fff;
+          border-top: ${() =>
+            isError ? `solid 1px ${Colors.RED_ERROR}` : `solid 1px ${Colors.WHITE}`};
+          border-bottom: ${() =>
+            isError ? `solid 1px ${Colors.RED_ERROR}` : `solid 1px ${Colors.WHITE}`};
+          color: ${Colors.WHITE};
         `
       : css`
-          border-top: ${() => (isError ? 'solid 1px #d32f2f' : 'solid 1px rgba(0, 0, 0, 0.6)')};
-          border-bottom: ${() => (isError ? 'solid 1px #d32f2f' : 'solid 1px rgba(0, 0, 0, 0.6)')};
+          border-top: ${() =>
+            isError ? `solid 1px ${Colors.RED_ERROR}` : `solid 1px ${Colors.TEXT}`};
+          border-bottom: ${() =>
+            isError ? `solid 1px ${Colors.RED_ERROR}` : `solid 1px ${Colors.TEXT}`};
         `}
   text-align: center;
   background-color: transparent;
@@ -88,12 +94,12 @@ export const ButtonIcon = styled.button<IButtonIcon>`
   height: 30px;
   border: none;
   cursor: pointer;
-  background-color: ${props => (props.isButtonAdd ? '#33cc95' : '#E52E4D')};
+  background-color: ${props => (props.isButtonAdd ? Colors.GREEN : Colors.RED)};
   border-radius: 4px;
 `;
 
 export const TextError = styled.p`
-  color: #d32f2f;
+  color: ${Colors.RED_ERROR};
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-weight: 400;
   font-size: 0.75rem;

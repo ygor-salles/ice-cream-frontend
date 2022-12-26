@@ -52,18 +52,24 @@ export const GlobalStyle = createGlobalStyle`
 
   // font-size: 16px (padrao-Desktop)
   html {
-    @media (max-width: 1080px) {
-      font-size: 93.75%; // 15px
+
+    p {
+      font-size: 18px !important;
     }
 
     @media (max-width: 720px) {
-      font-size: 87.5%; // 14px
+      /* font-size: 87.5%; // 14px */
+      font-size: 16px;
+
+      p {
+        font-size: 16px !important;
+      }
     }
   }
 
   /* Sobreescrevendo a fonte de todos eles */
   body, input, textarea, button {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 400;
   }
 

@@ -26,8 +26,7 @@ export const WrapperInfo = styled.div`
 export const Text = styled(Typography).withConfig({
   shouldForwardProp: props => !['bold', 'mgTop', 'green'].includes(props),
 })<TextProps>`
-  font-weight: ${props => (props.bold ? '700' : '400')};
-  font-size: 14px;
+  font-weight: ${props => (props.bold ? '600' : '400')};
   margin-top: ${props => props.mgTop && '10px'};
   color: ${props => props.green && Colors.MAIN_SECONDARY};
   /* color: ${props => props.green && Colors.GREEN}; */
@@ -58,14 +57,14 @@ export const WrapperDetail = styled.div<{ borderBottom?: boolean }>`
 `;
 
 export const Title = styled(Typography)`
-  font-weight: 700;
-  font-size: 22px;
+  font-weight: 600;
+  font-size: 22px !important;
   text-align: center;
 `;
 
 export const Value = styled(Typography)`
-  font-weight: 700;
-  font-size: 18px;
+  font-weight: 600;
+  font-size: 18px !important;
   color: ${Colors.MAIN_SECONDARY};
 `;
 
@@ -96,6 +95,5 @@ export const Ul = styled.ul`
 `;
 
 export const Li = styled.li`
-  font-size: 14px;
   color: ${Colors.DARKGRAY};
 `;

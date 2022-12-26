@@ -41,7 +41,6 @@ export const Label = styled.label<ILabel>`
         `}
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-weight: 400;
-  font-size: 1rem;
   line-height: 1.4375em;
   letter-spacing: 0.00938em;
   padding: 0;

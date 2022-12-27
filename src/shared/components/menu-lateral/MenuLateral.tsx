@@ -6,16 +6,25 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Typography,
   useMediaQuery,
   useTheme,
   Box,
 } from '@mui/material';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 
-import logoImg from '../../../assets/logo.png';
+import logoImg from '../../../assets/icecream_5nd69k2ouf5k.svg';
 import { Colors } from '../../../styles/global';
 import { useAppThemeContext, useAuthContext, useDrawerContext } from '../../contexts';
+import {
+  NavLogout,
+  Container,
+  ContentLogo,
+  ContentNav,
+  Image,
+  StyledListItemText,
+  Title,
+  StyledIcon,
+} from './styles';
 
 interface IListItemLinkProps {
   to: string;
@@ -38,12 +47,9 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon, label, onClick }
   return (
     <ListItemButton selected={!!match} onClick={handleClick}>
       <ListItemIcon>
-        <Icon style={{ color: Colors.WHITE }}>{icon}</Icon>
+        <StyledIcon>{icon}</StyledIcon>
       </ListItemIcon>
-      <ListItemText
-        primary={label}
-        primaryTypographyProps={{ fontFamily: 'Poppins', fontWeight: 500, color: Colors.WHITE }}
-      />
+      <ListItemText primary={label} primaryTypographyProps={StyledListItemText} />
     </ListItemButton>
   );
 };
@@ -63,36 +69,16 @@ export const MenuLateral: React.FC = ({ children }) => {
         variant={smDown ? 'temporary' : 'permanent'}
         onClose={toggleDrawerOpen}
       >
-        <Box
-          width={theme.spacing(28)}
-          height="100%"
-          display="flex"
-          flexDirection="column"
-          sx={{ bgcolor: 'primary.main' }}
-        >
-          <Box
-            width="100%"
-            height={theme.spacing(10)}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            flexDirection="column"
-          >
-            <img src={logoImg} alt="logo" height={32} color={Colors.WHITE} />
-            <Typography
-              color={Colors.WHITE}
-              component="div"
-              fontFamily="Poppins"
-              fontWeight="600"
-              fontSize="1rem"
-            >
-              Sorveteria da Vilma
-            </Typography>
-          </Box>
+        <Container width={theme.spacing(28)} sx={{ bgcolor: 'primary.main' }}>
+          <ContentLogo>
+            <Image src={logoImg} alt="logo" />
+            <Title>Sorveteria da</Title>
+            <Title>Vilma</Title>
+          </ContentLogo>
 
           <Divider color={Colors.WHITE} />
 
-          <Box flex={1}>
+          <ContentNav>
             <List component="nav">
               {drawerOptions.map(drawerOption => (
                 <ListItemLink
@@ -104,39 +90,23 @@ export const MenuLateral: React.FC = ({ children }) => {
                 />
               ))}
             </List>
-          </Box>
+          </ContentNav>
 
-          <Box>
-            <List component="nav">
-              <ListItemButton onClick={toggleTheme}>
-                <ListItemIcon>
-                  <Icon color="info">dark_mode</Icon>
-                </ListItemIcon>
-                <ListItemText
-                  primary="Alternar tema"
-                  primaryTypographyProps={{
-                    fontFamily: 'Poppins',
-                    fontWeight: 500,
-                    color: Colors.WHITE,
-                  }}
-                />
-              </ListItemButton>
-              <ListItemButton onClick={logout}>
-                <ListItemIcon>
-                  <Icon color="info">logout</Icon>
-                </ListItemIcon>
-                <ListItemText
-                  primary="Sair"
-                  primaryTypographyProps={{
-                    fontFamily: 'Poppins',
-                    fontWeight: 500,
-                    color: Colors.WHITE,
-                  }}
-                />
-              </ListItemButton>
-            </List>
-          </Box>
-        </Box>
+          <NavLogout>
+            <ListItemButton onClick={toggleTheme}>
+              <ListItemIcon>
+                <Icon color="info">dark_mode</Icon>
+              </ListItemIcon>
+              <ListItemText primary="Alternar tema" primaryTypographyProps={StyledListItemText} />
+            </ListItemButton>
+            <ListItemButton onClick={logout}>
+              <ListItemIcon>
+                <Icon color="info">logout</Icon>
+              </ListItemIcon>
+              <ListItemText primary="Sair" primaryTypographyProps={StyledListItemText} />
+            </ListItemButton>
+          </NavLogout>
+        </Container>
       </Drawer>
 
       <Box height="100vh" marginLeft={smDown ? 0 : theme.spacing(28)}>

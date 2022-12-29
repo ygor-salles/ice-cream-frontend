@@ -17,6 +17,8 @@ interface SelectPropsApp {
   required?: boolean;
   disabled?: boolean;
   setId?: boolean;
+  sortAlphabeticallyObject?: boolean;
+  sortAlphabeticallyString?: boolean;
   onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   onClose?: (event: React.SyntheticEvent<Element, Event>) => void;
   onChangeStateController?: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
@@ -30,11 +32,49 @@ export default function SelectApp({
   required,
   disabled,
   setId,
+  sortAlphabeticallyObject,
+  sortAlphabeticallyString,
   onBlur,
   onClose,
   onChangeStateController,
   ...rest
 }: SelectPropsApp) {
+  const _renderMenuItem = () => {
+    if (sortAlphabeticallyObject) {
+      return array
+        .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
+        .map(item => (
+          <MenuItem
+            key={item.id ? item.id : item.name}
+            value={setId ? item.id : item.name}
+            id={setId ? item.id : item.name}
+          >
+            {item.name}
+          </MenuItem>
+        ));
+    }
+    if (sortAlphabeticallyString) {
+      return array.sort().map(item => (
+        <MenuItem
+          key={item.id ? item.id : item.name}
+          value={setId ? item.id : item.name}
+          id={setId ? item.id : item.name}
+        >
+          {item.name}
+        </MenuItem>
+      ));
+    }
+    return array.map(item => (
+      <MenuItem
+        key={item.id ? item.id : item.name}
+        value={setId ? item.id : item.name}
+        id={setId ? item.id : item.name}
+      >
+        {item.name}
+      </MenuItem>
+    ));
+  };
+
   return control ? (
     <Controller
       name={name}
@@ -56,19 +96,18 @@ export default function SelectApp({
             onChange={onChange}
             onBlur={onBlur}
             onClose={onClose}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  maxHeight: 400,
+                },
+              },
+            }}
           >
             <MenuItem value="">
               <em>Selecione</em>
             </MenuItem>
-            {array.map(item => (
-              <MenuItem
-                key={item.id ? item.id : item.name}
-                value={setId ? item.id : item.name}
-                id={setId ? item.id : item.name}
-              >
-                {item.name}
-              </MenuItem>
-            ))}
+            {_renderMenuItem()}
           </Select>
           {error && <FormHelperText>{error.message}</FormHelperText>}
         </FormControl>
@@ -81,15 +120,7 @@ export default function SelectApp({
         <MenuItem value="">
           <em>Selecione</em>
         </MenuItem>
-        {array.map(item => (
-          <MenuItem
-            key={item.id ? item.id : item.name}
-            value={setId ? item.id : item.name}
-            id={setId ? item.id : item.name}
-          >
-            {item.name}
-          </MenuItem>
-        ))}
+        {_renderMenuItem()}
       </Select>
     </FormControl>
   );

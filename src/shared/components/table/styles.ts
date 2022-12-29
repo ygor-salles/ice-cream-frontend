@@ -29,7 +29,7 @@ export const StyledTableCell = styled(TableCell).withConfig({
   border: ${props => props.borderNone && 'none'};
   text-align: ${props => props.align && props.align};
   width: ${props => props.width && props.width};
-  padding: ${props => props.isMobile && '10px'};
+  padding: ${props => props.isMobile && '18px'};
 `;
 
 export const StyledTableRow = styled(TableRow)`

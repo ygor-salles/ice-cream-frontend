@@ -88,6 +88,7 @@ export function RegisterSale(): JSX.Element {
                 control={control}
                 array={allProducts}
                 setId
+                sortAlphabeticallyObject
                 label="Produto"
                 required
                 onClose={event => {
@@ -148,6 +149,7 @@ export function RegisterSale(): JSX.Element {
                 control={control}
                 array={allClients}
                 setId
+                sortAlphabeticallyObject
                 label="Cliente"
                 required={requiredClient}
                 disabled={loading}

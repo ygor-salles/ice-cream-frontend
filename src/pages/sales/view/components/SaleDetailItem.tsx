@@ -41,14 +41,20 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({ onClose, onDeleteSale, 
         </Value>
       </WrapperDetail>
 
-      <WrapperDetail>
-        <Text>
-          <b>Cliente:</b> {saleDetail?.client?.name || '--'}
-        </Text>
-        <Text>
-          <b>Telefone:</b> {saleDetail?.client?.phone || '--'}
-        </Text>
-      </WrapperDetail>
+      {saleDetail?.client && (
+        <WrapperDetail>
+          <Text>
+            <b>Cliente:</b> {saleDetail?.client?.name || '--'}
+          </Text>
+          <Text>
+            <b>Telefone:</b> {saleDetail?.client?.phone || '--'}
+          </Text>
+          <Text>
+            <b>Dívida atual:</b>{' '}
+            {saleDetail?.client?.debit ? formatNumberToCurrency(saleDetail?.client?.debit) : '--'}
+          </Text>
+        </WrapperDetail>
+      )}
 
       <FooterDetail isMobile={smDown}>
         <StyledButton variant="outlined" onClick={onDeleteSale}>

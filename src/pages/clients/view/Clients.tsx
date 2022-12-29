@@ -2,7 +2,6 @@ import { AddBox, FilterAlt } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import DialogInfo from '../../../shared/components/dialog/Dialog';
 import {
   ActionComponent,
   _renderBasicDate,
@@ -32,15 +31,11 @@ export function Clients(): JSX.Element {
     allClients,
     loadingClients,
     showModalEdit,
-    showModalDelete,
     dataActionTable,
     loadingForm,
     handleClickEdit,
-    handleClickDelete,
     handleCloseModalEdit,
-    handleCloseModalDelete,
     getClients,
-    handleSubmitDelete,
     handleSubmitUpdate,
   } = useClient();
 
@@ -58,7 +53,6 @@ export function Clients(): JSX.Element {
         smDown={smDown}
         rowData={{ phone, ...rowData }}
         handleClickEdit={handleClickEdit}
-        handleClickDelete={handleClickDelete}
       />
     );
   };
@@ -112,20 +106,6 @@ export function Clients(): JSX.Element {
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}
           open={showModalEdit}
-          loading={loadingForm}
-        />
-      )}
-
-      {showModalDelete && dataActionTable && (
-        <DialogInfo
-          open={showModalDelete}
-          handleSubmit={handleSubmitDelete}
-          id={dataActionTable?.id}
-          handleClose={handleCloseModalDelete}
-          textButtonClose="CANCELAR"
-          textButtonSubmit="DELETAR"
-          title="DELETAR CLIENTE"
-          text="Tem certeza que deseja deletar este cliente?"
           loading={loadingForm}
         />
       )}

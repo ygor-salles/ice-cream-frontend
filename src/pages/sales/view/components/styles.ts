@@ -85,6 +85,7 @@ export const FooterDetail = styled.div<{ isMobile?: boolean }>`
           padding: 15px;
         `
       : css`
+          margin-top: 150px;
           justify-content: right;
           gap: 10px;
         `}

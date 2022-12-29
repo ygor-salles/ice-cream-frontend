@@ -18,20 +18,13 @@ export function useClient() {
   const [dataActionTable, setDataActionTable] = useState<IClientDTO>();
 
   const [showModalEdit, setShowModalEdit] = useState(false);
-  const [showModalDelete, setShowModalDelete] = useState(false);
 
   const handleClickEdit = (data: IClientDTO) => {
     setDataActionTable(data);
     setShowModalEdit(true);
   };
 
-  const handleClickDelete = (data: IClientDTO) => {
-    setDataActionTable(data);
-    setShowModalDelete(true);
-  };
-
   const handleCloseModalEdit = () => setShowModalEdit(false);
-  const handleCloseModalDelete = () => setShowModalDelete(false);
 
   async function getClients(): Promise<void> {
     setLoadingClients(true);
@@ -80,35 +73,16 @@ export function useClient() {
     }
   }
 
-  async function handleSubmitDelete(id: number) {
-    setLoadingForm(true);
-    try {
-      await clientService.deleteById(id);
-      addToast('Cliente deletado com sucesso!', ToastType.success);
-      getClients();
-    } catch (error) {
-      const { response } = error as AxiosError;
-      addToast(`Error ao deletar cliente! - ${response?.data?.message}`, ToastType.error);
-    } finally {
-      setShowModalDelete(false);
-      setLoadingForm(false);
-    }
-  }
-
   return {
     allClients,
     loadingClients,
     loadingForm,
     showModalEdit,
-    showModalDelete,
     dataActionTable,
     handleClickEdit,
-    handleClickDelete,
     handleCloseModalEdit,
-    handleCloseModalDelete,
     getClients,
     handleSubmitCreate,
     handleSubmitUpdate,
-    handleSubmitDelete,
   };
 }

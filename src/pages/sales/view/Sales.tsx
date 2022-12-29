@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import DialogInfo from '../../../shared/components/dialog/Dialog';
 import { Pagination } from '../../../shared/components/pagination/Pagination';
+import { EnumTypeSale } from '../../../shared/dtos/ISaleDTO';
 import { useSale } from '../../../shared/hooks/network/useSale';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import { InstanceSale } from '../../../shared/services/SaleService/dtos/ILoadPagedSalesDTO';
@@ -84,7 +85,11 @@ export function Sales(): JSX.Element {
       <DialogInfo
         open={showModalDelete}
         title="Deletar Venda"
-        text="Tem certeza que deseja deletar essa venda? 🤔"
+        text={
+          detailItem?.type_sale === EnumTypeSale.DEBIT
+            ? 'Tem certeza que deseja deletar essa venda? 🤔🤔🤔 Ao deletar uma venda FIADO irá subtratir a dívida do cliente ❗❗'
+            : 'Tem certeza que deseja deletar essa venda? 🤔'
+        }
         textButtonSubmit="DELETAR"
         textButtonClose="CANCELAR"
         handleClose={() => setShowModalDelete(false)}

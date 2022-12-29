@@ -112,7 +112,7 @@ export function Payments(): JSX.Element {
           textButtonClose="CANCELAR"
           textButtonSubmit="DELETAR"
           title="DELETAR PAGAMENTO"
-          text="Tem certeza que deseja deletar este pagamento?"
+          text={`Tem certeza que deseja deletar este pagamento? 🤔🤔🤔 \n\n Ao deletar este pagamento irá somatizar a dívida do cliente ❗❗`}
           loading={loadingForm}
         />
       )}

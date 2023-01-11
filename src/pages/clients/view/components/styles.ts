@@ -9,3 +9,7 @@ export const Form = styled.form<FormProps>`
   height: ${props => (props.smDown ? '100vh' : 'auto')};
   display: contents;
 `;
+
+export const stylesIcon: React.CSSProperties = {
+  cursor: 'pointer',
+};

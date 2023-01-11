@@ -16,6 +16,8 @@ interface TextFieldPropsApp {
   disabled?: boolean;
   mask?: string;
   currency?: boolean;
+  renderLeft?: React.ReactNode;
+  renderRight?: React.ReactNode;
   onChangeStateController?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   handleSearch?: (value: string) => void;
 }
@@ -30,6 +32,8 @@ export default function TextFieldApp({
   disabled,
   mask,
   currency,
+  renderLeft,
+  renderRight,
   onChangeStateController,
   handleSearch,
 }: TextFieldPropsApp): JSX.Element {
@@ -49,17 +53,25 @@ export default function TextFieldApp({
               ? {
                   inputComponent: TextMaskCustom as any,
                   inputProps: { mask: maskState },
+                  startAdornment: renderLeft,
                   endAdornment:
-                    type === 'tel' &&
-                    (maskState.length >= 15 ? (
-                      <StyledLocalPhone onClick={() => setMaskState('(00) 0000-0000')} />
+                    type === 'tel' ? (
+                      maskState.length >= 15 ? (
+                        <StyledLocalPhone onClick={() => setMaskState('(00) 0000-0000')} />
+                      ) : (
+                        <StyledPhoneAndroid onClick={() => setMaskState('(00) 00000-0000')} />
+                      )
                     ) : (
-                      <StyledPhoneAndroid onClick={() => setMaskState('(00) 00000-0000')} />
-                    )),
+                      renderRight
+                    ),
                 }
               : currency
-              ? { inputComponent: NumberFormatCustom as any }
-              : undefined
+              ? {
+                  inputComponent: NumberFormatCustom as any,
+                  startAdornment: renderLeft,
+                  endAdornment: renderRight,
+                }
+              : { startAdornment: renderLeft, endAdornment: renderRight }
           }
           variant="standard"
           type={type}
@@ -82,17 +94,25 @@ export default function TextFieldApp({
           ? {
               inputComponent: TextMaskCustom as any,
               inputProps: { mask: maskState },
+              startAdornment: renderLeft,
               endAdornment:
-                type === 'tel' &&
-                (maskState.length >= 15 ? (
-                  <StyledLocalPhone onClick={() => setMaskState('(00) 0000-0000')} />
+                type === 'tel' ? (
+                  maskState.length >= 15 ? (
+                    <StyledLocalPhone onClick={() => setMaskState('(00) 0000-0000')} />
+                  ) : (
+                    <StyledPhoneAndroid onClick={() => setMaskState('(00) 00000-0000')} />
+                  )
                 ) : (
-                  <StyledPhoneAndroid onClick={() => setMaskState('(00) 00000-0000')} />
-                )),
+                  renderRight
+                ),
             }
           : currency
-          ? { inputComponent: NumberFormatCustom as any }
-          : undefined
+          ? {
+              inputComponent: NumberFormatCustom as any,
+              startAdornment: renderLeft,
+              endAdornment: renderRight,
+            }
+          : { startAdornment: renderLeft, endAdornment: renderRight }
       }
       variant="standard"
       type={type}

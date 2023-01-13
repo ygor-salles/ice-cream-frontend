@@ -10,6 +10,7 @@ import SelectApp from '../../../shared/components/select/Select';
 import TextFieldApp from '../../../shared/components/textField/TextField';
 import TextFieldCount from '../../../shared/components/textFieldCount/TextFieldCount';
 import { LISTTYPESALES } from '../../../shared/constants/listTypeSales';
+import { EnumTypeProduct } from '../../../shared/dtos/IProductDTO';
 import {
   EnumTypeSale,
   IFormSale,
@@ -55,6 +56,54 @@ export function RegisterSale(): JSX.Element {
 
   const unitPrice = useRef<number>(null);
 
+  const onSubmitCreate = (data: IFormSale) => {
+    handleSubmitCreate(data, reset);
+    setIsDisabledTextFieldCount(true);
+    setTimeout(() => {
+      setValue('amount', defaultValueAmount);
+      setCount(Number(defaultValueAmount));
+    }, 1000);
+  };
+
+  const onCloseSelectProduct = (event: React.SyntheticEvent<Element, Event>) => {
+    if (event.currentTarget.id) {
+      const product = allProducts.find(product => product.id === Number(event.currentTarget.id));
+
+      if (product) {
+        setValue('data_product', product);
+      }
+
+      if (product?.price) {
+        if (product?.price < 0.1 && product?.type === EnumTypeProduct.ICE_CREAM) {
+          unitPrice.current = null;
+          setValue('total', '');
+          setValue('amount', defaultValueAmount);
+          setCount(Number(defaultValueAmount));
+        } else {
+          unitPrice.current = product.price;
+          setValue('total', formatNumberToCurrencyInput(product.price));
+        }
+        setIsDisabledTextFieldCount(false);
+      }
+    } else {
+      setCount(Number(defaultValueAmount));
+      setValue('total', '');
+      setIsDisabledTextFieldCount(true);
+    }
+  };
+
+  const handleTextFieldCount = () => {
+    setValue('total', formatNumberToCurrencyInput(Number(getValues('amount')) * unitPrice.current));
+  };
+
+  const onCloseSelectSale = (event: React.SyntheticEvent<Element, Event>) => {
+    if (event.currentTarget.id === EnumTypeSale.DEBIT) {
+      setRequiredClient(true);
+    } else {
+      setRequiredClient(false);
+    }
+  };
+
   useEffect(() => {
     getProducts(true);
     getClients();
@@ -70,17 +119,7 @@ export function RegisterSale(): JSX.Element {
       {loadingProducts || loadingClients ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
-        <Form
-          noValidate
-          onSubmit={handleSubmit((data: IFormSale) => {
-            handleSubmitCreate(data, reset);
-            setIsDisabledTextFieldCount(true);
-            setTimeout(() => {
-              setValue('amount', defaultValueAmount);
-              setCount(Number(defaultValueAmount));
-            }, 1000);
-          })}
-        >
+        <Form noValidate onSubmit={handleSubmit((data: IFormSale) => onSubmitCreate(data))}>
           <StyledCard>
             <GridForm>
               <SelectApp
@@ -91,27 +130,7 @@ export function RegisterSale(): JSX.Element {
                 sortAlphabeticallyObject
                 label="Produto"
                 required
-                onClose={event => {
-                  if (event.currentTarget.id) {
-                    const product = allProducts.find(
-                      product => product.id === Number(event.currentTarget.id),
-                    );
-
-                    if (product) {
-                      setValue('data_product', product);
-                    }
-
-                    if (product?.price) {
-                      unitPrice.current = product.price;
-                      setValue('total', formatNumberToCurrencyInput(product.price));
-                      setIsDisabledTextFieldCount(false);
-                    }
-                  } else {
-                    setCount(Number(defaultValueAmount));
-                    setValue('total', '');
-                    setIsDisabledTextFieldCount(true);
-                  }
-                }}
+                onClose={onCloseSelectProduct}
                 disabled={loading}
               />
               <TextFieldCount
@@ -121,12 +140,7 @@ export function RegisterSale(): JSX.Element {
                 defaultValue={Number(defaultValueAmount)}
                 stateCount={count}
                 setStateCount={setCount}
-                handleOperation={() => {
-                  setValue(
-                    'total',
-                    formatNumberToCurrencyInput(Number(getValues('amount')) * unitPrice.current),
-                  );
-                }}
+                handleOperation={handleTextFieldCount}
                 disabled={loading || isDisabledTextFieldCount}
               />
               <SelectApp
@@ -135,13 +149,7 @@ export function RegisterSale(): JSX.Element {
                 array={LISTTYPESALES}
                 label="Tipo de venda"
                 required
-                onClose={event => {
-                  if (event.currentTarget.id === EnumTypeSale.DEBIT) {
-                    setRequiredClient(true);
-                  } else {
-                    setRequiredClient(false);
-                  }
-                }}
+                onClose={onCloseSelectSale}
                 disabled={loading}
               />
               <SelectApp

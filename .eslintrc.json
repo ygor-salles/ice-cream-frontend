@@ -29,6 +29,7 @@
     "react/no-unstable-nested-components": "off",
     "no-underscore-dangle": "off",
     "consistent-return": "off",
+    "no-param-reassign": "off",
     "react/jsx-no-bind": "off",
     "no-nested-ternary": "off",
     "react/function-component-definition": "off",

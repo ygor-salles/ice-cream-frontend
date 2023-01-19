@@ -49,7 +49,6 @@ export function Payments(): JSX.Element {
   const [showFilterState, setShowFilterState] = useState(false);
 
   const _renderAction = (value: string, { observation, ...rowData }: IPaymentDTO) => {
-    // eslint-disable-next-line no-param-reassign
     observation = observation || '';
     return (
       <ActionComponent

@@ -61,7 +61,6 @@ export function Products(): JSX.Element {
   };
 
   const _renderAction = (value: string, { description, ...rowData }: IProductDTO) => {
-    // eslint-disable-next-line no-param-reassign
     description = description || '';
     return (
       <ActionComponent

@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { Dashboard, Payments, Products, Providers, Sales, Users, Clients } from '../pages';
 import { RegisterClient } from '../pages/clients/register/RegisterClient';
+import { RegisterCombination } from '../pages/combinations/register/RegisterCombination';
+import { Combinations } from '../pages/combinations/view/Combinations';
 import { RegisterPayment } from '../pages/payments/register/RegisterPayment';
 import { RegisterProduct } from '../pages/products/register/RegisterProduct';
 import { RegisterProvider } from '../pages/providers/register/RegisterProvider';
@@ -21,12 +23,17 @@ export function AppRoutes() {
         label: 'Página inicial',
       },
       {
-        icon: 'category',
+        icon: 'inventory',
         path: '/products',
         label: 'Produtos',
       },
       {
-        icon: 'inventory',
+        icon: 'category',
+        path: '/combinations',
+        label: 'Combinações',
+      },
+      {
+        icon: 'groups',
         path: '/clients',
         label: 'Clientes',
       },
@@ -57,6 +64,7 @@ export function AppRoutes() {
     <Routes>
       <Route path="/home" element={<Dashboard />} />
       <Route path="/products" element={<Products />} />
+      <Route path="/combinations" element={<Combinations />} />
       <Route path="/clients" element={<Clients />} />
       <Route path="/sales" element={<Sales />} />
       <Route path="/providers" element={<Providers />} />
@@ -64,6 +72,7 @@ export function AppRoutes() {
       <Route path="/payments" element={<Payments />} />
 
       <Route path="/products/create" element={<RegisterProduct />} />
+      <Route path="/combinations/create" element={<RegisterCombination />} />
       <Route path="/clients/create" element={<RegisterClient />} />
       <Route path="/sales/create" element={<RegisterSale />} />
       <Route path="/providers/create" element={<RegisterProvider />} />

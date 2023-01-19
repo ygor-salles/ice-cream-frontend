@@ -2,16 +2,17 @@ import { AddBox, FilterAlt } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 
+import DialogInfo from '../../../shared/components/dialog/Dialog';
 import {
   ActionComponent,
   _renderBasicDate,
   _renderBasicTextCell,
-  _renderBasicToCurrencyRed,
+  _renderBasicToCurrency,
 } from '../../../shared/components/renderCellTable/RenderCellTable';
 import TableApp from '../../../shared/components/table/TableApp';
 import { ITypeComponents } from '../../../shared/components/table/types';
-import { IClientDTO } from '../../../shared/dtos/IClientDTO';
-import { useClient } from '../../../shared/hooks/network/useClient';
+import { ICombinationDTO } from '../../../shared/dtos/ICombinationDTO';
+import { useCombination } from '../../../shared/hooks/network/useCombination';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import { DialogEdit } from './components/DialogEdit';
 import {
@@ -24,46 +25,49 @@ import {
   filterTable,
 } from './constants';
 
-export function Clients(): JSX.Element {
+export function Combinations(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {
-    allClients,
-    loadingClients,
+    allCombinations,
+    loadingCombinations,
     showModalEdit,
+    showModalDelete,
     dataActionTable,
     loadingForm,
     handleClickEdit,
+    handleClickDelete,
     handleCloseModalEdit,
-    getClients,
+    handleCloseModalDelete,
+    getCombinations,
+    handleSubmitDelete,
     handleSubmitUpdate,
-  } = useClient();
+  } = useCombination();
 
   useEffect(() => {
-    getClients();
+    getCombinations();
   }, []);
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderAction = (value: string, { phone, ...rowData }: IClientDTO) => {
-    phone = phone || '';
+  const _renderAction = (value: string, rowData: ICombinationDTO) => {
     return (
       <ActionComponent
         smDown={smDown}
-        rowData={{ phone, ...rowData }}
+        rowData={rowData}
         handleClickEdit={handleClickEdit}
+        handleClickDelete={handleClickDelete}
       />
     );
   };
 
   const components: ITypeComponents = {
     [columnType.NAME]: _renderBasicTextCell,
-    [columnType.DEBIT]: _renderBasicToCurrencyRed,
-    [columnType.UPDATED_AT]: _renderBasicDate,
+    [columnType.PRICE]: _renderBasicToCurrency,
   };
 
   const componentsCollapse: ITypeComponents = {
-    [columnTypeCollapse.PHONE]: _renderBasicTextCell,
+    [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
   };
@@ -71,20 +75,20 @@ export function Clients(): JSX.Element {
   return (
     <>
       <LayoutBaseDePagina
-        titulo="Clientes"
-        navigatePage="/clients/create"
+        titulo="Combinações"
+        navigatePage="/combinations/create"
         textButton="CADASTRAR"
         icon={<AddBox />}
         textButtonRight="FILTRAR"
         iconRight={<FilterAlt />}
         onClickRight={() => setShowFilterState(value => !value)}
       >
-        {loadingClients ? (
+        {loadingCombinations ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
           <TableApp
-            tableName="table-clients"
-            data={allClients}
+            tableName="table-combinations"
+            data={allCombinations}
             components={components}
             columnConfig={columnConfig}
             renderCellHeader={key => columnLabel[key]}
@@ -101,10 +105,24 @@ export function Clients(): JSX.Element {
       {showModalEdit && dataActionTable && (
         <DialogEdit
           smDown={smDown}
-          client={dataActionTable}
+          combination={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}
           open={showModalEdit}
+          loading={loadingForm}
+        />
+      )}
+
+      {showModalDelete && dataActionTable && (
+        <DialogInfo
+          open={showModalDelete}
+          handleSubmit={handleSubmitDelete}
+          id={dataActionTable?.id}
+          handleClose={handleCloseModalDelete}
+          textButtonClose="CANCELAR"
+          textButtonSubmit="DELETAR"
+          title="DELETAR COMBINAÇÃO"
+          text="Tem certeza que deseja deletar esta combinação?"
           loading={loadingForm}
         />
       )}

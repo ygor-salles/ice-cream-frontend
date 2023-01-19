@@ -51,7 +51,6 @@ export function Providers(): JSX.Element {
   const [showFilterState, setShowFilterState] = useState(false);
 
   const _renderAction = (value: string, { phone, ...rowData }: IProviderDTO) => {
-    // eslint-disable-next-line no-param-reassign
     phone = phone || '';
     return (
       <ActionComponent

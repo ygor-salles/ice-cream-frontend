@@ -29,7 +29,7 @@ const HeaderTable: React.FC<HeaderTableProps> = ({
       <CustomSelectApp
         name=""
         control={undefined}
-        array={renderInputSearchAndSelect?.map(item => ({
+        options={renderInputSearchAndSelect?.map(item => ({
           name: item.placeholder,
         }))}
         label="Selecione coluna de busca"

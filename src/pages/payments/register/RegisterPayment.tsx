@@ -60,7 +60,7 @@ export function RegisterPayment(): JSX.Element {
               <SelectApp
                 name="client_id"
                 control={control}
-                array={allClients}
+                options={allClients}
                 setId
                 label="Cliente"
                 required

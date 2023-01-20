@@ -61,7 +61,7 @@ export function RegisterUser(): JSX.Element {
               name="role"
               control={control}
               label="Acesso"
-              array={LISTTYPEUSERS}
+              options={LISTTYPEUSERS}
               required
               disabled={loading}
             />

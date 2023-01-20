@@ -12,7 +12,7 @@ import { Control, Controller } from 'react-hook-form';
 interface SelectPropsApp {
   name: string;
   control: Control<any>;
-  array: any[];
+  options: any[];
   label: React.ReactNode;
   required?: boolean;
   disabled?: boolean;
@@ -27,7 +27,7 @@ interface SelectPropsApp {
 export default function SelectApp({
   name,
   control,
-  array,
+  options,
   label,
   required,
   disabled,
@@ -41,7 +41,7 @@ export default function SelectApp({
 }: SelectPropsApp) {
   const _renderMenuItem = () => {
     if (sortAlphabeticallyObject) {
-      return array
+      return options
         .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
         .map(item => (
           <MenuItem
@@ -54,7 +54,7 @@ export default function SelectApp({
         ));
     }
     if (sortAlphabeticallyString) {
-      return array.sort().map(item => (
+      return options.sort().map(item => (
         <MenuItem
           key={item.id ? item.id : item.name}
           value={setId ? item.id : item.name}
@@ -64,7 +64,7 @@ export default function SelectApp({
         </MenuItem>
       ));
     }
-    return array.map(item => (
+    return options.map(item => (
       <MenuItem
         key={item.id ? item.id : item.name}
         value={setId ? item.id : item.name}
@@ -91,7 +91,7 @@ export default function SelectApp({
           <InputLabel>{label}</InputLabel>
           <Select
             name={name}
-            value={value}
+            value={value || ''}
             label={label}
             onChange={onChange}
             onBlur={onBlur}

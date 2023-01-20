@@ -83,7 +83,7 @@ export function DialogEdit({
               <SelectApp
                 name="type"
                 control={control}
-                array={LISTTYPEPRODUCTS}
+                options={LISTTYPEPRODUCTS}
                 label="Tipo"
                 disabled={loading}
               />

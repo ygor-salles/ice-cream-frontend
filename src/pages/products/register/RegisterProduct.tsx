@@ -69,7 +69,7 @@ export function RegisterProduct(): JSX.Element {
             <SelectApp
               name="type"
               control={control}
-              array={LISTTYPEPRODUCTS}
+              options={LISTTYPEPRODUCTS}
               label="Tipo"
               required
               disabled={loading}

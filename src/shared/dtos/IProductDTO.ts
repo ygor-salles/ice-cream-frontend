@@ -2,6 +2,7 @@ import * as yup from 'yup';
 
 import Mask from '../constants/masks';
 import { convertProductsType } from '../utils/convertTypes';
+import { ICombinationDTO } from './ICombinationDTO';
 
 export enum EnumTypeProduct {
   ICE_CREAM = 'SORVETE',
@@ -21,6 +22,7 @@ export interface IProductDTO {
   status?: boolean;
   created_at?: Date | string;
   updated_at?: Date | string;
+  combinations?: ICombinationDTO[];
 }
 
 export interface IFormProduct {

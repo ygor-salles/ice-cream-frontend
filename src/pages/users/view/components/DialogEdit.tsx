@@ -81,7 +81,7 @@ export function DialogEdit({
                 name="role"
                 control={control}
                 label="Acesso"
-                array={LISTTYPEUSERS}
+                options={LISTTYPEUSERS}
                 required
                 disabled={loading}
               />

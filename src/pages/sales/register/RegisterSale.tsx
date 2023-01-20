@@ -7,9 +7,11 @@ import { useForm } from 'react-hook-form';
 
 import ButtonSubmitApp from '../../../shared/components/button/ButtonSubmitApp';
 import SelectApp from '../../../shared/components/select/Select';
+import SelectMultiple from '../../../shared/components/selectMultiple/SelectMultiple';
 import TextFieldApp from '../../../shared/components/textField/TextField';
 import TextFieldCount from '../../../shared/components/textFieldCount/TextFieldCount';
 import { LISTTYPESALES } from '../../../shared/constants/listTypeSales';
+import Mask from '../../../shared/constants/masks';
 import { EnumTypeProduct } from '../../../shared/dtos/IProductDTO';
 import {
   EnumTypeSale,
@@ -18,6 +20,7 @@ import {
   schemaCreateSaleWithCustomer,
 } from '../../../shared/dtos/ISaleDTO';
 import { useClient } from '../../../shared/hooks/network/useClient';
+import { useCombination } from '../../../shared/hooks/network/useCombination';
 import { useProduct } from '../../../shared/hooks/network/useProduct';
 import { useSale } from '../../../shared/hooks/network/useSale';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
@@ -33,6 +36,8 @@ export function RegisterSale(): JSX.Element {
   const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
   const [count, setCount] = useState(Number(defaultValueAmount));
 
+  const [enableOptions, setEnableOptions] = useState(false);
+
   const { handleSubmit, control, setValue, reset, getValues } = useForm<IFormSale>({
     resolver: yupResolver(
       requiredClient === false ? schemaCreateSale : schemaCreateSaleWithCustomer,
@@ -40,6 +45,7 @@ export function RegisterSale(): JSX.Element {
     defaultValues: {
       product_id: '',
       data_product: null,
+      combinations: [],
       type_sale: '',
       client_id: '',
       observation: '',
@@ -54,10 +60,14 @@ export function RegisterSale(): JSX.Element {
 
   const { getClients, allClients, loadingClients } = useClient();
 
+  const { getCombinations, allCombinations, loadingCombinations } = useCombination();
+
   const unitPrice = useRef<number>(null);
 
   const onSubmitCreate = (data: IFormSale) => {
-    handleSubmitCreate(data, reset);
+    const dataSubmit = { ...data };
+    dataSubmit.data_product.combinations = data.combinations;
+    handleSubmitCreate(dataSubmit, reset);
     setIsDisabledTextFieldCount(true);
     setTimeout(() => {
       setValue('amount', defaultValueAmount);
@@ -65,7 +75,7 @@ export function RegisterSale(): JSX.Element {
     }, 1000);
   };
 
-  const onCloseSelectProduct = (event: React.SyntheticEvent<Element, Event>) => {
+  const onCloseSelectProduct = async (event: React.SyntheticEvent<Element, Event>) => {
     if (event.currentTarget.id) {
       const product = allProducts.find(product => product.id === Number(event.currentTarget.id));
 
@@ -82,6 +92,11 @@ export function RegisterSale(): JSX.Element {
         } else {
           unitPrice.current = product.price;
           setValue('total', formatNumberToCurrencyInput(product.price));
+        }
+
+        if (product.type === EnumTypeProduct.ACAI) {
+          await getCombinations();
+          setEnableOptions(true);
         }
         setIsDisabledTextFieldCount(false);
       }
@@ -104,6 +119,20 @@ export function RegisterSale(): JSX.Element {
     }
   };
 
+  const onCloseSelectCombinations = (event: React.SyntheticEvent<Element, Event>) => {
+    const optionsCombinations = getValues('combinations');
+    const valueTotal = getValues('total');
+
+    let soma = 0;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const item of optionsCombinations) {
+      soma += item.price;
+    }
+    soma += Mask.convertCurrency(valueTotal);
+
+    setValue('total', formatNumberToCurrencyInput(soma));
+  };
+
   useEffect(() => {
     getProducts(true);
     getClients();
@@ -116,7 +145,7 @@ export function RegisterSale(): JSX.Element {
       textButton="VENDAS"
       icon={<AttachMoney />}
     >
-      {loadingProducts || loadingClients ? (
+      {loadingProducts || loadingClients || loadingCombinations ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
         <Form noValidate onSubmit={handleSubmit((data: IFormSale) => onSubmitCreate(data))}>
@@ -125,7 +154,7 @@ export function RegisterSale(): JSX.Element {
               <SelectApp
                 name="product_id"
                 control={control}
-                array={allProducts}
+                options={allProducts}
                 setId
                 sortAlphabeticallyObject
                 label="Produto"
@@ -133,6 +162,17 @@ export function RegisterSale(): JSX.Element {
                 onClose={onCloseSelectProduct}
                 disabled={loading}
               />
+              {enableOptions && (
+                <SelectMultiple
+                  name="combinations"
+                  control={control}
+                  options={allCombinations}
+                  label="Combinações"
+                  setValue={setValue}
+                  disabled={loading}
+                  onClose={onCloseSelectCombinations}
+                />
+              )}
               <TextFieldCount
                 name="amount"
                 control={control}
@@ -146,7 +186,7 @@ export function RegisterSale(): JSX.Element {
               <SelectApp
                 name="type_sale"
                 control={control}
-                array={LISTTYPESALES}
+                options={LISTTYPESALES}
                 label="Tipo de venda"
                 required
                 onClose={onCloseSelectSale}
@@ -155,7 +195,7 @@ export function RegisterSale(): JSX.Element {
               <SelectApp
                 name="client_id"
                 control={control}
-                array={allClients}
+                options={allClients}
                 setId
                 sortAlphabeticallyObject
                 label="Cliente"

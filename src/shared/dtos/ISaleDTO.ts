@@ -2,6 +2,7 @@ import * as yup from 'yup';
 
 import Mask from '../constants/masks';
 import { convetSalesType } from '../utils/convertTypes';
+import { ICombinationDTO } from './ICombinationDTO';
 import { IProductDTO } from './IProductDTO';
 
 export enum EnumTypeSale {
@@ -26,6 +27,7 @@ export interface ISaleDTO {
 export interface IFormSale {
   product_id: string;
   data_product: IProductDTO;
+  combinations: ICombinationDTO[];
   type_sale: string;
   client_id?: string;
   observation?: string;

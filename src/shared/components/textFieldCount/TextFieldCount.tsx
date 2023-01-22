@@ -19,7 +19,7 @@ interface TextFieldCountProps {
   label: React.ReactNode;
   defaultValue: number;
   disabled?: boolean;
-  handleOperation: () => void;
+  handleOperation: (onClick?: 'add' | 'subt') => void;
   stateCount: number;
   setStateCount: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -60,7 +60,7 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
                     setStateCount(defaultValue);
                     onChange(defaultValue);
                   }
-                  handleOperation();
+                  handleOperation('subt');
                 }}
                 disabled={disabled}
               >
@@ -100,7 +100,7 @@ const TextFieldCount: React.FC<TextFieldCountProps> = ({
                     setStateCount(defaultValue);
                     onChange(defaultValue);
                   }
-                  handleOperation();
+                  handleOperation('add');
                 }}
                 disabled={disabled}
               >

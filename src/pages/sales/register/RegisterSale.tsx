@@ -2,7 +2,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AttachMoney } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import ButtonSubmitApp from '../../../shared/components/button/ButtonSubmitApp';
@@ -62,8 +62,6 @@ export function RegisterSale(): JSX.Element {
 
   const { getCombinations, allCombinations, loadingCombinations } = useCombination();
 
-  const unitPrice = useRef<number>(null);
-
   const onSubmitCreate = (data: IFormSale) => {
     const dataSubmit = { ...data };
     dataSubmit.data_product.combinations = data.combinations;
@@ -85,12 +83,10 @@ export function RegisterSale(): JSX.Element {
 
       if (product?.price) {
         if (product?.price < 0.1 && product?.type === EnumTypeProduct.ICE_CREAM) {
-          unitPrice.current = null;
           setValue('total', '');
           setValue('amount', defaultValueAmount);
           setCount(Number(defaultValueAmount));
         } else {
-          unitPrice.current = product.price;
           setValue('total', formatNumberToCurrencyInput(product.price));
         }
 
@@ -107,8 +103,27 @@ export function RegisterSale(): JSX.Element {
     }
   };
 
-  const handleTextFieldCount = () => {
-    setValue('total', formatNumberToCurrencyInput(Number(getValues('amount')) * unitPrice.current));
+  const handleTextFieldCount = (onClick: 'add' | 'subt') => {
+    const { price, type } = getValues('data_product');
+    const combinations = getValues('combinations');
+
+    if (type === EnumTypeProduct.ACAI && combinations.length > 0) {
+      const totalInput = Mask.convertCurrency(getValues('total'));
+      const sumCombinations = combinations.reduce(
+        (acumulator, value) => acumulator + value.price,
+        0,
+      );
+
+      const current = price + sumCombinations;
+      setValue(
+        'total',
+        formatNumberToCurrencyInput(
+          onClick === 'add' ? totalInput + current : totalInput - current,
+        ),
+      );
+    } else {
+      setValue('total', formatNumberToCurrencyInput(Number(getValues('amount')) * price));
+    }
   };
 
   const onCloseSelectSale = (event: React.SyntheticEvent<Element, Event>) => {
@@ -119,16 +134,13 @@ export function RegisterSale(): JSX.Element {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onCloseSelectCombinations = (event: React.SyntheticEvent<Element, Event>) => {
     const optionsCombinations = getValues('combinations');
-    const valueTotal = getValues('total');
+    const priceProduct = getValues('data_product.price');
 
-    let soma = 0;
-    // eslint-disable-next-line no-restricted-syntax
-    for (const item of optionsCombinations) {
-      soma += item.price;
-    }
-    soma += Mask.convertCurrency(valueTotal);
+    let soma = optionsCombinations.reduce((acumulator, { price }) => acumulator + price, 0);
+    soma += priceProduct;
 
     setValue('total', formatNumberToCurrencyInput(soma));
   };

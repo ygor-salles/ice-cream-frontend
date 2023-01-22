@@ -25,7 +25,6 @@ export function useSale() {
 
   async function handleSubmitCreate(dataForm: IFormSale, reset: UseFormReset<IFormSale>) {
     setLoadingForm(true);
-    console.log('hook', dataForm);
     const data: ISaleDTO = transformObject(dataForm);
 
     try {

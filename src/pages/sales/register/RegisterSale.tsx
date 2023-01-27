@@ -93,6 +93,8 @@ export function RegisterSale(): JSX.Element {
         if (product.type === EnumTypeProduct.ACAI) {
           await getCombinations();
           setEnableOptions(true);
+        } else {
+          setEnableOptions(false);
         }
         setIsDisabledTextFieldCount(false);
       }

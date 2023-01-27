@@ -40,9 +40,18 @@ export function usePayment() {
     }
   }
 
-  async function handleSubmitCreate(dataForm: IFormPayment, reset: UseFormReset<IFormPayment>) {
-    setLoadingForm(true);
+  async function handleSubmitCreate(
+    dataForm: IFormPayment,
+    debitClient: number,
+    reset: UseFormReset<IFormPayment>,
+  ) {
     const data: IPaymentDTO = transformObject(dataForm);
+    if (debitClient < data.value) {
+      addToast('Valor do pagamento é maior que a dívida', ToastType.error);
+      return;
+    }
+
+    setLoadingForm(true);
 
     try {
       await paymentService.create(data);

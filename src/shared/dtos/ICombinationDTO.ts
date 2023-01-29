@@ -1,6 +1,5 @@
+import Mask from 'shared/constants/masks';
 import * as yup from 'yup';
-
-import Mask from '../constants/masks';
 
 export interface ICombinationDTO {
   id?: number;

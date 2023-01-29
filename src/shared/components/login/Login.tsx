@@ -3,9 +3,9 @@ import { Box, Card, CardContent, CircularProgress, Grid, Typography } from '@mui
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useAuthContext } from 'shared/contexts';
+import { IFormLogin, schemaLogin } from 'shared/dtos/ILoginDTO';
 
-import { useAuthContext } from '../../contexts';
-import { IFormLogin, schemaLogin } from '../../dtos/ILoginDTO';
 import Snackbar from '../snackBar/SnackBar';
 import TextFieldApp from '../textField/TextField';
 
@@ -50,7 +50,6 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
       .finally(() => setIsLoading(false));
   };
 
-  // eslint-disable-next-line react/jsx-no-useless-fragment
   if (isAuthenticated) return <>{children}</>;
 
   return (

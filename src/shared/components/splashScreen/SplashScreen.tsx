@@ -1,6 +1,6 @@
 import { ArrowForward } from '@mui/icons-material';
+import { useAppThemeContext } from 'shared/contexts';
 
-import { useAppThemeContext } from '../../contexts';
 import {
   Container,
   Description,

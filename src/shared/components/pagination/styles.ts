@@ -1,7 +1,6 @@
 import { Pagination } from '@mui/material';
 import styled from 'styled-components';
-
-import { Colors } from '../../../styles/global';
+import { Colors } from 'styles/global';
 
 export const StyledPagination = styled(Pagination)`
   & .Mui-selected {

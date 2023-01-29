@@ -1,7 +1,7 @@
+import Mask from 'shared/constants/masks';
+import { convertProductsType } from 'shared/utils/convertTypes';
 import * as yup from 'yup';
 
-import Mask from '../constants/masks';
-import { convertProductsType } from '../utils/convertTypes';
 import { ICombinationDTO } from './ICombinationDTO';
 
 export enum EnumTypeProduct {

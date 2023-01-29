@@ -1,7 +1,6 @@
 import { Card, Typography } from '@mui/material';
 import styled from 'styled-components';
-
-import { Colors, mediaQuery } from '../../../styles/global';
+import { Colors, mediaQuery } from 'styles/global';
 
 interface DescriptionCardProps {
   isDarkTheme: boolean;
@@ -60,7 +59,9 @@ export const ContentDescription = styled.div`
   border-top: solid 1px ${Colors.GRAY_LIGHT};
 `;
 
-export const DescriptionCard = styled(Typography)<DescriptionCardProps>`
+export const DescriptionCard = styled(Typography).withConfig({
+  shouldForwardProp: props => !['isDarkTheme'].includes(props),
+})<DescriptionCardProps>`
   font-weight: 300;
   font-size: 14px !important;
   color: ${props => (props.isDarkTheme ? Colors.WHITE : Colors.GRAY)};

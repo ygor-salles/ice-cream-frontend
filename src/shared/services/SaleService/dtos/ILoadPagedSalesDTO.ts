@@ -1,6 +1,6 @@
-import { IClientDTO } from '../../../dtos/IClientDTO';
-import { IProductDTO } from '../../../dtos/IProductDTO';
-import { EnumTypeSale } from '../../../dtos/ISaleDTO';
+import { IClientDTO } from 'shared/dtos/IClientDTO';
+import { IProductDTO } from 'shared/dtos/IProductDTO';
+import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
 
 export interface InstanceSale {
   id: number;

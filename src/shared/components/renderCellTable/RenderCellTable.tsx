@@ -1,10 +1,10 @@
 import { Icon, Switch } from '@mui/material';
+import { IClientDTO } from 'shared/dtos/IClientDTO';
+import { IPaymentDTO } from 'shared/dtos/IPaymentDTO';
+import { EnumRoleUser } from 'shared/dtos/IUserDTO';
+import formatDate from 'shared/utils/formatDate';
+import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
-import { IClientDTO } from '../../dtos/IClientDTO';
-import { IPaymentDTO } from '../../dtos/IPaymentDTO';
-import { EnumRoleUser } from '../../dtos/IUserDTO';
-import formatDate from '../../utils/formatDate';
-import { formatNumberToCurrency } from '../../utils/formatNumberToCurrency';
 import { ActionContent, StyledIcon, Green, Red } from './styles';
 
 export const _renderBasicTextCell = (value: string) => <span>{value || '--'}</span>;

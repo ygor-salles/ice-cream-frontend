@@ -1,7 +1,6 @@
 import { Icon } from '@mui/material';
 import styled from 'styled-components';
-
-import { Colors } from '../../../styles/global';
+import { Colors } from 'styles/global';
 
 interface ActionContentProps {
   smDown?: boolean;

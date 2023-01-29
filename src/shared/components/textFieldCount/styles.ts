@@ -1,7 +1,6 @@
 import NumberFormat from 'react-number-format';
 import styled, { css } from 'styled-components';
-
-import { Colors } from '../../../styles/global';
+import { Colors } from 'styles/global';
 
 interface IButtonIcon {
   isButtonAdd?: boolean;

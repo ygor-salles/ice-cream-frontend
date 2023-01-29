@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { UseFormReset } from 'react-hook-form';
+import { ToastType } from 'shared/components/snackBar/enum';
+import { ICombinationDTO, IFormCombination, transformObject } from 'shared/dtos/ICombinationDTO';
+import CombinationService from 'shared/services/CombinationService';
 
-import { ToastType } from '../../components/snackBar/enum';
-import { ICombinationDTO, IFormCombination, transformObject } from '../../dtos/ICombinationDTO';
-import CombinationService from '../../services/CombinationService';
 import { useToast } from '../useToast';
 
 export function useCombination() {

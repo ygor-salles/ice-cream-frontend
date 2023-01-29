@@ -1,6 +1,6 @@
+import Mask from 'shared/constants/masks';
 import * as yup from 'yup';
 
-import Mask from '../constants/masks';
 import { IClientDTO } from './IClientDTO';
 
 export interface IPaymentDTO {

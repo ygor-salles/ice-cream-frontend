@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { UseFormReset } from 'react-hook-form';
+import { ToastType } from 'shared/components/snackBar/enum';
+import { IFormProvider, IProviderDTO, transformObject } from 'shared/dtos/IProviderDTO';
+import ProviderService from 'shared/services/ProviderService';
 
-import { ToastType } from '../../components/snackBar/enum';
-import { IFormProvider, IProviderDTO, transformObject } from '../../dtos/IProviderDTO';
-import ProviderService from '../../services/ProviderService';
 import { useToast } from '../useToast';
 
 export function useProvider() {

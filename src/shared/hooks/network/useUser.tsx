@@ -1,16 +1,16 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { UseFormReset } from 'react-hook-form';
-
-import { ToastType } from '../../components/snackBar/enum';
+import { ToastType } from 'shared/components/snackBar/enum';
 import {
-  IUserDTO,
   IFormUser,
-  transformObject,
+  IUserDTO,
   IUserDTOEdit,
+  transformObject,
   transformObjectEdit,
-} from '../../dtos/IUserDTO';
-import UserService from '../../services/UserService';
+} from 'shared/dtos/IUserDTO';
+import UserService from 'shared/services/UserService';
+
 import { useToast } from '../useToast';
 
 export function useUser() {

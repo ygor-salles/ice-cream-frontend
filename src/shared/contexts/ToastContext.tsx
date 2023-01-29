@@ -1,6 +1,5 @@
 import { createContext } from 'react';
-
-import { ToastType } from '../components/snackBar/enum';
+import { ToastType } from 'shared/components/snackBar/enum';
 
 export interface ToastContextData {
   addToast(message: string, type: ToastType): void;

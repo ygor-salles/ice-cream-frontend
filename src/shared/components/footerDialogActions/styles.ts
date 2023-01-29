@@ -1,7 +1,6 @@
 import { Button, DialogActions } from '@mui/material';
 import styled from 'styled-components';
-
-import { Colors } from '../../../styles/global';
+import { Colors } from 'styles/global';
 
 export const StyledDialogActions = styled(DialogActions)`
   justify-content: space-between;

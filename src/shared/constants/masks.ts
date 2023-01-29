@@ -1,4 +1,4 @@
-import { EnumRoleUser } from '../dtos/IUserDTO';
+import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 
 /* eslint-disable no-param-reassign */
 export default class Mask {

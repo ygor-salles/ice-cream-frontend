@@ -13,7 +13,7 @@ export const Container = styled.div`
   justify-content: space-between;
   padding: 10px;
   width: 100%;
-  border-bottom: 1.5px solid ${Colors.GRAY};
+  border-bottom: 1.5px solid ${Colors.GRAY_LIGHT};
 `;
 
 export const WrapperInfo = styled.div`

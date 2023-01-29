@@ -1,6 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-
-import AuthService from '../services/AuthService';
+import AuthService from 'shared/services/AuthService';
 
 interface IAuthContextData {
   logout: () => void;

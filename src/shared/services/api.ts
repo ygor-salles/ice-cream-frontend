@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-import { localStorageKeys } from '../constants/localStorageKeys';
+import { localStorageKeys } from 'shared/constants/localStorageKeys';
 
 const ENVIROMENT = process.env.REACT_APP_ENVIROMENT;
 

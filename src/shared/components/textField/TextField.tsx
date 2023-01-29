@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 
@@ -7,7 +8,6 @@ import { StyledTextField, StyledLocalPhone, StyledPhoneAndroid } from './styles'
 
 interface TextFieldPropsApp {
   name: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
   label: React.ReactNode;
   type?: React.HTMLInputTypeAttribute;

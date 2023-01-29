@@ -1,7 +1,6 @@
 import { Box, Icon, Typography, TypographyProps } from '@mui/material';
 import styled from 'styled-components';
-
-import { Colors } from '../../../styles/global';
+import { Colors } from 'styles/global';
 
 interface ContainerProps {
   width: string | number;

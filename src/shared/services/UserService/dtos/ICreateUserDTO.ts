@@ -1,4 +1,4 @@
-import { EnumRoleUser } from '../../../dtos/IUserDTO';
+import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 
 export interface ICreateUserDTORequest {
   name: string;

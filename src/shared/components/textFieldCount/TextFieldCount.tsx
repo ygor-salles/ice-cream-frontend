@@ -1,8 +1,8 @@
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { Control, Controller } from 'react-hook-form';
+import { useAppThemeContext } from 'shared/contexts';
 
-import { useAppThemeContext } from '../../contexts';
 import {
   Container,
   ButtonIcon,

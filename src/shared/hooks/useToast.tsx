@@ -1,8 +1,7 @@
 import { useContext, useState } from 'react';
-
-import { ToastType } from '../components/snackBar/enum';
-import Snackbar from '../components/snackBar/SnackBar';
-import { ToastContext, ToastContextData } from '../contexts';
+import { ToastType } from 'shared/components/snackBar/enum';
+import Snackbar from 'shared/components/snackBar/SnackBar';
+import { ToastContext, ToastContextData } from 'shared/contexts';
 
 interface IToast {
   open: boolean;

@@ -10,11 +10,11 @@ import {
   useTheme,
   Box,
 } from '@mui/material';
+import logoImg from 'assets/icecream_5nd69k2ouf5k.svg';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
+import { useAppThemeContext, useAuthContext, useDrawerContext } from 'shared/contexts';
+import { Colors } from 'styles/global';
 
-import logoImg from '../../../assets/icecream_5nd69k2ouf5k.svg';
-import { Colors } from '../../../styles/global';
-import { useAppThemeContext, useAuthContext, useDrawerContext } from '../../contexts';
 import {
   NavLogout,
   Container,

@@ -2,13 +2,13 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { UseFormReset } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { ToastType } from 'shared/components/snackBar/enum';
+import { LIMIT_PAGED } from 'shared/constants/limitPaged';
+import { RoutesEnum } from 'shared/constants/routesList';
+import { IFormSale, ISaleDTO, transformObject } from 'shared/dtos/ISaleDTO';
+import SaleService from 'shared/services/SaleService';
+import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 
-import { ToastType } from '../../components/snackBar/enum';
-import { LIMIT_PAGED } from '../../constants/limitPaged';
-import { RoutesEnum } from '../../constants/routesList';
-import { IFormSale, ISaleDTO, transformObject } from '../../dtos/ISaleDTO';
-import SaleService from '../../services/SaleService';
-import { InstanceSale } from '../../services/SaleService/dtos/ILoadPagedSalesDTO';
 import { useToast } from '../useToast';
 
 export function useSale() {

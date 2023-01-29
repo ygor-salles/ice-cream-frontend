@@ -1,4 +1,4 @@
-import { EnumTypeProduct } from '../../../dtos/IProductDTO';
+import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 
 export interface IUpdateProductDTORequest {
   id?: number;

@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { UseFormReset } from 'react-hook-form';
+import { ToastType } from 'shared/components/snackBar/enum';
+import { IFormPayment, IPaymentDTO, transformObject } from 'shared/dtos/IPaymentDTO';
+import PaymentService from 'shared/services/PaymentService';
 
-import { ToastType } from '../../components/snackBar/enum';
-import { IPaymentDTO, IFormPayment, transformObject } from '../../dtos/IPaymentDTO';
-import PaymentService from '../../services/PaymentService';
 import { useToast } from '../useToast';
 
 export function usePayment() {

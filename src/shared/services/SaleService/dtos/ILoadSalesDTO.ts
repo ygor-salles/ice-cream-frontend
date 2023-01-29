@@ -1,5 +1,5 @@
-import { IProductDTO } from '../../../dtos/IProductDTO';
-import { EnumTypeSale } from '../../../dtos/ISaleDTO';
+import { IProductDTO } from 'shared/dtos/IProductDTO';
+import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
 
 export interface ILoadSaleDTOResponse {
   id: number;

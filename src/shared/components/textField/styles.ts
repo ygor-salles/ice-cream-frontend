@@ -1,9 +1,8 @@
 import { LocalPhone, PhoneAndroid } from '@mui/icons-material';
 import { TextField } from '@mui/material';
+import { useAppThemeContext } from 'shared/contexts';
 import styled from 'styled-components';
-
-import { Colors } from '../../../styles/global';
-import { useAppThemeContext } from '../../contexts';
+import { Colors } from 'styles/global';
 
 export const StyledTextField = styled(TextField)(() => ({
   '& label.Mui-focused': {

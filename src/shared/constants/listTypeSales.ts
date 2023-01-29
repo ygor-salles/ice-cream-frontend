@@ -1,4 +1,4 @@
-import { EnumTypeSale } from '../dtos/ISaleDTO';
+import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
 
 interface TypeSale {
   id: number;

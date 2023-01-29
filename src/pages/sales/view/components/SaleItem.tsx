@@ -1,8 +1,8 @@
 import { NavigateNext } from '@mui/icons-material';
+import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
+import formatDateTime from 'shared/utils/formatDateTime';
+import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
-import { InstanceSale } from '../../../../shared/services/SaleService/dtos/ILoadPagedSalesDTO';
-import formatDateTime from '../../../../shared/utils/formatDateTime';
-import { formatNumberToCurrency } from '../../../../shared/utils/formatNumberToCurrency';
 import { Container, WrapperInfo, Text, WrapperNavigate } from './styles';
 
 interface SaleItemProps {

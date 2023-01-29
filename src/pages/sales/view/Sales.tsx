@@ -2,13 +2,13 @@ import { AddBox } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import DialogInfo from 'shared/components/dialog/Dialog';
+import { Pagination } from 'shared/components/pagination/Pagination';
+import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
+import { useSale } from 'shared/hooks/network/useSale';
+import { LayoutBaseDePagina } from 'shared/layouts';
+import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 
-import DialogInfo from '../../../shared/components/dialog/Dialog';
-import { Pagination } from '../../../shared/components/pagination/Pagination';
-import { EnumTypeSale } from '../../../shared/dtos/ISaleDTO';
-import { useSale } from '../../../shared/hooks/network/useSale';
-import { LayoutBaseDePagina } from '../../../shared/layouts';
-import { InstanceSale } from '../../../shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import SaleDetailItem from './components/SaleDetailItem';
 import SaleItem from './components/SaleItem';
 

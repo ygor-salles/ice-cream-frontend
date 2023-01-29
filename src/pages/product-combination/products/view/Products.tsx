@@ -4,19 +4,19 @@ import { useEffect, useState } from 'react';
 import DialogInfo from 'shared/components/dialog/Dialog';
 import {
   ActionComponent,
+  SwitchComponent,
   _renderBasicDate,
   _renderBasicTextCell,
-  _renderRoleCell,
+  _renderBasicToCurrency,
 } from 'shared/components/renderCellTable/RenderCellTable';
 import TableApp from 'shared/components/table/TableApp';
 import { ITypeComponents } from 'shared/components/table/types';
-import { IUserDTO } from 'shared/dtos/IUserDTO';
-import { useUser } from 'shared/hooks/network/useUser';
+import { IProductDTO } from 'shared/dtos/IProductDTO';
+import { useProduct } from 'shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { DialogEdit } from './components/DialogEdit';
 import {
-  columnConfig,
   columnConfigCollapse,
   columnLabel,
   columnLabelCollapse,
@@ -25,71 +25,88 @@ import {
   filterTable,
 } from './constants';
 
-export function Users(): JSX.Element {
+export function Products(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {
-    allUsers,
-    loadingUsers,
+    allProducts,
+    loadingProducts,
     showModalEdit,
     showModalDelete,
     dataActionTable,
     loadingForm,
+    timerRef,
     handleClickEdit,
     handleClickDelete,
     handleCloseModalEdit,
     handleCloseModalDelete,
-    getUsers,
+    getProducts,
     handleSubmitDelete,
     handleSubmitUpdate,
-  } = useUser();
+    handleSubmitSwitchToogle,
+  } = useProduct();
 
   useEffect(() => {
-    getUsers();
+    getProducts();
+
+    return () => clearTimeout(timerRef.current);
   }, []);
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderAction = (value: string, data: IUserDTO) => (
-    <ActionComponent
-      smDown={smDown}
-      rowData={data}
-      handleClickEdit={handleClickEdit}
-      handleClickDelete={handleClickDelete}
-    />
-  );
+  const _renderSwitchToggle = (value: boolean, { id }: IProductDTO) => {
+    return (
+      <SwitchComponent id={id} value={value} onSubmitSwitchToogle={handleSubmitSwitchToogle} />
+    );
+  };
+
+  const _renderAction = (value: string, { description, ...rowData }: IProductDTO) => {
+    description = description || '';
+    return (
+      <ActionComponent
+        smDown={smDown}
+        rowData={{ description, ...rowData }}
+        handleClickEdit={handleClickEdit}
+        handleClickDelete={handleClickDelete}
+      />
+    );
+  };
 
   const components: ITypeComponents = {
     [columnType.NAME]: _renderBasicTextCell,
-    [columnType.ROLE]: _renderRoleCell,
-    [columnType.UPDATED_AT]: _renderBasicDate,
+    [columnType.PRICE]: _renderBasicToCurrency,
+    [columnType.STATUS]: _renderSwitchToggle,
   };
 
   const componentsCollapse: ITypeComponents = {
-    [columnTypeCollapse.EMAIL]: _renderBasicTextCell,
-    [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
+    [columnTypeCollapse.DESCRIPTION]: _renderBasicTextCell,
+    [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
   };
 
   return (
     <>
       <LayoutBaseDePagina
-        titulo="Usuários"
-        navigatePage="/users/create"
+        titulo="Produtos"
+        navigatePage="/products/create"
         textButton="CADASTRAR"
         icon={<AddBox />}
         textButtonRight="FILTRAR"
         iconRight={<FilterAlt />}
         onClickRight={() => setShowFilterState(value => !value)}
       >
-        {loadingUsers ? (
+        {loadingProducts ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
           <TableApp
-            tableName="table-clients"
-            data={allUsers}
+            tableName="table-products"
+            data={allProducts}
             components={components}
-            columnConfig={columnConfig}
+            columnConfig={{
+              [columnType.NAME]: { order: 1 },
+              [columnType.PRICE]: { order: 2, align: smDown ? 'right' : undefined },
+              [columnType.STATUS]: { order: 3, align: smDown ? 'right' : undefined },
+            }}
             renderCellHeader={key => columnLabel[key]}
             columnConfigCollapse={columnConfigCollapse}
             componentsCollapse={componentsCollapse}
@@ -104,7 +121,7 @@ export function Users(): JSX.Element {
       {showModalEdit && dataActionTable && (
         <DialogEdit
           smDown={smDown}
-          user={dataActionTable}
+          product={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}
           open={showModalEdit}
@@ -120,8 +137,8 @@ export function Users(): JSX.Element {
           handleClose={handleCloseModalDelete}
           textButtonClose="CANCELAR"
           textButtonSubmit="DELETAR"
-          title="DELETAR CLIENTE"
-          text="Tem certeza que deseja deletar este usuário?"
+          title="DELETAR PRODUTO"
+          text="Tem certeza que deseja deletar este produto?"
           loading={loadingForm}
         />
       )}

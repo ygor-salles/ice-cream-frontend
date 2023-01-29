@@ -1,7 +1,6 @@
 import { Button, Typography } from '@mui/material';
 import styled, { css } from 'styled-components';
-
-import { Colors } from '../../../../styles/global';
+import { Colors } from 'styles/global';
 
 interface TextProps {
   bold?: boolean;

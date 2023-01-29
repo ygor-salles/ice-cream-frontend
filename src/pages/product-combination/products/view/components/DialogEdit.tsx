@@ -4,36 +4,36 @@ import { useForm } from 'react-hook-form';
 import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
-import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
-import { IFormUser, IUserDTO, schemaEditUser } from 'shared/dtos/IUserDTO';
+import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
+import { IFormProduct, IProductDTO, schemaCreateProduct } from 'shared/dtos/IProductDTO';
 
 import { Form } from './styles';
 
 interface DialogEditProps {
   smDown?: boolean;
-  user: IUserDTO;
+  product: IProductDTO;
   open: boolean;
-  onSubmitUpdate: (dataForm: IFormUser) => Promise<void>;
+  onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
   handleClose: () => void;
   loading: boolean;
 }
 
 export function DialogEdit({
-  user,
+  product,
   smDown,
   onSubmitUpdate,
   open,
   handleClose,
   loading,
 }: DialogEditProps): JSX.Element {
-  const { handleSubmit, control } = useForm<IFormUser>({
-    resolver: yupResolver(schemaEditUser),
+  const { handleSubmit, control } = useForm<IFormProduct>({
+    resolver: yupResolver(schemaCreateProduct),
     defaultValues: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      password: '',
-      role: user.role,
+      id: product.id,
+      name: product.name,
+      price: product.price.toFixed(2).replace('.', ''),
+      description: product.description,
+      type: product.type,
     },
   });
 
@@ -45,49 +45,48 @@ export function DialogEdit({
       aria-labelledby="responsive-dialog-title"
     >
       <Form noValidate onSubmit={handleSubmit(onSubmitUpdate)} smDown={smDown}>
-        <DialogTitle id="responsive-dialog-title">EDITAR USUÁRIO</DialogTitle>
+        <DialogTitle id="responsive-dialog-title">EDITAR PRODUTO</DialogTitle>
         <DialogContent>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <TextFieldApp
                 name="name"
                 control={control}
-                label="Nome"
+                label="Nome do produto"
                 required
                 disabled={loading}
               />
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
-                name="email"
+                name="price"
                 control={control}
-                label="E-mail"
-                type="email"
+                label="Preço do produto"
+                currency
                 required
                 disabled={loading}
               />
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
-                name="password"
+                name="description"
                 control={control}
-                label="Senha"
-                type="password"
+                label="Descrição do produto"
                 disabled={loading}
               />
             </Grid>
             <Grid item xs={12}>
               <SelectApp
-                name="role"
+                name="type"
                 control={control}
-                label="Acesso"
-                options={LISTTYPEUSERS}
-                required
+                options={LISTTYPEPRODUCTS}
+                label="Tipo"
                 disabled={loading}
               />
             </Grid>
           </Grid>
         </DialogContent>
+
         <FooterDialogActions
           textButtonConfirm="EDITAR"
           textButtonCancel="CANCELAR"

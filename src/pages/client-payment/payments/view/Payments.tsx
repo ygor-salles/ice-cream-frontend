@@ -6,15 +6,16 @@ import {
   ActionComponent,
   _renderBasicDate,
   _renderBasicTextCell,
-  _renderRoleCell,
+  _renderBasicToCurrencyGreen,
+  _renderPaymentClientDebit,
+  _renderPaymentClientName,
 } from 'shared/components/renderCellTable/RenderCellTable';
 import TableApp from 'shared/components/table/TableApp';
 import { ITypeComponents } from 'shared/components/table/types';
-import { IUserDTO } from 'shared/dtos/IUserDTO';
-import { useUser } from 'shared/hooks/network/useUser';
+import { IPaymentDTO } from 'shared/dtos/IPaymentDTO';
+import { usePayment } from 'shared/hooks/network/usePayment';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
-import { DialogEdit } from './components/DialogEdit';
 import {
   columnConfig,
   columnConfigCollapse,
@@ -23,71 +24,71 @@ import {
   columnType,
   columnTypeCollapse,
   filterTable,
+  mappedColumnSubObject,
 } from './constants';
 
-export function Users(): JSX.Element {
+export function Payments(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {
-    allUsers,
-    loadingUsers,
-    showModalEdit,
+    allPayments,
+    loadingPayments,
     showModalDelete,
     dataActionTable,
     loadingForm,
-    handleClickEdit,
     handleClickDelete,
-    handleCloseModalEdit,
     handleCloseModalDelete,
-    getUsers,
+    getPayments,
     handleSubmitDelete,
-    handleSubmitUpdate,
-  } = useUser();
+  } = usePayment();
 
   useEffect(() => {
-    getUsers();
+    getPayments();
   }, []);
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderAction = (value: string, data: IUserDTO) => (
-    <ActionComponent
-      smDown={smDown}
-      rowData={data}
-      handleClickEdit={handleClickEdit}
-      handleClickDelete={handleClickDelete}
-    />
-  );
+  const _renderAction = (value: string, { observation, ...rowData }: IPaymentDTO) => {
+    observation = observation || '';
+    return (
+      <ActionComponent
+        smDown={smDown}
+        rowData={{ observation, ...rowData }}
+        handleClickDelete={handleClickDelete}
+      />
+    );
+  };
 
   const components: ITypeComponents = {
-    [columnType.NAME]: _renderBasicTextCell,
-    [columnType.ROLE]: _renderRoleCell,
-    [columnType.UPDATED_AT]: _renderBasicDate,
+    [columnType.VALUE]: _renderBasicToCurrencyGreen,
+    [columnType.CLIENT]: _renderPaymentClientName,
+    [columnType.DEBIT]: _renderPaymentClientDebit,
   };
 
   const componentsCollapse: ITypeComponents = {
-    [columnTypeCollapse.EMAIL]: _renderBasicTextCell,
-    [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
+    [columnTypeCollapse.OBSERVATION]: _renderBasicTextCell,
+    [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
   };
 
   return (
     <>
       <LayoutBaseDePagina
-        titulo="Usuários"
-        navigatePage="/users/create"
+        titulo="Pagamentos"
+        navigatePage="/payments/create"
         textButton="CADASTRAR"
         icon={<AddBox />}
         textButtonRight="FILTRAR"
         iconRight={<FilterAlt />}
         onClickRight={() => setShowFilterState(value => !value)}
       >
-        {loadingUsers ? (
+        {loadingPayments ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
           <TableApp
-            tableName="table-clients"
-            data={allUsers}
+            tableName="table-payments"
+            data={allPayments}
+            mappedColumnSubObject={mappedColumnSubObject}
             components={components}
             columnConfig={columnConfig}
             renderCellHeader={key => columnLabel[key]}
@@ -101,17 +102,6 @@ export function Users(): JSX.Element {
         )}
       </LayoutBaseDePagina>
 
-      {showModalEdit && dataActionTable && (
-        <DialogEdit
-          smDown={smDown}
-          user={dataActionTable}
-          onSubmitUpdate={handleSubmitUpdate}
-          handleClose={handleCloseModalEdit}
-          open={showModalEdit}
-          loading={loadingForm}
-        />
-      )}
-
       {showModalDelete && dataActionTable && (
         <DialogInfo
           open={showModalDelete}
@@ -120,8 +110,8 @@ export function Users(): JSX.Element {
           handleClose={handleCloseModalDelete}
           textButtonClose="CANCELAR"
           textButtonSubmit="DELETAR"
-          title="DELETAR CLIENTE"
-          text="Tem certeza que deseja deletar este usuário?"
+          title="DELETAR PAGAMENTO"
+          text={`Tem certeza que deseja deletar este pagamento? 🤔🤔🤔 \n\n Ao deletar este pagamento irá somatizar a dívida do cliente ❗❗`}
           loading={loadingForm}
         />
       )}

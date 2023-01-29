@@ -1,8 +1,8 @@
 import { Theme, useMediaQuery } from '@mui/material';
+import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
+import formatDateTime from 'shared/utils/formatDateTime';
+import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
-import { InstanceSale } from '../../../../shared/services/SaleService/dtos/ILoadPagedSalesDTO';
-import formatDateTime from '../../../../shared/utils/formatDateTime';
-import { formatNumberToCurrency } from '../../../../shared/utils/formatNumberToCurrency';
 import { Text, Title, Value, WrapperDetail, StyledButton, FooterDetail, Li, Ul } from './styles';
 
 interface SaleDetailItemProps {

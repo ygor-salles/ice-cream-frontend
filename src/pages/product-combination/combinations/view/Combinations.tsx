@@ -6,12 +6,12 @@ import {
   ActionComponent,
   _renderBasicDate,
   _renderBasicTextCell,
-  _renderRoleCell,
+  _renderBasicToCurrency,
 } from 'shared/components/renderCellTable/RenderCellTable';
 import TableApp from 'shared/components/table/TableApp';
 import { ITypeComponents } from 'shared/components/table/types';
-import { IUserDTO } from 'shared/dtos/IUserDTO';
-import { useUser } from 'shared/hooks/network/useUser';
+import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
+import { useCombination } from 'shared/hooks/network/useCombination';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { DialogEdit } from './components/DialogEdit';
@@ -25,12 +25,12 @@ import {
   filterTable,
 } from './constants';
 
-export function Users(): JSX.Element {
+export function Combinations(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {
-    allUsers,
-    loadingUsers,
+    allCombinations,
+    loadingCombinations,
     showModalEdit,
     showModalDelete,
     dataActionTable,
@@ -39,34 +39,35 @@ export function Users(): JSX.Element {
     handleClickDelete,
     handleCloseModalEdit,
     handleCloseModalDelete,
-    getUsers,
+    getCombinations,
     handleSubmitDelete,
     handleSubmitUpdate,
-  } = useUser();
+  } = useCombination();
 
   useEffect(() => {
-    getUsers();
+    getCombinations();
   }, []);
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderAction = (value: string, data: IUserDTO) => (
-    <ActionComponent
-      smDown={smDown}
-      rowData={data}
-      handleClickEdit={handleClickEdit}
-      handleClickDelete={handleClickDelete}
-    />
-  );
+  const _renderAction = (value: string, rowData: ICombinationDTO) => {
+    return (
+      <ActionComponent
+        smDown={smDown}
+        rowData={rowData}
+        handleClickEdit={handleClickEdit}
+        handleClickDelete={handleClickDelete}
+      />
+    );
+  };
 
   const components: ITypeComponents = {
     [columnType.NAME]: _renderBasicTextCell,
-    [columnType.ROLE]: _renderRoleCell,
-    [columnType.UPDATED_AT]: _renderBasicDate,
+    [columnType.PRICE]: _renderBasicToCurrency,
   };
 
   const componentsCollapse: ITypeComponents = {
-    [columnTypeCollapse.EMAIL]: _renderBasicTextCell,
+    [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
   };
@@ -74,20 +75,20 @@ export function Users(): JSX.Element {
   return (
     <>
       <LayoutBaseDePagina
-        titulo="Usuários"
-        navigatePage="/users/create"
+        titulo="Combinações"
+        navigatePage="/combinations/create"
         textButton="CADASTRAR"
         icon={<AddBox />}
         textButtonRight="FILTRAR"
         iconRight={<FilterAlt />}
         onClickRight={() => setShowFilterState(value => !value)}
       >
-        {loadingUsers ? (
+        {loadingCombinations ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
           <TableApp
-            tableName="table-clients"
-            data={allUsers}
+            tableName="table-combinations"
+            data={allCombinations}
             components={components}
             columnConfig={columnConfig}
             renderCellHeader={key => columnLabel[key]}
@@ -104,7 +105,7 @@ export function Users(): JSX.Element {
       {showModalEdit && dataActionTable && (
         <DialogEdit
           smDown={smDown}
-          user={dataActionTable}
+          combination={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}
           open={showModalEdit}
@@ -120,8 +121,8 @@ export function Users(): JSX.Element {
           handleClose={handleCloseModalDelete}
           textButtonClose="CANCELAR"
           textButtonSubmit="DELETAR"
-          title="DELETAR CLIENTE"
-          text="Tem certeza que deseja deletar este usuário?"
+          title="DELETAR COMBINAÇÃO"
+          text="Tem certeza que deseja deletar esta combinação?"
           loading={loadingForm}
         />
       )}

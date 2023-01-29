@@ -2,38 +2,38 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
-import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
-import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
-import { IFormUser, IUserDTO, schemaEditUser } from 'shared/dtos/IUserDTO';
+import {
+  ICombinationDTO,
+  IFormCombination,
+  schemaCreateCombination,
+} from 'shared/dtos/ICombinationDTO';
 
 import { Form } from './styles';
 
 interface DialogEditProps {
   smDown?: boolean;
-  user: IUserDTO;
+  combination: ICombinationDTO;
   open: boolean;
-  onSubmitUpdate: (dataForm: IFormUser) => Promise<void>;
+  onSubmitUpdate: (dataForm: IFormCombination) => Promise<void>;
   handleClose: () => void;
   loading: boolean;
 }
 
 export function DialogEdit({
-  user,
+  combination,
   smDown,
   onSubmitUpdate,
   open,
   handleClose,
   loading,
 }: DialogEditProps): JSX.Element {
-  const { handleSubmit, control } = useForm<IFormUser>({
-    resolver: yupResolver(schemaEditUser),
+  const { handleSubmit, control } = useForm<IFormCombination>({
+    resolver: yupResolver(schemaCreateCombination),
     defaultValues: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      password: '',
-      role: user.role,
+      id: combination.id,
+      name: combination.name,
+      price: combination.price.toFixed(2).replace('.', ''),
     },
   });
 
@@ -45,43 +45,24 @@ export function DialogEdit({
       aria-labelledby="responsive-dialog-title"
     >
       <Form noValidate onSubmit={handleSubmit(onSubmitUpdate)} smDown={smDown}>
-        <DialogTitle id="responsive-dialog-title">EDITAR USUÁRIO</DialogTitle>
+        <DialogTitle id="responsive-dialog-title">EDITAR COMBINAÇÃO</DialogTitle>
         <DialogContent>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <TextFieldApp
                 name="name"
                 control={control}
-                label="Nome"
+                label="Nome do fornecedor"
                 required
                 disabled={loading}
               />
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
-                name="email"
+                name="price"
                 control={control}
-                label="E-mail"
-                type="email"
-                required
-                disabled={loading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextFieldApp
-                name="password"
-                control={control}
-                label="Senha"
-                type="password"
-                disabled={loading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <SelectApp
-                name="role"
-                control={control}
-                label="Acesso"
-                options={LISTTYPEUSERS}
+                label="Preço da combinação"
+                currency
                 required
                 disabled={loading}
               />

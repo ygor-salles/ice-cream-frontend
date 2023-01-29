@@ -5,63 +5,72 @@ import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
-import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
-import { EnumRoleUser, IFormUser, schemaCreateUser } from 'shared/dtos/IUserDTO';
-import { useUser } from 'shared/hooks/network/useUser';
+import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
+import { IFormProduct, schemaCreateProduct } from 'shared/dtos/IProductDTO';
+import { useProduct } from 'shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { Form, GridForm, StyledCard } from './styles';
 
-export function RegisterUser(): JSX.Element {
+export function RegisterProduct(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const { handleSubmit, control, reset } = useForm<IFormUser>({
-    resolver: yupResolver(schemaCreateUser),
+  const { handleSubmitCreate, loadingForm: loading } = useProduct();
+
+  const {
+    handleSubmit,
+    control,
+    reset,
+    // formState: { isDirty, isValid },
+  } = useForm<IFormProduct>({
+    resolver: yupResolver(schemaCreateProduct),
     defaultValues: {
       name: '',
-      email: '',
-      password: '',
-      role: EnumRoleUser.NORMAL,
+      price: '',
+      description: '',
+      type: '',
     },
   });
 
-  const { handleSubmitCreate, loadingForm: loading } = useUser();
-
   return (
     <LayoutBaseDePagina
-      titulo="Cadastro usuário"
-      navigatePage="/users"
+      titulo="Cadastro produto"
+      navigatePage="/products"
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >
       <Form
         noValidate
-        onSubmit={handleSubmit((data: IFormUser) => handleSubmitCreate(data, reset))}
+        onSubmit={handleSubmit((data: IFormProduct) => handleSubmitCreate(data, reset))}
       >
         <StyledCard>
           <GridForm>
-            <TextFieldApp name="name" control={control} label="Nome" required disabled={loading} />
             <TextFieldApp
-              name="email"
+              name="name"
               control={control}
-              label="E-mail"
-              type="email"
+              label="Nome do produto"
               required
               disabled={loading}
             />
             <TextFieldApp
-              name="password"
+              name="price"
               control={control}
-              label="Senha"
-              type="password"
+              label="Preço do produto"
+              currency
               required
+              disabled={loading}
+            />
+            <TextFieldApp
+              name="description"
+              control={control}
+              label="Descrição do produto"
               disabled={loading}
             />
             <SelectApp
-              name="role"
+              name="type"
               control={control}
-              label="Acesso"
-              options={LISTTYPEUSERS}
+              options={LISTTYPEPRODUCTS}
+              label="Tipo"
               required
               disabled={loading}
             />

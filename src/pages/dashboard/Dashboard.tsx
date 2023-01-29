@@ -1,6 +1,5 @@
 import { AddBox } from '@mui/icons-material';
-
-import { LayoutBaseDePagina } from '../../shared/layouts';
+import { LayoutBaseDePagina } from 'shared/layouts';
 
 export function Dashboard() {
   return (

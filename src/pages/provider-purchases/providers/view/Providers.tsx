@@ -6,12 +6,12 @@ import {
   ActionComponent,
   _renderBasicDate,
   _renderBasicTextCell,
-  _renderRoleCell,
+  _renderTextCellYesOrNo,
 } from 'shared/components/renderCellTable/RenderCellTable';
 import TableApp from 'shared/components/table/TableApp';
 import { ITypeComponents } from 'shared/components/table/types';
-import { IUserDTO } from 'shared/dtos/IUserDTO';
-import { useUser } from 'shared/hooks/network/useUser';
+import { IProviderDTO } from 'shared/dtos/IProviderDTO';
+import { useProvider } from 'shared/hooks/network/useProvider';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { DialogEdit } from './components/DialogEdit';
@@ -25,12 +25,12 @@ import {
   filterTable,
 } from './constants';
 
-export function Users(): JSX.Element {
+export function Providers(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {
-    allUsers,
-    loadingUsers,
+    allProviders,
+    loadingProviders,
     showModalEdit,
     showModalDelete,
     dataActionTable,
@@ -39,34 +39,37 @@ export function Users(): JSX.Element {
     handleClickDelete,
     handleCloseModalEdit,
     handleCloseModalDelete,
-    getUsers,
+    getProviders,
     handleSubmitDelete,
     handleSubmitUpdate,
-  } = useUser();
+  } = useProvider();
 
   useEffect(() => {
-    getUsers();
+    getProviders();
   }, []);
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderAction = (value: string, data: IUserDTO) => (
-    <ActionComponent
-      smDown={smDown}
-      rowData={data}
-      handleClickEdit={handleClickEdit}
-      handleClickDelete={handleClickDelete}
-    />
-  );
+  const _renderAction = (value: string, { phone, ...rowData }: IProviderDTO) => {
+    phone = phone || '';
+    return (
+      <ActionComponent
+        smDown={smDown}
+        rowData={{ phone, ...rowData }}
+        handleClickEdit={handleClickEdit}
+        handleClickDelete={handleClickDelete}
+      />
+    );
+  };
 
   const components: ITypeComponents = {
     [columnType.NAME]: _renderBasicTextCell,
-    [columnType.ROLE]: _renderRoleCell,
+    [columnType.ITS_ICE_CREAM_SHOP]: _renderTextCellYesOrNo,
     [columnType.UPDATED_AT]: _renderBasicDate,
   };
 
   const componentsCollapse: ITypeComponents = {
-    [columnTypeCollapse.EMAIL]: _renderBasicTextCell,
+    [columnTypeCollapse.PHONE]: _renderBasicTextCell,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
   };
@@ -74,20 +77,20 @@ export function Users(): JSX.Element {
   return (
     <>
       <LayoutBaseDePagina
-        titulo="Usuários"
-        navigatePage="/users/create"
+        titulo="Fornecedores"
+        navigatePage="/providers/create"
         textButton="CADASTRAR"
         icon={<AddBox />}
         textButtonRight="FILTRAR"
         iconRight={<FilterAlt />}
         onClickRight={() => setShowFilterState(value => !value)}
       >
-        {loadingUsers ? (
+        {loadingProviders ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
           <TableApp
-            tableName="table-clients"
-            data={allUsers}
+            tableName="table-providers"
+            data={allProviders}
             components={components}
             columnConfig={columnConfig}
             renderCellHeader={key => columnLabel[key]}
@@ -104,7 +107,7 @@ export function Users(): JSX.Element {
       {showModalEdit && dataActionTable && (
         <DialogEdit
           smDown={smDown}
-          user={dataActionTable}
+          provider={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}
           open={showModalEdit}
@@ -120,8 +123,8 @@ export function Users(): JSX.Element {
           handleClose={handleCloseModalDelete}
           textButtonClose="CANCELAR"
           textButtonSubmit="DELETAR"
-          title="DELETAR CLIENTE"
-          text="Tem certeza que deseja deletar este usuário?"
+          title="DELETAR FORNECEDOR"
+          text="Tem certeza que deseja deletar este fornecedor?"
           loading={loadingForm}
         />
       )}

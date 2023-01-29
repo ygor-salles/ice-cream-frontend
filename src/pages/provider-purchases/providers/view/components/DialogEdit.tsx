@@ -1,39 +1,37 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
+import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
 import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
-import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
-import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
-import { IFormUser, IUserDTO, schemaEditUser } from 'shared/dtos/IUserDTO';
+import { IFormProvider, IProviderDTO, schemaCreateProvider } from 'shared/dtos/IProviderDTO';
 
 import { Form } from './styles';
 
 interface DialogEditProps {
   smDown?: boolean;
-  user: IUserDTO;
+  provider: IProviderDTO;
   open: boolean;
-  onSubmitUpdate: (dataForm: IFormUser) => Promise<void>;
+  onSubmitUpdate: (dataForm: IFormProvider) => Promise<void>;
   handleClose: () => void;
   loading: boolean;
 }
 
 export function DialogEdit({
-  user,
+  provider,
   smDown,
   onSubmitUpdate,
   open,
   handleClose,
   loading,
 }: DialogEditProps): JSX.Element {
-  const { handleSubmit, control } = useForm<IFormUser>({
-    resolver: yupResolver(schemaEditUser),
+  const { handleSubmit, control } = useForm<IFormProvider>({
+    resolver: yupResolver(schemaCreateProvider),
     defaultValues: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      password: '',
-      role: user.role,
+      id: provider.id,
+      name: provider.name,
+      phone: provider.phone,
+      its_ice_cream_shoop: provider.its_ice_cream_shoop,
     },
   });
 
@@ -45,44 +43,33 @@ export function DialogEdit({
       aria-labelledby="responsive-dialog-title"
     >
       <Form noValidate onSubmit={handleSubmit(onSubmitUpdate)} smDown={smDown}>
-        <DialogTitle id="responsive-dialog-title">EDITAR USUÁRIO</DialogTitle>
+        <DialogTitle id="responsive-dialog-title">EDITAR FORNECEDOR</DialogTitle>
         <DialogContent>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <TextFieldApp
                 name="name"
                 control={control}
-                label="Nome"
+                label="Nome do fornecedor"
                 required
                 disabled={loading}
               />
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
-                name="email"
+                name="phone"
+                type="tel"
+                mask="(00) 00000-0000"
                 control={control}
-                label="E-mail"
-                type="email"
-                required
+                label="Telefone"
                 disabled={loading}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextFieldApp
-                name="password"
+              <CheckboxApp
+                name="its_ice_cream_shoop"
                 control={control}
-                label="Senha"
-                type="password"
-                disabled={loading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <SelectApp
-                name="role"
-                control={control}
-                label="Acesso"
-                options={LISTTYPEUSERS}
-                required
+                label="Fornecedor da sorveteria"
                 disabled={loading}
               />
             </Grid>

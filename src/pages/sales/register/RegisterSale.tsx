@@ -4,27 +4,27 @@ import { AttachMoney } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-import ButtonSubmitApp from '../../../shared/components/button/ButtonSubmitApp';
-import SelectApp from '../../../shared/components/select/Select';
-import SelectMultiple from '../../../shared/components/selectMultiple/SelectMultiple';
-import TextFieldApp from '../../../shared/components/textField/TextField';
-import TextFieldCount from '../../../shared/components/textFieldCount/TextFieldCount';
-import { LISTTYPESALES } from '../../../shared/constants/listTypeSales';
-import Mask from '../../../shared/constants/masks';
-import { EnumTypeProduct } from '../../../shared/dtos/IProductDTO';
+import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
+import SelectApp from 'shared/components/select/Select';
+import SelectMultiple from 'shared/components/selectMultiple/SelectMultiple';
+import TextFieldApp from 'shared/components/textField/TextField';
+import TextFieldCount from 'shared/components/textFieldCount/TextFieldCount';
+import { LISTTYPESALES } from 'shared/constants/listTypeSales';
+import Mask from 'shared/constants/masks';
+import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
   EnumTypeSale,
   IFormSale,
   schemaCreateSale,
   schemaCreateSaleWithCustomer,
-} from '../../../shared/dtos/ISaleDTO';
-import { useClient } from '../../../shared/hooks/network/useClient';
-import { useCombination } from '../../../shared/hooks/network/useCombination';
-import { useProduct } from '../../../shared/hooks/network/useProduct';
-import { useSale } from '../../../shared/hooks/network/useSale';
-import { LayoutBaseDePagina } from '../../../shared/layouts';
-import formatNumberToCurrencyInput from '../../../shared/utils/formaNumberToCurrencyInput';
+} from 'shared/dtos/ISaleDTO';
+import { useClient } from 'shared/hooks/network/useClient';
+import { useCombination } from 'shared/hooks/network/useCombination';
+import { useProduct } from 'shared/hooks/network/useProduct';
+import { useSale } from 'shared/hooks/network/useSale';
+import { LayoutBaseDePagina } from 'shared/layouts';
+import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
+
 import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterSale(): JSX.Element {

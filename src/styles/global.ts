@@ -34,7 +34,8 @@ export const Colors = {
   TEXT: '#00000099',
   BG: '#f0f2f5',
   WHITE: '#FFFFFF',
-  GRAY: '#e0e0e0',
+  GRAY: '#606060',
+  GRAY_LIGHT: '#dedede',
   DARKGRAY: 'darkgray',
 };
 
@@ -87,3 +88,14 @@ export const GlobalStyle = createGlobalStyle`
     cursor: not-allowed;
   }
 `;
+
+export const mediaQuery = {
+  mobile: '@media screen and (max-width: 420px)',
+  tablet: '@media screen and (max-width: 768px)',
+  desktop: '@media screen and (max-width: 1280px)',
+  desktopSm: '@media screen and (max-width: 1366px)',
+  desktopMd: '@media screen and (max-width: 1440px)',
+  desktopMdLg: '@media screen and (max-width: 1553px)',
+  desktopLg: '@media screen and (min-width: 1920px)',
+  custom: (size: number) => `@media screen and (max-width: ${size}px)`,
+};

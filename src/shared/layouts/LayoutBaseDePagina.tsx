@@ -15,9 +15,9 @@ import {
 
 interface ILayoutBaseDePaginaProps {
   titulo: string;
-  textButton: string;
-  navigatePage: string;
-  icon: React.ReactElement;
+  textButton?: string;
+  navigatePage?: string;
+  icon?: React.ReactElement;
   textButtonRight?: string;
   iconRight?: React.ReactElement;
   onClickRight?: () => void;
@@ -67,17 +67,19 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
                 {textButtonRight}
               </Button>
             )}
-            <Button
-              variant="contained"
-              startIcon={icon && icon}
-              onClick={() => navigate(navigatePage)}
-            >
-              {textButton}
-            </Button>
+            {textButton && navigatePage && icon && (
+              <Button
+                variant="contained"
+                startIcon={icon && icon}
+                onClick={() => navigate(navigatePage)}
+              >
+                {textButton}
+              </Button>
+            )}
           </Wrapper>
         )}
 
-        {smDown && !textButtonRight && !iconRight && !onClickRight && (
+        {smDown && !textButtonRight && !iconRight && !onClickRight && textButton && (
           <Button
             color="info"
             variant="outlined"

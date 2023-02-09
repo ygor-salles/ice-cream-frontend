@@ -9,7 +9,7 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Mask from 'shared/constants/masks';
 
 import { TablePaginationActions } from '../total-pagination-actions/TotalPaginationActions';
@@ -40,6 +40,7 @@ interface TableAppProps {
   renderInputSearchAndSelect?: IRenderInputSearch[];
   mappedColumnSubObject?: ITypeColumnType;
   mappedColumnSubObjectCollapse?: ITypeColumnType;
+  renderCollapse?: (rowData: any) => React.ReactElement;
 }
 
 const TableApp: React.FC<TableAppProps> = ({
@@ -49,13 +50,14 @@ const TableApp: React.FC<TableAppProps> = ({
   data,
   components,
   componentsCollapse,
-  renderCellHeader,
-  renderCellHeaderCollapse,
   isMobile,
   showFilterState,
   renderInputSearchAndSelect,
   mappedColumnSubObject,
   mappedColumnSubObjectCollapse,
+  renderCellHeaderCollapse,
+  renderCellHeader,
+  renderCollapse,
 }) => {
   const [dataState, setDataState] = useState(data);
 
@@ -89,39 +91,61 @@ const TableApp: React.FC<TableAppProps> = ({
     setPage(0);
   };
 
-  const handleSearch = (
-    value: string,
-    searchPropertName: string,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type: keyof typeof TypeColumnTableEnum,
-  ) => {
-    const newUpdateInstance: any[] = [];
-    const textTyped = new RegExp(value.toUpperCase(), 'i');
+  const handleSearch = useCallback(
+    (
+      value: string,
+      searchPropertName: string,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      type: keyof typeof TypeColumnTableEnum,
+    ) => {
+      const newUpdateInstance: any[] = [];
+      const textTyped = new RegExp(value.toUpperCase(), 'i');
+      const propert = searchPropertName.split('.')[0];
+      const subPropert = searchPropertName.split('.')[1];
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const instance of data) {
-      if (
-        (type === 'string' && instance[searchPropertName].match(textTyped)) ||
-        (type === 'number' &&
-          Mask.convertNumberToString(instance[searchPropertName]).match(textTyped)) ||
-        (type === 'boolean' &&
-          Mask.convertBooleanToString(instance[searchPropertName]).match(textTyped)) ||
-        (type === 'timestamp' &&
-          Mask.convertTimestampToDateString(instance[searchPropertName]).match(textTyped)) ||
-        (type === 'yesOrNot' &&
-          Mask.convertBooleanToStringYesOrNot(instance[searchPropertName]).match(textTyped)) ||
-        (type === 'roleUser' &&
-          Mask.convertEnumToStringRoleUser(instance[searchPropertName]).match(textTyped))
-      ) {
-        newUpdateInstance.push(instance);
-      } else {
-        setDataState(data);
+      // eslint-disable-next-line no-restricted-syntax
+      for (const instance of data) {
+        if (!subPropert) {
+          if (
+            (type === 'string' && instance[propert].match(textTyped)) ||
+            (type === 'number' && Mask.convertNumberToString(instance[propert]).match(textTyped)) ||
+            (type === 'boolean' &&
+              Mask.convertBooleanToString(instance[propert]).match(textTyped)) ||
+            (type === 'timestamp' &&
+              Mask.convertTimestampToDateString(instance[propert]).match(textTyped)) ||
+            (type === 'yesOrNot' &&
+              Mask.convertBooleanToStringYesOrNot(instance[propert]).match(textTyped)) ||
+            (type === 'roleUser' &&
+              Mask.convertEnumToStringRoleUser(instance[propert]).match(textTyped))
+          ) {
+            newUpdateInstance.push(instance);
+          } else {
+            setDataState(data);
+          }
+        } else if (
+          (type === 'string' && instance[propert][subPropert].match(textTyped)) ||
+          (type === 'number' &&
+            Mask.convertNumberToString(instance[propert][subPropert]).match(textTyped)) ||
+          (type === 'boolean' &&
+            Mask.convertBooleanToString(instance[propert][subPropert]).match(textTyped)) ||
+          (type === 'timestamp' &&
+            Mask.convertTimestampToDateString(instance[propert][subPropert]).match(textTyped)) ||
+          (type === 'yesOrNot' &&
+            Mask.convertBooleanToStringYesOrNot(instance[propert][subPropert]).match(textTyped)) ||
+          (type === 'roleUser' &&
+            Mask.convertEnumToStringRoleUser(instance[propert][subPropert]).match(textTyped))
+        ) {
+          newUpdateInstance.push(instance);
+        } else {
+          setDataState(data);
+        }
+
+        setPage(0);
+        setDataState(newUpdateInstance);
       }
-
-      setPage(0);
-      setDataState(newUpdateInstance);
-    }
-  };
+    },
+    [dataState],
+  );
 
   return (
     <>
@@ -170,6 +194,7 @@ const TableApp: React.FC<TableAppProps> = ({
                   isMobile={isMobile}
                   mappedColumn={mappedColumn}
                   mappedColumnCollapse={mappedColumnCollapse}
+                  renderCollapse={renderCollapse}
                   key={rowData.id ?? `${tableName}-${rowIndex}`}
                 />
               )),

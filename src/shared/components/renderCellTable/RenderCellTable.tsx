@@ -1,6 +1,8 @@
 import { Icon, Switch } from '@mui/material';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { IPaymentDTO } from 'shared/dtos/IPaymentDTO';
+import { IProviderDTO } from 'shared/dtos/IProviderDTO';
+import { IPurchaseDTO } from 'shared/dtos/IPurchaseDTO';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 import formatDate from 'shared/utils/formatDate';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
@@ -102,3 +104,8 @@ export const _renderPaymentClientName = (data: IClientDTO, { client: { name } }:
 export const _renderPaymentClientDebit = (data: IClientDTO, { client: { debit } }: IPaymentDTO) => (
   <Red>{formatNumberToCurrency(debit || null) || '--'}</Red>
 );
+
+export const _renderPurchaseProviderName = (
+  data: IProviderDTO,
+  { provider: { name } }: IPurchaseDTO,
+) => <span>{name || '--'}</span>;

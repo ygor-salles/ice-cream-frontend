@@ -25,7 +25,7 @@ export function ProviderPurchase() {
             description: 'Cadastre as compras realizadas para o estoque de produtos do seu negócio',
             srcImage: purchaseImage,
             altImage: 'compras',
-            onNavigate: () => navigate(RoutesEnum.PROVIDERS),
+            onNavigate: () => navigate(RoutesEnum.PURCHASES),
           },
         ]}
       />

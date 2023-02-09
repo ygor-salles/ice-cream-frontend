@@ -20,6 +20,7 @@ interface RowProps {
   isMobile: boolean;
   mappedColumn?: string[];
   mappedColumnCollapse?: string[];
+  renderCollapse?: (rowData: any) => React.ReactElement;
 }
 
 const Row: React.FC<RowProps> = ({
@@ -36,6 +37,7 @@ const Row: React.FC<RowProps> = ({
   isMobile,
   mappedColumn,
   mappedColumnCollapse,
+  renderCollapse,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -70,41 +72,45 @@ const Row: React.FC<RowProps> = ({
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Container>
               <Content>
-                <Table size="small" aria-label={`${tableName}-collapse`}>
-                  <TableHead>
-                    <TableRow>
-                      {React.Children.toArray(
-                        columnConfigKeysCollapse.map(key => (
-                          <StyledTableCell
-                            align={columnConfigCollapse[key]?.align}
-                            width={columnConfigCollapse[key]?.width}
-                            isMobile={!!isMobile}
-                          >
-                            {renderCellHeaderCollapse(key)}
-                          </StyledTableCell>
-                        )),
-                      )}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow>
-                      {Object.values(
-                        React.Children.toArray(
+                {renderCollapse ? (
+                  renderCollapse(rowData)
+                ) : (
+                  <Table size="small" aria-label={`${tableName}-collapse`}>
+                    <TableHead>
+                      <TableRow>
+                        {React.Children.toArray(
                           columnConfigKeysCollapse.map(key => (
                             <StyledTableCell
                               align={columnConfigCollapse[key]?.align}
                               width={columnConfigCollapse[key]?.width}
                               isMobile={!!isMobile}
                             >
-                              {componentsCollapse[key] &&
-                                componentsCollapse[key](rowData[key], rowData, rowIndex)}
+                              {renderCellHeaderCollapse(key)}
                             </StyledTableCell>
                           )),
-                        ),
-                      )}
-                    </TableRow>
-                  </TableBody>
-                </Table>
+                        )}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        {Object.values(
+                          React.Children.toArray(
+                            columnConfigKeysCollapse.map(key => (
+                              <StyledTableCell
+                                align={columnConfigCollapse[key]?.align}
+                                width={columnConfigCollapse[key]?.width}
+                                isMobile={!!isMobile}
+                              >
+                                {componentsCollapse[key] &&
+                                  componentsCollapse[key](rowData[key], rowData, rowIndex)}
+                              </StyledTableCell>
+                            )),
+                          ),
+                        )}
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                )}
               </Content>
             </Container>
           </Collapse>

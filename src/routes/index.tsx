@@ -17,6 +17,8 @@ import {
   RegisterPayment,
   RegisterSale,
   RegisterUser,
+  Purchases,
+  RegisterPurchase,
 } from 'pages';
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -73,6 +75,7 @@ export function AppRoutes() {
       <Route path={RoutesEnum.CLIENTS} element={<Clients />} />
       <Route path={RoutesEnum.SALES} element={<Sales />} />
       <Route path={RoutesEnum.PROVIDERS} element={<Providers />} />
+      <Route path={RoutesEnum.PURCHASES} element={<Purchases />} />
       <Route path={RoutesEnum.USERS} element={<Users />} />
       <Route path={RoutesEnum.PAYMENTS} element={<Payments />} />
 
@@ -81,6 +84,7 @@ export function AppRoutes() {
       <Route path={RoutesEnum.CLIENTS_CREATE} element={<RegisterClient />} />
       <Route path={RoutesEnum.SALES_CREATE} element={<RegisterSale />} />
       <Route path={RoutesEnum.PROVIDERS_CREATE} element={<RegisterProvider />} />
+      <Route path={RoutesEnum.PURCHASES_CREATE} element={<RegisterPurchase />} />
       <Route path={RoutesEnum.USERS_CREATE} element={<RegisterUser />} />
       <Route path={RoutesEnum.PAYMENTS_CREATE} element={<RegisterPayment />} />
 

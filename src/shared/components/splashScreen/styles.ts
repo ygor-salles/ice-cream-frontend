@@ -2,6 +2,10 @@ import { Card, Typography } from '@mui/material';
 import styled from 'styled-components';
 import { Colors, mediaQuery } from 'styles/global';
 
+interface DescriptionProps {
+  isDarkTheme: boolean;
+}
+
 interface DescriptionCardProps {
   isDarkTheme: boolean;
 }
@@ -22,9 +26,12 @@ export const Image = styled.img`
   height: 250px;
 `;
 
-export const Description = styled(Typography)`
+export const Description = styled(Typography).withConfig({
+  shouldForwardProp: props => !['isDarkTheme'].includes(props),
+})<DescriptionProps>`
   font-size: 32px;
   font-weight: 400;
+  color: ${props => (props.isDarkTheme ? Colors.WHITE : Colors.GRAY)};
 `;
 
 export const ContentCards = styled.div`
@@ -35,6 +42,7 @@ export const ContentCards = styled.div`
   ${mediaQuery.tablet} {
     display: flex;
     flex-direction: column;
+    gap: 20px;
   }
 `;
 

@@ -70,8 +70,8 @@ export const columnLabelCollapse: ITypeColumnLabel = {
 
 export const filterTable: IRenderInputSearch[] = [
   { searchPropertName: columnType.VALUE, placeholder: 'valor pagamento', type: 'number' },
-  { searchPropertName: columnType.CLIENT, placeholder: 'cliente', type: 'string' },
-  { searchPropertName: columnType.DEBIT, placeholder: 'dívida', type: 'number' },
+  { searchPropertName: `${columnType.CLIENT}.name`, placeholder: 'cliente', type: 'string' },
+  { searchPropertName: `${columnType.CLIENT}.debit`, placeholder: 'dívida', type: 'number' },
 
   {
     searchPropertName: columnTypeCollapse.UPDATED_AT,

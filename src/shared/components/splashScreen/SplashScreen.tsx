@@ -29,7 +29,7 @@ const SplashScreen: React.FC<PropTypes> = ({ description, cardsList, ...props })
 
   return (
     <Container {...props}>
-      <Description>{description}</Description>
+      <Description isDarkTheme={themeName === 'dark'}>{description}</Description>
       <ContentCards>
         {cardsList.map(item => (
           <StyledCard key={item.title} onClick={item.onNavigate}>

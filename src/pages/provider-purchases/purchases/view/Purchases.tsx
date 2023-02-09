@@ -58,15 +58,16 @@ export function Purchases(): JSX.Element {
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderAction = (value: string, { observation, file, ...rowData }: IPurchaseDTO) => {
+  const _renderCollapse = ({ observation, file, ...rowData }: IPurchaseDTO) => {
     observation = observation || '';
     file = file || null;
     return (
-      <ActionComponent
-        smDown={smDown}
+      <CollapsePurchase
         rowData={{ observation, file, ...rowData }}
-        handleClickEdit={handleClickEdit}
-        handleClickDelete={handleClickDelete}
+        isDarkTheme={themeName === 'dark'}
+        isMobile={smDown}
+        onClickEdit={handleClickEdit}
+        onClickDelete={handleClickDelete}
       />
     );
   };
@@ -110,13 +111,7 @@ export function Purchases(): JSX.Element {
             isMobile={smDown}
             showFilterState={showFilterState}
             renderInputSearchAndSelect={filterTable}
-            renderCollapse={(rowData: IPurchaseDTO) => (
-              <CollapsePurchase
-                rowData={rowData}
-                isDarkTheme={themeName === 'dark'}
-                isMobile={smDown}
-              />
-            )}
+            renderCollapse={_renderCollapse}
           />
         )}
       </LayoutBaseDePagina>

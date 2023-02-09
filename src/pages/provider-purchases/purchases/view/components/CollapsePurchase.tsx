@@ -10,9 +10,17 @@ interface PropTypes {
   rowData: IPurchaseDTO;
   isDarkTheme: boolean;
   isMobile: boolean;
+  onClickEdit: (data: any) => void;
+  onClickDelete: (data: any) => void;
 }
 
-const CollapsePurchase: React.FC<PropTypes> = ({ rowData, isDarkTheme, isMobile }) => {
+const CollapsePurchase: React.FC<PropTypes> = ({
+  rowData,
+  isDarkTheme,
+  isMobile,
+  onClickEdit,
+  onClickDelete,
+}) => {
   return (
     <Container isMobile={isMobile}>
       <Image src={rowData.nf_url ? transformImageUrl(rowData.nf_url) : dump} isMobile={isMobile} />
@@ -25,10 +33,18 @@ const CollapsePurchase: React.FC<PropTypes> = ({ rowData, isDarkTheme, isMobile 
             {formatDateTime(rowData?.updated_at) || '--'}
           </Observation>
           <WrapperAction isMobile={isMobile}>
-            <Icon color="secondary" style={{ cursor: 'pointer' }}>
+            <Icon
+              color="secondary"
+              style={{ cursor: 'pointer' }}
+              onClick={() => onClickEdit(rowData)}
+            >
               edit
             </Icon>
-            <Icon color="warning" style={{ cursor: 'pointer' }}>
+            <Icon
+              color="warning"
+              style={{ cursor: 'pointer' }}
+              onClick={() => onClickDelete(rowData)}
+            >
               delete
             </Icon>
           </WrapperAction>

@@ -8,6 +8,7 @@ import TextFieldApp from 'shared/components/textField/TextField';
 import { RoutesEnum } from 'shared/constants/routesList';
 import {
   defaultValuesProvider,
+  fieldsProvider,
   IFormProvider,
   schemaCreateProvider,
 } from 'shared/dtos/IProviderDTO';
@@ -40,14 +41,14 @@ export function RegisterProvider(): JSX.Element {
         <StyledCard>
           <GridForm>
             <TextFieldApp
-              name="name"
+              name={fieldsProvider.NAME}
               control={control}
               label="Nome do fornecedor"
               required
               disabled={loading}
             />
             <TextFieldApp
-              name="phone"
+              name={fieldsProvider.PHONE}
               control={control}
               type="tel"
               mask="(00) 00000-0000"
@@ -55,7 +56,7 @@ export function RegisterProvider(): JSX.Element {
               disabled={loading}
             />
             <CheckboxApp
-              name="its_ice_cream_shoop"
+              name={fieldsProvider.ITS_ICE_CREAM_SHOP}
               control={control}
               label="Fornecedor da sorveteria"
               disabled={loading}

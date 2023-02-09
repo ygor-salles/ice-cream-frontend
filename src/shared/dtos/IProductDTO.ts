@@ -34,19 +34,36 @@ export interface IFormProduct {
   type: string;
 }
 
+export const fieldsProduct = {
+  NAME: '',
+  PRICE: '',
+  DESCRIPTION: '',
+  TYPE: '',
+};
+
 export const defaultValuesProduct = {
-  name: '',
-  price: '',
-  description: '',
-  type: '',
+  [fieldsProduct.NAME]: '',
+  [fieldsProduct.PRICE]: '',
+  [fieldsProduct.DESCRIPTION]: '',
+  [fieldsProduct.TYPE]: '',
 };
 
 export const defaultValuesProductEdit = (product: IProductDTO) => ({
   id: product.id,
-  name: product.name,
-  price: formatNumberToCurrencyInput(product.price),
-  description: product.description,
-  type: product.type,
+  [fieldsProduct.NAME]: product.name,
+  [fieldsProduct.PRICE]: formatNumberToCurrencyInput(product.price),
+  [fieldsProduct.DESCRIPTION]: product.description,
+  [fieldsProduct.TYPE]: product.type,
+});
+
+export const schemaCreateProduct = yup.object().shape({
+  [fieldsProduct.NAME]: yup.string().required('Nome é obrigatório'),
+  [fieldsProduct.PRICE]: yup.string().required('Preço é obrigatório'),
+  [fieldsProduct.DESCRIPTION]: yup.string().optional(),
+  [fieldsProduct.TYPE]: yup
+    .mixed<EnumTypeProduct>()
+    .oneOf(Object.values(EnumTypeProduct))
+    .required('Tipo de produto é obrigatório'),
 });
 
 export const transformObject = (dataForm: IFormProduct): IProductDTO => {
@@ -60,13 +77,3 @@ export const transformObject = (dataForm: IFormProduct): IProductDTO => {
   }
   return object;
 };
-
-export const schemaCreateProduct = yup.object().shape({
-  name: yup.string().required('Nome é obrigatório'),
-  price: yup.string().required('Preço é obrigatório'),
-  description: yup.string().optional(),
-  type: yup
-    .mixed<EnumTypeProduct>()
-    .oneOf(Object.values(EnumTypeProduct))
-    .required('Tipo de produto é obrigatório'),
-});

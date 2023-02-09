@@ -10,6 +10,7 @@ import TextFieldApp from 'shared/components/textField/TextField';
 import { RoutesEnum } from 'shared/constants/routesList';
 import {
   defaultValuesPurchase,
+  fieldsPurchase,
   IFormPurchase,
   schemaCreatePurchase,
 } from 'shared/dtos/IPurchaseDTO';
@@ -49,7 +50,7 @@ export function RegisterPurchase(): JSX.Element {
         <StyledCard>
           <GridForm>
             <TextFieldApp
-              name="value_total"
+              name={fieldsPurchase.VALUE_TOTAL}
               control={control}
               label="Valor total"
               currency
@@ -57,14 +58,14 @@ export function RegisterPurchase(): JSX.Element {
               disabled={loading}
             />
             <TextFieldApp
-              name="observation"
+              name={fieldsPurchase.OBSERVATION}
               control={control}
               label="Observação"
               required
               disabled={loading}
             />
             <SelectApp
-              name="provider_id"
+              name={fieldsPurchase.PROVIDER_ID}
               control={control}
               options={allProviders}
               setId
@@ -74,7 +75,7 @@ export function RegisterPurchase(): JSX.Element {
               disabled={loading}
             />
             <CheckboxApp
-              name="its_ice_cream_shoop"
+              name={fieldsPurchase.ITS_ICE_CREAM_SHOP}
               control={control}
               label="Compra da sorveteria"
               disabled={loading}

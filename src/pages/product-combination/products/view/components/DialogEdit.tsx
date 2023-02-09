@@ -7,6 +7,7 @@ import TextFieldApp from 'shared/components/textField/TextField';
 import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
 import {
   defaultValuesProductEdit,
+  fieldsProduct,
   IFormProduct,
   IProductDTO,
   schemaCreateProduct,
@@ -49,7 +50,7 @@ export function DialogEdit({
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <TextFieldApp
-                name="name"
+                name={fieldsProduct.NAME}
                 control={control}
                 label="Nome do produto"
                 required
@@ -58,7 +59,7 @@ export function DialogEdit({
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
-                name="price"
+                name={fieldsProduct.PRICE}
                 control={control}
                 label="Preço do produto"
                 currency
@@ -68,7 +69,7 @@ export function DialogEdit({
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
-                name="description"
+                name={fieldsProduct.DESCRIPTION}
                 control={control}
                 label="Descrição do produto"
                 disabled={loading}
@@ -76,7 +77,7 @@ export function DialogEdit({
             </Grid>
             <Grid item xs={12}>
               <SelectApp
-                name="type"
+                name={fieldsProduct.TYPE}
                 control={control}
                 options={LISTTYPEPRODUCTS}
                 label="Tipo"

@@ -16,15 +16,25 @@ export interface IFormCombination {
   price: string;
 }
 
+export const fieldsCombination = {
+  NAME: 'name',
+  PRICE: 'price',
+};
+
 export const defaultValuesCombination = {
-  name: '',
-  price: '',
+  [fieldsCombination.NAME]: '',
+  [fieldsCombination.PRICE]: '',
 };
 
 export const defaultValuesCombinationEdit = (combination: ICombinationDTO) => ({
   id: combination.id,
-  name: combination.name,
-  price: formatNumberToCurrencyInput(combination.price),
+  [fieldsCombination.NAME]: combination.name,
+  [fieldsCombination.PRICE]: formatNumberToCurrencyInput(combination.price),
+});
+
+export const schemaCreateCombination = yup.object().shape({
+  [fieldsCombination.NAME]: yup.string().required('Nome é obrigatório'),
+  [fieldsCombination.PRICE]: yup.string().required('Preço é obrigatório'),
 });
 
 export const transformObject = (dataForm: IFormCombination): ICombinationDTO => {
@@ -34,8 +44,3 @@ export const transformObject = (dataForm: IFormCombination): ICombinationDTO => 
   };
   return object;
 };
-
-export const schemaCreateCombination = yup.object().shape({
-  name: yup.string().required('Nome é obrigatório'),
-  price: yup.string().required('Preço é obrigatório'),
-});

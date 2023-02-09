@@ -8,6 +8,7 @@ import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import {
   defaultValuesPurchaseEdit,
+  fieldsPurchase,
   IFormPurchase,
   IPurchaseDTO,
   schemaCreatePurchase,
@@ -57,7 +58,7 @@ export function DialogEdit({
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <TextFieldApp
-                name="value_total"
+                name={fieldsPurchase.VALUE_TOTAL}
                 control={control}
                 label="Valor total"
                 currency
@@ -67,7 +68,7 @@ export function DialogEdit({
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
-                name="observation"
+                name={fieldsPurchase.OBSERVATION}
                 control={control}
                 label="Observação"
                 required
@@ -76,7 +77,7 @@ export function DialogEdit({
             </Grid>
             <Grid item xs={12}>
               <SelectApp
-                name="provider_id"
+                name={fieldsPurchase.PROVIDER_ID}
                 control={control}
                 options={allProviders}
                 setId
@@ -88,7 +89,7 @@ export function DialogEdit({
             </Grid>
             <Grid item xs={12}>
               <CheckboxApp
-                name="its_ice_cream_shoop"
+                name={fieldsPurchase.ITS_ICE_CREAM_SHOP}
                 control={control}
                 label="Compra da sorveteria"
                 disabled={loading}

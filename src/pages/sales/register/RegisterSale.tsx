@@ -17,6 +17,7 @@ import {
   defaultValueAmount,
   defaultValuesSale,
   EnumTypeSale,
+  fieldsSale,
   IFormSale,
   schemaCreateSale,
   schemaCreateSaleWithCustomer,
@@ -159,7 +160,7 @@ export function RegisterSale(): JSX.Element {
           <StyledCard>
             <GridForm>
               <SelectApp
-                name="product_id"
+                name={fieldsSale.PRODUCT_ID}
                 control={control}
                 options={allProducts}
                 setId
@@ -171,7 +172,7 @@ export function RegisterSale(): JSX.Element {
               />
               {enableOptions && (
                 <SelectMultiple
-                  name="combinations"
+                  name={fieldsSale.COMBINATIONS}
                   control={control}
                   options={allCombinations}
                   label="Combinações"
@@ -181,7 +182,7 @@ export function RegisterSale(): JSX.Element {
                 />
               )}
               <TextFieldCount
-                name="amount"
+                name={fieldsSale.AMOUNT}
                 control={control}
                 label="Quantidade"
                 defaultValue={Number(defaultValueAmount)}
@@ -191,7 +192,7 @@ export function RegisterSale(): JSX.Element {
                 disabled={loading || isDisabledTextFieldCount}
               />
               <SelectApp
-                name="type_sale"
+                name={fieldsSale.TYPE_SALE}
                 control={control}
                 options={LISTTYPESALES}
                 label="Tipo de venda"
@@ -200,7 +201,7 @@ export function RegisterSale(): JSX.Element {
                 disabled={loading}
               />
               <SelectApp
-                name="client_id"
+                name={fieldsSale.CLIENT_ID}
                 control={control}
                 options={allClients}
                 setId
@@ -209,9 +210,9 @@ export function RegisterSale(): JSX.Element {
                 required={requiredClient}
                 disabled={loading}
               />
-              <TextFieldApp name="observation" control={control} label="Observação" />
+              <TextFieldApp name={fieldsSale.OBSERVATION} control={control} label="Observação" />
               <TextFieldApp
-                name="total"
+                name={fieldsSale.TOTAL}
                 control={control}
                 label="Total"
                 currency

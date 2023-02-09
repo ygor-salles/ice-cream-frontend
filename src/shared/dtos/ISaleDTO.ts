@@ -35,17 +35,52 @@ export interface IFormSale {
   total: string;
 }
 
+export const fieldsSale = {
+  PRODUCT_ID: 'product_id',
+  DATA_PRODUCT: 'data_product',
+  COMBINATIONS: 'combinations',
+  TYPE_SALE: 'type_sale',
+  CLIENT_ID: 'client_id',
+  OBSERVATION: 'observation',
+  AMOUNT: 'amount',
+  TOTAL: 'total',
+};
+
 export const defaultValueAmount = '1';
 export const defaultValuesSale = {
-  product_id: '',
-  data_product: null,
-  combinations: [],
-  type_sale: '',
-  client_id: '',
-  observation: '',
-  amount: defaultValueAmount,
-  total: '',
+  [fieldsSale.PRODUCT_ID]: '',
+  [fieldsSale.DATA_PRODUCT]: null,
+  [fieldsSale.COMBINATIONS]: [],
+  [fieldsSale.TYPE_SALE]: '',
+  [fieldsSale.CLIENT_ID]: '',
+  [fieldsSale.OBSERVATION]: '',
+  [fieldsSale.AMOUNT]: defaultValueAmount,
+  [fieldsSale.TOTAL]: '',
 };
+
+export const schemaCreateSale = yup.object().shape({
+  [fieldsSale.PRODUCT_ID]: yup.string().required('Seleção de produto é obrigatório'),
+  [fieldsSale.TYPE_SALE]: yup
+    .mixed<EnumTypeSale>()
+    .oneOf(Object.values(EnumTypeSale))
+    .required('Tipo de venda é obrigatório'),
+  [fieldsSale.CLIENT_ID]: yup.string(),
+  [fieldsSale.OBSERVATION]: yup.string().optional(),
+  [fieldsSale.AMOUNT]: yup.string().required('Quantidade de produto é obrigatório'),
+  [fieldsSale.TOTAL]: yup.string().required('Total da venda é obrigatório'),
+});
+
+export const schemaCreateSaleWithCustomer = yup.object().shape({
+  [fieldsSale.PRODUCT_ID]: yup.string().required('Seleção de produto é obrigatório'),
+  [fieldsSale.TYPE_SALE]: yup
+    .mixed<EnumTypeSale>()
+    .oneOf(Object.values(EnumTypeSale))
+    .required('Tipo de venda é obrigatório'),
+  [fieldsSale.CLIENT_ID]: yup.string().required('Cliente é obrigatório para venda fiado'),
+  [fieldsSale.OBSERVATION]: yup.string().optional(),
+  [fieldsSale.AMOUNT]: yup.string().required('Quantidade de produto é obrigatório'),
+  [fieldsSale.TOTAL]: yup.string().required('Total da venda é obrigatório'),
+});
 
 export const transformObject = (dataForm: IFormSale): ISaleDTO => {
   const objectSale: ISaleDTO = {
@@ -64,27 +99,3 @@ export const transformObject = (dataForm: IFormSale): ISaleDTO => {
 
   return objectSale;
 };
-
-export const schemaCreateSale = yup.object().shape({
-  product_id: yup.string().required('Seleção de produto é obrigatório'),
-  type_sale: yup
-    .mixed<EnumTypeSale>()
-    .oneOf(Object.values(EnumTypeSale))
-    .required('Tipo de venda é obrigatório'),
-  client_id: yup.string(),
-  observation: yup.string().optional(),
-  amount: yup.string().required('Quantidade de produto é obrigatório'),
-  total: yup.string().required('Total da venda é obrigatório'),
-});
-
-export const schemaCreateSaleWithCustomer = yup.object().shape({
-  product_id: yup.string().required('Seleção de produto é obrigatório'),
-  type_sale: yup
-    .mixed<EnumTypeSale>()
-    .oneOf(Object.values(EnumTypeSale))
-    .required('Tipo de venda é obrigatório'),
-  client_id: yup.string().required('Cliente é obrigatório para venda fiado'),
-  observation: yup.string().optional(),
-  amount: yup.string().required('Quantidade de produto é obrigatório'),
-  total: yup.string().required('Total da venda é obrigatório'),
-});

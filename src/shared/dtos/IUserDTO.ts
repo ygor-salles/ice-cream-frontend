@@ -33,19 +33,46 @@ export interface IFormUser {
   role: EnumRoleUser;
 }
 
+export const fieldsUser = {
+  NAME: 'name',
+  EMAIL: 'email',
+  PASSWORD: 'password',
+  ROLE: 'role',
+};
+
 export const defaultValuesUser = {
-  name: '',
-  email: '',
-  password: '',
-  role: EnumRoleUser.NORMAL,
+  [fieldsUser.NAME]: '',
+  [fieldsUser.EMAIL]: '',
+  [fieldsUser.PASSWORD]: '',
+  [fieldsUser.ROLE]: EnumRoleUser.NORMAL,
 };
 
 export const defaultValuesUserEdit = (user: IUserDTO) => ({
   id: user.id,
-  name: user.name,
-  email: user.email,
-  password: '',
-  role: user.role,
+  [fieldsUser.NAME]: user.name,
+  [fieldsUser.EMAIL]: user.email,
+  [fieldsUser.PASSWORD]: '',
+  [fieldsUser.ROLE]: user.role,
+});
+
+export const schemaCreateUser = yup.object().shape({
+  [fieldsUser.NAME]: yup.string().required('Nome é obrigatório'),
+  [fieldsUser.EMAIL]: yup.string().email('Should be e-mail').required('E-mail is required'),
+  [fieldsUser.PASSWORD]: yup.string().required('Password is required'),
+  [fieldsUser.ROLE]: yup
+    .mixed<keyof typeof EnumRoleUser>()
+    .oneOf(Object.values(EnumRoleUser))
+    .required('Type user is required'),
+});
+
+export const schemaEditUser = yup.object().shape({
+  [fieldsUser.NAME]: yup.string().required('Nome é obrigatório'),
+  [fieldsUser.EMAIL]: yup.string().email('Should be e-mail').required('E-mail is required'),
+  [fieldsUser.PASSWORD]: yup.string(),
+  [fieldsUser.ROLE]: yup
+    .mixed<keyof typeof EnumRoleUser>()
+    .oneOf(Object.values(EnumRoleUser))
+    .required('Type user is required'),
 });
 
 export const transformObject = (dataForm: IFormUser): IUserDTO => {
@@ -72,23 +99,3 @@ export const transformObjectEdit = (dataForm: IFormUser): IUserDTOEdit => {
 
   return object;
 };
-
-export const schemaCreateUser = yup.object().shape({
-  name: yup.string().required('Nome é obrigatório'),
-  email: yup.string().email('Should be e-mail').required('E-mail is required'),
-  password: yup.string().required('Password is required'),
-  role: yup
-    .mixed<keyof typeof EnumRoleUser>()
-    .oneOf(Object.values(EnumRoleUser))
-    .required('Type user is required'),
-});
-
-export const schemaEditUser = yup.object().shape({
-  name: yup.string().required('Nome é obrigatório'),
-  email: yup.string().email('Should be e-mail').required('E-mail is required'),
-  password: yup.string(),
-  role: yup
-    .mixed<keyof typeof EnumRoleUser>()
-    .oneOf(Object.values(EnumRoleUser))
-    .required('Type user is required'),
-});

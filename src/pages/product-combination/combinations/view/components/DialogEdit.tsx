@@ -5,6 +5,7 @@ import FooterDialogActions from 'shared/components/footerDialogActions/FooterDia
 import TextFieldApp from 'shared/components/textField/TextField';
 import {
   defaultValuesCombinationEdit,
+  fieldsCombination,
   ICombinationDTO,
   IFormCombination,
   schemaCreateCombination,
@@ -47,7 +48,7 @@ export function DialogEdit({
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <TextFieldApp
-                name="name"
+                name={fieldsCombination.NAME}
                 control={control}
                 label="Nome do fornecedor"
                 required
@@ -56,7 +57,7 @@ export function DialogEdit({
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
-                name="price"
+                name={fieldsCombination.PRICE}
                 control={control}
                 label="Preço da combinação"
                 currency

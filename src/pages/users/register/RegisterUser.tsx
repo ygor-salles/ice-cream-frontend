@@ -7,7 +7,7 @@ import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { defaultValuesUser, IFormUser, schemaCreateUser } from 'shared/dtos/IUserDTO';
+import { defaultValuesUser, fieldsUser, IFormUser, schemaCreateUser } from 'shared/dtos/IUserDTO';
 import { useUser } from 'shared/hooks/network/useUser';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
@@ -36,9 +36,15 @@ export function RegisterUser(): JSX.Element {
       >
         <StyledCard>
           <GridForm>
-            <TextFieldApp name="name" control={control} label="Nome" required disabled={loading} />
             <TextFieldApp
-              name="email"
+              name={fieldsUser.NAME}
+              control={control}
+              label="Nome"
+              required
+              disabled={loading}
+            />
+            <TextFieldApp
+              name={fieldsUser.EMAIL}
               control={control}
               label="E-mail"
               type="email"
@@ -46,7 +52,7 @@ export function RegisterUser(): JSX.Element {
               disabled={loading}
             />
             <TextFieldApp
-              name="password"
+              name={fieldsUser.PASSWORD}
               control={control}
               label="Senha"
               type="password"
@@ -54,7 +60,7 @@ export function RegisterUser(): JSX.Element {
               disabled={loading}
             />
             <SelectApp
-              name="role"
+              name={fieldsUser.ROLE}
               control={control}
               label="Acesso"
               options={LISTTYPEUSERS}

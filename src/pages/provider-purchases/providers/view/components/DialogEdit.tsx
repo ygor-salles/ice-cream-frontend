@@ -6,6 +6,7 @@ import FooterDialogActions from 'shared/components/footerDialogActions/FooterDia
 import TextFieldApp from 'shared/components/textField/TextField';
 import {
   defaultValuesProviderEdit,
+  fieldsProvider,
   IFormProvider,
   IProviderDTO,
   schemaCreateProvider,
@@ -48,7 +49,7 @@ export function DialogEdit({
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <TextFieldApp
-                name="name"
+                name={fieldsProvider.NAME}
                 control={control}
                 label="Nome do fornecedor"
                 required
@@ -57,7 +58,7 @@ export function DialogEdit({
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
-                name="phone"
+                name={fieldsProvider.PHONE}
                 type="tel"
                 mask="(00) 00000-0000"
                 control={control}
@@ -67,7 +68,7 @@ export function DialogEdit({
             </Grid>
             <Grid item xs={12}>
               <CheckboxApp
-                name="its_ice_cream_shoop"
+                name={fieldsProvider.ITS_ICE_CREAM_SHOP}
                 control={control}
                 label="Fornecedor da sorveteria"
                 disabled={loading}

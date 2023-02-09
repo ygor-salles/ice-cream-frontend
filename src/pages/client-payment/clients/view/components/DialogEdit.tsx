@@ -7,6 +7,7 @@ import FooterDialogActions from 'shared/components/footerDialogActions/FooterDia
 import TextFieldApp from 'shared/components/textField/TextField';
 import {
   defaultValuesClientEdit,
+  fieldsClient,
   IClientDTO,
   IFormClient,
   schemaCreateClient,
@@ -51,7 +52,7 @@ export function DialogEdit({
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <TextFieldApp
-                  name="name"
+                  name={fieldsClient.NAME}
                   control={control}
                   label="Nome do cliente"
                   required
@@ -60,7 +61,7 @@ export function DialogEdit({
               </Grid>
               <Grid item xs={12}>
                 <TextFieldApp
-                  name="debit"
+                  name={fieldsClient.DEBIT}
                   control={control}
                   label="Dívida do cliente"
                   currency
@@ -79,7 +80,7 @@ export function DialogEdit({
               </Grid>
               <Grid item xs={12}>
                 <TextFieldApp
-                  name="phone"
+                  name={fieldsClient.PHONE}
                   control={control}
                   label="Telefone"
                   type="tel"

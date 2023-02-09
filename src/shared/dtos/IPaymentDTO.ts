@@ -21,11 +21,23 @@ export interface IFormPayment {
   client_id: string;
 }
 
-export const defaultValuesPayment = {
-  value: '',
-  client_id: '',
-  observation: '',
+export const fieldsPayment = {
+  VALUE: 'value',
+  OBSERVATION: 'observation',
+  CLIENT_ID: 'client_id',
 };
+
+export const defaultValuesPayment = {
+  [fieldsPayment.VALUE]: '',
+  [fieldsPayment.CLIENT_ID]: '',
+  [fieldsPayment.OBSERVATION]: '',
+};
+
+export const schemaCreatePayment = yup.object().shape({
+  [fieldsPayment.VALUE]: yup.string().required('Valor é obrigatório'),
+  [fieldsPayment.OBSERVATION]: yup.string().optional(),
+  [fieldsPayment.CLIENT_ID]: yup.string().required('Nome é obrigatório'),
+});
 
 export const transformObject = (dataForm: IFormPayment): IPaymentDTO => {
   const object: IPaymentDTO = {
@@ -37,9 +49,3 @@ export const transformObject = (dataForm: IFormPayment): IPaymentDTO => {
   }
   return object;
 };
-
-export const schemaCreatePayment = yup.object().shape({
-  value: yup.string().required('Valor é obrigatório'),
-  observation: yup.string().optional(),
-  client_id: yup.string().required('Nome é obrigatório'),
-});

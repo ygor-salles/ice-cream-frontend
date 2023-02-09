@@ -7,6 +7,7 @@ import TextFieldApp from 'shared/components/textField/TextField';
 import { RoutesEnum } from 'shared/constants/routesList';
 import {
   defaultValuesCombination,
+  fieldsCombination,
   IFormCombination,
   schemaCreateCombination,
 } from 'shared/dtos/ICombinationDTO';
@@ -39,14 +40,14 @@ export function RegisterCombination(): JSX.Element {
         <StyledCard>
           <GridForm>
             <TextFieldApp
-              name="name"
+              name={fieldsCombination.NAME}
               control={control}
               label="Nome da combinação"
               required
               disabled={loading}
             />
             <TextFieldApp
-              name="price"
+              name={fieldsCombination.PRICE}
               control={control}
               label="Preço da combinação"
               currency

@@ -8,7 +8,12 @@ import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
-import { defaultValuesPayment, IFormPayment, schemaCreatePayment } from 'shared/dtos/IPaymentDTO';
+import {
+  defaultValuesPayment,
+  fieldsPayment,
+  IFormPayment,
+  schemaCreatePayment,
+} from 'shared/dtos/IPaymentDTO';
 import { useClient } from 'shared/hooks/network/useClient';
 import { usePayment } from 'shared/hooks/network/usePayment';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -64,7 +69,7 @@ export function RegisterPayment(): JSX.Element {
           <StyledCard>
             <GridForm>
               <SelectApp
-                name="client_id"
+                name={fieldsPayment.CLIENT_ID}
                 control={control}
                 options={allClients}
                 setId
@@ -80,7 +85,7 @@ export function RegisterPayment(): JSX.Element {
                 </WrapperDebit>
               )}
               <TextFieldApp
-                name="value"
+                name={fieldsPayment.VALUE}
                 control={control}
                 label="Valor do pagamento"
                 currency
@@ -88,7 +93,7 @@ export function RegisterPayment(): JSX.Element {
                 disabled={loading}
               />
               <TextFieldApp
-                name="observation"
+                name={fieldsPayment.OBSERVATION}
                 control={control}
                 label="Observação"
                 disabled={loading}

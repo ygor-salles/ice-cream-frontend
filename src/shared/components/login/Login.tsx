@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuthContext } from 'shared/contexts';
-import { defaultValuesLogin, IFormLogin, schemaLogin } from 'shared/dtos/ILoginDTO';
+import { defaultValuesLogin, fieldsLogin, IFormLogin, schemaLogin } from 'shared/dtos/ILoginDTO';
 
 import Snackbar from '../snackBar/SnackBar';
 import TextFieldApp from '../textField/TextField';
@@ -76,7 +76,7 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
 
               <Grid item>
                 <TextFieldApp
-                  name="email"
+                  name={fieldsLogin.EMAIL}
                   control={control}
                   label="E-mail"
                   type="email"
@@ -87,7 +87,7 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
 
               <Grid item sx={{ mt: 2, mb: 2 }}>
                 <TextFieldApp
-                  name="password"
+                  name={fieldsLogin.PASSWORD}
                   control={control}
                   label="Senha"
                   type="password"

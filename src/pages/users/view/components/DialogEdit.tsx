@@ -5,7 +5,13 @@ import FooterDialogActions from 'shared/components/footerDialogActions/FooterDia
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
-import { defaultValuesUserEdit, IFormUser, IUserDTO, schemaEditUser } from 'shared/dtos/IUserDTO';
+import {
+  defaultValuesUserEdit,
+  fieldsUser,
+  IFormUser,
+  IUserDTO,
+  schemaEditUser,
+} from 'shared/dtos/IUserDTO';
 
 import { Form } from './styles';
 
@@ -44,7 +50,7 @@ export function DialogEdit({
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <TextFieldApp
-                name="name"
+                name={fieldsUser.NAME}
                 control={control}
                 label="Nome"
                 required
@@ -53,7 +59,7 @@ export function DialogEdit({
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
-                name="email"
+                name={fieldsUser.EMAIL}
                 control={control}
                 label="E-mail"
                 type="email"
@@ -63,7 +69,7 @@ export function DialogEdit({
             </Grid>
             <Grid item xs={12}>
               <TextFieldApp
-                name="password"
+                name={fieldsUser.PASSWORD}
                 control={control}
                 label="Senha"
                 type="password"
@@ -72,7 +78,7 @@ export function DialogEdit({
             </Grid>
             <Grid item xs={12}>
               <SelectApp
-                name="role"
+                name={fieldsUser.ROLE}
                 control={control}
                 label="Acesso"
                 options={LISTTYPEUSERS}

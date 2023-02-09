@@ -16,17 +16,29 @@ export interface IFormProvider {
   its_ice_cream_shoop: boolean;
 }
 
+export const fieldsProvider = {
+  NAME: 'name',
+  PHONE: 'price',
+  ITS_ICE_CREAM_SHOP: 'its_ice_cream_shoop',
+};
+
 export const defaultValuesProvider = {
-  name: '',
-  phone: '',
-  its_ice_cream_shoop: false,
+  [fieldsProvider.NAME]: '',
+  [fieldsProvider.PHONE]: '',
+  [fieldsProvider.ITS_ICE_CREAM_SHOP]: false,
 };
 
 export const defaultValuesProviderEdit = (provider: IProviderDTO) => ({
   id: provider.id,
-  name: provider.name,
-  phone: provider.phone,
-  its_ice_cream_shoop: provider.its_ice_cream_shoop,
+  [fieldsProvider.NAME]: provider.name,
+  [fieldsProvider.PHONE]: provider.phone,
+  [fieldsProvider.ITS_ICE_CREAM_SHOP]: provider.its_ice_cream_shoop,
+});
+
+export const schemaCreateProvider = yup.object().shape({
+  [fieldsProvider.NAME]: yup.string().required('Nome é obrigatório'),
+  [fieldsProvider.PHONE]: yup.string().optional(),
+  [fieldsProvider.ITS_ICE_CREAM_SHOP]: yup.boolean().required('Marcação é obrigatório'),
 });
 
 export const transformObject = (dataForm: IFormProvider): IProviderDTO => {
@@ -39,9 +51,3 @@ export const transformObject = (dataForm: IFormProvider): IProviderDTO => {
   }
   return object;
 };
-
-export const schemaCreateProvider = yup.object().shape({
-  name: yup.string().required('Nome é obrigatório'),
-  phone: yup.string().optional(),
-  its_ice_cream_shoop: yup.boolean().required('Marcação é obrigatório'),
-});

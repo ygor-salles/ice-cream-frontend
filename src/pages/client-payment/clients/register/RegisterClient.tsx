@@ -5,7 +5,12 @@ import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { defaultValuesClient, IFormClient, schemaCreateClient } from 'shared/dtos/IClientDTO';
+import {
+  defaultValuesClient,
+  fieldsClient,
+  IFormClient,
+  schemaCreateClient,
+} from 'shared/dtos/IClientDTO';
 import { useClient } from 'shared/hooks/network/useClient';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
@@ -35,21 +40,21 @@ export function RegisterClient(): JSX.Element {
         <StyledCard>
           <GridForm>
             <TextFieldApp
-              name="name"
+              name={fieldsClient.NAME}
               control={control}
               label="Nome do cliente"
               required
               disabled={loading}
             />
             <TextFieldApp
-              name="debit"
+              name={fieldsClient.DEBIT}
               control={control}
               label="Dívida do cliente"
               currency
               disabled={loading}
             />
             <TextFieldApp
-              name="phone"
+              name={fieldsClient.PHONE}
               control={control}
               label="Telefone"
               type="tel"

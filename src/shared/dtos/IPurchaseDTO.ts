@@ -27,21 +27,38 @@ export interface IFormPurchase {
   nf_url?: string;
 }
 
+export const fieldsPurchase = {
+  VALUE_TOTAL: 'value_total',
+  OBSERVATION: 'observation',
+  ITS_ICE_CREAM_SHOP: 'its_ice_cream_shoop',
+  FILE: 'file',
+  PROVIDER_ID: 'provider_id',
+  NF_URL: 'nf_url',
+};
+
 export const defaultValuesPurchase = {
-  value_total: '',
-  observation: '',
-  its_ice_cream_shoop: true,
-  file: null,
-  provider_id: '',
+  [fieldsPurchase.VALUE_TOTAL]: '',
+  [fieldsPurchase.OBSERVATION]: '',
+  [fieldsPurchase.ITS_ICE_CREAM_SHOP]: true,
+  [fieldsPurchase.FILE]: null,
+  [fieldsPurchase.PROVIDER_ID]: '',
 };
 
 export const defaultValuesPurchaseEdit = (purchase: IPurchaseDTO) => ({
   id: purchase.id,
-  value_total: formatNumberToCurrencyInput(purchase.value_total),
-  observation: purchase.observation,
-  its_ice_cream_shoop: purchase.its_ice_cream_shoop,
-  nf_url: purchase.nf_url,
-  provider_id: purchase.provider_id.toString(),
+  [fieldsPurchase.VALUE_TOTAL]: formatNumberToCurrencyInput(purchase.value_total),
+  [fieldsPurchase.OBSERVATION]: purchase.observation,
+  [fieldsPurchase.ITS_ICE_CREAM_SHOP]: purchase.its_ice_cream_shoop,
+  [fieldsPurchase.NF_URL]: purchase.nf_url,
+  [fieldsPurchase.PROVIDER_ID]: purchase.provider_id.toString(),
+});
+
+export const schemaCreatePurchase = yup.object().shape({
+  [fieldsPurchase.VALUE_TOTAL]: yup.string().required('Valor total é obrigatório'),
+  [fieldsPurchase.OBSERVATION]: yup.string().optional(),
+  [fieldsPurchase.ITS_ICE_CREAM_SHOP]: yup.boolean().required('Marcação é obrigatório'),
+  [fieldsPurchase.PROVIDER_ID]: yup.string().required('A seleção de fornecedor é obrigatória'),
+  [fieldsPurchase.FILE]: yup.string().optional(),
 });
 
 export const transformObject = (dataForm: IFormPurchase): IPurchaseDTO => {
@@ -58,11 +75,3 @@ export const transformObject = (dataForm: IFormPurchase): IPurchaseDTO => {
   }
   return object;
 };
-
-export const schemaCreatePurchase = yup.object().shape({
-  value_total: yup.string().required('Valor total é obrigatório'),
-  observation: yup.string().optional(),
-  its_ice_cream_shoop: yup.boolean().required('Marcação é obrigatório'),
-  provider_id: yup.string().required('A seleção de fornecedor é obrigatória'),
-  file: yup.string().optional(),
-});

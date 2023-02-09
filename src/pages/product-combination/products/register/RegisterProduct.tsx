@@ -7,7 +7,12 @@ import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { defaultValuesProduct, IFormProduct, schemaCreateProduct } from 'shared/dtos/IProductDTO';
+import {
+  defaultValuesProduct,
+  fieldsProduct,
+  IFormProduct,
+  schemaCreateProduct,
+} from 'shared/dtos/IProductDTO';
 import { useProduct } from 'shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
@@ -42,14 +47,14 @@ export function RegisterProduct(): JSX.Element {
         <StyledCard>
           <GridForm>
             <TextFieldApp
-              name="name"
+              name={fieldsProduct.NAME}
               control={control}
               label="Nome do produto"
               required
               disabled={loading}
             />
             <TextFieldApp
-              name="price"
+              name={fieldsProduct.PRICE}
               control={control}
               label="Preço do produto"
               currency
@@ -57,13 +62,13 @@ export function RegisterProduct(): JSX.Element {
               disabled={loading}
             />
             <TextFieldApp
-              name="description"
+              name={fieldsProduct.DESCRIPTION}
               control={control}
               label="Descrição do produto"
               disabled={loading}
             />
             <SelectApp
-              name="type"
+              name={fieldsProduct.TYPE}
               control={control}
               options={LISTTYPEPRODUCTS}
               label="Tipo"

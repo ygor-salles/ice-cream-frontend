@@ -17,17 +17,29 @@ export interface IFormClient {
   debit: string;
 }
 
+export const fieldsClient = {
+  NAME: 'name',
+  PHONE: 'phone',
+  DEBIT: 'debit',
+};
+
 export const defaultValuesClient = {
-  name: '',
-  phone: '',
-  debit: '',
+  [fieldsClient.NAME]: '',
+  [fieldsClient.PHONE]: '',
+  [fieldsClient.DEBIT]: '',
 };
 
 export const defaultValuesClientEdit = (client: IClientDTO) => ({
   id: client.id,
-  name: client.name,
-  debit: client.debit.toFixed(2).replace('.', ''),
-  phone: client.phone,
+  [fieldsClient.NAME]: client.name,
+  [fieldsClient.DEBIT]: client.debit.toFixed(2).replace('.', ''),
+  [fieldsClient.PHONE]: client.phone,
+});
+
+export const schemaCreateClient = yup.object().shape({
+  [fieldsClient.NAME]: yup.string().required('Nome é obrigatório'),
+  [fieldsClient.DEBIT]: yup.string().optional(),
+  [fieldsClient.PHONE]: yup.string().optional(),
 });
 
 export const transformObject = (dataForm: IFormClient): IClientDTO => {
@@ -40,9 +52,3 @@ export const transformObject = (dataForm: IFormClient): IClientDTO => {
   }
   return object;
 };
-
-export const schemaCreateClient = yup.object().shape({
-  name: yup.string().required('Nome é obrigatório'),
-  debit: yup.string().optional(),
-  phone: yup.string().optional(),
-});

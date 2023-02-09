@@ -41,7 +41,7 @@ export function usePurchase() {
       setAllPurchases(listPurchases);
     } catch (error) {
       const { response } = error as AxiosError;
-      addToast(`Erro ao buscar dados de fornecedor! - ${response?.data?.message}`, ToastType.error);
+      addToast(`Erro ao buscar dados de compra! - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingPurchases(false);
     }
@@ -53,10 +53,10 @@ export function usePurchase() {
 
     try {
       await providerService.create(data);
-      addToast('Fornecedor cadastrado com sucesso!', ToastType.success);
+      addToast('compra cadastrado com sucesso!', ToastType.success);
     } catch (error) {
       const { response } = error as AxiosError;
-      addToast(`Erro ao cadastrar fornecedor - ${response?.data?.message}`, ToastType.error);
+      addToast(`Erro ao cadastrar compra - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingForm(false);
       reset();
@@ -69,11 +69,11 @@ export function usePurchase() {
 
     try {
       await providerService.updateById({ ...data, id: dataForm.id });
-      addToast('Fornecedor atualizado com sucesso!', ToastType.success);
+      addToast('compra atualizado com sucesso!', ToastType.success);
       getPurchases();
     } catch (error) {
       const { response } = error as AxiosError;
-      addToast(`Erro ao atualizar fornecedor! - ${response?.data?.message}`, ToastType.error);
+      addToast(`Erro ao atualizar compra! - ${response?.data?.message}`, ToastType.error);
     } finally {
       setShowModalEdit(false);
       setLoadingForm(false);
@@ -84,11 +84,11 @@ export function usePurchase() {
     setLoadingForm(true);
     try {
       await providerService.deleteById(id);
-      addToast('Fornecedor deletado com sucesso!', ToastType.success);
+      addToast('compra deletado com sucesso!', ToastType.success);
       getPurchases();
     } catch (error) {
       const { response } = error as AxiosError;
-      addToast(`Error ao deletar fornecedor! - ${response?.data?.message}`, ToastType.error);
+      addToast(`Error ao deletar compra! - ${response?.data?.message}`, ToastType.error);
     } finally {
       setShowModalDelete(false);
       setLoadingForm(false);

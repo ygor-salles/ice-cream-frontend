@@ -7,7 +7,7 @@ export const Form = styled.form`
 `;
 
 export const StyledCard = styled(Card)`
-  padding: 20px;
+  padding: 16px;
 `;
 
 export const GridForm = styled.div`

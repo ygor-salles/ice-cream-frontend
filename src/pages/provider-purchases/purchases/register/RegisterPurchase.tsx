@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
+import InputFile from 'shared/components/inputFile/InputFile';
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { RoutesEnum } from 'shared/constants/routesList';
@@ -23,10 +24,12 @@ import { Form, GridForm, StyledCard } from './styles';
 export function RegisterPurchase(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const { handleSubmit, control, reset } = useForm<IFormPurchase>({
+  const { handleSubmit, control, reset, setValue, watch } = useForm<IFormPurchase>({
     resolver: yupResolver(schemaCreatePurchase),
     defaultValues: defaultValuesPurchase,
   });
+
+  const values = watch();
 
   const { handleSubmitCreate, loadingForm: loading } = usePurchase();
 
@@ -45,7 +48,9 @@ export function RegisterPurchase(): JSX.Element {
     >
       <Form
         noValidate
-        onSubmit={handleSubmit((data: IFormPurchase) => handleSubmitCreate(data, reset))}
+        onSubmit={handleSubmit((data: IFormPurchase) =>
+          handleSubmitCreate({ ...data, file: values.file }, reset),
+        )}
       >
         <StyledCard>
           <GridForm>
@@ -79,6 +84,13 @@ export function RegisterPurchase(): JSX.Element {
               control={control}
               label="Compra da sorveteria"
               disabled={loading}
+            />
+            <InputFile
+              name={fieldsPurchase.FILE}
+              isMobile={smDown}
+              label="Anexe a nota fiscal"
+              control={control}
+              setValue={setValue}
             />
           </GridForm>
 

@@ -1,5 +1,7 @@
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import { FormGroup } from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
+
+import { StyledCheckbox, StyledLabel } from './styles';
 
 interface ICheckboxAppProps {
   name: string;
@@ -22,9 +24,9 @@ export default function CheckboxApp({
       control={control}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <FormGroup>
-          <FormControlLabel
+          <StyledLabel
             control={
-              <Checkbox
+              <StyledCheckbox
                 onChange={onChange}
                 checked={value}
                 required={required}

@@ -19,7 +19,7 @@ export const Form = styled.form<FormProps>`
 export const Container = styled.div<StyledProps>`
   display: flex;
   flex-direction: row;
-  gap: ${props => (!props.isMobile ? '20px' : '5px')};
+  gap: ${props => (!props.isMobile ? '20px' : '10px')};
   padding: ${props => (!props.isMobile ? '16px' : '10px 4px 20px 0')};
 `;
 

@@ -13,6 +13,7 @@ import {
 } from 'shared/components/renderCellTable/RenderCellTable';
 import TableApp from 'shared/components/table/TableApp';
 import { ITypeComponents } from 'shared/components/table/types';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { useAppThemeContext } from 'shared/contexts';
 import { IPurchaseDTO } from 'shared/dtos/IPurchaseDTO';
 import { usePurchase } from 'shared/hooks/network/usePurchase';
@@ -86,7 +87,7 @@ export function Purchases(): JSX.Element {
     <>
       <LayoutBaseDePagina
         titulo="Compras"
-        navigatePage="/purchases/create"
+        navigatePage={RoutesEnum.PURCHASES_CREATE}
         textButton="CADASTRAR"
         icon={<AddBox />}
         textButtonRight="FILTRAR"

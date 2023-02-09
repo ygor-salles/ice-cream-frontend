@@ -11,6 +11,7 @@ import TextFieldApp from 'shared/components/textField/TextField';
 import TextFieldCount from 'shared/components/textFieldCount/TextFieldCount';
 import { LISTTYPESALES } from 'shared/constants/listTypeSales';
 import Mask from 'shared/constants/masks';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
   EnumTypeSale,
@@ -155,7 +156,7 @@ export function RegisterSale(): JSX.Element {
   return (
     <LayoutBaseDePagina
       titulo="Cadastro venda"
-      navigatePage="/sales"
+      navigatePage={RoutesEnum.SALES}
       textButton="VENDAS"
       icon={<AttachMoney />}
     >

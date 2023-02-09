@@ -10,6 +10,7 @@ import {
 } from 'shared/components/renderCellTable/RenderCellTable';
 import TableApp from 'shared/components/table/TableApp';
 import { ITypeComponents } from 'shared/components/table/types';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { IUserDTO } from 'shared/dtos/IUserDTO';
 import { useUser } from 'shared/hooks/network/useUser';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -75,7 +76,7 @@ export function Users(): JSX.Element {
     <>
       <LayoutBaseDePagina
         titulo="Usuários"
-        navigatePage="/users/create"
+        navigatePage={RoutesEnum.USERS_CREATE}
         textButton="CADASTRAR"
         icon={<AddBox />}
         textButtonRight="FILTRAR"

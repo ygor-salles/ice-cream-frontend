@@ -10,6 +10,7 @@ import {
 } from 'shared/components/renderCellTable/RenderCellTable';
 import TableApp from 'shared/components/table/TableApp';
 import { ITypeComponents } from 'shared/components/table/types';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { IProviderDTO } from 'shared/dtos/IProviderDTO';
 import { useProvider } from 'shared/hooks/network/useProvider';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -78,7 +79,7 @@ export function Providers(): JSX.Element {
     <>
       <LayoutBaseDePagina
         titulo="Fornecedores"
-        navigatePage="/providers/create"
+        navigatePage={RoutesEnum.PROVIDERS_CREATE}
         textButton="CADASTRAR"
         icon={<AddBox />}
         textButtonRight="FILTRAR"

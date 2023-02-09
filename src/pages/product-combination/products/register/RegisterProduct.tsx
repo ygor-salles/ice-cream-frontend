@@ -6,6 +6,7 @@ import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { IFormProduct, schemaCreateProduct } from 'shared/dtos/IProductDTO';
 import { useProduct } from 'shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -35,7 +36,7 @@ export function RegisterProduct(): JSX.Element {
   return (
     <LayoutBaseDePagina
       titulo="Cadastro produto"
-      navigatePage="/products"
+      navigatePage={RoutesEnum.PRODUCTS}
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >

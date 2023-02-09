@@ -6,6 +6,7 @@ import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumRoleUser, IFormUser, schemaCreateUser } from 'shared/dtos/IUserDTO';
 import { useUser } from 'shared/hooks/network/useUser';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -30,7 +31,7 @@ export function RegisterUser(): JSX.Element {
   return (
     <LayoutBaseDePagina
       titulo="Cadastro usuário"
-      navigatePage="/users"
+      navigatePage={RoutesEnum.USERS}
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >

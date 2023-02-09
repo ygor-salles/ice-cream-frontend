@@ -7,6 +7,7 @@ import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { IFormPurchase, schemaCreatePurchase } from 'shared/dtos/IPurchaseDTO';
 import { useProvider } from 'shared/hooks/network/useProvider';
 import { usePurchase } from 'shared/hooks/network/usePurchase';
@@ -38,8 +39,8 @@ export function RegisterPurchase(): JSX.Element {
 
   return (
     <LayoutBaseDePagina
-      titulo="Cadastro fornecedor"
-      navigatePage="/providers"
+      titulo="Cadastro compras"
+      navigatePage={RoutesEnum.PURCHASES}
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >

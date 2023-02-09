@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { IFormPayment, schemaCreatePayment } from 'shared/dtos/IPaymentDTO';
 import { useClient } from 'shared/hooks/network/useClient';
@@ -50,7 +51,7 @@ export function RegisterPayment(): JSX.Element {
   return (
     <LayoutBaseDePagina
       titulo="Cadastro pagamento"
-      navigatePage="/payments"
+      navigatePage={RoutesEnum.PAYMENTS}
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >

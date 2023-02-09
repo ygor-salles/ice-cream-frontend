@@ -10,6 +10,7 @@ import {
 } from 'shared/components/renderCellTable/RenderCellTable';
 import TableApp from 'shared/components/table/TableApp';
 import { ITypeComponents } from 'shared/components/table/types';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
 import { useCombination } from 'shared/hooks/network/useCombination';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -76,7 +77,7 @@ export function Combinations(): JSX.Element {
     <>
       <LayoutBaseDePagina
         titulo="Combinações"
-        navigatePage="/combinations/create"
+        navigatePage={RoutesEnum.COMBINATIONS_CREATE}
         textButton="CADASTRAR"
         icon={<AddBox />}
         textButtonRight="FILTRAR"

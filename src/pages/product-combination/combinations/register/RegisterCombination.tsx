@@ -4,6 +4,7 @@ import { Theme, useMediaQuery } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import TextFieldApp from 'shared/components/textField/TextField';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { IFormCombination, schemaCreateCombination } from 'shared/dtos/ICombinationDTO';
 import { useCombination } from 'shared/hooks/network/useCombination';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -26,7 +27,7 @@ export function RegisterCombination(): JSX.Element {
   return (
     <LayoutBaseDePagina
       titulo="Cadastro combinação"
-      navigatePage="/combinations"
+      navigatePage={RoutesEnum.COMBINATIONS}
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >

@@ -11,6 +11,7 @@ import {
 } from 'shared/components/renderCellTable/RenderCellTable';
 import TableApp from 'shared/components/table/TableApp';
 import { ITypeComponents } from 'shared/components/table/types';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { IProductDTO } from 'shared/dtos/IProductDTO';
 import { useProduct } from 'shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -88,7 +89,7 @@ export function Products(): JSX.Element {
     <>
       <LayoutBaseDePagina
         titulo="Produtos"
-        navigatePage="/products/create"
+        navigatePage={RoutesEnum.PRODUCTS_CREATE}
         textButton="CADASTRAR"
         icon={<AddBox />}
         textButtonRight="FILTRAR"

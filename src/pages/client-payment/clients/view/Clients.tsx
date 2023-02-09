@@ -9,6 +9,7 @@ import {
 } from 'shared/components/renderCellTable/RenderCellTable';
 import TableApp from 'shared/components/table/TableApp';
 import { ITypeComponents } from 'shared/components/table/types';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { useClient } from 'shared/hooks/network/useClient';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -72,7 +73,7 @@ export function Clients(): JSX.Element {
     <>
       <LayoutBaseDePagina
         titulo="Clientes"
-        navigatePage="/clients/create"
+        navigatePage={RoutesEnum.CLIENTS_CREATE}
         textButton="CADASTRAR"
         icon={<AddBox />}
         textButtonRight="FILTRAR"

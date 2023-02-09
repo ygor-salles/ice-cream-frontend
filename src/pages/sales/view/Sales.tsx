@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import DialogInfo from 'shared/components/dialog/Dialog';
 import { Pagination } from 'shared/components/pagination/Pagination';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
 import { useSale } from 'shared/hooks/network/useSale';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -47,7 +48,7 @@ export function Sales(): JSX.Element {
   return (
     <LayoutBaseDePagina
       titulo="Vendas"
-      navigatePage="/sales/create"
+      navigatePage={RoutesEnum.SALES_CREATE}
       textButton="CADASTRAR"
       icon={<AddBox />}
     >

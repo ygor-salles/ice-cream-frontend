@@ -12,6 +12,7 @@ import {
 } from 'shared/components/renderCellTable/RenderCellTable';
 import TableApp from 'shared/components/table/TableApp';
 import { ITypeComponents } from 'shared/components/table/types';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { IPaymentDTO } from 'shared/dtos/IPaymentDTO';
 import { usePayment } from 'shared/hooks/network/usePayment';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -75,7 +76,7 @@ export function Payments(): JSX.Element {
     <>
       <LayoutBaseDePagina
         titulo="Pagamentos"
-        navigatePage="/payments/create"
+        navigatePage={RoutesEnum.PAYMENTS_CREATE}
         textButton="CADASTRAR"
         icon={<AddBox />}
         textButtonRight="FILTRAR"

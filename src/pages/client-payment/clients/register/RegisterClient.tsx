@@ -4,6 +4,7 @@ import { Theme, useMediaQuery } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import TextFieldApp from 'shared/components/textField/TextField';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { IFormClient, schemaCreateClient } from 'shared/dtos/IClientDTO';
 import { useClient } from 'shared/hooks/network/useClient';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -27,7 +28,7 @@ export function RegisterClient(): JSX.Element {
   return (
     <LayoutBaseDePagina
       titulo="Cadastro cliente"
-      navigatePage="/clients"
+      navigatePage={RoutesEnum.CLIENTS}
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >

@@ -10,7 +10,7 @@ import {
   TableRow,
 } from '@mui/material';
 import React, { useCallback, useState } from 'react';
-import Mask from 'shared/constants/masks';
+import Mask from 'shared/utils/masks';
 
 import { TablePaginationActions } from '../total-pagination-actions/TotalPaginationActions';
 import HeaderTable from './HeaderTable';

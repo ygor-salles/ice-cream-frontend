@@ -1,5 +1,5 @@
-import Mask from 'shared/constants/masks';
 import { convetSalesType } from 'shared/utils/convertTypes';
+import Mask from 'shared/utils/masks';
 import * as yup from 'yup';
 
 import { ICombinationDTO } from './ICombinationDTO';

@@ -10,7 +10,6 @@ import SelectMultiple from 'shared/components/selectMultiple/SelectMultiple';
 import TextFieldApp from 'shared/components/textField/TextField';
 import TextFieldCount from 'shared/components/textFieldCount/TextFieldCount';
 import { LISTTYPESALES } from 'shared/constants/listTypeSales';
-import Mask from 'shared/constants/masks';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
@@ -28,6 +27,7 @@ import { useProduct } from 'shared/hooks/network/useProduct';
 import { useSale } from 'shared/hooks/network/useSale';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
+import Mask from 'shared/utils/masks';
 
 import { Form, GridForm, StyledCard } from './styles';
 

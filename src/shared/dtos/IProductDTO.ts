@@ -1,6 +1,6 @@
-import Mask from 'shared/constants/masks';
 import { convertProductsType } from 'shared/utils/convertTypes';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
+import Mask from 'shared/utils/masks';
 import * as yup from 'yup';
 
 import { ICombinationDTO } from './ICombinationDTO';

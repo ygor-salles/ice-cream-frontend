@@ -1,5 +1,5 @@
-import Mask from 'shared/constants/masks';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
+import Mask from 'shared/utils/masks';
 import * as yup from 'yup';
 
 export interface ICombinationDTO {

@@ -1,4 +1,4 @@
-import Mask from 'shared/constants/masks';
+import Mask from 'shared/utils/masks';
 import * as yup from 'yup';
 
 export interface IClientDTO {

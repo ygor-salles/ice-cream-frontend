@@ -17,6 +17,19 @@ export interface IFormClient {
   debit: string;
 }
 
+export const defaultValuesClient = {
+  name: '',
+  phone: '',
+  debit: '',
+};
+
+export const defaultValuesClientEdit = (client: IClientDTO) => ({
+  id: client.id,
+  name: client.name,
+  debit: client.debit.toFixed(2).replace('.', ''),
+  phone: client.phone,
+});
+
 export const transformObject = (dataForm: IFormClient): IClientDTO => {
   const object: IClientDTO = {
     name: dataForm.name,

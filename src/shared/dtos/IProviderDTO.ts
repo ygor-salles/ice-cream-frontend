@@ -16,6 +16,19 @@ export interface IFormProvider {
   its_ice_cream_shoop: boolean;
 }
 
+export const defaultValuesProvider = {
+  name: '',
+  phone: '',
+  its_ice_cream_shoop: false,
+};
+
+export const defaultValuesProviderEdit = (provider: IProviderDTO) => ({
+  id: provider.id,
+  name: provider.name,
+  phone: provider.phone,
+  its_ice_cream_shoop: provider.its_ice_cream_shoop,
+});
+
 export const transformObject = (dataForm: IFormProvider): IProviderDTO => {
   const object: IProviderDTO = {
     name: dataForm.name,

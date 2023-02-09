@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
 import TextFieldApp from 'shared/components/textField/TextField';
 import {
+  defaultValuesCombinationEdit,
   ICombinationDTO,
   IFormCombination,
   schemaCreateCombination,
@@ -30,11 +31,7 @@ export function DialogEdit({
 }: DialogEditProps): JSX.Element {
   const { handleSubmit, control } = useForm<IFormCombination>({
     resolver: yupResolver(schemaCreateCombination),
-    defaultValues: {
-      id: combination.id,
-      name: combination.name,
-      price: combination.price.toFixed(2).replace('.', ''),
-    },
+    defaultValues: defaultValuesCombinationEdit(combination),
   });
 
   return (

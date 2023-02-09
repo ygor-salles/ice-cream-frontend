@@ -4,7 +4,12 @@ import { useForm } from 'react-hook-form';
 import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
 import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
 import TextFieldApp from 'shared/components/textField/TextField';
-import { IFormProvider, IProviderDTO, schemaCreateProvider } from 'shared/dtos/IProviderDTO';
+import {
+  defaultValuesProviderEdit,
+  IFormProvider,
+  IProviderDTO,
+  schemaCreateProvider,
+} from 'shared/dtos/IProviderDTO';
 
 import { Form } from './styles';
 
@@ -27,12 +32,7 @@ export function DialogEdit({
 }: DialogEditProps): JSX.Element {
   const { handleSubmit, control } = useForm<IFormProvider>({
     resolver: yupResolver(schemaCreateProvider),
-    defaultValues: {
-      id: provider.id,
-      name: provider.name,
-      phone: provider.phone,
-      its_ice_cream_shoop: provider.its_ice_cream_shoop,
-    },
+    defaultValues: defaultValuesProviderEdit(provider),
   });
 
   return (

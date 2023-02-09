@@ -5,7 +5,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
 import TextFieldApp from 'shared/components/textField/TextField';
-import { IClientDTO, IFormClient, schemaCreateClient } from 'shared/dtos/IClientDTO';
+import {
+  defaultValuesClientEdit,
+  IClientDTO,
+  IFormClient,
+  schemaCreateClient,
+} from 'shared/dtos/IClientDTO';
 
 import { Form, stylesIcon } from './styles';
 
@@ -28,12 +33,7 @@ export function DialogEdit({
 }: DialogEditProps): JSX.Element {
   const { handleSubmit, control } = useForm<IFormClient>({
     resolver: yupResolver(schemaCreateClient),
-    defaultValues: {
-      id: client.id,
-      name: client.name,
-      debit: client.debit.toFixed(2).replace('.', ''),
-      phone: client.phone,
-    },
+    defaultValues: defaultValuesClientEdit(client),
   });
 
   const [disabledState, setDisabledState] = useState(true);

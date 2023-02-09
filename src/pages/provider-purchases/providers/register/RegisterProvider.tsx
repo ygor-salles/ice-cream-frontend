@@ -6,7 +6,11 @@ import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { IFormProvider, schemaCreateProvider } from 'shared/dtos/IProviderDTO';
+import {
+  defaultValuesProvider,
+  IFormProvider,
+  schemaCreateProvider,
+} from 'shared/dtos/IProviderDTO';
 import { useProvider } from 'shared/hooks/network/useProvider';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
@@ -17,11 +21,7 @@ export function RegisterProvider(): JSX.Element {
 
   const { handleSubmit, control, reset } = useForm<IFormProvider>({
     resolver: yupResolver(schemaCreateProvider),
-    defaultValues: {
-      name: '',
-      phone: '',
-      its_ice_cream_shoop: false,
-    },
+    defaultValues: defaultValuesProvider,
   });
 
   const { handleSubmitCreate, loadingForm: loading } = useProvider();

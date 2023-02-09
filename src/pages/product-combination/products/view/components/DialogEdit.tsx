@@ -5,7 +5,12 @@ import FooterDialogActions from 'shared/components/footerDialogActions/FooterDia
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
-import { IFormProduct, IProductDTO, schemaCreateProduct } from 'shared/dtos/IProductDTO';
+import {
+  defaultValuesProductEdit,
+  IFormProduct,
+  IProductDTO,
+  schemaCreateProduct,
+} from 'shared/dtos/IProductDTO';
 
 import { Form } from './styles';
 
@@ -28,13 +33,7 @@ export function DialogEdit({
 }: DialogEditProps): JSX.Element {
   const { handleSubmit, control } = useForm<IFormProduct>({
     resolver: yupResolver(schemaCreateProduct),
-    defaultValues: {
-      id: product.id,
-      name: product.name,
-      price: product.price.toFixed(2).replace('.', ''),
-      description: product.description,
-      type: product.type,
-    },
+    defaultValues: defaultValuesProductEdit(product),
   });
 
   return (

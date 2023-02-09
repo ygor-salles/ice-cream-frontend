@@ -1,4 +1,5 @@
 import Mask from 'shared/constants/masks';
+import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
 import * as yup from 'yup';
 
 export interface ICombinationDTO {
@@ -14,6 +15,17 @@ export interface IFormCombination {
   name: string;
   price: string;
 }
+
+export const defaultValuesCombination = {
+  name: '',
+  price: '',
+};
+
+export const defaultValuesCombinationEdit = (combination: ICombinationDTO) => ({
+  id: combination.id,
+  name: combination.name,
+  price: formatNumberToCurrencyInput(combination.price),
+});
 
 export const transformObject = (dataForm: IFormCombination): ICombinationDTO => {
   const object: ICombinationDTO = {

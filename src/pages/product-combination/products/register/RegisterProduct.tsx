@@ -7,7 +7,7 @@ import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { IFormProduct, schemaCreateProduct } from 'shared/dtos/IProductDTO';
+import { defaultValuesProduct, IFormProduct, schemaCreateProduct } from 'shared/dtos/IProductDTO';
 import { useProduct } from 'shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
@@ -25,12 +25,7 @@ export function RegisterProduct(): JSX.Element {
     // formState: { isDirty, isValid },
   } = useForm<IFormProduct>({
     resolver: yupResolver(schemaCreateProduct),
-    defaultValues: {
-      name: '',
-      price: '',
-      description: '',
-      type: '',
-    },
+    defaultValues: defaultValuesProduct,
   });
 
   return (

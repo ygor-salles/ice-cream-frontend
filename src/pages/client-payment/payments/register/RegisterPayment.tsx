@@ -8,7 +8,7 @@ import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
-import { IFormPayment, schemaCreatePayment } from 'shared/dtos/IPaymentDTO';
+import { defaultValuesPayment, IFormPayment, schemaCreatePayment } from 'shared/dtos/IPaymentDTO';
 import { useClient } from 'shared/hooks/network/useClient';
 import { usePayment } from 'shared/hooks/network/usePayment';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -21,11 +21,7 @@ export function RegisterPayment(): JSX.Element {
 
   const { handleSubmit, control, reset } = useForm<IFormPayment>({
     resolver: yupResolver(schemaCreatePayment),
-    defaultValues: {
-      value: '',
-      client_id: '',
-      observation: '',
-    },
+    defaultValues: defaultValuesPayment,
   });
 
   const { allClients, loadingClients, getClients } = useClient();

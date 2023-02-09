@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuthContext } from 'shared/contexts';
-import { IFormLogin, schemaLogin } from 'shared/dtos/ILoginDTO';
+import { defaultValuesLogin, IFormLogin, schemaLogin } from 'shared/dtos/ILoginDTO';
 
 import Snackbar from '../snackBar/SnackBar';
 import TextFieldApp from '../textField/TextField';
@@ -27,10 +27,7 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
 
   const { handleSubmit, control } = useForm<IFormLogin>({
     resolver: yupResolver(schemaLogin),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
+    defaultValues: defaultValuesLogin,
   });
 
   const displayNotificationMessage = (error: boolean, message: string): void => {

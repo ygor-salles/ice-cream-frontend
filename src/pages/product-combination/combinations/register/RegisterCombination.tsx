@@ -5,7 +5,11 @@ import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { IFormCombination, schemaCreateCombination } from 'shared/dtos/ICombinationDTO';
+import {
+  defaultValuesCombination,
+  IFormCombination,
+  schemaCreateCombination,
+} from 'shared/dtos/ICombinationDTO';
 import { useCombination } from 'shared/hooks/network/useCombination';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
@@ -16,10 +20,7 @@ export function RegisterCombination(): JSX.Element {
 
   const { handleSubmit, control, reset } = useForm<IFormCombination>({
     resolver: yupResolver(schemaCreateCombination),
-    defaultValues: {
-      name: '',
-      price: '',
-    },
+    defaultValues: defaultValuesCombination,
   });
 
   const { handleSubmitCreate, loadingForm: loading } = useCombination();

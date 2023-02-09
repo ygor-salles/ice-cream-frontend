@@ -5,7 +5,7 @@ import FooterDialogActions from 'shared/components/footerDialogActions/FooterDia
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
-import { IFormUser, IUserDTO, schemaEditUser } from 'shared/dtos/IUserDTO';
+import { defaultValuesUserEdit, IFormUser, IUserDTO, schemaEditUser } from 'shared/dtos/IUserDTO';
 
 import { Form } from './styles';
 
@@ -28,13 +28,7 @@ export function DialogEdit({
 }: DialogEditProps): JSX.Element {
   const { handleSubmit, control } = useForm<IFormUser>({
     resolver: yupResolver(schemaEditUser),
-    defaultValues: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      password: '',
-      role: user.role,
-    },
+    defaultValues: defaultValuesUserEdit(user),
   });
 
   return (

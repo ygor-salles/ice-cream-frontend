@@ -1,5 +1,6 @@
 import Mask from 'shared/constants/masks';
 import { convertProductsType } from 'shared/utils/convertTypes';
+import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
 import * as yup from 'yup';
 
 import { ICombinationDTO } from './ICombinationDTO';
@@ -32,6 +33,21 @@ export interface IFormProduct {
   description: string;
   type: string;
 }
+
+export const defaultValuesProduct = {
+  name: '',
+  price: '',
+  description: '',
+  type: '',
+};
+
+export const defaultValuesProductEdit = (product: IProductDTO) => ({
+  id: product.id,
+  name: product.name,
+  price: formatNumberToCurrencyInput(product.price),
+  description: product.description,
+  type: product.type,
+});
 
 export const transformObject = (dataForm: IFormProduct): IProductDTO => {
   const object: IProductDTO = {

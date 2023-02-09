@@ -14,6 +14,8 @@ import Mask from 'shared/constants/masks';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
+  defaultValueAmount,
+  defaultValuesSale,
   EnumTypeSale,
   IFormSale,
   schemaCreateSale,
@@ -33,7 +35,6 @@ export function RegisterSale(): JSX.Element {
 
   const [requiredClient, setRequiredClient] = useState(false);
 
-  const defaultValueAmount = '1';
   const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
   const [count, setCount] = useState(Number(defaultValueAmount));
 
@@ -43,16 +44,7 @@ export function RegisterSale(): JSX.Element {
     resolver: yupResolver(
       requiredClient === false ? schemaCreateSale : schemaCreateSaleWithCustomer,
     ),
-    defaultValues: {
-      product_id: '',
-      data_product: null,
-      combinations: [],
-      type_sale: '',
-      client_id: '',
-      observation: '',
-      amount: defaultValueAmount,
-      total: '',
-    },
+    defaultValues: defaultValuesSale,
   });
 
   const { handleSubmitCreate, loadingForm: loading } = useSale();

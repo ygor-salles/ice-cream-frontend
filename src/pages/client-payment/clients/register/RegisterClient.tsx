@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { IFormClient, schemaCreateClient } from 'shared/dtos/IClientDTO';
+import { defaultValuesClient, IFormClient, schemaCreateClient } from 'shared/dtos/IClientDTO';
 import { useClient } from 'shared/hooks/network/useClient';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
@@ -16,11 +16,7 @@ export function RegisterClient(): JSX.Element {
 
   const { handleSubmit, control, reset } = useForm<IFormClient>({
     resolver: yupResolver(schemaCreateClient),
-    defaultValues: {
-      name: '',
-      phone: '',
-      debit: '',
-    },
+    defaultValues: defaultValuesClient,
   });
 
   const { handleSubmitCreate, loadingForm: loading } = useClient();

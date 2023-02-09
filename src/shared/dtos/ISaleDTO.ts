@@ -35,6 +35,18 @@ export interface IFormSale {
   total: string;
 }
 
+export const defaultValueAmount = '1';
+export const defaultValuesSale = {
+  product_id: '',
+  data_product: null,
+  combinations: [],
+  type_sale: '',
+  client_id: '',
+  observation: '',
+  amount: defaultValueAmount,
+  total: '',
+};
+
 export const transformObject = (dataForm: IFormSale): ISaleDTO => {
   const objectSale: ISaleDTO = {
     data_product: dataForm.data_product,

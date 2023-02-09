@@ -6,9 +6,13 @@ import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
 import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
-import { IFormPurchase, IPurchaseDTO, schemaCreatePurchase } from 'shared/dtos/IPurchaseDTO';
+import {
+  defaultValuesPurchaseEdit,
+  IFormPurchase,
+  IPurchaseDTO,
+  schemaCreatePurchase,
+} from 'shared/dtos/IPurchaseDTO';
 import { useProvider } from 'shared/hooks/network/useProvider';
-import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
 
 import { Form } from './styles';
 
@@ -29,7 +33,7 @@ export function DialogEdit({
   handleClose,
   loading,
 }: DialogEditProps): JSX.Element {
-  const { allProviders, getProviders, loadingProviders } = useProvider();
+  const { allProviders, getProviders } = useProvider();
 
   useEffect(() => {
     getProviders();
@@ -37,14 +41,7 @@ export function DialogEdit({
 
   const { handleSubmit, control } = useForm<IFormPurchase>({
     resolver: yupResolver(schemaCreatePurchase),
-    defaultValues: {
-      id: purchase.id,
-      value_total: formatNumberToCurrencyInput(purchase.value_total),
-      observation: purchase.observation,
-      its_ice_cream_shoop: purchase.its_ice_cream_shoop,
-      nf_url: purchase.nf_url,
-      provider_id: purchase.provider_id.toString(),
-    },
+    defaultValues: defaultValuesPurchaseEdit(purchase),
   });
 
   return (

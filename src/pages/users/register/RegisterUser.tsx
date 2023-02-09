@@ -7,7 +7,7 @@ import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { EnumRoleUser, IFormUser, schemaCreateUser } from 'shared/dtos/IUserDTO';
+import { defaultValuesUser, IFormUser, schemaCreateUser } from 'shared/dtos/IUserDTO';
 import { useUser } from 'shared/hooks/network/useUser';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
@@ -18,12 +18,7 @@ export function RegisterUser(): JSX.Element {
 
   const { handleSubmit, control, reset } = useForm<IFormUser>({
     resolver: yupResolver(schemaCreateUser),
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-      role: EnumRoleUser.NORMAL,
-    },
+    defaultValues: defaultValuesUser,
   });
 
   const { handleSubmitCreate, loadingForm: loading } = useUser();

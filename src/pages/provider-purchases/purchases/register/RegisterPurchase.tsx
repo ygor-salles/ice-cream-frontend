@@ -8,7 +8,11 @@ import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { IFormPurchase, schemaCreatePurchase } from 'shared/dtos/IPurchaseDTO';
+import {
+  defaultValuesPurchase,
+  IFormPurchase,
+  schemaCreatePurchase,
+} from 'shared/dtos/IPurchaseDTO';
 import { useProvider } from 'shared/hooks/network/useProvider';
 import { usePurchase } from 'shared/hooks/network/usePurchase';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -20,13 +24,7 @@ export function RegisterPurchase(): JSX.Element {
 
   const { handleSubmit, control, reset } = useForm<IFormPurchase>({
     resolver: yupResolver(schemaCreatePurchase),
-    defaultValues: {
-      value_total: '',
-      observation: '',
-      its_ice_cream_shoop: true,
-      file: null,
-      provider_id: '',
-    },
+    defaultValues: defaultValuesPurchase,
   });
 
   const { handleSubmitCreate, loadingForm: loading } = usePurchase();

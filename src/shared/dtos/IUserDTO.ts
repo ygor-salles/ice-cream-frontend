@@ -33,6 +33,21 @@ export interface IFormUser {
   role: EnumRoleUser;
 }
 
+export const defaultValuesUser = {
+  name: '',
+  email: '',
+  password: '',
+  role: EnumRoleUser.NORMAL,
+};
+
+export const defaultValuesUserEdit = (user: IUserDTO) => ({
+  id: user.id,
+  name: user.name,
+  email: user.email,
+  password: '',
+  role: user.role,
+});
+
 export const transformObject = (dataForm: IFormUser): IUserDTO => {
   const object: IUserDTO = {
     name: dataForm.name,

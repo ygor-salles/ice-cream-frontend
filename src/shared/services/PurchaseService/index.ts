@@ -1,4 +1,4 @@
-import { fieldsPurchase } from 'shared/dtos/IPurchaseDTO';
+import { convertMultipartFormPurchase } from 'shared/utils/convertMultipartFormPurchase';
 
 import { api } from '../api';
 import { ICreatePurchaseDTORequest, ICreatePurchaseDTOResponse } from './dtos/ICreatePurchaseDTO';
@@ -11,15 +11,7 @@ export default class PurchaseService {
   private route = '/purchase';
 
   public async create(dataRequest: ICreatePurchaseDTORequest): Promise<ICreatePurchaseDTOResponse> {
-    const formData = new FormData();
-    formData.append(fieldsPurchase.VALUE_TOTAL, dataRequest.value_total.toString());
-    formData.append(fieldsPurchase.OBSERVATION, dataRequest.observation);
-    formData.append(
-      fieldsPurchase.ITS_ICE_CREAM_SHOP,
-      dataRequest.its_ice_cream_shoop ? 'true' : 'false',
-    );
-    formData.append(fieldsPurchase.FILE, dataRequest.file);
-    formData.append(fieldsPurchase.PROVIDER_ID, dataRequest.provider_id.toString());
+    const formData = convertMultipartFormPurchase(dataRequest);
 
     const { data } = await api.post<ICreatePurchaseDTOResponse>(this.route, formData, {
       headers: {
@@ -42,9 +34,16 @@ export default class PurchaseService {
   public async updateById(
     dataRequest: IUpdatePurchaseDTORequest,
   ): Promise<IUpdatePurchaseDTOResponse> {
+    const formData = convertMultipartFormPurchase(dataRequest);
+
     const { data } = await api.put<IUpdatePurchaseDTOResponse>(
       `${this.route}/${dataRequest.id}`,
-      dataRequest,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
     );
     return data;
   }

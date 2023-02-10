@@ -41,10 +41,12 @@ export function DialogEdit({
     getProviders();
   }, []);
 
-  const { handleSubmit, control, setValue } = useForm<IFormPurchase>({
+  const { handleSubmit, control, setValue, watch } = useForm<IFormPurchase>({
     resolver: yupResolver(schemaCreatePurchase),
     defaultValues: defaultValuesPurchaseEdit(purchase),
   });
+
+  const values = watch();
 
   return (
     !loadingProviders && (
@@ -54,7 +56,13 @@ export function DialogEdit({
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <Form noValidate onSubmit={handleSubmit(onSubmitUpdate)} smDown={smDown}>
+        <Form
+          noValidate
+          onSubmit={handleSubmit((data: IFormPurchase) =>
+            onSubmitUpdate({ ...data, file: values.file }),
+          )}
+          smDown={smDown}
+        >
           <DialogTitle id="responsive-dialog-title">EDITAR COMPRA</DialogTitle>
           <DialogContent>
             <Grid container spacing={4}>
@@ -104,6 +112,7 @@ export function DialogEdit({
                   label="Anexe a nota fiscal"
                   control={control}
                   setValue={setValue}
+                  pathApi={purchase.nf_url}
                 />
               </Grid>
             </Grid>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { UseFormSetValue, Control, Controller } from 'react-hook-form';
+import transformImageUrl from 'shared/utils/transformImageUrl';
 
 import { ContentInputFile, Img } from './styles';
 
@@ -8,11 +9,12 @@ interface PropTypes {
   label: string;
   isMobile: boolean;
   control: Control<any>;
+  pathApi?: string;
   setValue: UseFormSetValue<any>;
 }
 
-const InputFile: React.FC<PropTypes> = ({ control, name, isMobile, label, setValue }) => {
-  const [imgSrcState, setImgSrcState] = useState<string>();
+const InputFile: React.FC<PropTypes> = ({ control, name, isMobile, label, pathApi, setValue }) => {
+  const [imgSrcState, setImgSrcState] = useState(pathApi ? transformImageUrl(pathApi) : '');
 
   const onChangeInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files[0];

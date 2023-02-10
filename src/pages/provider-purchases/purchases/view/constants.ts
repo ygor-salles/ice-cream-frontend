@@ -8,13 +8,13 @@ import {
 export const mappedColumnSubObject = {
   PROVIDER: 'provider',
   VALUE_TOTAL: 'value_total',
-  ITS_ICE_CREAM_SHOOP: 'its_ice_cream_shop',
+  ITS_ICE_CREAM_SHOOP: 'its_ice_cream_shoop',
 };
 
 export const columnType = {
   PROVIDER: 'provider',
   VALUE_TOTAL: 'value_total',
-  ITS_ICE_CREAM_SHOOP: 'its_ice_cream_shop',
+  ITS_ICE_CREAM_SHOOP: 'its_ice_cream_shoop',
 };
 
 export const columnConfig: ITypeColumnConfig = {

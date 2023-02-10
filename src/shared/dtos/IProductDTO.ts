@@ -35,10 +35,10 @@ export interface IFormProduct {
 }
 
 export const fieldsProduct = {
-  NAME: '',
-  PRICE: '',
-  DESCRIPTION: '',
-  TYPE: '',
+  NAME: 'name',
+  PRICE: 'price',
+  DESCRIPTION: 'description',
+  TYPE: 'type',
 };
 
 export const defaultValuesProduct = {

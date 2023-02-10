@@ -6,8 +6,8 @@ export interface IFormLogin {
 }
 
 export const fieldsLogin = {
-  EMAIL: '',
-  PASSWORD: '',
+  EMAIL: 'email',
+  PASSWORD: 'password',
 };
 
 export const defaultValuesLogin = {

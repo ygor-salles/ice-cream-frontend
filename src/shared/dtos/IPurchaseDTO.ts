@@ -1,3 +1,5 @@
+import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
+import { convertValueInputDate } from 'shared/utils/convertValueInputDate';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
 import Mask from 'shared/utils/masks';
 import * as yup from 'yup';
@@ -72,6 +74,51 @@ export const transformObject = (dataForm: IFormPurchase): IPurchaseDTO => {
   }
   if (!dataForm.file) {
     delete object.file;
+  }
+  return object;
+};
+
+// ------
+export interface IFormFilterPurchase {
+  startDate: string;
+  endDate: string;
+  its_ice_cream_shoop?: boolean;
+  provider_id?: string;
+}
+
+export const fieldsFilterPurchase = {
+  START_DATE: 'startDate',
+  END_DATE: 'endDate',
+  ITS_ICE_CREAM_SHOOP: 'its_ice_cream_shoop',
+  PROVIDER_ID: 'provider_id',
+};
+
+export const defaultValuesFilterPurchase: IFormFilterPurchase = {
+  startDate: '',
+  endDate: '',
+  its_ice_cream_shoop: false,
+  provider_id: '',
+};
+
+export const schemaFilterPurchase = yup.object().shape({
+  [fieldsFilterPurchase.START_DATE]: yup.string().required('obrigatório'),
+  [fieldsFilterPurchase.END_DATE]: yup.string().required('obrigatório'),
+  [fieldsFilterPurchase.ITS_ICE_CREAM_SHOOP]: yup.bool().optional(),
+  [fieldsFilterPurchase.PROVIDER_ID]: yup.string().optional(),
+});
+
+export const transformObjectFilter = (
+  dataForm: IFormFilterPurchase,
+): ILoadSumPurchaseDTORequest => {
+  const object: ILoadSumPurchaseDTORequest = {
+    startDate: dataForm.startDate,
+    endDate: dataForm.endDate,
+  };
+  if (dataForm.its_ice_cream_shoop) {
+    object.its_ice_cream_shoop = dataForm.its_ice_cream_shoop;
+  }
+  if (dataForm.provider_id.length) {
+    object.provider_id = Number(dataForm.provider_id);
   }
   return object;
 };

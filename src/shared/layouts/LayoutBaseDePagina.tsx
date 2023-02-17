@@ -18,8 +18,11 @@ interface ILayoutBaseDePaginaProps {
   textButton?: string;
   navigatePage?: string;
   icon?: React.ReactElement;
+  colorButton?: 'inherit' | 'secondary' | 'primary' | 'success' | 'error' | 'info' | 'warning';
+  onClick?: () => void;
   textButtonRight?: string;
   iconRight?: React.ReactElement;
+  colorButtonRight?: 'inherit' | 'secondary' | 'primary' | 'success' | 'error' | 'info' | 'warning';
   onClickRight?: () => void;
 }
 export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
@@ -30,6 +33,9 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
   icon,
   iconRight,
   textButtonRight,
+  colorButton,
+  colorButtonRight,
+  onClick,
   onClickRight,
 }) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -38,6 +44,8 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
   const { toggleDrawerOpen } = useDrawerContext();
 
   const navigate = useNavigate();
+
+  const onNavigate = () => navigate(navigatePage);
 
   return (
     <Main>
@@ -60,18 +68,19 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
             {textButtonRight && iconRight && onClickRight && (
               <Button
                 variant="contained"
-                color="secondary"
+                color={colorButtonRight ?? 'secondary'}
                 startIcon={iconRight && iconRight}
                 onClick={onClickRight}
               >
                 {textButtonRight}
               </Button>
             )}
-            {textButton && navigatePage && icon && (
+            {textButton && (navigatePage || onClick) && icon && (
               <Button
                 variant="contained"
                 startIcon={icon && icon}
-                onClick={() => navigate(navigatePage)}
+                color={colorButton ?? 'primary'}
+                onClick={onClick ?? onNavigate}
               >
                 {textButton}
               </Button>
@@ -84,7 +93,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
             color="info"
             variant="outlined"
             startIcon={icon && icon}
-            onClick={() => navigate(navigatePage)}
+            onClick={onClick ?? onNavigate}
           >
             {textButton}
           </Button>
@@ -101,7 +110,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
       {/* footer - apenas para dispositivos mobiles */}
       {smDown && textButtonRight && iconRight && onClickRight && (
         <Footer>
-          <ButtonFooter onClick={() => navigate(navigatePage)}>
+          <ButtonFooter onClick={onClick ?? onNavigate}>
             {icon && icon}
             <span>{textButton}</span>
           </ButtonFooter>

@@ -5,7 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { IFormSale, ISaleDTO, transformObject } from 'shared/dtos/ISaleDTO';
+import {
+  IFormFilterSales,
+  IFormSale,
+  ISaleDTO,
+  transformObject,
+  transformObjectFilter,
+} from 'shared/dtos/ISaleDTO';
+import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 import SaleService from 'shared/services/SaleService';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 
@@ -20,6 +27,8 @@ export function useSale() {
   const [loadingSales, setLoadingSales] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
   const [reloadPage, setReloadPage] = useState(false);
+
+  const [sumSalesState, setSumSalesState] = useState<number>();
 
   const [totalPage, setTotalPage] = useState(1);
 
@@ -69,16 +78,56 @@ export function useSale() {
     }
   }
 
+  async function getSumSalesToday(): Promise<void> {
+    setLoadingSales(true);
+    try {
+      const { total_sales } = await saleService.loadSumToday();
+      setSumSalesState(total_sales);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(
+        `Erro ao buscar soma de vendas do dia! - ${response?.data?.message}`,
+        ToastType.error,
+      );
+    } finally {
+      setLoadingSales(false);
+    }
+  }
+
+  async function getSumSalesByPeriod(
+    dataForm: IFormFilterSales,
+    reset: UseFormReset<IFormFilterSales>,
+  ): Promise<void> {
+    setLoadingSales(true);
+    const data: ILoadSumPurchaseDTORequest = transformObjectFilter(dataForm);
+
+    try {
+      const { total_sales } = await saleService.loadSumByPeriod(data);
+      setSumSalesState(total_sales);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(
+        `Erro ao buscar soma de vendas do dia por período! - ${response?.data?.message}`,
+        ToastType.error,
+      );
+    } finally {
+      setLoadingSales(false);
+    }
+  }
+
   return {
     allSales,
     loadingSales,
     loadingForm,
     totalPage,
     reloadPage,
+    sumSalesState,
     setReloadPage,
     getSalesPaged,
     handleSubmitCreate,
     handleSubmitDelete,
     setLoadingSales,
+    getSumSalesToday,
+    getSumSalesByPeriod,
   };
 }

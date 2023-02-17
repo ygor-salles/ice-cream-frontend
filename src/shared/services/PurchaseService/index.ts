@@ -5,6 +5,11 @@ import { ICreatePurchaseDTORequest, ICreatePurchaseDTOResponse } from './dtos/IC
 import { IDeletePurchaseDTOResponse } from './dtos/IDeletePurchaseDTO';
 import { ILoadByIdPurchaseDTOResponse } from './dtos/ILoadByIdPurchaseDTO';
 import { ILoadPurchaseDTOResponse } from './dtos/ILoadPurchaseDTO';
+import {
+  ILoadSumPurchaseDTORequest,
+  ILoadSumPurchaseDTOResponse,
+} from './dtos/ILoadSumPurchaseDTO';
+import { ILoadSumPurchasesTodayDTOResponse } from './dtos/ILoadSumPurchaseTodayDTO';
 import { IUpdatePurchaseDTORequest, IUpdatePurchaseDTOResponse } from './dtos/IUpdatePurchaseDTO';
 
 export default class PurchaseService {
@@ -50,6 +55,21 @@ export default class PurchaseService {
 
   public async deleteById(id: number): Promise<IDeletePurchaseDTOResponse> {
     const { data } = await api.delete<IDeletePurchaseDTOResponse>(`${this.route}/${id}`);
+    return data;
+  }
+
+  public async loadSumByPeriod(
+    dataRequest: ILoadSumPurchaseDTORequest,
+  ): Promise<ILoadSumPurchaseDTOResponse> {
+    const { data } = await api.post<ILoadSumPurchaseDTOResponse>(
+      `${this.route}/period`,
+      dataRequest,
+    );
+    return data;
+  }
+
+  public async loadSumToday(): Promise<ILoadSumPurchasesTodayDTOResponse> {
+    const { data } = await api.get<ILoadSumPurchasesTodayDTOResponse>(`${this.route}/today`);
     return data;
   }
 }

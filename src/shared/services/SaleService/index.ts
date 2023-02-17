@@ -4,6 +4,8 @@ import { IDeleteSaleDTOResponse } from './dtos/IDeleteSaleDTO';
 import { ILoadByIdSaleDTOResponse } from './dtos/ILoadByIdSaleDTO';
 import { ILoadPagedSalesDTOResponse } from './dtos/ILoadPagedSalesDTO';
 import { ILoadSaleDTOResponse } from './dtos/ILoadSalesDTO';
+import { ILoadSumSalesDTORequest, ILoadSumSalesDTOResponse } from './dtos/ILoadSumSalesDTO';
+import { ILoadSumSalesTodayDTOResponse } from './dtos/ILoadSumSalesTodayDTO';
 import { IUpdateSaleDTORequest, IUpdateSaleDTOResponse } from './dtos/IUpdateSaleDTO';
 
 export default class SaleService {
@@ -41,6 +43,18 @@ export default class SaleService {
     const { data } = await api.get<ILoadPagedSalesDTOResponse>(`${this.route}/paged`, {
       params: { limit, page },
     });
+    return data;
+  }
+
+  public async loadSumByPeriod(
+    dataRequest: ILoadSumSalesDTORequest,
+  ): Promise<ILoadSumSalesDTOResponse> {
+    const { data } = await api.post<ILoadSumSalesDTOResponse>(`${this.route}/period`, dataRequest);
+    return data;
+  }
+
+  public async loadSumToday(): Promise<ILoadSumSalesTodayDTOResponse> {
+    const { data } = await api.get<ILoadSumSalesTodayDTOResponse>(`${this.route}/today`);
     return data;
   }
 }

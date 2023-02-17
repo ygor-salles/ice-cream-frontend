@@ -56,7 +56,10 @@ export const GlobalStyle = createGlobalStyle`
 
     p {
       font-size: 18px !important;
+      font-family: 'Poppins', sans-serif !important;
     }
+
+
 
     @media (max-width: 720px) {
       /* font-size: 87.5%; // 14px */
@@ -69,13 +72,13 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   /* Sobreescrevendo a fonte de todos eles */
-  body, input, textarea, button {
+  body, input, textarea, button, p, span {
     font-family: 'Poppins', sans-serif;
-    font-weight: 400;
   }
 
   h1, h2, h3, h4, h5, h6, strong {
     font-weight: 600;
+    font-family: 'Poppins', sans-serif !important;
   }
 
   button {

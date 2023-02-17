@@ -6,17 +6,24 @@ interface IButtonSubmitAppProps {
   loading: boolean;
   smDown?: boolean;
   textButton: string;
+  disabled?: boolean;
 }
 
-const ButtonSubmitApp: React.FC<IButtonSubmitAppProps> = ({ loading, smDown, textButton }) =>
+const ButtonSubmitApp: React.FC<IButtonSubmitAppProps> = ({
+  loading,
+  smDown,
+  textButton,
+  disabled,
+  ...props
+}) =>
   smDown !== undefined ? (
-    <ContentButton>
+    <ContentButton {...props}>
       <Button
         type="submit"
         variant="contained"
         fullWidth={!!smDown}
         endIcon={loading && <CircularProgress variant="indeterminate" color="inherit" size={20} />}
-        disabled={loading}
+        disabled={loading || disabled}
       >
         {textButton}
       </Button>
@@ -26,7 +33,7 @@ const ButtonSubmitApp: React.FC<IButtonSubmitAppProps> = ({ loading, smDown, tex
       variant="contained"
       type="submit"
       endIcon={loading && <CircularProgress variant="indeterminate" color="inherit" size={20} />}
-      disabled={loading}
+      disabled={loading || disabled}
     >
       {textButton}
     </Button>

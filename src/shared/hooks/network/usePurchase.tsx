@@ -2,18 +2,27 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { UseFormReset } from 'react-hook-form';
 import { ToastType } from 'shared/components/snackBar/enum';
-import { IFormPurchase, IPurchaseDTO, transformObject } from 'shared/dtos/IPurchaseDTO';
+import {
+  IFormFilterPurchase,
+  IFormPurchase,
+  IPurchaseDTO,
+  transformObject,
+  transformObjectFilter,
+} from 'shared/dtos/IPurchaseDTO';
 import PurchaseService from 'shared/services/PurchaseService';
+import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 
 import { useToast } from '../useToast';
 
 export function usePurchase() {
   const { addToast } = useToast();
-  const providerService = new PurchaseService();
+  const purchaseService = new PurchaseService();
 
   const [allPurchases, setAllPurchases] = useState<IPurchaseDTO[]>([]);
   const [loadingPurchases, setLoadingPurchases] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
+
+  const [sumPurchasesState, setSumPurchasesState] = useState<number>();
 
   const [dataActionTable, setDataActionTable] = useState<IPurchaseDTO>();
 
@@ -37,7 +46,7 @@ export function usePurchase() {
     setLoadingPurchases(true);
 
     try {
-      const listPurchases = await providerService.loadAll();
+      const listPurchases = await purchaseService.loadAll();
       setAllPurchases(listPurchases);
     } catch (error) {
       const { response } = error as AxiosError;
@@ -52,7 +61,7 @@ export function usePurchase() {
     const data: IPurchaseDTO = transformObject(dataForm);
 
     try {
-      await providerService.create(data);
+      await purchaseService.create(data);
       addToast('compra cadastrado com sucesso!', ToastType.success);
     } catch (error) {
       const { response } = error as AxiosError;
@@ -68,7 +77,7 @@ export function usePurchase() {
     const data: IPurchaseDTO = transformObject(dataForm);
 
     try {
-      await providerService.updateById({ ...data, id: dataForm.id });
+      await purchaseService.updateById({ ...data, id: dataForm.id });
       addToast('compra atualizado com sucesso!', ToastType.success);
       getPurchases();
     } catch (error) {
@@ -83,7 +92,7 @@ export function usePurchase() {
   async function handleSubmitDelete(id: number) {
     setLoadingForm(true);
     try {
-      await providerService.deleteById(id);
+      await purchaseService.deleteById(id);
       addToast('compra deletado com sucesso!', ToastType.success);
       getPurchases();
     } catch (error) {
@@ -95,6 +104,44 @@ export function usePurchase() {
     }
   }
 
+  async function getSumPurchasesToday(): Promise<void> {
+    setLoadingPurchases(true);
+    try {
+      const { total_purchases } = await purchaseService.loadSumToday();
+      setSumPurchasesState(total_purchases);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(
+        `Erro ao buscar soma de compras do dia! - ${response?.data?.message}`,
+        ToastType.error,
+      );
+    } finally {
+      setLoadingPurchases(false);
+    }
+  }
+
+  async function getSumPurchasesByPeriod(
+    dataForm: IFormFilterPurchase,
+    reset: UseFormReset<IFormFilterPurchase>,
+  ): Promise<void> {
+    const data: ILoadSumPurchaseDTORequest = transformObjectFilter(dataForm);
+    console.log(data);
+
+    setLoadingPurchases(true);
+    try {
+      const { total_purchases } = await purchaseService.loadSumByPeriod(data);
+      setSumPurchasesState(total_purchases);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(
+        `Erro ao buscar soma de compras do dia por período! - ${response?.data?.message}`,
+        ToastType.error,
+      );
+    } finally {
+      setLoadingPurchases(false);
+    }
+  }
+
   return {
     allPurchases,
     loadingPurchases,
@@ -102,11 +149,14 @@ export function usePurchase() {
     showModalEdit,
     showModalDelete,
     dataActionTable,
+    sumPurchasesState,
     handleClickEdit,
     handleClickDelete,
     handleCloseModalEdit,
     handleCloseModalDelete,
     getPurchases,
+    getSumPurchasesToday,
+    getSumPurchasesByPeriod,
     handleSubmitCreate,
     handleSubmitUpdate,
     handleSubmitDelete,

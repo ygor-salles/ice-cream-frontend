@@ -1,3 +1,4 @@
+import { ILoadSumSalesDTORequest } from 'shared/services/SaleService/dtos/ILoadSumSalesDTO';
 import { convetSalesType } from 'shared/utils/convertTypes';
 import Mask from 'shared/utils/masks';
 import * as yup from 'yup';
@@ -98,4 +99,38 @@ export const transformObject = (dataForm: IFormSale): ISaleDTO => {
   }
 
   return objectSale;
+};
+
+// ------------
+
+export interface IFormFilterSales {
+  startDate: string;
+  endDate: string;
+  type_sale?: EnumTypeSale;
+}
+
+export const fieldsFilterSale = {
+  START_DATE: 'startDate',
+  END_DATE: 'endDate',
+  TYPE_SALE: 'type_sale',
+};
+
+export const defaultValuesFilterSale = {
+  [fieldsFilterSale.START_DATE]: '',
+  [fieldsFilterSale.END_DATE]: '',
+  [fieldsFilterSale.TYPE_SALE]: '',
+};
+
+export const schemaFilterSale = yup.object().shape({
+  [fieldsFilterSale.START_DATE]: yup.string().required('obrigatório'),
+  [fieldsFilterSale.END_DATE]: yup.string().required('obrigatório'),
+  [fieldsFilterSale.TYPE_SALE]: yup.string(),
+});
+
+export const transformObjectFilter = (dataForm: IFormFilterSales): ILoadSumSalesDTORequest => {
+  const object: ILoadSumSalesDTORequest = { ...dataForm };
+  if (!dataForm.type_sale.length) {
+    delete object.type_sale;
+  }
+  return object;
 };

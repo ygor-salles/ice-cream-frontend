@@ -5,24 +5,26 @@ import SplashScreen from 'shared/components/splashScreen/SplashScreen';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
-export function ProviderPurchase() {
+export function CashOutflows() {
   const navigate = useNavigate();
 
   return (
-    <LayoutBaseDePagina titulo="Fornecedores">
+    <LayoutBaseDePagina titulo="Saídas">
       <SplashScreen
-        description="Gerencie informações dos fornecedores, os seus dados como nome e telefone. Efetue também o processo de compra de produtos para seu negócio"
+        description=""
         cardsList={[
           {
-            title: 'Tela de fornecedores',
-            description: 'Cadastre novos fornecedores para utilização de compras de produtos',
+            title: 'Tela de fornecedores/funcionários',
+            description:
+              'Cadastre novos funcionários ou fornecedores para utilização de compras de produtos ou pagamento de funcionários',
             srcImage: providerImage,
             altImage: 'fornecedores',
             onNavigate: () => navigate(RoutesEnum.PROVIDERS),
           },
           {
-            title: 'Tela de compras',
-            description: 'Cadastre as compras realizadas para o estoque de produtos do seu negócio',
+            title: 'Tela de compras/folha de pagamento',
+            description:
+              'Cadastre as compras realizadas para o estoque de produtos do seu negócio ou pagamento dos funcionários',
             srcImage: purchaseImage,
             altImage: 'compras',
             onNavigate: () => navigate(RoutesEnum.PURCHASES),

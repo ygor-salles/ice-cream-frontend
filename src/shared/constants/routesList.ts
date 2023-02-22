@@ -1,8 +1,8 @@
 export enum RoutesEnum {
   HOME = '/home',
   PRODUCT_COMBINATION = '/product-combination',
-  CLIENT_PAYMENT = '/client-payment',
-  PROVIDER_PURCHASE = '/provider-purchase',
+  CASH_RECEIPTS = '/cash-receipts',
+  CASH_OUTFLOWS = '/cash-outflows',
 
   PRODUCTS = '/products',
   PRODUCTS_CREATE = '/products/create',

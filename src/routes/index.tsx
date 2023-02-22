@@ -1,8 +1,8 @@
 import {
   Dashboard,
   ProductCombination,
-  ClientPayment,
-  ProviderPurchase,
+  CashReceipts,
+  CashOutflows,
   Sales,
   Users,
   Products,
@@ -33,7 +33,7 @@ export function AppRoutes() {
       {
         icon: 'home',
         path: RoutesEnum.HOME,
-        label: 'Página inicial',
+        label: 'Dashboard',
       },
       {
         icon: 'inventory',
@@ -42,18 +42,13 @@ export function AppRoutes() {
       },
       {
         icon: 'groups',
-        path: RoutesEnum.CLIENT_PAYMENT,
-        label: 'Clientes',
-      },
-      {
-        icon: 'sell',
-        path: RoutesEnum.SALES_CREATE,
-        label: 'Vendas',
+        path: RoutesEnum.CASH_RECEIPTS,
+        label: 'Entradas',
       },
       {
         icon: 'peoples',
-        path: RoutesEnum.PROVIDER_PURCHASE,
-        label: 'Fornecedores',
+        path: RoutesEnum.CASH_OUTFLOWS,
+        label: 'Saídas',
       },
       {
         icon: 'person',
@@ -66,8 +61,8 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route path={RoutesEnum.PRODUCT_COMBINATION} element={<ProductCombination />} />
-      <Route path={RoutesEnum.CLIENT_PAYMENT} element={<ClientPayment />} />
-      <Route path={RoutesEnum.PROVIDER_PURCHASE} element={<ProviderPurchase />} />
+      <Route path={RoutesEnum.CASH_RECEIPTS} element={<CashReceipts />} />
+      <Route path={RoutesEnum.CASH_OUTFLOWS} element={<CashOutflows />} />
 
       <Route path={RoutesEnum.HOME} element={<Dashboard />} />
       <Route path={RoutesEnum.PRODUCTS} element={<Products />} />

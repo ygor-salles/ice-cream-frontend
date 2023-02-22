@@ -125,7 +125,6 @@ export function usePurchase() {
     reset: UseFormReset<IFormFilterPurchase>,
   ): Promise<void> {
     const data: ILoadSumPurchaseDTORequest = transformObjectFilter(dataForm);
-    console.log(data);
 
     setLoadingPurchases(true);
     try {

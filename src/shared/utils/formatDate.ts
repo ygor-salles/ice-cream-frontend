@@ -2,8 +2,8 @@
 import { format as formater } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-const formatDate = (date: Date | string, format?: string) => {
-  const formated = formater(new Date(date), format || 'dd/MM/yyyy', {
+const formatDate = (date: Date | string, format = 'dd/MM/yyyy') => {
+  const formated = formater(new Date(date), format, {
     locale: ptBR,
   });
   return formated;

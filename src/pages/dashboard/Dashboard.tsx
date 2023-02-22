@@ -3,9 +3,8 @@ import { FilterAlt } from '@mui/icons-material';
 import { Skeleton, Theme, Typography, useMediaQuery } from '@mui/material';
 import imageInput from 'assets/entradas.svg';
 import imageOutput from 'assets/saídas.svg';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
 import DatePicker from 'shared/components/datePicker/DatePicker';
 import SelectApp from 'shared/components/select/Select';
 import { LISTTYPEPROVIDER } from 'shared/constants/listTypeProviders';
@@ -28,8 +27,8 @@ import { useProvider } from 'shared/hooks/network/useProvider';
 import { usePurchase } from 'shared/hooks/network/usePurchase';
 import { useSale } from 'shared/hooks/network/useSale';
 import { LayoutBaseDePagina } from 'shared/layouts';
-import formatDate from 'shared/utils/formatDate';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
+import { formatStringDate } from 'shared/utils/formatStringDate';
 import { Colors } from 'styles/global';
 
 import {
@@ -86,6 +85,27 @@ export function Dashboard() {
 
   const total = sumSalesState - sumPurchasesState ?? 0;
 
+  const [inputsDate, setInputsDate] = useState('');
+  const [outputsDate, setOutputsDate] = useState('');
+
+  const onSubmitFilterSale = (data: IFormFilterSales) => {
+    getSumSalesByPeriod(data, reset);
+    setInputsDate(
+      data.startDate === data.endDate
+        ? `${formatStringDate(data.startDate)}`
+        : `${formatStringDate(data.startDate)} à ${formatStringDate(data.endDate)}`,
+    );
+  };
+
+  const onSubmitFilterPurchase = (data: IFormFilterPurchase) => {
+    getSumPurchasesByPeriod(data, resetPurc);
+    setOutputsDate(
+      data.startDate === data.endDate
+        ? `${formatStringDate(data.startDate)}`
+        : `${formatStringDate(data.startDate)} à ${formatStringDate(data.endDate)}`,
+    );
+  };
+
   useEffect(() => {
     setLoadingRequests(true);
     Promise.all([getSumSalesToday(), getSumPurchasesToday(), getProviders()]).finally(() =>
@@ -95,7 +115,7 @@ export function Dashboard() {
 
   return (
     <LayoutBaseDePagina
-      titulo="Página inicial"
+      titulo="Dashboard"
       textButton="ENTRADAS"
       icon={<FilterAlt />}
       colorButton="success"
@@ -118,8 +138,9 @@ export function Dashboard() {
           <Accordion open={showInputFilter}>
             <Form
               id="form-filter-sale"
-              onSubmit={handleSubmit((data: IFormFilterSales) => getSumSalesByPeriod(data, reset))}
+              onSubmit={handleSubmit((data: IFormFilterSales) => onSubmitFilterSale(data))}
             >
+              <Typography style={{ textAlign: 'center' }}>Filtro de entradas</Typography>
               <ContentDate>
                 <DatePicker
                   label="Data início"
@@ -147,9 +168,10 @@ export function Dashboard() {
             <Form
               id="form-filter-purchase"
               onSubmit={handleSubmitPurc((data: IFormFilterPurchase) =>
-                getSumPurchasesByPeriod(data, resetPurc),
+                onSubmitFilterPurchase(data),
               )}
             >
+              <Typography style={{ textAlign: 'center' }}>Filtro de saídas</Typography>
               <ContentDate>
                 <DatePicker
                   label="Data início"
@@ -201,7 +223,9 @@ export function Dashboard() {
                   <Typography variant="h6" color={Colors.GREEN}>
                     Entradas
                   </Typography>
-                  <TextDate isDarkTheme={themeName === 'dark'}>{formatDate(new Date())}</TextDate>
+                  <TextDate isDarkTheme={themeName === 'dark'}>
+                    {inputsDate.length ? inputsDate : 'Hoje'}
+                  </TextDate>
                 </div>
                 <Img src={imageInput} alt="entradas" />
               </HeaderCard>
@@ -213,26 +237,31 @@ export function Dashboard() {
                   <Typography variant="h6" color={Colors.RED}>
                     Saídas
                   </Typography>
-                  <TextDate isDarkTheme={themeName === 'dark'}>{formatDate(new Date())}</TextDate>
+                  <TextDate isDarkTheme={themeName === 'dark'}>
+                    {outputsDate.length ? outputsDate : 'Hoje'}
+                  </TextDate>
                 </div>
                 <Img src={imageOutput} alt="saídas" />
               </HeaderCard>
               <Typography variant="h4">{formatNumberToCurrency(sumPurchasesState ?? 0)}</Typography>
             </Card>
-            <CardTotal isPositive={total >= 0}>
-              <HeaderCard>
-                <div>
-                  <Typography variant="h6" color="white">
-                    Lucro
-                  </Typography>
-                  <TextDate isDarkTheme>{formatDate(new Date())}</TextDate>
-                </div>
-                <AttachMoney />
-              </HeaderCard>
-              <Typography variant="h4" color="white">
-                {formatNumberToCurrency(total)}
-              </Typography>
-            </CardTotal>
+
+            {inputsDate === outputsDate && (
+              <CardTotal isPositive={total >= 0}>
+                <HeaderCard>
+                  <div>
+                    <Typography variant="h6" color="white">
+                      Lucro
+                    </Typography>
+                    <TextDate isDarkTheme>{inputsDate.length ? inputsDate : 'Hoje'}</TextDate>
+                  </div>
+                  <AttachMoney />
+                </HeaderCard>
+                <Typography variant="h4" color="white">
+                  {formatNumberToCurrency(total)}
+                </Typography>
+              </CardTotal>
+            )}
           </Container>
         </>
       )}

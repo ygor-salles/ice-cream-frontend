@@ -9,6 +9,11 @@ import {
 } from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
 
+export interface TypeDefaultOptions {
+  id: number;
+  name: string;
+}
+
 interface SelectPropsApp {
   name: string;
   control: Control<any>;

@@ -3,13 +3,15 @@ import { FilterAlt } from '@mui/icons-material';
 import { Skeleton, Theme, Typography, useMediaQuery } from '@mui/material';
 import imageInput from 'assets/entradas.svg';
 import imageOutput from 'assets/saídas.svg';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
 import DatePicker from 'shared/components/datePicker/DatePicker';
 import SelectApp from 'shared/components/select/Select';
+import { LISTTYPEPROVIDER } from 'shared/constants/listTypeProviders';
 import { LISTTYPESALES } from 'shared/constants/listTypeSales';
 import { useAppThemeContext } from 'shared/contexts';
+import { EnumTypeProvider } from 'shared/dtos/IProviderDTO';
 import {
   defaultValuesFilterPurchase,
   fieldsFilterPurchase,
@@ -72,10 +74,13 @@ export function Dashboard() {
     control: controlPurc,
     reset: resetPurc,
     formState: { isValid: isValidPurc },
+    watch: watchPurc,
   } = useForm<IFormFilterPurchase>({
     resolver: yupResolver(schemaFilterPurchase),
     defaultValues: defaultValuesFilterPurchase,
   });
+
+  const valuesPurc = watchPurc();
 
   const { allProviders, getProviders } = useProvider();
 
@@ -158,18 +163,28 @@ export function Dashboard() {
                 />
               </ContentDate>
               <SelectApp
-                name={fieldsFilterPurchase.PROVIDER_ID}
-                control={controlPurc}
-                options={allProviders}
-                setId
-                sortAlphabeticallyObject
-                label="Fornecedor"
-              />
-              <CheckboxApp
                 name={fieldsFilterPurchase.ITS_ICE_CREAM_SHOOP}
                 control={controlPurc}
-                label="Fornecedor da sorveteria"
+                options={LISTTYPEPROVIDER}
+                label="Tipo de fornecedor"
               />
+              {valuesPurc.its_ice_cream_shoop && (
+                <SelectApp
+                  name={fieldsFilterPurchase.PROVIDER_ID}
+                  control={controlPurc}
+                  options={allProviders}
+                  setId
+                  sortAlphabeticallyObject
+                  label={
+                    valuesPurc.its_ice_cream_shoop === EnumTypeProvider.PROVIDER
+                      ? 'Fornecedor'
+                      : valuesPurc.its_ice_cream_shoop === EnumTypeProvider.EMPLOYEE
+                      ? 'Funcionário'
+                      : 'Outro'
+                  }
+                  required={valuesPurc.its_ice_cream_shoop === EnumTypeProvider.EMPLOYEE}
+                />
+              )}
               <StyledButtonSubmitApp
                 loading={false}
                 textButton="Buscar"

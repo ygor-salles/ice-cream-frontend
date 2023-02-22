@@ -9,7 +9,7 @@ export const convertMultipartFormPurchase = (
 
   formData.append(fieldsPurchase.VALUE_TOTAL, dataRequest.value_total.toString());
 
-  if (dataRequest.observation.length > 0) {
+  if (dataRequest?.observation?.length > 0) {
     formData.append(fieldsPurchase.OBSERVATION, dataRequest.observation);
   }
 
@@ -18,7 +18,7 @@ export const convertMultipartFormPurchase = (
     dataRequest.its_ice_cream_shoop ? 'true' : 'false',
   );
 
-  if (dataRequest.file) {
+  if (dataRequest?.file) {
     formData.append(fieldsPurchase.FILE, dataRequest.file);
   }
 

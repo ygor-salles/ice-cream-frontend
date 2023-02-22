@@ -1,11 +1,7 @@
+import { TypeDefaultOptions } from 'shared/components/select/Select';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 
-interface TypeUser {
-  id: number;
-  name: string;
-}
-
-export const LISTTYPEUSERS: TypeUser[] = [
+export const LISTTYPEUSERS: TypeDefaultOptions[] = [
   {
     id: 1,
     name: EnumRoleUser.SUPER,

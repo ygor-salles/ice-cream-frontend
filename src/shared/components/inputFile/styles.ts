@@ -1,7 +1,8 @@
+import { Close as MuiClose } from '@mui/icons-material';
 import styled from 'styled-components';
 import { Colors } from 'styles/global';
 
-interface ImgProps {
+interface IsMobile {
   isMobile: boolean;
 }
 
@@ -27,11 +28,51 @@ export const ContentInputFile = styled.div`
   }
 `;
 
-export const Img = styled.img<ImgProps>`
+export const ContentLabel = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+`;
+
+export const Img = styled.img<IsMobile>`
   width: ${props => (props.isMobile ? '100%' : '600px')};
   height: 300px;
   object-fit: cover;
-  margin-top: 20px;
   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%),
     0px 1px 5px 0px rgb(0 0 0 / 12%);
+`;
+
+export const TextError = styled.p`
+  color: ${Colors.RED_ERROR};
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  text-align: left;
+  margin-top: 3px;
+`;
+
+export const ContentImage = styled.div`
+  position: relative;
+  display: inline-block;
+  margin-top: 20px;
+`;
+
+export const Close = styled(MuiClose).withConfig({
+  shouldForwardProp: prop => !['isMobile'].includes(prop),
+})<IsMobile>`
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%),
+    0px 1px 5px 0px rgb(0 0 0 / 12%);
+  background-color: ${Colors.WHITE};
+
+  cursor: pointer;
 `;

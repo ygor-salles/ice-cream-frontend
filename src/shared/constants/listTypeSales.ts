@@ -1,11 +1,7 @@
+import { TypeDefaultOptions } from 'shared/components/select/Select';
 import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
 
-interface TypeSale {
-  id: number;
-  name: string;
-}
-
-export const LISTTYPESALES: TypeSale[] = [
+export const LISTTYPESALES: TypeDefaultOptions[] = [
   {
     id: 1,
     name: EnumTypeSale.PIX,

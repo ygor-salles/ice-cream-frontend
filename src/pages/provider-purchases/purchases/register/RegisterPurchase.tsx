@@ -49,7 +49,7 @@ export function RegisterPurchase(): JSX.Element {
       <Form
         noValidate
         onSubmit={handleSubmit((data: IFormPurchase) =>
-          handleSubmitCreate({ ...data, file: values.file }, reset),
+          handleSubmitCreate(values.file ? { ...data, file: values.file } : { ...data }, reset),
         )}
       >
         <StyledCard>
@@ -66,7 +66,6 @@ export function RegisterPurchase(): JSX.Element {
               name={fieldsPurchase.OBSERVATION}
               control={control}
               label="Observação"
-              required
               disabled={loading}
             />
             <SelectApp

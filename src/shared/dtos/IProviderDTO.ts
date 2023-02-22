@@ -9,6 +9,12 @@ export interface IProviderDTO {
   updated_at?: Date | string;
 }
 
+export enum EnumTypeProvider {
+  PROVIDER = 'Fornecedor da sorveteria',
+  EMPLOYEE = 'Funcionário da sorveteria',
+  OTHER = 'Outro(não relacionado a sorveteria)',
+}
+
 export interface IFormProvider {
   id?: number;
   name: string;

@@ -1,10 +1,9 @@
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
-import { convertValueInputDate } from 'shared/utils/convertValueInputDate';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
 import Mask from 'shared/utils/masks';
 import * as yup from 'yup';
 
-import { IProviderDTO } from './IProviderDTO';
+import { EnumTypeProvider, IProviderDTO } from './IProviderDTO';
 
 export interface IPurchaseDTO {
   id?: number;
@@ -60,7 +59,22 @@ export const schemaCreatePurchase = yup.object().shape({
   [fieldsPurchase.OBSERVATION]: yup.string().optional(),
   [fieldsPurchase.ITS_ICE_CREAM_SHOP]: yup.boolean().required('Marcação é obrigatório'),
   [fieldsPurchase.PROVIDER_ID]: yup.string().required('A seleção de fornecedor é obrigatória'),
-  [fieldsPurchase.FILE]: yup.string().optional(),
+  [fieldsPurchase.FILE]: yup
+    .mixed()
+    .test('tipo', 'Formato inválido', value => {
+      if (value) {
+        return (
+          value.mimetype === 'image/png' ||
+          value.mimetype === 'image/jpg' ||
+          value.mimetype === 'image/jpeg' ||
+          value.mimetype === 'image/pjpeg' ||
+          value.mimetype === 'image/gif' ||
+          value.mimetype === 'image/svg+xml'
+        );
+      }
+      return true;
+    })
+    .notRequired(),
 });
 
 export const transformObject = (dataForm: IFormPurchase): IPurchaseDTO => {
@@ -82,7 +96,7 @@ export const transformObject = (dataForm: IFormPurchase): IPurchaseDTO => {
 export interface IFormFilterPurchase {
   startDate: string;
   endDate: string;
-  its_ice_cream_shoop?: boolean;
+  its_ice_cream_shoop?: string;
   provider_id?: string;
 }
 
@@ -96,14 +110,14 @@ export const fieldsFilterPurchase = {
 export const defaultValuesFilterPurchase: IFormFilterPurchase = {
   startDate: '',
   endDate: '',
-  its_ice_cream_shoop: false,
+  its_ice_cream_shoop: '',
   provider_id: '',
 };
 
 export const schemaFilterPurchase = yup.object().shape({
   [fieldsFilterPurchase.START_DATE]: yup.string().required('obrigatório'),
   [fieldsFilterPurchase.END_DATE]: yup.string().required('obrigatório'),
-  [fieldsFilterPurchase.ITS_ICE_CREAM_SHOOP]: yup.bool().optional(),
+  [fieldsFilterPurchase.ITS_ICE_CREAM_SHOOP]: yup.string().optional(),
   [fieldsFilterPurchase.PROVIDER_ID]: yup.string().optional(),
 });
 
@@ -115,7 +129,9 @@ export const transformObjectFilter = (
     endDate: dataForm.endDate,
   };
   if (dataForm.its_ice_cream_shoop) {
-    object.its_ice_cream_shoop = dataForm.its_ice_cream_shoop;
+    object.its_ice_cream_shoop =
+      dataForm.its_ice_cream_shoop === EnumTypeProvider.PROVIDER ||
+      dataForm.its_ice_cream_shoop === EnumTypeProvider.EMPLOYEE;
   }
   if (dataForm.provider_id.length) {
     object.provider_id = Number(dataForm.provider_id);

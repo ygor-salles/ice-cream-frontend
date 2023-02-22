@@ -1,8 +1,9 @@
+import { Upload } from '@mui/icons-material';
 import { useState } from 'react';
 import { UseFormSetValue, Control, Controller } from 'react-hook-form';
 import transformImageUrl from 'shared/utils/transformImageUrl';
 
-import { ContentInputFile, Img } from './styles';
+import { ContentInputFile, Img, TextError, Close, ContentImage, ContentLabel } from './styles';
 
 interface PropTypes {
   name: string;
@@ -34,11 +35,25 @@ const InputFile: React.FC<PropTypes> = ({ control, name, isMobile, label, pathAp
       control={control}
       render={({ fieldState: { error } }) => (
         <ContentInputFile>
-          <div>
+          <ContentLabel>
             <label htmlFor={name}>{label}</label>
             <input type="file" name={name} id={name} onChange={e => onChangeInputFile(e)} />
-          </div>
-          {!!imgSrcState && <Img src={imgSrcState} isMobile={isMobile} />}
+            <Upload color="primary" />
+          </ContentLabel>
+          {!!imgSrcState && (
+            <ContentImage>
+              <Img src={imgSrcState} isMobile={isMobile} />
+              <Close
+                isMobile={isMobile}
+                color="error"
+                onClick={() => {
+                  setImgSrcState('');
+                  setValue(name, null);
+                }}
+              />
+            </ContentImage>
+          )}
+          {!!error && <TextError>{error.message ?? null}</TextError>}
         </ContentInputFile>
       )}
     />

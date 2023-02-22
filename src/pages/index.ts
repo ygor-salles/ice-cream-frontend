@@ -1,23 +1,23 @@
-export * from './client-payment/index';
+export * from './cash-receipts/index';
 export * from './product-combination/index';
-export * from './provider-purchases/index';
+export * from './cash-outflows/index';
 
 export * from './dashboard/Dashboard';
-export * from './sales/view/Sales';
+export * from './cash-receipts/sales/view/Sales';
 export * from './users/view/Users';
-export * from './sales/register/RegisterSale';
+export * from './cash-receipts/sales/register/RegisterSale';
 export * from './users/register/RegisterUser';
 
-export * from './client-payment/clients/view/Clients';
-export * from './client-payment/payments/view/Payments';
+export * from './cash-receipts/clients/view/Clients';
+export * from './cash-receipts/payments/view/Payments';
 export * from './product-combination/products/view/Products';
 export * from './product-combination/combinations/view/Combinations';
-export * from './provider-purchases/providers/view/Providers';
-export * from './provider-purchases/purchases/view/Purchases';
+export * from './cash-outflows/providers/view/Providers';
+export * from './cash-outflows/purchases/view/Purchases';
 
-export * from './client-payment/clients/register/RegisterClient';
-export * from './client-payment/payments/register/RegisterPayment';
+export * from './cash-receipts/clients/register/RegisterClient';
+export * from './cash-receipts/payments/register/RegisterPayment';
 export * from './product-combination/products/register/RegisterProduct';
 export * from './product-combination/combinations/register/RegisterCombination';
-export * from './provider-purchases/providers/register/RegisterProvider';
-export * from './provider-purchases/purchases/register/RegisterPurchase';
+export * from './cash-outflows/providers/register/RegisterProvider';
+export * from './cash-outflows/purchases/register/RegisterPurchase';

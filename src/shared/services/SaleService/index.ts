@@ -1,4 +1,8 @@
 import { api } from '../api';
+import {
+  ICreateCashClosingDTORequest,
+  ICreateCashClosingDTOResponse,
+} from './dtos/ICreateCashClosingDTO';
 import { ICreateSaleDTORequest, ICreateSaleDTOResponse } from './dtos/ICreateSaleDTO';
 import { IDeleteSaleDTOResponse } from './dtos/IDeleteSaleDTO';
 import { ILoadByIdSaleDTOResponse } from './dtos/ILoadByIdSaleDTO';
@@ -55,6 +59,16 @@ export default class SaleService {
 
   public async loadSumToday(): Promise<ILoadSumSalesTodayDTOResponse> {
     const { data } = await api.get<ILoadSumSalesTodayDTOResponse>(`${this.route}/today`);
+    return data;
+  }
+
+  public async createCashClosing(
+    dataRequest: ICreateCashClosingDTORequest,
+  ): Promise<ICreateCashClosingDTOResponse> {
+    const { data } = await api.post<ICreateCashClosingDTOResponse>(
+      `${this.route}/cash-closing`,
+      dataRequest,
+    );
     return data;
   }
 }

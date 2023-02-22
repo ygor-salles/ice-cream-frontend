@@ -1,5 +1,7 @@
+import { ICreateCashClosingDTORequest } from 'shared/services/SaleService/dtos/ICreateCashClosingDTO';
 import { ILoadSumSalesDTORequest } from 'shared/services/SaleService/dtos/ILoadSumSalesDTO';
 import { convetSalesType } from 'shared/utils/convertTypes';
+import { formatStringDate } from 'shared/utils/formatStringDate';
 import Mask from 'shared/utils/masks';
 import * as yup from 'yup';
 
@@ -36,6 +38,11 @@ export interface IFormSale {
   total: string;
 }
 
+export interface IFormCashClosing {
+  total: string;
+  created_at?: string;
+}
+
 export const fieldsSale = {
   PRODUCT_ID: 'product_id',
   DATA_PRODUCT: 'data_product',
@@ -45,6 +52,7 @@ export const fieldsSale = {
   OBSERVATION: 'observation',
   AMOUNT: 'amount',
   TOTAL: 'total',
+  CREATED_AT: 'created_at',
 };
 
 export const defaultValueAmount = '1';
@@ -96,6 +104,31 @@ export const transformObject = (dataForm: IFormSale): ISaleDTO => {
   }
   if (dataForm.client_id.length) {
     objectSale.client_id = Number(dataForm.client_id);
+  }
+
+  return objectSale;
+};
+
+export const defaultValuesCashClosing = {
+  [fieldsSale.TOTAL]: '',
+  [fieldsSale.CREATED_AT]: '',
+};
+
+export const schemaCreateCashClosing = yup.object().shape({
+  [fieldsSale.TOTAL]: yup.string().required('Total de venda é obrigatório'),
+  [fieldsSale.CREATED_AT]: yup.string().optional(),
+});
+
+export const transformObjectCashClosing = (
+  dataForm: IFormCashClosing,
+): ICreateCashClosingDTORequest => {
+  const objectSale: ICreateCashClosingDTORequest = {
+    total: Mask.convertCurrency(dataForm.total),
+  };
+  if (dataForm.created_at) {
+    const date = new Date(dataForm.created_at);
+    date.setHours(12, 0, 0, 0);
+    objectSale.created_at = date;
   }
 
   return objectSale;

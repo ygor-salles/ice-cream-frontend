@@ -6,10 +6,12 @@ import { ToastType } from 'shared/components/snackBar/enum';
 import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import { RoutesEnum } from 'shared/constants/routesList';
 import {
+  IFormCashClosing,
   IFormFilterSales,
   IFormSale,
   ISaleDTO,
   transformObject,
+  transformObjectCashClosing,
   transformObjectFilter,
 } from 'shared/dtos/ISaleDTO';
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
@@ -112,6 +114,31 @@ export function useSale() {
       );
     } finally {
       setLoadingSales(false);
+      reset();
+    }
+  }
+
+  async function handleSubmitCreateCashClosing(
+    dataForm: IFormCashClosing,
+    reset: UseFormReset<IFormCashClosing>,
+  ) {
+    console.log('dataForm', dataForm);
+    setLoadingForm(true);
+    const data = transformObjectCashClosing(dataForm);
+    console.log('data', data);
+
+    try {
+      await saleService.createCashClosing(data);
+      addToast('Fechamento de caixa registrado com sucesso!', ToastType.success);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(
+        `Erro ao registrar fechamento de caixa - ${response?.data?.message}`,
+        ToastType.error,
+      );
+    } finally {
+      setLoadingForm(false);
+      reset();
     }
   }
 
@@ -129,5 +156,6 @@ export function useSale() {
     setLoadingSales,
     getSumSalesToday,
     getSumSalesByPeriod,
+    handleSubmitCreateCashClosing,
   };
 }

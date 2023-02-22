@@ -19,6 +19,7 @@ import {
   RegisterUser,
   Purchases,
   RegisterPurchase,
+  DailyCashClosing,
 } from 'pages';
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -82,6 +83,7 @@ export function AppRoutes() {
       <Route path={RoutesEnum.PURCHASES_CREATE} element={<RegisterPurchase />} />
       <Route path={RoutesEnum.USERS_CREATE} element={<RegisterUser />} />
       <Route path={RoutesEnum.PAYMENTS_CREATE} element={<RegisterPayment />} />
+      <Route path={RoutesEnum.DAILY_CASH_CLOSING} element={<DailyCashClosing />} />
 
       <Route path="*" element={<Navigate to={RoutesEnum.SALES_CREATE} />} />
     </Routes>

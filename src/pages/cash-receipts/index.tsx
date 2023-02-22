@@ -42,7 +42,7 @@ export function CashReceipts() {
             description: 'Cadastre suas vendas que ocorreram no dia (somente no final do dia)',
             srcImage: closingBoxImage,
             altImage: 'fechamento de caixa',
-            onNavigate: () => navigate(RoutesEnum.SALES_CREATE),
+            onNavigate: () => navigate(RoutesEnum.DAILY_CASH_CLOSING),
           },
         ]}
       />

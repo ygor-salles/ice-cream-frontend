@@ -21,3 +21,4 @@ export * from './product-combination/products/register/RegisterProduct';
 export * from './product-combination/combinations/register/RegisterCombination';
 export * from './cash-outflows/providers/register/RegisterProvider';
 export * from './cash-outflows/purchases/register/RegisterPurchase';
+export * from './cash-receipts/daily-cash-closing/DailyCashClosing';

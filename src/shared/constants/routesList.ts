@@ -20,4 +20,5 @@ export enum RoutesEnum {
   PAYMENTS_CREATE = '/payments/create',
   COMBINATIONS = '/combinations',
   COMBINATIONS_CREATE = '/combinations/create',
+  DAILY_CASH_CLOSING = '/daily-cash-closing',
 }

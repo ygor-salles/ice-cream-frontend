@@ -21,7 +21,7 @@ export interface ISaleDTO {
   type_sale: EnumTypeSale;
   client_id?: number;
   client?: IClientDTO;
-  inProgress?: boolean;
+  in_progress?: boolean;
   observation?: string;
   amount: number;
   total: number;

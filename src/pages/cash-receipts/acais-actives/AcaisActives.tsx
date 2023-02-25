@@ -16,17 +16,25 @@ import CollapseCombinations from './components/CollapseCombinations';
 import { columnConfig, columnLabel, columnType, filterTable } from './constants';
 
 export function AcaisActives() {
-  const { allSales, getSalesActivatedAcai, loadingSales } = useSale();
+  const { allSales, getSalesActivatedAcai, loadingSales, updateSaleById } = useSale();
 
   const [refreshState, setRefreshState] = useState(false);
+  const onToggleRefreshPage = () => setRefreshState(prev => !prev);
+
   const [showFilterState, setShowFilterState] = useState(false);
+  const onToggleShowFilter = () => setShowFilterState(prev => !prev);
 
   useEffect(() => {
     getSalesActivatedAcai();
   }, [refreshState]);
 
-  const _renderCollapse = ({ data_product }: ISaleDTO) => (
-    <CollapseCombinations options={data_product?.combinations} />
+  const _renderCollapse = (sale: ISaleDTO) => (
+    // eslint-disable-next-line react/destructuring-assignment
+    <CollapseCombinations
+      sale={sale}
+      updateSaleById={updateSaleById}
+      onToggleRefreshPage={onToggleRefreshPage}
+    />
   );
 
   const components: ITypeComponents = {
@@ -40,10 +48,10 @@ export function AcaisActives() {
       titulo="Açaís ativos"
       textButton="Atualizar"
       icon={<Refresh />}
-      onClick={() => setRefreshState(prev => !prev)}
+      onClick={onToggleRefreshPage}
       textButtonRight="FILTRAR"
       iconRight={<FilterAlt />}
-      onClickRight={() => setShowFilterState(value => !value)}
+      onClickRight={onToggleShowFilter}
     >
       {loadingSales ? (
         <Skeleton variant="rectangular" width="100%" height={450} />

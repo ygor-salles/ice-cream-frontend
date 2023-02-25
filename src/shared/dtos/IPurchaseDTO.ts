@@ -61,15 +61,15 @@ export const schemaCreatePurchase = yup.object().shape({
   [fieldsPurchase.PROVIDER_ID]: yup.string().required('A seleção de fornecedor é obrigatória'),
   [fieldsPurchase.FILE]: yup
     .mixed()
-    .test('tipo', 'Formato inválido', value => {
+    .test('type', 'Formato inválido', (value: File) => {
       if (value) {
         return (
-          value.mimetype === 'image/png' ||
-          value.mimetype === 'image/jpg' ||
-          value.mimetype === 'image/jpeg' ||
-          value.mimetype === 'image/pjpeg' ||
-          value.mimetype === 'image/gif' ||
-          value.mimetype === 'image/svg+xml'
+          value.type === 'image/png' ||
+          value.type === 'image/jpg' ||
+          value.type === 'image/jpeg' ||
+          value.type === 'image/pjpeg' ||
+          value.type === 'image/gif' ||
+          value.type === 'image/svg+xml'
         );
       }
       return true;

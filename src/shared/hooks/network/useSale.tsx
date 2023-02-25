@@ -17,6 +17,7 @@ import {
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 import SaleService from 'shared/services/SaleService';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
+import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
 import { useToast } from '../useToast';
 
@@ -150,6 +151,20 @@ export function useSale() {
     }
   }
 
+  async function updateSaleById(data: IUpdateSaleDTORequest) {
+    setLoadingSales(true);
+
+    try {
+      await saleService.updateById(data);
+      addToast('Pedido atualizado com sucesso!', ToastType.success);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(`Erro ao atualizar dados - ${response?.data?.message}`, ToastType.error);
+    } finally {
+      setLoadingForm(false);
+    }
+  }
+
   return {
     allSales,
     loadingSales,
@@ -166,5 +181,6 @@ export function useSale() {
     getSumSalesByPeriod,
     handleSubmitCreateCashClosing,
     getSalesActivatedAcai,
+    updateSaleById,
   };
 }

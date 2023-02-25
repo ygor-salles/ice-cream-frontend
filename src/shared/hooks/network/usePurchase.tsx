@@ -120,10 +120,7 @@ export function usePurchase() {
     }
   }
 
-  async function getSumPurchasesByPeriod(
-    dataForm: IFormFilterPurchase,
-    reset: UseFormReset<IFormFilterPurchase>,
-  ): Promise<void> {
+  async function getSumPurchasesByPeriod(dataForm: IFormFilterPurchase): Promise<void> {
     const data: ILoadSumPurchaseDTORequest = transformObjectFilter(dataForm);
 
     setLoadingPurchases(true);

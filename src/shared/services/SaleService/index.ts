@@ -5,6 +5,7 @@ import {
 } from './dtos/ICreateCashClosingDTO';
 import { ICreateSaleDTORequest, ICreateSaleDTOResponse } from './dtos/ICreateSaleDTO';
 import { IDeleteSaleDTOResponse } from './dtos/IDeleteSaleDTO';
+import { ILoadActivetedAcaiDTOResponse } from './dtos/ILoadActivetedAcaiDTO';
 import { ILoadByIdSaleDTOResponse } from './dtos/ILoadByIdSaleDTO';
 import { ILoadPagedSalesDTOResponse } from './dtos/ILoadPagedSalesDTO';
 import { ILoadSaleDTOResponse } from './dtos/ILoadSalesDTO';
@@ -69,6 +70,11 @@ export default class SaleService {
       `${this.route}/cash-closing`,
       dataRequest,
     );
+    return data;
+  }
+
+  public async loadSalesActivatedAcai(): Promise<ILoadActivetedAcaiDTOResponse[]> {
+    const { data } = await api.get<ILoadActivetedAcaiDTOResponse[]>(`${this.route}/activated-acai`);
     return data;
   }
 }

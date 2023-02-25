@@ -96,10 +96,7 @@ export function useSale() {
     }
   }
 
-  async function getSumSalesByPeriod(
-    dataForm: IFormFilterSales,
-    reset: UseFormReset<IFormFilterSales>,
-  ): Promise<void> {
+  async function getSumSalesByPeriod(dataForm: IFormFilterSales): Promise<void> {
     setLoadingSales(true);
     const data: ILoadSumPurchaseDTORequest = transformObjectFilter(dataForm);
 
@@ -114,7 +111,6 @@ export function useSale() {
       );
     } finally {
       setLoadingSales(false);
-      reset();
     }
   }
 
@@ -122,10 +118,8 @@ export function useSale() {
     dataForm: IFormCashClosing,
     reset: UseFormReset<IFormCashClosing>,
   ) {
-    console.log('dataForm', dataForm);
     setLoadingForm(true);
     const data = transformObjectCashClosing(dataForm);
-    console.log('data', data);
 
     try {
       await saleService.createCashClosing(data);
@@ -139,6 +133,20 @@ export function useSale() {
     } finally {
       setLoadingForm(false);
       reset();
+    }
+  }
+
+  async function getSalesActivatedAcai() {
+    setLoadingSales(true);
+
+    try {
+      const orders = await saleService.loadSalesActivatedAcai();
+      setAllSales(orders);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(`Erro ao buscar dados - ${response?.data?.message}`, ToastType.error);
+    } finally {
+      setLoadingSales(false);
     }
   }
 
@@ -157,5 +165,6 @@ export function useSale() {
     getSumSalesToday,
     getSumSalesByPeriod,
     handleSubmitCreateCashClosing,
+    getSalesActivatedAcai,
   };
 }

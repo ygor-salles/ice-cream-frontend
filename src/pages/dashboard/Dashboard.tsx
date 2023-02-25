@@ -89,7 +89,7 @@ export function Dashboard() {
   const [outputsDate, setOutputsDate] = useState('');
 
   const onSubmitFilterSale = (data: IFormFilterSales) => {
-    getSumSalesByPeriod(data, reset);
+    getSumSalesByPeriod(data);
     setInputsDate(
       data.startDate === data.endDate
         ? `${formatStringDate(data.startDate)}`
@@ -98,7 +98,7 @@ export function Dashboard() {
   };
 
   const onSubmitFilterPurchase = (data: IFormFilterPurchase) => {
-    getSumPurchasesByPeriod(data, resetPurc);
+    getSumPurchasesByPeriod(data);
     setOutputsDate(
       data.startDate === data.endDate
         ? `${formatStringDate(data.startDate)}`

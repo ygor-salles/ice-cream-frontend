@@ -1,10 +1,10 @@
 import { ICreateCashClosingDTORequest } from 'shared/services/SaleService/dtos/ICreateCashClosingDTO';
 import { ILoadSumSalesDTORequest } from 'shared/services/SaleService/dtos/ILoadSumSalesDTO';
 import { convetSalesType } from 'shared/utils/convertTypes';
-import { formatStringDate } from 'shared/utils/formatStringDate';
 import Mask from 'shared/utils/masks';
 import * as yup from 'yup';
 
+import { IClientDTO } from './IClientDTO';
 import { ICombinationDTO } from './ICombinationDTO';
 import { IProductDTO } from './IProductDTO';
 
@@ -20,6 +20,8 @@ export interface ISaleDTO {
   data_product: IProductDTO;
   type_sale: EnumTypeSale;
   client_id?: number;
+  client?: IClientDTO;
+  inProgress?: boolean;
   observation?: string;
   amount: number;
   total: number;

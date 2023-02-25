@@ -1,6 +1,7 @@
 import closingBoxImage from 'assets/closing-box.svg';
 import customerCreamImage from 'assets/customer.svg';
 import paymentImage from 'assets/payment.svg';
+import produceProductImage from 'assets/produce-product.svg';
 import salesImage from 'assets/sales.svg';
 import { useNavigate } from 'react-router-dom';
 import SplashScreen from 'shared/components/splashScreen/SplashScreen';
@@ -43,6 +44,14 @@ export function CashReceipts() {
             srcImage: closingBoxImage,
             altImage: 'fechamento de caixa',
             onNavigate: () => navigate(RoutesEnum.DAILY_CASH_CLOSING),
+          },
+          {
+            title: 'Açaís ativos',
+            description:
+              'Visualize os pedidos dos açaís para produzir o produto e marque aqueles que ja foram finalizados',
+            srcImage: produceProductImage,
+            altImage: 'produzindo produto',
+            onNavigate: () => navigate(RoutesEnum.ACAIS_ACTIVES),
           },
         ]}
       />

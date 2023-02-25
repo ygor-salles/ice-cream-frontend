@@ -20,6 +20,7 @@ import {
   Purchases,
   RegisterPurchase,
   DailyCashClosing,
+  AcaisActives,
 } from 'pages';
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -39,20 +40,20 @@ export function AppRoutes() {
       {
         icon: 'inventory',
         path: RoutesEnum.PRODUCT_COMBINATION,
-        label: 'Produtos',
+        label: 'Estoque',
       },
       {
-        icon: 'groups',
+        icon: 'point_of_sale',
         path: RoutesEnum.CASH_RECEIPTS,
         label: 'Entradas',
       },
       {
-        icon: 'peoples',
+        icon: 'payments',
         path: RoutesEnum.CASH_OUTFLOWS,
         label: 'Saídas',
       },
       {
-        icon: 'person',
+        icon: 'groups',
         path: RoutesEnum.USERS,
         label: 'Usuários',
       },
@@ -84,6 +85,7 @@ export function AppRoutes() {
       <Route path={RoutesEnum.USERS_CREATE} element={<RegisterUser />} />
       <Route path={RoutesEnum.PAYMENTS_CREATE} element={<RegisterPayment />} />
       <Route path={RoutesEnum.DAILY_CASH_CLOSING} element={<DailyCashClosing />} />
+      <Route path={RoutesEnum.ACAIS_ACTIVES} element={<AcaisActives />} />
 
       <Route path="*" element={<Navigate to={RoutesEnum.SALES_CREATE} />} />
     </Routes>

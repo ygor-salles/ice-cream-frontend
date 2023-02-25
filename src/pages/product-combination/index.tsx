@@ -9,7 +9,7 @@ export function ProductCombination() {
   const navigate = useNavigate();
 
   return (
-    <LayoutBaseDePagina titulo="Produtos">
+    <LayoutBaseDePagina titulo="Estoque">
       <SplashScreen
         description="Gerencie informações do estoque de produtos e as respectivas combinações dos produtos. Como por exemplo, combinações de açaís"
         cardsList={[

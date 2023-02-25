@@ -4,7 +4,6 @@ import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 import DialogInfo from 'shared/components/dialog/Dialog';
 import {
-  ActionComponent,
   _renderBasicDate,
   _renderBasicTextCell,
   _renderBasicToCurrency,

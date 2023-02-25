@@ -27,15 +27,15 @@ import {
 interface TableAppProps {
   tableName: string;
   columnConfig: ITypeColumnConfig;
-  columnConfigCollapse: ITypeColumnConfig;
+  columnConfigCollapse?: ITypeColumnConfig;
   data: any[];
   components: ITypeComponents;
-  componentsCollapse: ITypeComponents;
+  componentsCollapse?: ITypeComponents;
   // eslint-disable-next-line @typescript-eslint/ban-types
   renderCellHeader: (key: string) => {};
   // eslint-disable-next-line @typescript-eslint/ban-types
-  renderCellHeaderCollapse: (key: string) => {};
-  isMobile: boolean;
+  renderCellHeaderCollapse?: (key: string) => {};
+  isMobile?: boolean;
   showFilterState?: boolean;
   renderInputSearchAndSelect?: IRenderInputSearch[];
   mappedColumnSubObject?: ITypeColumnType;
@@ -63,9 +63,9 @@ const TableApp: React.FC<TableAppProps> = ({
 
   const columnConfigKeys = [...Object.entries(columnConfig).map(([key, value]) => key)];
 
-  const columnConfigKeysCollapse = [
-    ...Object.entries(columnConfigCollapse).map(([key, value]) => key),
-  ];
+  const columnConfigKeysCollapse = columnConfigCollapse
+    ? [...Object.entries(columnConfigCollapse).map(([key, value]) => key)]
+    : undefined;
 
   const mappedColumn = mappedColumnSubObject
     ? [...Object.entries(mappedColumnSubObject).map(([key, value]) => value)]

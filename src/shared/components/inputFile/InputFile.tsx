@@ -1,9 +1,9 @@
 import { Upload } from '@mui/icons-material';
-import { useState } from 'react';
-import { UseFormSetValue, Control, Controller } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { Control, useController } from 'react-hook-form';
 import transformImageUrl from 'shared/utils/transformImageUrl';
 
-import { ContentInputFile, Img, TextError, Close, ContentImage, ContentLabel } from './styles';
+import { Close, ContentImage, ContentInputFile, ContentLabel, Img, TextError } from './styles';
 
 interface PropTypes {
   name: string;
@@ -11,10 +11,14 @@ interface PropTypes {
   isMobile: boolean;
   control: Control<any>;
   pathApi?: string;
-  setValue: UseFormSetValue<any>;
 }
 
-const InputFile: React.FC<PropTypes> = ({ control, name, isMobile, label, pathApi, setValue }) => {
+const InputFile: React.FC<PropTypes> = ({ control, name, isMobile, label, pathApi }) => {
+  const {
+    field: { value, onChange },
+    fieldState: { error },
+  } = useController({ name, control });
+
   const [imgSrcState, setImgSrcState] = useState(pathApi ? transformImageUrl(pathApi) : '');
 
   const onChangeInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,38 +29,38 @@ const InputFile: React.FC<PropTypes> = ({ control, name, isMobile, label, pathAp
 
     reader.onloadend = (e: any) => {
       setImgSrcState(reader.result as string);
-      setValue(name, file);
+      onChange(file);
     };
   };
 
+  useEffect(() => {
+    if (!value && !pathApi) {
+      setImgSrcState('');
+    }
+  }, [value]);
+
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ fieldState: { error } }) => (
-        <ContentInputFile>
-          <ContentLabel>
-            <label htmlFor={name}>{label}</label>
-            <input type="file" name={name} id={name} onChange={e => onChangeInputFile(e)} />
-            <Upload color="primary" />
-          </ContentLabel>
-          {!!imgSrcState && (
-            <ContentImage>
-              <Img src={imgSrcState} isMobile={isMobile} />
-              <Close
-                isMobile={isMobile}
-                color="error"
-                onClick={() => {
-                  setImgSrcState('');
-                  setValue(name, null);
-                }}
-              />
-            </ContentImage>
-          )}
-          {!!error && <TextError>{error.message ?? null}</TextError>}
-        </ContentInputFile>
+    <ContentInputFile>
+      <ContentLabel>
+        <label htmlFor={name}>{label}</label>
+        <input type="file" name={name} id={name} onChange={e => onChangeInputFile(e)} />
+        <Upload color="primary" />
+      </ContentLabel>
+      {!!imgSrcState && (
+        <ContentImage>
+          <Img src={imgSrcState} isMobile={isMobile} />
+          <Close
+            isMobile={isMobile}
+            color="error"
+            onClick={() => {
+              setImgSrcState('');
+              onChange(null);
+            }}
+          />
+        </ContentImage>
       )}
-    />
+      {!!error && <TextError>{error.message ?? null}</TextError>}
+    </ContentInputFile>
   );
 };
 

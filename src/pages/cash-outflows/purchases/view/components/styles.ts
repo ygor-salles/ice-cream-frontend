@@ -28,6 +28,7 @@ export const Image = styled.img<StyledProps>`
   width: ${props => (props.isMobile ? '150px' : '200px')};
   height: ${props => (props.isMobile ? '100px' : '150px')};
   object-fit: cover;
+  cursor: pointer;
 `;
 
 export const Wrapper = styled.div`

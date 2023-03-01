@@ -111,7 +111,6 @@ export function DialogEdit({
                   isMobile={smDown}
                   label="Anexe a nota fiscal"
                   control={control}
-                  setValue={setValue}
                   pathApi={purchase.nf_url}
                 />
               </Grid>

@@ -48,9 +48,7 @@ export function RegisterPurchase(): JSX.Element {
     >
       <Form
         noValidate
-        onSubmit={handleSubmit((data: IFormPurchase) =>
-          handleSubmitCreate(values.file ? { ...data, file: values.file } : { ...data }, reset),
-        )}
+        onSubmit={handleSubmit((data: IFormPurchase) => handleSubmitCreate(data, reset))}
       >
         <StyledCard>
           <GridForm>
@@ -89,7 +87,6 @@ export function RegisterPurchase(): JSX.Element {
               isMobile={smDown}
               label="Anexe a nota fiscal"
               control={control}
-              setValue={setValue}
             />
           </GridForm>
 

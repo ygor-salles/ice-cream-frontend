@@ -28,7 +28,7 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({ onClose, onDeleteSale, 
         </Text>
         <Ul>
           {saleDetail?.data_product?.combinations?.map(item => (
-            <Li key={item.id}>{`${item.name} - ${formatNumberToCurrency(item.price)}`}</Li>
+            <Li key={item.name}>{`${item.name} - ${formatNumberToCurrency(item.price)}`}</Li>
           )) || '--'}
         </Ul>
         <Text>

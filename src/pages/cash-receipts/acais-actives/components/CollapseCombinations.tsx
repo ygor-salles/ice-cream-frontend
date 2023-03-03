@@ -27,7 +27,7 @@ const CollapseCombinations: React.FC<PropTypes> = ({
       <Ul>
         {combinations?.length > 0 ? (
           combinations.map(item => (
-            <Li hasCombinations key={item.id}>
+            <Li hasCombinations key={item.name}>
               {item?.name || '--'}
             </Li>
           ))

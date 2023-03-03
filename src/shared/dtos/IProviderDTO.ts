@@ -24,7 +24,7 @@ export interface IFormProvider {
 
 export const fieldsProvider = {
   NAME: 'name',
-  PHONE: 'price',
+  PHONE: 'phone',
   ITS_ICE_CREAM_SHOP: 'its_ice_cream_shoop',
 };
 

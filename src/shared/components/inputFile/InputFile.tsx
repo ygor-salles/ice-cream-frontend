@@ -10,10 +10,11 @@ interface PropTypes {
   label: string;
   isMobile: boolean;
   control: Control<any>;
+  disabled?: boolean;
   pathApi?: string;
 }
 
-const InputFile: React.FC<PropTypes> = ({ control, name, isMobile, label, pathApi }) => {
+const InputFile: React.FC<PropTypes> = ({ control, name, isMobile, label, disabled, pathApi }) => {
   const {
     field: { value, onChange },
     fieldState: { error },
@@ -41,22 +42,32 @@ const InputFile: React.FC<PropTypes> = ({ control, name, isMobile, label, pathAp
 
   return (
     <ContentInputFile>
-      <ContentLabel>
-        <label htmlFor={name}>{label}</label>
-        <input type="file" name={name} id={name} onChange={e => onChangeInputFile(e)} />
-        <Upload color="primary" />
+      <ContentLabel disabled={disabled}>
+        <label htmlFor={name}>
+          {label}
+          <Upload color={disabled ? 'disabled' : 'primary'} />
+        </label>
+        <input
+          type="file"
+          name={name}
+          id={name}
+          onChange={e => onChangeInputFile(e)}
+          disabled={disabled}
+        />
       </ContentLabel>
       {!!imgSrcState && (
         <ContentImage>
-          <Img src={imgSrcState} isMobile={isMobile} />
-          <Close
-            isMobile={isMobile}
-            color="error"
+          <Img src={imgSrcState} isMobile={isMobile} disabled={disabled} />
+          <button
+            type="button"
+            disabled={disabled}
             onClick={() => {
               setImgSrcState('');
               onChange(null);
             }}
-          />
+          >
+            <Close isMobile={isMobile} color="error" />
+          </button>
         </ContentImage>
       )}
       {!!error && <TextError>{error.message ?? null}</TextError>}

@@ -28,6 +28,7 @@ export const Colors = {
   PURPLE: '#5429CC',
   GREEN: '#33cc95',
   PURPLE_LIGHT: '#6933ff',
+  DISABLED: '#00000042',
 
   TEXT_TITLE: '#363f5f',
   TEXT_BODY: '#969cb3',

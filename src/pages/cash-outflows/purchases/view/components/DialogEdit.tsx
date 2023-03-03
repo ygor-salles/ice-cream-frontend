@@ -112,6 +112,7 @@ export function DialogEdit({
                   label="Anexe a nota fiscal"
                   control={control}
                   pathApi={purchase.nf_url}
+                  disabled={loading || loadingProviders}
                 />
               </Grid>
             </Grid>

@@ -1,9 +1,14 @@
 import { Close as MuiClose } from '@mui/icons-material';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Colors } from 'styles/global';
 
 interface IsMobile {
   isMobile: boolean;
+  disabled?: boolean;
+}
+
+interface ContentLabelProps {
+  disabled: boolean;
 }
 
 export const ContentInputFile = styled.div`
@@ -28,11 +33,14 @@ export const ContentInputFile = styled.div`
   }
 `;
 
-export const ContentLabel = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px;
+export const ContentLabel = styled.div<ContentLabelProps>`
+  label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    color: ${props => props.disabled && Colors.DISABLED};
+  }
 `;
 
 export const Img = styled.img<IsMobile>`
@@ -41,6 +49,8 @@ export const Img = styled.img<IsMobile>`
   object-fit: cover;
   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%),
     0px 1px 5px 0px rgb(0 0 0 / 12%);
+
+  background-color: ${props => props.disabled && Colors.DISABLED};
 `;
 
 export const TextError = styled.p`
@@ -74,5 +84,9 @@ export const Close = styled(MuiClose).withConfig({
     0px 1px 5px 0px rgb(0 0 0 / 12%);
   background-color: ${Colors.WHITE};
 
-  cursor: pointer;
+  ${props =>
+    props.disabled &&
+    css`
+      cursor: pointer;
+    `}
 `;

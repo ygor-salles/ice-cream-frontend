@@ -87,6 +87,7 @@ export function RegisterPurchase(): JSX.Element {
               isMobile={smDown}
               label="Anexe a nota fiscal"
               control={control}
+              disabled={loading}
             />
           </GridForm>
 

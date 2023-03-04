@@ -1,6 +1,7 @@
 import { ICreateCashClosingDTORequest } from 'shared/services/SaleService/dtos/ICreateCashClosingDTO';
 import { ILoadSumSalesDTORequest } from 'shared/services/SaleService/dtos/ILoadSumSalesDTO';
 import { convetSalesType } from 'shared/utils/convertTypes';
+import { getLocalDate } from 'shared/utils/getLocalDate';
 import Mask from 'shared/utils/masks';
 import * as yup from 'yup';
 
@@ -126,12 +127,9 @@ export const transformObjectCashClosing = (
 ): ICreateCashClosingDTORequest => {
   const objectSale: ICreateCashClosingDTORequest = {
     total: Mask.convertCurrency(dataForm.total),
+    created_at:
+      dataForm?.created_at?.length > 0 ? getLocalDate(dataForm.created_at) : getLocalDate(),
   };
-  if (dataForm.created_at) {
-    const date = new Date(dataForm.created_at);
-    date.setHours(12, 0, 0, 0);
-    objectSale.created_at = date;
-  }
 
   return objectSale;
 };

@@ -12,10 +12,10 @@ import {
 import PurchaseService from 'shared/services/PurchaseService';
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 
-import { useToast } from '../useToast';
+import { useToastContext } from '../useToastContext';
 
 export function usePurchase() {
-  const { addToast } = useToast();
+  const { addToast } = useToastContext();
   const purchaseService = new PurchaseService();
 
   const [allPurchases, setAllPurchases] = useState<IPurchaseDTO[]>([]);

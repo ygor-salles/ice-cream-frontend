@@ -65,3 +65,9 @@ export const StyledListItemText: TypographyProps<
 export const StyledIcon = styled(Icon)`
   color: ${Colors.WHITE};
 `;
+
+export const ContentScreenLogin = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+`;

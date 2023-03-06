@@ -5,10 +5,10 @@ import { ToastType } from 'shared/components/snackBar/enum';
 import { IClientDTO, IFormClient, transformObject } from 'shared/dtos/IClientDTO';
 import ClientService from 'shared/services/ClientService';
 
-import { useToast } from '../useToast';
+import { useToastContext } from '../useToastContext';
 
 export function useClient() {
-  const { addToast } = useToast();
+  const { addToast } = useToastContext();
   const clientService = new ClientService();
 
   const [allClients, setAllClients] = useState<IClientDTO[]>([]);

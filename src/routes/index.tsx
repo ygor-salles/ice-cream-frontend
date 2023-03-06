@@ -21,11 +21,12 @@ import {
   RegisterPurchase,
   DailyCashClosing,
   AcaisActives,
+  Login,
 } from 'pages';
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { useDrawerContext } from 'shared/contexts';
+import { useDrawerContext } from 'shared/hooks/useDrawerContext';
 
 export function AppRoutes() {
   const { setDrawerOptions } = useDrawerContext();
@@ -62,6 +63,8 @@ export function AppRoutes() {
 
   return (
     <Routes>
+      <Route path={RoutesEnum.LOGIN} element={<Login />} />
+
       <Route path={RoutesEnum.PRODUCT_COMBINATION} element={<ProductCombination />} />
       <Route path={RoutesEnum.CASH_RECEIPTS} element={<CashReceipts />} />
       <Route path={RoutesEnum.CASH_OUTFLOWS} element={<CashOutflows />} />

@@ -11,10 +11,10 @@ import {
 } from 'shared/dtos/IUserDTO';
 import UserService from 'shared/services/UserService';
 
-import { useToast } from '../useToast';
+import { useToastContext } from '../useToastContext';
 
 export function useUser() {
-  const { addToast } = useToast();
+  const { addToast } = useToastContext();
   const userService = new UserService();
 
   const [allUsers, setAllUsers] = useState<IUserDTO[]>([]);

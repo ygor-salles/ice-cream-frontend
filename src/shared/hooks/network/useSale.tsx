@@ -19,11 +19,11 @@ import SaleService from 'shared/services/SaleService';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
-import { useToast } from '../useToast';
+import { useToastContext } from '../useToastContext';
 
 export function useSale() {
   const navigate = useNavigate();
-  const { addToast } = useToast();
+  const { addToast } = useToastContext();
   const saleService = new SaleService();
 
   const [allSales, setAllSales] = useState<InstanceSale[]>([]);

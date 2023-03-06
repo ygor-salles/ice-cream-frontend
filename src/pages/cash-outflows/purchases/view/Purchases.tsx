@@ -13,9 +13,9 @@ import {
 import TableApp from 'shared/components/table/TableApp';
 import { ITypeComponents } from 'shared/components/table/types';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { useAppThemeContext } from 'shared/contexts';
 import { IPurchaseDTO } from 'shared/dtos/IPurchaseDTO';
 import { usePurchase } from 'shared/hooks/network/usePurchase';
+import { useThemeContext } from 'shared/hooks/useThemeContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 import CollapsePurchase from './components/CollapsePurchase';
@@ -33,7 +33,7 @@ import {
 
 export function Purchases(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-  const { themeName } = useAppThemeContext();
+  const { themeName } = useThemeContext();
 
   const {
     allPurchases,

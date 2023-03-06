@@ -1,6 +1,7 @@
 export * from './cash-receipts/index';
 export * from './product-combination/index';
 export * from './cash-outflows/index';
+export * from './login/Login';
 
 export * from './dashboard/Dashboard';
 export * from './cash-receipts/sales/view/Sales';

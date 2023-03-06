@@ -5,10 +5,10 @@ import { ToastType } from 'shared/components/snackBar/enum';
 import { ICombinationDTO, IFormCombination, transformObject } from 'shared/dtos/ICombinationDTO';
 import CombinationService from 'shared/services/CombinationService';
 
-import { useToast } from '../useToast';
+import { useToastContext } from '../useToastContext';
 
 export function useCombination() {
-  const { addToast } = useToast();
+  const { addToast } = useToastContext();
   const combinationService = new CombinationService();
 
   const [allCombinations, setAllCombinations] = useState<ICombinationDTO[]>([]);

@@ -1,5 +1,5 @@
 import { ArrowForward } from '@mui/icons-material';
-import { useAppThemeContext } from 'shared/contexts';
+import { useThemeContext } from 'shared/hooks/useThemeContext';
 
 import {
   Container,
@@ -25,7 +25,7 @@ interface PropTypes {
 }
 
 const SplashScreen: React.FC<PropTypes> = ({ description, cardsList, ...props }) => {
-  const { themeName } = useAppThemeContext();
+  const { themeName } = useThemeContext();
 
   return (
     <Container {...props}>

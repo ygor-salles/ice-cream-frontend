@@ -5,10 +5,10 @@ import { ToastType } from 'shared/components/snackBar/enum';
 import { IFormProvider, IProviderDTO, transformObject } from 'shared/dtos/IProviderDTO';
 import ProviderService from 'shared/services/ProviderService';
 
-import { useToast } from '../useToast';
+import { useToastContext } from '../useToastContext';
 
 export function useProvider() {
-  const { addToast } = useToast();
+  const { addToast } = useToastContext();
   const providerService = new ProviderService();
 
   const [allProviders, setAllProviders] = useState<IProviderDTO[]>([]);

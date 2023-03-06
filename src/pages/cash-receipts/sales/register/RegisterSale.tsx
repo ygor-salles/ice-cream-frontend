@@ -35,11 +35,10 @@ export function RegisterSale(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const [requiredClient, setRequiredClient] = useState(false);
-
   const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
   const [count, setCount] = useState(Number(defaultValueAmount));
-
   const [enableOptions, setEnableOptions] = useState(false);
+  const [loadingRequests, setLoadingRequests] = useState(false);
 
   const { handleSubmit, control, setValue, reset, getValues } = useForm<IFormSale>({
     resolver: yupResolver(
@@ -50,9 +49,9 @@ export function RegisterSale(): JSX.Element {
 
   const { handleSubmitCreate, loadingForm: loading } = useSale();
 
-  const { getProducts, allProducts, loadingProducts } = useProduct();
+  const { getProducts, allProducts } = useProduct();
 
-  const { getClients, allClients, loadingClients } = useClient();
+  const { getClients, allClients } = useClient();
 
   const { getCombinations, allCombinations, loadingCombinations } = useCombination();
 
@@ -142,8 +141,8 @@ export function RegisterSale(): JSX.Element {
   };
 
   useEffect(() => {
-    getProducts(true);
-    getClients();
+    setLoadingRequests(true);
+    Promise.all([getProducts(true), getClients()]).finally(() => setLoadingRequests(false));
   }, []);
 
   return (
@@ -153,7 +152,7 @@ export function RegisterSale(): JSX.Element {
       textButton="VENDAS"
       icon={<AttachMoney />}
     >
-      {loadingProducts || loadingClients || loadingCombinations ? (
+      {loadingRequests || loadingCombinations ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
         <Form noValidate onSubmit={handleSubmit((data: IFormSale) => onSubmitCreate(data))}>

@@ -1,57 +1,47 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import AuthService from 'shared/services/AuthService';
+import React, { createContext, useEffect, useState } from 'react';
+import { useLogin } from 'shared/hooks/network/useLogin';
 
-interface IAuthContextData {
-  logout: () => void;
-  isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<string | void>;
-}
+import { IContext, IDescribedUser } from './utils/types';
+import { getDescribedToken, getTokenLocalStorage, setTokenLocalStorage } from './utils/utils';
 
-const AuthContext = createContext({} as IAuthContextData);
+export const AuthContext = createContext<IContext>({} as IContext);
 
-const LOCAL_STORAGE_KEY_ACCESS_TOKEN = 'token';
+export const AuthProvider: React.FC = ({ children }) => {
+  const [describedUserState, setDescribedUserState] = useState<IDescribedUser | null>();
 
-interface IAuthProviderProps {
-  children: React.ReactNode;
-}
-export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
-  const [accessToken, setAccessToken] = useState<string>();
+  const { onSubmit } = useLogin();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN);
+    const objToken = getTokenLocalStorage();
 
-    if (accessToken) {
-      setAccessToken(accessToken);
-    } else {
-      setAccessToken(undefined);
+    if (objToken) {
+      console.log('objToken', objToken);
+      const describedUser = getDescribedToken(objToken.token);
+      console.log('describedUser', describedUser);
+      setDescribedUserState(describedUser);
     }
   }, []);
 
-  // eslint-disable-next-line consistent-return
-  const handleLogin = useCallback(async (email: string, password: string) => {
-    const authService = new AuthService();
+  async function authenticate(email: string, password: string): Promise<IDescribedUser | null> {
+    console.log(2);
+    const response = await onSubmit({ email, password });
+    console.log('response', response);
 
-    try {
-      const { token } = await authService.login({ email, password });
-      localStorage.setItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN, token);
-      setAccessToken(token);
-    } catch (err) {
-      throw new Error(err);
-    }
-  }, []);
+    const describedUser = getDescribedToken(response.token);
 
-  const handleLogout = useCallback(() => {
-    localStorage.removeItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN);
-    setAccessToken(undefined);
-  }, []);
+    setDescribedUserState(describedUser);
+    setTokenLocalStorage(response);
+    return describedUser;
+  }
 
-  const isAuthenticated = useMemo(() => !!accessToken, [accessToken]);
+  function logout() {
+    setDescribedUserState(null);
+    setTokenLocalStorage(null);
+  }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login: handleLogin, logout: handleLogout }}>
+    <AuthContext.Provider value={{ ...describedUserState, authenticate, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-export const useAuthContext = () => useContext(AuthContext);

@@ -5,10 +5,10 @@ import { ToastType } from 'shared/components/snackBar/enum';
 import { IFormProduct, IProductDTO, transformObject } from 'shared/dtos/IProductDTO';
 import ProductService from 'shared/services/ProductService';
 
-import { useToast } from '../useToast';
+import { useToastContext } from '../useToastContext';
 
 export function useProduct() {
-  const { addToast } = useToast();
+  const { addToast } = useToastContext();
   const productService = new ProductService();
 
   const [allProducts, setAllProducts] = useState<IProductDTO[]>([]);

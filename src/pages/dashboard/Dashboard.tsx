@@ -9,7 +9,6 @@ import DatePicker from 'shared/components/datePicker/DatePicker';
 import SelectApp from 'shared/components/select/Select';
 import { LISTTYPEPROVIDER } from 'shared/constants/listTypeProviders';
 import { LISTTYPESALES } from 'shared/constants/listTypeSales';
-import { useAppThemeContext } from 'shared/contexts';
 import { EnumTypeProvider } from 'shared/dtos/IProviderDTO';
 import {
   defaultValuesFilterPurchase,
@@ -26,6 +25,7 @@ import {
 import { useProvider } from 'shared/hooks/network/useProvider';
 import { usePurchase } from 'shared/hooks/network/usePurchase';
 import { useSale } from 'shared/hooks/network/useSale';
+import { useThemeContext } from 'shared/hooks/useThemeContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 import { formatStringDate } from 'shared/utils/formatStringDate';
@@ -47,7 +47,7 @@ import {
 
 export function Dashboard() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-  const { themeName } = useAppThemeContext();
+  const { themeName } = useThemeContext();
 
   const [showInputFilter, setShowInputFilter] = useState(false);
   const [showOutputFilter, setShowOutputFilter] = useState(false);

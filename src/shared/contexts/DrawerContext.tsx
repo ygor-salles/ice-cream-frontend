@@ -1,23 +1,8 @@
-import { createContext, useCallback, useContext, useState } from 'react';
+import { createContext, useCallback, useState } from 'react';
 
-interface IDrawerOption {
-  icon: string;
-  path: string;
-  label: string;
-}
+import { IDrawerContextData, IDrawerOption } from './utils/types';
 
-interface IDrawerContextData {
-  isDrawerOpen: boolean;
-  toggleDrawerOpen: () => void;
-  drawerOptions: IDrawerOption[];
-  setDrawerOptions: (newDrawerOptions: IDrawerOption[]) => void;
-}
-
-const DrawerContext = createContext({} as IDrawerContextData);
-
-export const useDrawerContext = () => {
-  return useContext(DrawerContext);
-};
+export const DrawerContext = createContext({} as IDrawerContextData);
 
 export const DrawerProvider: React.FC = ({ children }) => {
   const [drawerOptions, setDrawerOptions] = useState<IDrawerOption[]>([]);

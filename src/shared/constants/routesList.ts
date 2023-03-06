@@ -1,4 +1,5 @@
 export enum RoutesEnum {
+  LOGIN = '/login',
   HOME = '/home',
   PRODUCT_COMBINATION = '/product-combination',
   CASH_RECEIPTS = '/cash-receipts',

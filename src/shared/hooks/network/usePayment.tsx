@@ -5,10 +5,10 @@ import { ToastType } from 'shared/components/snackBar/enum';
 import { IFormPayment, IPaymentDTO, transformObject } from 'shared/dtos/IPaymentDTO';
 import PaymentService from 'shared/services/PaymentService';
 
-import { useToast } from '../useToast';
+import { useToastContext } from '../useToastContext';
 
 export function usePayment() {
-  const { addToast } = useToast();
+  const { addToast } = useToastContext();
   const paymentService = new PaymentService();
 
   const [allPayments, setAllPayments] = useState<IPaymentDTO[]>([]);

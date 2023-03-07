@@ -26,7 +26,9 @@ import {
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants/routesList';
+import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 import { useDrawerContext } from 'shared/hooks/useDrawerContext';
+import ProtectedLayout from 'shared/layouts/ProtectedLayout';
 
 export function AppRoutes() {
   const { setDrawerOptions } = useDrawerContext();
@@ -65,32 +67,187 @@ export function AppRoutes() {
     <Routes>
       <Route path={RoutesEnum.LOGIN} element={<Login />} />
 
-      <Route path={RoutesEnum.PRODUCT_COMBINATION} element={<ProductCombination />} />
-      <Route path={RoutesEnum.CASH_RECEIPTS} element={<CashReceipts />} />
-      <Route path={RoutesEnum.CASH_OUTFLOWS} element={<CashOutflows />} />
+      <Route
+        path={RoutesEnum.PRODUCT_COMBINATION}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <ProductCombination />
+          </ProtectedLayout>
+        }
+      />
 
-      <Route path={RoutesEnum.HOME} element={<Dashboard />} />
-      <Route path={RoutesEnum.PRODUCTS} element={<Products />} />
-      <Route path={RoutesEnum.COMBINATIONS} element={<Combinations />} />
-      <Route path={RoutesEnum.CLIENTS} element={<Clients />} />
-      <Route path={RoutesEnum.SALES} element={<Sales />} />
-      <Route path={RoutesEnum.PROVIDERS} element={<Providers />} />
-      <Route path={RoutesEnum.PURCHASES} element={<Purchases />} />
-      <Route path={RoutesEnum.USERS} element={<Users />} />
-      <Route path={RoutesEnum.PAYMENTS} element={<Payments />} />
+      <Route
+        path={RoutesEnum.CASH_RECEIPTS}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <CashReceipts />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.CASH_OUTFLOWS}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <CashOutflows />
+          </ProtectedLayout>
+        }
+      />
 
-      <Route path={RoutesEnum.PRODUCTS_CREATE} element={<RegisterProduct />} />
-      <Route path={RoutesEnum.COMBINATIONS_CREATE} element={<RegisterCombination />} />
-      <Route path={RoutesEnum.CLIENTS_CREATE} element={<RegisterClient />} />
-      <Route path={RoutesEnum.SALES_CREATE} element={<RegisterSale />} />
-      <Route path={RoutesEnum.PROVIDERS_CREATE} element={<RegisterProvider />} />
-      <Route path={RoutesEnum.PURCHASES_CREATE} element={<RegisterPurchase />} />
-      <Route path={RoutesEnum.USERS_CREATE} element={<RegisterUser />} />
-      <Route path={RoutesEnum.PAYMENTS_CREATE} element={<RegisterPayment />} />
-      <Route path={RoutesEnum.DAILY_CASH_CLOSING} element={<DailyCashClosing />} />
-      <Route path={RoutesEnum.ACAIS_ACTIVES} element={<AcaisActives />} />
+      <Route
+        path={RoutesEnum.HOME}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <Dashboard />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.PRODUCTS}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <Products />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.COMBINATIONS}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <Combinations />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.CLIENTS}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <Clients />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.SALES}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <Sales />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.PROVIDERS}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <Providers />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.PURCHASES}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <Purchases />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.USERS}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <Users />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.PAYMENTS}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <Payments />
+          </ProtectedLayout>
+        }
+      />
 
-      <Route path="*" element={<Navigate to={RoutesEnum.SALES_CREATE} />} />
+      <Route
+        path={RoutesEnum.PRODUCTS_CREATE}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <RegisterProduct />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.COMBINATIONS_CREATE}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <RegisterCombination />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.CLIENTS_CREATE}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <RegisterClient />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.SALES_CREATE}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <RegisterSale />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.PROVIDERS_CREATE}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <RegisterProvider />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.PURCHASES_CREATE}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <RegisterPurchase />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.USERS_CREATE}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <RegisterUser />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.PAYMENTS_CREATE}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <RegisterPayment />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.DAILY_CASH_CLOSING}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <DailyCashClosing />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.ACAIS_ACTIVES}
+        element={
+          <ProtectedLayout accessUser={EnumRoleUser.SUPER}>
+            <AcaisActives />
+          </ProtectedLayout>
+        }
+      />
+
+      <Route path="*" element={<Navigate to={RoutesEnum.LOGIN} />} />
     </Routes>
   );
 }

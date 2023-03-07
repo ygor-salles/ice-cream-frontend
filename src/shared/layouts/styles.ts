@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import styled from 'styled-components';
+import { mediaQuery } from 'styles/global';
 
 interface HeaderProps {
   smDown?: boolean;
@@ -99,4 +100,16 @@ export const ButtonFooter = styled.button`
   justify-content: center;
   align-items: center;
   padding: 5px 10px;
+`;
+
+export const ImgUnauthorized = styled.img`
+  display: block;
+  margin: 0 auto;
+  width: 600px;
+
+  ${mediaQuery.tablet} {
+    width: 300px;
+    height: 400px;
+    margin-top: 50%;
+  }
 `;

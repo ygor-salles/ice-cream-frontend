@@ -17,7 +17,6 @@ export function useLogin() {
 
     let response: IAuthResponse = null;
     try {
-      console.log(1);
       response = await authService.login(dataForm);
     } catch (error) {
       addToast('Error ao realizar login, verifique suas credenciais', ToastType.error);

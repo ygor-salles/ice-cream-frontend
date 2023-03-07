@@ -6,7 +6,6 @@ export default class AuthService {
   private route = '/signin';
 
   public async login(dataRequest: ILoginDTORequest): Promise<ILoginDTOResponse> {
-    console.log('dataRequest', dataRequest);
     const { data } = await api.post<ILoginDTOResponse>(this.route, dataRequest);
     return data;
   }

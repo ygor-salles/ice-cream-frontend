@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { RoutesEnum } from 'shared/constants/routesList';
+import { setTokenLocalStorage } from 'shared/contexts/utils/utils';
 
 const ENVIROMENT = process.env.REACT_APP_ENVIROMENT;
 
@@ -32,6 +33,7 @@ api.interceptors.response.use(
   response => response,
   error => {
     if (error.response?.status === 401) {
+      setTokenLocalStorage(null);
       window.location.href = RoutesEnum.LOGIN;
     }
     return Promise.reject(error);

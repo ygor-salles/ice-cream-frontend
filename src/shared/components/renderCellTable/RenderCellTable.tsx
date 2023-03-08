@@ -6,6 +6,7 @@ import { IProviderDTO } from 'shared/dtos/IProviderDTO';
 import { IPurchaseDTO } from 'shared/dtos/IPurchaseDTO';
 import { ISaleDTO } from 'shared/dtos/ISaleDTO';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
+import { useAuthContext } from 'shared/hooks/useAuthContext';
 import formatDate from 'shared/utils/formatDate';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
@@ -54,6 +55,8 @@ export const SwitchComponent: React.FC<SwitchComponentProps> = ({
 interface ActionComponentProps {
   smDown: boolean;
   rowData: any;
+  accessDelete?: boolean;
+  accessEdit?: boolean;
   handleClickEdit?: (data: any) => void;
   handleClickDelete?: (data: any) => void;
 }
@@ -61,36 +64,46 @@ interface ActionComponentProps {
 export const ActionComponent: React.FC<ActionComponentProps> = ({
   smDown,
   rowData,
+  accessDelete,
+  accessEdit,
   handleClickEdit,
   handleClickDelete,
-}) => (
-  <ActionContent smDown={smDown}>
-    {!!handleClickEdit && (
-      <StyledIcon
-        color="secondary"
-        mgRight={smDown}
-        onClick={e => {
-          e.stopPropagation();
-          handleClickEdit(rowData);
-        }}
-      >
-        edit
-      </StyledIcon>
-    )}
-    {!!handleClickDelete && (
-      <Icon
-        color="warning"
-        style={{ cursor: 'pointer' }}
-        onClick={e => {
-          e.stopPropagation();
-          handleClickDelete(rowData);
-        }}
-      >
-        delete
-      </Icon>
-    )}
-  </ActionContent>
-);
+}) => {
+  const { role } = useAuthContext();
+
+  return (
+    <ActionContent smDown={smDown}>
+      {!!handleClickEdit && (
+        <StyledIcon
+          color={role === EnumRoleUser.SUPER || accessEdit ? 'secondary' : 'disabled'}
+          mgRight={smDown}
+          onClick={e => {
+            if (role === EnumRoleUser.SUPER || accessEdit) {
+              e.stopPropagation();
+              handleClickEdit(rowData);
+            }
+          }}
+        >
+          edit
+        </StyledIcon>
+      )}
+      {!!handleClickDelete && (
+        <Icon
+          color={role === EnumRoleUser.SUPER || accessDelete ? 'warning' : 'disabled'}
+          onClick={e => {
+            if (role === EnumRoleUser.SUPER || accessDelete) {
+              e.stopPropagation();
+              handleClickDelete(rowData);
+            }
+          }}
+          style={{ cursor: 'pointer' }}
+        >
+          delete
+        </Icon>
+      )}
+    </ActionContent>
+  );
+};
 
 export const _renderRoleCell = (value: EnumRoleUser) => {
   if (value === EnumRoleUser.SUPER) return <span>Admin</span>;

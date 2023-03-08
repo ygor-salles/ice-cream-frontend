@@ -11,11 +11,14 @@ import {
   useTheme,
 } from '@mui/material';
 import logoImg from 'assets/icecream_5nd69k2ouf5k.svg';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { useAuthContext } from 'shared/hooks/useAuthContext';
 import { useDrawerContext } from 'shared/hooks/useDrawerContext';
 import { useThemeContext } from 'shared/hooks/useThemeContext';
+import { getShortName } from 'shared/utils/getShortName';
+import { translateTypeUser } from 'shared/utils/translateTypeUser';
 import { Colors } from 'styles/global';
 
 import ListItemLink from './ListItemLink';
@@ -28,6 +31,7 @@ import {
   NavLogout,
   StyledListItemText,
   Title,
+  User,
 } from './styles';
 
 export const MenuLateral: React.FC = ({ children }) => {
@@ -37,7 +41,7 @@ export const MenuLateral: React.FC = ({ children }) => {
 
   const { isDrawerOpen, drawerOptions, toggleDrawerOpen } = useDrawerContext();
   const { toggleTheme } = useThemeContext();
-  const { logout, email } = useAuthContext();
+  const { logout, email, role, name } = useAuthContext();
 
   const logoutApp = () => {
     logout();
@@ -60,6 +64,8 @@ export const MenuLateral: React.FC = ({ children }) => {
             <Title>Sorveteria da</Title>
             <Title>Vilma</Title>
           </ContentLogo>
+
+          {name && role && <User>{`${getShortName(name)} - ${translateTypeUser(role)}`}</User>}
 
           <Divider color={Colors.WHITE} />
 

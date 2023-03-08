@@ -19,10 +19,12 @@ interface ILayoutBaseDePaginaProps {
   navigatePage?: string;
   icon?: React.ReactElement;
   colorButton?: 'inherit' | 'secondary' | 'primary' | 'success' | 'error' | 'info' | 'warning';
+  disabled?: boolean;
   onClick?: () => void;
   textButtonRight?: string;
   iconRight?: React.ReactElement;
   colorButtonRight?: 'inherit' | 'secondary' | 'primary' | 'success' | 'error' | 'info' | 'warning';
+  disabledRight?: boolean;
   onClickRight?: () => void;
 }
 export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
@@ -35,6 +37,8 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
   textButtonRight,
   colorButton,
   colorButtonRight,
+  disabled,
+  disabledRight,
   onClick,
   onClickRight,
 }) => {
@@ -71,6 +75,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
                 color={colorButtonRight ?? 'secondary'}
                 startIcon={iconRight && iconRight}
                 onClick={onClickRight}
+                disabled={disabledRight}
               >
                 {textButtonRight}
               </Button>
@@ -81,6 +86,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
                 startIcon={icon && icon}
                 color={colorButton ?? 'primary'}
                 onClick={onClick ?? onNavigate}
+                disabled={disabled}
               >
                 {textButton}
               </Button>
@@ -93,6 +99,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
             color="info"
             variant="outlined"
             startIcon={icon && icon}
+            disabled={disabled}
             onClick={onClick ?? onNavigate}
           >
             {textButton}
@@ -110,12 +117,12 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
       {/* footer - apenas para dispositivos mobiles */}
       {smDown && textButtonRight && iconRight && onClickRight && (
         <Footer>
-          <ButtonFooter onClick={onClick ?? onNavigate}>
+          <ButtonFooter onClick={onClick ?? onNavigate} disabled={disabled}>
             {icon && icon}
             <span>{textButton}</span>
           </ButtonFooter>
 
-          <ButtonFooter onClick={onClickRight}>
+          <ButtonFooter onClick={onClickRight} disabled={disabledRight}>
             {iconRight && iconRight}
             <span>{textButtonRight}</span>
           </ButtonFooter>

@@ -22,9 +22,11 @@ import {
   IFormFilterSales,
   schemaFilterSale,
 } from 'shared/dtos/ISaleDTO';
+import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 import { useProvider } from 'shared/hooks/network/useProvider';
 import { usePurchase } from 'shared/hooks/network/usePurchase';
 import { useSale } from 'shared/hooks/network/useSale';
+import { useAuthContext } from 'shared/hooks/useAuthContext';
 import { useThemeContext } from 'shared/hooks/useThemeContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
@@ -48,6 +50,7 @@ import {
 export function Dashboard() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const { themeName } = useThemeContext();
+  const { role } = useAuthContext();
 
   const [showInputFilter, setShowInputFilter] = useState(false);
   const [showOutputFilter, setShowOutputFilter] = useState(false);
@@ -58,12 +61,7 @@ export function Dashboard() {
   const { getSumPurchasesToday, getSumPurchasesByPeriod, sumPurchasesState, loadingPurchases } =
     usePurchase();
 
-  const {
-    handleSubmit,
-    control,
-    reset,
-    formState: { isValid },
-  } = useForm<IFormFilterSales>({
+  const { handleSubmit, control } = useForm<IFormFilterSales>({
     resolver: yupResolver(schemaFilterSale),
     defaultValues: defaultValuesFilterSale,
   });
@@ -71,8 +69,6 @@ export function Dashboard() {
   const {
     handleSubmit: handleSubmitPurc,
     control: controlPurc,
-    reset: resetPurc,
-    formState: { isValid: isValidPurc },
     watch: watchPurc,
   } = useForm<IFormFilterPurchase>({
     resolver: yupResolver(schemaFilterPurchase),
@@ -130,6 +126,8 @@ export function Dashboard() {
         setShowInputFilter(false);
         setShowOutputFilter(value => !value);
       }}
+      disabled={role !== EnumRoleUser.SUPER}
+      disabledRight={role !== EnumRoleUser.SUPER}
     >
       {loadingRequests || loadingPurchases || loadingSales ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
@@ -155,12 +153,7 @@ export function Dashboard() {
                 options={LISTTYPESALES}
                 label="Tipo de venda"
               />
-              <StyledButtonSubmitApp
-                loading={false}
-                textButton="Buscar"
-                smDown={smDown}
-                // disabled={isValid}
-              />
+              <StyledButtonSubmitApp loading={false} textButton="Buscar" smDown={smDown} />
             </Form>
           </Accordion>
 
@@ -207,12 +200,7 @@ export function Dashboard() {
                   required={valuesPurc.its_ice_cream_shoop === EnumTypeProvider.EMPLOYEE}
                 />
               )}
-              <StyledButtonSubmitApp
-                loading={false}
-                textButton="Buscar"
-                smDown={smDown}
-                // disabled={!isValidPurc}
-              />
+              <StyledButtonSubmitApp loading={false} textButton="Buscar" smDown={smDown} />
             </Form>
           </Accordion>
 

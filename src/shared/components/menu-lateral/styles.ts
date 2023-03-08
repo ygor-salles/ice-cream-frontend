@@ -71,3 +71,12 @@ export const ContentScreenLogin = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+export const User = styled.span`
+  color: ${Colors.WHITE};
+  font-weight: 400;
+  font-size: 0.9rem;
+  margin: 0 auto;
+  margin-bottom: 12px;
+  text-align: center;
+`;

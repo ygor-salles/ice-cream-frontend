@@ -5,15 +5,19 @@ import { useAuthContext } from 'shared/hooks/useAuthContext';
 import { ImgUnauthorized } from './styles';
 
 interface PropTypes {
-  accessUser: EnumRoleUser;
+  accessUser: EnumRoleUser[];
 }
 
 const ProtectedLayout: React.FC<PropTypes> = ({ accessUser, children }) => {
   const { role } = useAuthContext();
 
-  if (role === accessUser || role === EnumRoleUser.SUPER) {
+  // const roleFound = useMemo(() => accessUser.find(item => item === role), []);
+  const roleFound = accessUser.find(item => item === role);
+
+  if (roleFound || role === EnumRoleUser.SUPER) {
     return <>{children}</>;
   }
+
   return <ImgUnauthorized src={img} alt="unauthorized" />;
 };
 

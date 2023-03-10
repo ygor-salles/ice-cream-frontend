@@ -44,7 +44,7 @@ export const DRAWER_OPTIONS_NORMAL: IDrawerOption[] = [
     label: 'Dashboard',
   },
   {
-    icon: 'point_of_sale',
+    icon: 'notifications_active',
     path: RoutesEnum.ACAIS_ACTIVES,
     label: 'Açaís ativos',
   },
@@ -62,12 +62,12 @@ export const DRAWER_OPTIONS_EMPLOYEE: IDrawerOption[] = [
     label: 'Dashboard',
   },
   {
-    icon: 'point_of_sale',
+    icon: 'attach_money',
     path: RoutesEnum.SALES_CREATE,
     label: 'Vendas',
   },
   {
-    icon: 'payments',
+    icon: 'notifications_active',
     path: RoutesEnum.ACAIS_ACTIVES,
     label: 'Açaís ativos',
   },
@@ -77,12 +77,12 @@ export const DRAWER_OPTIONS_EMPLOYEE: IDrawerOption[] = [
     label: 'Estoque',
   },
   {
-    icon: 'point_of_sale',
+    icon: 'people',
     path: RoutesEnum.CLIENTS,
     label: 'Clientes',
   },
   {
-    icon: 'payments',
+    icon: 'point_of_sale',
     path: RoutesEnum.DAILY_CASH_CLOSING,
     label: 'Fechamento diário',
   },

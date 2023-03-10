@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ArrowBack } from '@mui/icons-material';
-import { Theme, useMediaQuery } from '@mui/material';
+import { ArrowBack, Visibility, VisibilityOff } from '@mui/icons-material';
+import { IconButton, Theme, useMediaQuery } from '@mui/material';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import SelectApp from 'shared/components/select/Select';
@@ -22,6 +23,8 @@ export function RegisterUser(): JSX.Element {
   });
 
   const { handleSubmitCreate, loadingForm: loading } = useUser();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <LayoutBaseDePagina
@@ -55,9 +58,14 @@ export function RegisterUser(): JSX.Element {
               name={fieldsUser.PASSWORD}
               control={control}
               label="Senha"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               required
               disabled={loading}
+              renderRight={
+                <IconButton onClick={() => setShowPassword(prev => !prev)}>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              }
             />
             <SelectApp
               name={fieldsUser.ROLE}

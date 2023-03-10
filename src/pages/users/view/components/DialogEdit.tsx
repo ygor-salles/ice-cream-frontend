@@ -1,5 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Dialog, DialogContent, DialogTitle, Grid, IconButton } from '@mui/material';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
 import SelectApp from 'shared/components/select/Select';
@@ -37,6 +39,8 @@ export function DialogEdit({
     defaultValues: defaultValuesUserEdit(user),
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <Dialog
       fullScreen={smDown}
@@ -72,8 +76,13 @@ export function DialogEdit({
                 name={fieldsUser.PASSWORD}
                 control={control}
                 label="Senha"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 disabled={loading}
+                renderRight={
+                  <IconButton onClick={() => setShowPassword(prev => !prev)}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                }
               />
             </Grid>
             <Grid item xs={12}>

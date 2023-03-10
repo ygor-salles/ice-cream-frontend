@@ -1,6 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Card, CardContent, CircularProgress, Grid, Typography } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Card, CardContent, CircularProgress, Grid, IconButton, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants/routesList';
@@ -32,6 +34,8 @@ export const Login: React.FC = () => {
     }
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <Container>
       <Card>
@@ -57,9 +61,14 @@ export const Login: React.FC = () => {
                 name={fieldsLogin.PASSWORD}
                 control={control}
                 label="Senha"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 required
                 disabled={loading}
+                renderRight={
+                  <IconButton onClick={() => setShowPassword(prev => !prev)}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                }
               />
             </Grid>
 

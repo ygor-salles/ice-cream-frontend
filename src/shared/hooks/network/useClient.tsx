@@ -11,6 +11,7 @@ export function useClient() {
   const clientService = new ClientService();
 
   const [allClients, setAllClients] = useState<IClientDTO[]>([]);
+  const [sumDebitsState, setSumDebitsState] = useState<number>();
   const [loadingClients, setLoadingClients] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
 
@@ -71,16 +72,28 @@ export function useClient() {
     }
   }
 
+  async function getSumDebits() {
+    try {
+      const { total_debits } = await clientService.loadSumDebits();
+      setSumDebitsState(total_debits);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(`Erro ao buscar soma de dívidas! - ${response?.data?.message}`, ToastType.error);
+    }
+  }
+
   return {
     allClients,
     loadingClients,
     loadingForm,
     showModalEdit,
     dataActionTable,
+    sumDebitsState,
     handleClickEdit,
     handleCloseModalEdit,
     getClients,
     handleSubmitCreate,
     handleSubmitUpdate,
+    getSumDebits,
   };
 }

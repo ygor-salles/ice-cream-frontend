@@ -3,6 +3,7 @@ import { ICreateClientDTORequest, ICreateClientDTOResponse } from './dtos/ICreat
 import { IDeleteClientDTOResponse } from './dtos/IDeleteClientDTO';
 import { ILoadByIdClientDTOResponse } from './dtos/ILoadByIdClientDTO';
 import { ILoadClientDTOResponse } from './dtos/ILoadClientDTO';
+import { ILoadSumDebitClientsDTOResponse } from './dtos/ILoadSumDebitClientsDTO';
 import { IUpdateClientDTORequest, IUpdateClientDTOResponse } from './dtos/IUpdateClientDTO';
 
 export default class ClientService {
@@ -33,6 +34,11 @@ export default class ClientService {
 
   public async deleteById(id: number): Promise<IDeleteClientDTOResponse> {
     const { data } = await api.delete<IDeleteClientDTOResponse>(`${this.route}/${id}`);
+    return data;
+  }
+
+  public async loadSumDebits(): Promise<ILoadSumDebitClientsDTOResponse> {
+    const { data } = await api.get<ILoadSumDebitClientsDTOResponse>(`${this.route}/debits`);
     return data;
   }
 }

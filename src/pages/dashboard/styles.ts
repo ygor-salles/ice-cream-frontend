@@ -118,3 +118,8 @@ export const ContentDate = styled.div`
   width: 100%;
   gap: 10px;
 `;
+
+export const CardDebit = styled(Card)`
+  padding: 24px;
+  background-color: ${Colors.YELLOW_PASTEL};
+`;

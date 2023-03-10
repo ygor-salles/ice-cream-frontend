@@ -23,6 +23,7 @@ import {
   schemaFilterSale,
 } from 'shared/dtos/ISaleDTO';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
+import { useClient } from 'shared/hooks/network/useClient';
 import { useProvider } from 'shared/hooks/network/useProvider';
 import { usePurchase } from 'shared/hooks/network/usePurchase';
 import { useSale } from 'shared/hooks/network/useSale';
@@ -45,6 +46,7 @@ import {
   StyledButtonSubmitApp,
   TextDate,
   ContentDate,
+  CardDebit,
 } from './styles';
 
 export function Dashboard() {
@@ -60,6 +62,8 @@ export function Dashboard() {
 
   const { getSumPurchasesToday, getSumPurchasesByPeriod, sumPurchasesState, loadingPurchases } =
     usePurchase();
+
+  const { sumDebitsState, getSumDebits } = useClient();
 
   const { handleSubmit, control } = useForm<IFormFilterSales>({
     resolver: yupResolver(schemaFilterSale),
@@ -104,9 +108,12 @@ export function Dashboard() {
 
   useEffect(() => {
     setLoadingRequests(true);
-    Promise.all([getSumSalesToday(), getSumPurchasesToday(), getProviders()]).finally(() =>
-      setLoadingRequests(false),
-    );
+    Promise.all([
+      getSumSalesToday(),
+      getSumPurchasesToday(),
+      getProviders(),
+      getSumDebits(),
+    ]).finally(() => setLoadingRequests(false));
   }, []);
 
   return (
@@ -250,6 +257,14 @@ export function Dashboard() {
                 </Typography>
               </CardTotal>
             )}
+
+            <CardDebit>
+              <HeaderCard>
+                <Typography variant="h6">Dívida de clientes</Typography>
+                <Img src={imageInput} alt="entradas" />
+              </HeaderCard>
+              <Typography variant="h4">{formatNumberToCurrency(sumDebitsState ?? 0)}</Typography>
+            </CardDebit>
           </Container>
         </>
       )}

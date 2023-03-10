@@ -52,7 +52,6 @@ export const Title = styled(Typography).withConfig({
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: ${Colors.WHITE};
 `;
 
 export const Divider = styled.hr`

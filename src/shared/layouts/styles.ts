@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import styled from 'styled-components';
-import { mediaQuery } from 'styles/global';
+import { Colors, mediaQuery } from 'styles/global';
 
 interface HeaderProps {
   smDown?: boolean;
@@ -52,7 +52,7 @@ export const Title = styled(Typography).withConfig({
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: ${props => props.smDown && '#fff'};
+  color: ${Colors.WHITE};
 `;
 
 export const Divider = styled.hr`
@@ -100,6 +100,17 @@ export const ButtonFooter = styled.button`
   justify-content: center;
   align-items: center;
   padding: 5px 10px;
+`;
+
+export const HeaderUnauth = styled.header`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: ${Colors.MAIN_PRIMARY_LIGHT};
+  padding: 16px;
+  top: 0;
+  position: absolute;
 `;
 
 export const ImgUnauthorized = styled.img`

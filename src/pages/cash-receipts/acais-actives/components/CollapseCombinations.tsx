@@ -2,7 +2,7 @@ import { Switch } from '@mui/material';
 import { ISaleDTO } from 'shared/dtos/ISaleDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
-import { Li, Ul, Container } from './styles';
+import { Li, Ul, Container, Text } from './styles';
 
 interface PropTypes {
   sale: ISaleDTO;
@@ -24,17 +24,20 @@ const CollapseCombinations: React.FC<PropTypes> = ({
 
   return (
     <Container>
-      <Ul>
-        {combinations?.length > 0 ? (
-          combinations.map(item => (
-            <Li hasCombinations key={item.name}>
-              {item?.name || '--'}
-            </Li>
-          ))
-        ) : (
-          <Li>Não há combinações</Li>
-        )}
-      </Ul>
+      <div>
+        <Ul>
+          {combinations?.length > 0 ? (
+            combinations.map(item => (
+              <Li hasCombinations key={item.name}>
+                {item?.name || '--'}
+              </Li>
+            ))
+          ) : (
+            <Li>Não há combinações</Li>
+          )}
+        </Ul>
+        {sale?.observation && <Text>Obs: {sale.observation}</Text>}
+      </div>
       <Switch
         onClick={e => e.stopPropagation()}
         onChange={onChangeCheck}

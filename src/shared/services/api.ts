@@ -33,8 +33,8 @@ api.interceptors.response.use(
   response => response,
   error => {
     if (error.response?.status === 401) {
-      // setTokenLocalStorage(null);
-      // window.location.href = RoutesEnum.LOGIN;
+      setTokenLocalStorage(null);
+      window.location.href = RoutesEnum.LOGIN;
     }
     return Promise.reject(error);
   },

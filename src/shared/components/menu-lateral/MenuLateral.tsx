@@ -51,6 +51,9 @@ export const MenuLateral: React.FC = ({ children }) => {
     navigate(RoutesEnum.LOGIN);
   };
 
+  const shortName = useMemo(() => getShortName(name), [name]);
+  const roleUser = useMemo(() => translateTypeUser(role), [role]);
+
   return (
     <>
       <Drawer
@@ -65,7 +68,7 @@ export const MenuLateral: React.FC = ({ children }) => {
             <Title>Vilma</Title>
           </ContentLogo>
 
-          {name && role && <User>{`${getShortName(name)} - ${translateTypeUser(role)}`}</User>}
+          {name && role && <User>{`${shortName} - ${roleUser}`}</User>}
 
           <Divider color={Colors.WHITE} />
 

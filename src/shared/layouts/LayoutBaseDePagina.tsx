@@ -62,7 +62,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
             </IconButton>
           )}
 
-          <Title smDown={smDown} variant={smDown ? 'h5' : 'h4'}>
+          <Title smDown={smDown} variant={smDown ? 'h6' : 'h4'}>
             {titulo}
           </Title>
         </Wrapper>

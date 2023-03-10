@@ -107,33 +107,36 @@ const TableApp: React.FC<TableAppProps> = ({
       for (const instance of data) {
         if (!subPropert) {
           if (
-            (type === 'string' && instance[propert].match(textTyped)) ||
-            (type === 'number' && Mask.convertNumberToString(instance[propert]).match(textTyped)) ||
+            (type === 'string' && instance[propert]?.match(textTyped)) ||
+            (type === 'number' &&
+              Mask.convertNumberToString(instance[propert])?.match(textTyped)) ||
             (type === 'boolean' &&
-              Mask.convertBooleanToString(instance[propert]).match(textTyped)) ||
+              Mask.convertBooleanToString(instance[propert])?.match(textTyped)) ||
             (type === 'timestamp' &&
-              Mask.convertTimestampToDateString(instance[propert]).match(textTyped)) ||
+              Mask.convertTimestampToDateString(instance[propert])?.match(textTyped)) ||
             (type === 'yesOrNot' &&
-              Mask.convertBooleanToStringYesOrNot(instance[propert]).match(textTyped)) ||
+              Mask.convertBooleanToStringYesOrNot(instance[propert])?.match(textTyped)) ||
             (type === 'roleUser' &&
-              Mask.convertEnumToStringRoleUser(instance[propert]).match(textTyped))
+              Mask.convertEnumToStringRoleUser(instance[propert])?.match(textTyped))
           ) {
             newUpdateInstance.push(instance);
           } else {
             setDataState(data);
           }
         } else if (
-          (type === 'string' && instance[propert][subPropert].match(textTyped)) ||
+          (type === 'string' && instance[propert]?.[subPropert]?.match(textTyped)) ||
           (type === 'number' &&
-            Mask.convertNumberToString(instance[propert][subPropert]).match(textTyped)) ||
+            Mask.convertNumberToString(instance[propert]?.[subPropert])?.match(textTyped)) ||
           (type === 'boolean' &&
-            Mask.convertBooleanToString(instance[propert][subPropert]).match(textTyped)) ||
+            Mask.convertBooleanToString(instance[propert]?.[subPropert])?.match(textTyped)) ||
           (type === 'timestamp' &&
-            Mask.convertTimestampToDateString(instance[propert][subPropert]).match(textTyped)) ||
+            Mask.convertTimestampToDateString(instance[propert]?.[subPropert])?.match(textTyped)) ||
           (type === 'yesOrNot' &&
-            Mask.convertBooleanToStringYesOrNot(instance[propert][subPropert]).match(textTyped)) ||
+            Mask.convertBooleanToStringYesOrNot(instance[propert]?.[subPropert])?.match(
+              textTyped,
+            )) ||
           (type === 'roleUser' &&
-            Mask.convertEnumToStringRoleUser(instance[propert][subPropert]).match(textTyped))
+            Mask.convertEnumToStringRoleUser(instance[propert]?.[subPropert])?.match(textTyped))
         ) {
           newUpdateInstance.push(instance);
         } else {

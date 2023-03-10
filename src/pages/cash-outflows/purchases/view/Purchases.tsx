@@ -28,7 +28,6 @@ import {
   columnType,
   columnTypeCollapse,
   filterTable,
-  mappedColumnSubObject,
 } from './constants';
 
 export function Purchases(): JSX.Element {
@@ -100,7 +99,7 @@ export function Purchases(): JSX.Element {
           <TableApp
             tableName="table-purchases"
             data={allPurchases}
-            mappedColumnSubObject={mappedColumnSubObject}
+            mappedColumnSubObject={columnType}
             components={components}
             columnConfig={columnConfig}
             renderCellHeader={key => columnLabel[key]}

@@ -25,7 +25,6 @@ import {
   columnType,
   columnTypeCollapse,
   filterTable,
-  mappedColumnSubObject,
 } from './constants';
 
 export function Payments(): JSX.Element {
@@ -89,7 +88,7 @@ export function Payments(): JSX.Element {
           <TableApp
             tableName="table-payments"
             data={allPayments}
-            mappedColumnSubObject={mappedColumnSubObject}
+            mappedColumnSubObject={columnType} // para subObjetos
             components={components}
             columnConfig={columnConfig}
             renderCellHeader={key => columnLabel[key]}

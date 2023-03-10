@@ -5,11 +5,6 @@ import {
 } from 'shared/components/table/types';
 
 // Table Row --------------------------
-export const mappedColumnSubObject = {
-  PROVIDER: 'provider',
-  VALUE_TOTAL: 'value_total',
-  ITS_ICE_CREAM_SHOOP: 'its_ice_cream_shoop',
-};
 
 export const columnType = {
   PROVIDER: 'provider',
@@ -52,7 +47,9 @@ export const columnLabelCollapse: ITypeColumnLabel = {
 // Table Filter --------------------------
 
 export const filterTable: IRenderInputSearch[] = [
+  // nome da propriedade e subPropriedade
   { searchPropertName: `${columnType.PROVIDER}.name`, placeholder: 'fornecedor', type: 'string' },
+
   {
     searchPropertName: columnType.VALUE_TOTAL,
     placeholder: 'Valor',

@@ -6,28 +6,6 @@ import {
 
 // Table Row --------------------------
 
-export const mappedColumnSubObject = {
-  VALUE: 'value',
-  CLIENT: 'client',
-  DEBIT: 'debit',
-};
-/*
-  Como o array de Objetos de pagamentos possui um subObjeto "client" para mapear no componente table,
-  é necessário a constante mappedColumnSubObject
-
-  Exemplo do dado pagamento
-
-  {
-    client: {id: 3, name: "Marcela", phone: "(35) 98478-3671", debit: 18, created_at: "2022-10-18T01:47:49.631Z",…},
-    client_id: 3,
-    created_at: "2022-11-21T23:27:17.841Z",
-    id: 1,
-    observation: null,
-    value: 2,
-    updated_at: "2022-11-21T23:27:17.841Z",
-  }
-*/
-
 export const columnType = {
   VALUE: 'value',
   CLIENT: 'client',
@@ -70,6 +48,8 @@ export const columnLabelCollapse: ITypeColumnLabel = {
 
 export const filterTable: IRenderInputSearch[] = [
   { searchPropertName: columnType.VALUE, placeholder: 'valor pagamento', type: 'number' },
+
+  // para subObjetos é necessário colocar o nome da propriedade e da subpropriedade
   { searchPropertName: `${columnType.CLIENT}.name`, placeholder: 'cliente', type: 'string' },
   { searchPropertName: `${columnType.CLIENT}.debit`, placeholder: 'dívida', type: 'number' },
 

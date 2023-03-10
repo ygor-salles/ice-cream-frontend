@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
 import { Theme, useMediaQuery } from '@mui/material';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import SelectApp from 'shared/components/select/Select';
@@ -23,15 +24,16 @@ export function RegisterProduct(): JSX.Element {
 
   const { handleSubmitCreate, loadingForm: loading } = useProduct();
 
-  const {
-    handleSubmit,
-    control,
-    reset,
-    // formState: { isDirty, isValid },
-  } = useForm<IFormProduct>({
+  const { handleSubmit, control, reset, formState } = useForm<IFormProduct>({
     resolver: yupResolver(schemaCreateProduct),
     defaultValues: defaultValuesProduct,
   });
+
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset();
+    }
+  }, [formState, reset]);
 
   return (
     <LayoutBaseDePagina
@@ -40,10 +42,7 @@ export function RegisterProduct(): JSX.Element {
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >
-      <Form
-        noValidate
-        onSubmit={handleSubmit((data: IFormProduct) => handleSubmitCreate(data, reset))}
-      >
+      <Form onSubmit={handleSubmit(handleSubmitCreate)}>
         <StyledCard>
           <GridForm>
             <TextFieldApp

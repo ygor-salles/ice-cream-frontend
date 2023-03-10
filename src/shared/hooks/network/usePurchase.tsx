@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { UseFormReset } from 'react-hook-form';
 import { ToastType } from 'shared/components/snackBar/enum';
 import {
   IFormFilterPurchase,
@@ -56,7 +55,7 @@ export function usePurchase() {
     }
   }
 
-  async function handleSubmitCreate(dataForm: IFormPurchase, reset: UseFormReset<IFormPurchase>) {
+  async function handleSubmitCreate(dataForm: IFormPurchase) {
     setLoadingForm(true);
     const data: IPurchaseDTO = transformObject(dataForm);
 
@@ -68,7 +67,6 @@ export function usePurchase() {
       addToast(`Erro ao cadastrar compra - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingForm(false);
-      reset();
     }
   }
 

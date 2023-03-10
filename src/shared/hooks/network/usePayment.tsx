@@ -40,11 +40,7 @@ export function usePayment() {
     }
   }
 
-  async function handleSubmitCreate(
-    dataForm: IFormPayment,
-    debitClient: number,
-    reset: UseFormReset<IFormPayment>,
-  ) {
+  async function handleSubmitCreate(dataForm: IFormPayment, debitClient: number) {
     const data: IPaymentDTO = transformObject(dataForm);
     if (debitClient < data.value) {
       addToast('Valor do pagamento é maior que a dívida', ToastType.error);
@@ -61,7 +57,6 @@ export function usePayment() {
       addToast(`Erro ao cadastrar pagamento - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingForm(false);
-      reset();
     }
   }
 

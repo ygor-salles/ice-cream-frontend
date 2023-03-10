@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { UseFormReset } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { LIMIT_PAGED } from 'shared/constants/limitPaged';
@@ -35,7 +34,7 @@ export function useSale() {
 
   const [totalPage, setTotalPage] = useState(1);
 
-  async function handleSubmitCreate(dataForm: IFormSale, reset: UseFormReset<IFormSale>) {
+  async function handleSubmitCreate(dataForm: IFormSale) {
     setLoadingForm(true);
     const data: ISaleDTO = transformObject(dataForm);
 
@@ -47,7 +46,6 @@ export function useSale() {
       addToast(`Erro ao cadastrar venda - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingForm(false);
-      reset();
     }
   }
 
@@ -115,10 +113,7 @@ export function useSale() {
     }
   }
 
-  async function handleSubmitCreateCashClosing(
-    dataForm: IFormCashClosing,
-    reset: UseFormReset<IFormCashClosing>,
-  ) {
+  async function handleSubmitCreateCashClosing(dataForm: IFormCashClosing) {
     setLoadingForm(true);
     const data = transformObjectCashClosing(dataForm);
 
@@ -133,7 +128,6 @@ export function useSale() {
       );
     } finally {
       setLoadingForm(false);
-      reset();
     }
   }
 

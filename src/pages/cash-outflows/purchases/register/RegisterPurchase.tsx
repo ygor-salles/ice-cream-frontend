@@ -24,12 +24,10 @@ import { Form, GridForm, StyledCard } from './styles';
 export function RegisterPurchase(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const { handleSubmit, control, reset, setValue, watch } = useForm<IFormPurchase>({
+  const { handleSubmit, control, reset, formState } = useForm<IFormPurchase>({
     resolver: yupResolver(schemaCreatePurchase),
     defaultValues: defaultValuesPurchase,
   });
-
-  const values = watch();
 
   const { handleSubmitCreate, loadingForm: loading } = usePurchase();
 
@@ -39,6 +37,12 @@ export function RegisterPurchase(): JSX.Element {
     getProviders();
   }, []);
 
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset();
+    }
+  }, [formState, reset]);
+
   return (
     <LayoutBaseDePagina
       titulo="Cadastro compras"
@@ -46,10 +50,7 @@ export function RegisterPurchase(): JSX.Element {
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >
-      <Form
-        noValidate
-        onSubmit={handleSubmit((data: IFormPurchase) => handleSubmitCreate(data, reset))}
-      >
+      <Form onSubmit={handleSubmit(handleSubmitCreate)}>
         <StyledCard>
           <GridForm>
             <TextFieldApp

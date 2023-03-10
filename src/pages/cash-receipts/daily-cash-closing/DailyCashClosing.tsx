@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AttachMoney } from '@mui/icons-material';
 import { Skeleton, Theme, Typography, useMediaQuery } from '@mui/material';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import DatePicker from 'shared/components/datePicker/DatePicker';
@@ -22,10 +23,16 @@ export function DailyCashClosing() {
 
   const { handleSubmitCreateCashClosing, loadingForm } = useSale();
 
-  const { handleSubmit, control, reset } = useForm<IFormCashClosing>({
+  const { handleSubmit, control, formState, reset } = useForm<IFormCashClosing>({
     resolver: yupResolver(schemaCreateCashClosing),
     defaultValues: defaultValuesCashClosing,
   });
+
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset();
+    }
+  }, [formState, reset]);
 
   return (
     <LayoutBaseDePagina
@@ -37,12 +44,7 @@ export function DailyCashClosing() {
       {loadingForm ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
-        <Form
-          noValidate
-          onSubmit={handleSubmit((data: IFormCashClosing) =>
-            handleSubmitCreateCashClosing(data, reset),
-          )}
-        >
+        <Form onSubmit={handleSubmit(handleSubmitCreateCashClosing)}>
           <StyledCard>
             <GridForm>
               <TextFieldApp

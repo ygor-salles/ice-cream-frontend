@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import { useRef, useState } from 'react';
-import { UseFormReset } from 'react-hook-form';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { IFormProduct, IProductDTO, transformObject } from 'shared/dtos/IProductDTO';
 import ProductService from 'shared/services/ProductService';
@@ -53,7 +52,7 @@ export function useProduct() {
     }
   }
 
-  async function handleSubmitCreate(dataForm: IFormProduct, reset: UseFormReset<IFormProduct>) {
+  async function handleSubmitCreate(dataForm: IFormProduct) {
     setLoadingForm(true);
     const data: IProductDTO = transformObject(dataForm);
 
@@ -65,7 +64,6 @@ export function useProduct() {
       addToast(`Erro ao cadastrar produto - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingForm(false);
-      reset();
     }
   }
 

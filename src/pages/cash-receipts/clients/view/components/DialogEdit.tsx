@@ -46,7 +46,7 @@ export function DialogEdit({
   return (
     <>
       <Dialog fullScreen={smDown} open={open} onClose={handleClose}>
-        <Form noValidate onSubmit={handleSubmit(onSubmitUpdate)} smDown={smDown}>
+        <Form onSubmit={handleSubmit(onSubmitUpdate)} smDown={smDown}>
           <DialogTitle>EDITAR CLIENTE</DialogTitle>
           <DialogContent>
             <Grid container spacing={4}>

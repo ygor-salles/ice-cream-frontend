@@ -24,7 +24,7 @@ import { Form, GridForm, StyledCard, TextDebit, WrapperDebit } from './styles';
 export function RegisterPayment(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const { handleSubmit, control, reset } = useForm<IFormPayment>({
+  const { handleSubmit, control, formState, reset } = useForm<IFormPayment>({
     resolver: yupResolver(schemaCreatePayment),
     defaultValues: defaultValuesPayment,
   });
@@ -49,6 +49,12 @@ export function RegisterPayment(): JSX.Element {
     getClients();
   }, []);
 
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset();
+    }
+  }, [formState, reset]);
+
   return (
     <LayoutBaseDePagina
       titulo="Cadastro pagamento"
@@ -62,7 +68,7 @@ export function RegisterPayment(): JSX.Element {
         <Form
           noValidate
           onSubmit={handleSubmit((data: IFormPayment) => {
-            handleSubmitCreate(data, clientState.debit, reset);
+            handleSubmitCreate(data, clientState.debit);
             setClientState(null);
           })}
         >

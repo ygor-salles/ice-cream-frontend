@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { UseFormReset } from 'react-hook-form';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { IClientDTO, IFormClient, transformObject } from 'shared/dtos/IClientDTO';
 import ClientService from 'shared/services/ClientService';
@@ -40,7 +39,7 @@ export function useClient() {
     }
   }
 
-  async function handleSubmitCreate(dataForm: IFormClient, reset: UseFormReset<IFormClient>) {
+  async function handleSubmitCreate(dataForm: IFormClient) {
     setLoadingForm(true);
     const data: IClientDTO = transformObject(dataForm);
 
@@ -52,7 +51,6 @@ export function useClient() {
       addToast(`Erro ao cadastrar cliente - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingForm(false);
-      reset();
     }
   }
 

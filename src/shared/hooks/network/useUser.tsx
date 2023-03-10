@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { UseFormReset } from 'react-hook-form';
 import { ToastType } from 'shared/components/snackBar/enum';
 import {
   IFormUser,
@@ -53,7 +52,7 @@ export function useUser() {
     }
   }
 
-  async function handleSubmitCreate(dataForm: IFormUser, reset: UseFormReset<IFormUser>) {
+  async function handleSubmitCreate(dataForm: IFormUser) {
     setLoadingForm(true);
     const data: IUserDTO = transformObject(dataForm);
 
@@ -65,7 +64,6 @@ export function useUser() {
       addToast(`Erro ao cadastrar usuário - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingForm(false);
-      reset();
     }
   }
 

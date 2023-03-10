@@ -40,7 +40,7 @@ export function RegisterSale(): JSX.Element {
   const [enableOptions, setEnableOptions] = useState(false);
   const [loadingRequests, setLoadingRequests] = useState(false);
 
-  const { handleSubmit, control, setValue, reset, getValues } = useForm<IFormSale>({
+  const { handleSubmit, control, setValue, formState, reset, getValues } = useForm<IFormSale>({
     resolver: yupResolver(
       requiredClient === false ? schemaCreateSale : schemaCreateSaleWithCustomer,
     ),
@@ -58,7 +58,7 @@ export function RegisterSale(): JSX.Element {
   const onSubmitCreate = (data: IFormSale) => {
     const dataSubmit = { ...data };
     dataSubmit.data_product.combinations = data.combinations;
-    handleSubmitCreate(dataSubmit, reset);
+    handleSubmitCreate(dataSubmit);
     setIsDisabledTextFieldCount(true);
     setTimeout(() => {
       setValue('amount', defaultValueAmount);
@@ -145,6 +145,12 @@ export function RegisterSale(): JSX.Element {
     Promise.all([getProducts(true), getClients()]).finally(() => setLoadingRequests(false));
   }, []);
 
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset();
+    }
+  }, [formState, reset]);
+
   return (
     <LayoutBaseDePagina
       titulo="Cadastro venda"
@@ -155,7 +161,7 @@ export function RegisterSale(): JSX.Element {
       {loadingRequests || loadingCombinations ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
-        <Form noValidate onSubmit={handleSubmit((data: IFormSale) => onSubmitCreate(data))}>
+        <Form onSubmit={handleSubmit(onSubmitCreate)}>
           <StyledCard>
             <GridForm>
               <SelectApp

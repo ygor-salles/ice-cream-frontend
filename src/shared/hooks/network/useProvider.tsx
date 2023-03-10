@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { UseFormReset } from 'react-hook-form';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { IFormProvider, IProviderDTO, transformObject } from 'shared/dtos/IProviderDTO';
 import ProviderService from 'shared/services/ProviderService';
@@ -47,7 +46,7 @@ export function useProvider() {
     }
   }
 
-  async function handleSubmitCreate(dataForm: IFormProvider, reset: UseFormReset<IFormProvider>) {
+  async function handleSubmitCreate(dataForm: IFormProvider) {
     setLoadingForm(true);
     const data: IProviderDTO = transformObject(dataForm);
 
@@ -59,7 +58,6 @@ export function useProvider() {
       addToast(`Erro ao cadastrar fornecedor - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingForm(false);
-      reset();
     }
   }
 

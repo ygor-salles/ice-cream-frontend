@@ -1,13 +1,5 @@
 import { RoutesEnum } from 'shared/constants/routesList';
 import { IDrawerOption } from 'shared/contexts/utils/types';
-// import { EnumRoleUser } from 'shared/dtos/IUserDTO';
-
-// interface IListScreen {
-//   path: string;
-//   accessUser?: EnumRoleUser[];
-// }
-
-// export const listScreen: IListScreen[] = [{ path: RoutesEnum.LOGIN }];
 
 export const DRAWER_OPTIONS_SUPER: IDrawerOption[] = [
   {

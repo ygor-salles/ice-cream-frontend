@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { UseFormReset } from 'react-hook-form';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { ICombinationDTO, IFormCombination, transformObject } from 'shared/dtos/ICombinationDTO';
 import CombinationService from 'shared/services/CombinationService';
@@ -47,10 +46,7 @@ export function useCombination() {
     }
   }
 
-  async function handleSubmitCreate(
-    dataForm: IFormCombination,
-    reset: UseFormReset<IFormCombination>,
-  ) {
+  async function handleSubmitCreate(dataForm: IFormCombination) {
     setLoadingForm(true);
     const data: ICombinationDTO = transformObject(dataForm);
 
@@ -62,7 +58,6 @@ export function useCombination() {
       addToast(`Erro ao cadastrar combinação - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingForm(false);
-      reset();
     }
   }
 

@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack, Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton, Theme, useMediaQuery } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import SelectApp from 'shared/components/select/Select';
@@ -17,7 +17,7 @@ import { Form, GridForm, StyledCard } from './styles';
 export function RegisterUser(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const { handleSubmit, control, reset } = useForm<IFormUser>({
+  const { handleSubmit, control, formState, reset } = useForm<IFormUser>({
     resolver: yupResolver(schemaCreateUser),
     defaultValues: defaultValuesUser,
   });
@@ -26,6 +26,12 @@ export function RegisterUser(): JSX.Element {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset();
+    }
+  }, [formState, reset]);
+
   return (
     <LayoutBaseDePagina
       titulo="Cadastro usuário"
@@ -33,10 +39,7 @@ export function RegisterUser(): JSX.Element {
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >
-      <Form
-        noValidate
-        onSubmit={handleSubmit((data: IFormUser) => handleSubmitCreate(data, reset))}
-      >
+      <Form onSubmit={handleSubmit(handleSubmitCreate)}>
         <StyledCard>
           <GridForm>
             <TextFieldApp

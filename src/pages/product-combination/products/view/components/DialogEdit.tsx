@@ -44,7 +44,7 @@ export function DialogEdit({
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
     >
-      <Form noValidate onSubmit={handleSubmit(onSubmitUpdate)} smDown={smDown}>
+      <Form onSubmit={handleSubmit(onSubmitUpdate)} smDown={smDown}>
         <DialogTitle id="responsive-dialog-title">EDITAR PRODUTO</DialogTitle>
         <DialogContent>
           <Grid container spacing={4}>

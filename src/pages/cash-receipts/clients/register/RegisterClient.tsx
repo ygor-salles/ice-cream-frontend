@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
 import { Theme, useMediaQuery } from '@mui/material';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import TextFieldApp from 'shared/components/textField/TextField';
@@ -19,12 +20,18 @@ import { Form, GridForm, StyledCard } from './styles';
 export function RegisterClient(): JSX.Element {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const { handleSubmit, control, reset } = useForm<IFormClient>({
+  const { handleSubmit, control, formState, reset } = useForm<IFormClient>({
     resolver: yupResolver(schemaCreateClient),
     defaultValues: defaultValuesClient,
   });
 
   const { handleSubmitCreate, loadingForm: loading } = useClient();
+
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset();
+    }
+  }, [formState, reset]);
 
   return (
     <LayoutBaseDePagina
@@ -33,10 +40,7 @@ export function RegisterClient(): JSX.Element {
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >
-      <Form
-        noValidate
-        onSubmit={handleSubmit((data: IFormClient) => handleSubmitCreate(data, reset))}
-      >
+      <Form onSubmit={handleSubmit(handleSubmitCreate)}>
         <StyledCard>
           <GridForm>
             <TextFieldApp

@@ -5,6 +5,7 @@ import { MenuLateral } from './shared/components';
 import { AppThemeProvider, AuthProvider, DrawerProvider, ToastProvider } from './shared/contexts';
 import { GlobalStyle } from './styles/global';
 
+// redeploy - 11/03/2023
 export const App = () => {
   return (
     <>

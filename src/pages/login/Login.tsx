@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { defaultValuesLogin, fieldsLogin, IFormLogin, schemaLogin } from 'shared/dtos/ILoginDTO';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
-import { useLogin } from 'shared/hooks/network/useLogin';
 import { useAuthContext } from 'shared/hooks/useAuthContext';
 
 import TextFieldApp from '../../shared/components/textField/TextField';
@@ -17,7 +16,7 @@ import { Container, Form } from './styles';
 export const Login: React.FC = () => {
   const navigate = useNavigate();
   const { authenticate } = useAuthContext();
-  const { loading } = useLogin();
+  const [loading, setLoading] = useState(false);
 
   const { handleSubmit, control } = useForm<IFormLogin>({
     resolver: yupResolver(schemaLogin),
@@ -25,7 +24,9 @@ export const Login: React.FC = () => {
   });
 
   const onSubmit = async ({ email, password }: IFormLogin) => {
+    setLoading(true);
     const response = await authenticate(email, password);
+    setLoading(false);
 
     if (response.role === EnumRoleUser.NORMAL) {
       navigate(RoutesEnum.ACAIS_ACTIVES);

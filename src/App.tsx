@@ -5,14 +5,13 @@ import { MenuLateral } from './shared/components';
 import { AppThemeProvider, AuthProvider, DrawerProvider, ToastProvider } from './shared/contexts';
 import { GlobalStyle } from './styles/global';
 
-// redeploy - 11/03/2023
 export const App = () => {
   return (
     <>
       <GlobalStyle />
-      <AuthProvider>
-        <AppThemeProvider>
-          <ToastProvider>
+      <AppThemeProvider>
+        <ToastProvider>
+          <AuthProvider>
             <DrawerProvider>
               <BrowserRouter>
                 <MenuLateral>
@@ -20,9 +19,9 @@ export const App = () => {
                 </MenuLateral>
               </BrowserRouter>
             </DrawerProvider>
-          </ToastProvider>
-        </AppThemeProvider>
-      </AuthProvider>
+          </AuthProvider>
+        </ToastProvider>
+      </AppThemeProvider>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Colors, mediaQuery } from 'styles/global';
 
 interface HeaderProps {
@@ -52,6 +52,11 @@ export const Title = styled(Typography).withConfig({
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  ${props =>
+    props.smDown &&
+    css`
+      color: ${Colors.WHITE};
+    `}
 `;
 
 export const Divider = styled.hr`

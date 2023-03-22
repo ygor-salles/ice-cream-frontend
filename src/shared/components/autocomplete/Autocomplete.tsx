@@ -11,7 +11,7 @@ interface PropTypes {
   required?: boolean;
   disabled?: boolean;
   sortAlphabeticallyObject?: boolean;
-  onClose: (event: React.SyntheticEvent<Element, Event>, reason: AutocompleteCloseReason) => void;
+  onClose?: (event: React.SyntheticEvent<Element, Event>, reason: AutocompleteCloseReason) => void;
 }
 
 const AutoComplete: React.FC<PropTypes> = ({

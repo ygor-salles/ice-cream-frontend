@@ -35,6 +35,7 @@ export interface IFormSale {
   data_product: IProductDTO;
   combinations: ICombinationDTO[];
   type_sale: string;
+  client_name?: string;
   client_id?: string;
   observation?: string;
   amount?: string;
@@ -51,6 +52,7 @@ export const fieldsSale = {
   DATA_PRODUCT: 'data_product',
   COMBINATIONS: 'combinations',
   TYPE_SALE: 'type_sale',
+  CLIENT_NAME: 'client_name',
   CLIENT_ID: 'client_id',
   OBSERVATION: 'observation',
   AMOUNT: 'amount',
@@ -63,7 +65,8 @@ export const defaultValuesSale = {
   [fieldsSale.PRODUCT_NAME]: '',
   [fieldsSale.DATA_PRODUCT]: null,
   [fieldsSale.COMBINATIONS]: [],
-  [fieldsSale.TYPE_SALE]: '',
+  [fieldsSale.TYPE_SALE]: EnumTypeSale.MONEY,
+  [fieldsSale.CLIENT_NAME]: '',
   [fieldsSale.CLIENT_ID]: '',
   [fieldsSale.OBSERVATION]: '',
   [fieldsSale.AMOUNT]: defaultValueAmount,
@@ -76,7 +79,7 @@ export const schemaCreateSale = yup.object().shape({
     .mixed<EnumTypeSale>()
     .oneOf(Object.values(EnumTypeSale))
     .required('Tipo de venda é obrigatório'),
-  [fieldsSale.CLIENT_ID]: yup.string(),
+  [fieldsSale.CLIENT_NAME]: yup.string(),
   [fieldsSale.OBSERVATION]: yup.string().optional(),
   [fieldsSale.AMOUNT]: yup.string().required('Quantidade de produto é obrigatório'),
   [fieldsSale.TOTAL]: yup.string().required('Total da venda é obrigatório'),
@@ -88,7 +91,7 @@ export const schemaCreateSaleWithCustomer = yup.object().shape({
     .mixed<EnumTypeSale>()
     .oneOf(Object.values(EnumTypeSale))
     .required('Tipo de venda é obrigatório'),
-  [fieldsSale.CLIENT_ID]: yup.string().required('Cliente é obrigatório para venda fiado'),
+  [fieldsSale.CLIENT_NAME]: yup.string().required('Cliente é obrigatório para venda fiado'),
   [fieldsSale.OBSERVATION]: yup.string().optional(),
   [fieldsSale.AMOUNT]: yup.string().required('Quantidade de produto é obrigatório'),
   [fieldsSale.TOTAL]: yup.string().required('Total da venda é obrigatório'),

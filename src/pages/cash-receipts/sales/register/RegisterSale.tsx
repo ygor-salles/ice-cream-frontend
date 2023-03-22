@@ -102,6 +102,16 @@ export function RegisterSale(): JSX.Element {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onCloseSelectClient = (_: any) => {
+    const client_name = getValues('client_name');
+
+    if (client_name?.length > 0) {
+      const client = allClients.find(item => item.name === client_name);
+      setValue('client_id', client.id.toString());
+    }
+  };
+
   const handleTextFieldCount = (onClick: 'add' | 'subt') => {
     const { price, type } = getValues('data_product');
     const combinations = getValues('combinations');
@@ -208,13 +218,13 @@ export function RegisterSale(): JSX.Element {
                 onClose={onCloseSelectSale}
                 disabled={loading}
               />
-              <SelectApp
-                name={fieldsSale.CLIENT_ID}
+              <AutoComplete
+                name={fieldsSale.CLIENT_NAME}
                 control={control}
                 options={allClients}
-                setId
                 sortAlphabeticallyObject
                 label="Cliente"
+                onClose={onCloseSelectClient}
                 required={requiredClient}
                 disabled={loading}
               />

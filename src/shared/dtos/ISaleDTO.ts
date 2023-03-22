@@ -31,7 +31,7 @@ export interface ISaleDTO {
 }
 
 export interface IFormSale {
-  product_id: string;
+  product_name: string;
   data_product: IProductDTO;
   combinations: ICombinationDTO[];
   type_sale: string;
@@ -47,7 +47,7 @@ export interface IFormCashClosing {
 }
 
 export const fieldsSale = {
-  PRODUCT_ID: 'product_id',
+  PRODUCT_NAME: 'product_name',
   DATA_PRODUCT: 'data_product',
   COMBINATIONS: 'combinations',
   TYPE_SALE: 'type_sale',
@@ -60,7 +60,7 @@ export const fieldsSale = {
 
 export const defaultValueAmount = '1';
 export const defaultValuesSale = {
-  [fieldsSale.PRODUCT_ID]: '',
+  [fieldsSale.PRODUCT_NAME]: '',
   [fieldsSale.DATA_PRODUCT]: null,
   [fieldsSale.COMBINATIONS]: [],
   [fieldsSale.TYPE_SALE]: '',
@@ -71,7 +71,7 @@ export const defaultValuesSale = {
 };
 
 export const schemaCreateSale = yup.object().shape({
-  [fieldsSale.PRODUCT_ID]: yup.string().required('Seleção de produto é obrigatório'),
+  [fieldsSale.PRODUCT_NAME]: yup.string().required('Seleção de produto é obrigatório'),
   [fieldsSale.TYPE_SALE]: yup
     .mixed<EnumTypeSale>()
     .oneOf(Object.values(EnumTypeSale))
@@ -83,7 +83,7 @@ export const schemaCreateSale = yup.object().shape({
 });
 
 export const schemaCreateSaleWithCustomer = yup.object().shape({
-  [fieldsSale.PRODUCT_ID]: yup.string().required('Seleção de produto é obrigatório'),
+  [fieldsSale.PRODUCT_NAME]: yup.string().required('Seleção de produto é obrigatório'),
   [fieldsSale.TYPE_SALE]: yup
     .mixed<EnumTypeSale>()
     .oneOf(Object.values(EnumTypeSale))

@@ -231,7 +231,7 @@ export function AppRoutes() {
         }
       />
 
-      <Route path="*" element={<Navigate to={RoutesEnum.LOGIN} />} />
+      <Route path="*" element={<Navigate to={RoutesEnum.SALES_CREATE} />} />
     </Routes>
   );
 }

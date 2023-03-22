@@ -67,36 +67,39 @@ export function RegisterSale(): JSX.Element {
     }, 1000);
   };
 
-  const onCloseSelectProduct = async (event: React.SyntheticEvent<Element, Event>) => {
-    console.log('fora', getValues('product_id'));
-    // const product = getValues('product_id') as any;
-    // if (product) {
-    //   if (product) {
-    //     setValue('data_product', product);
-    //   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onCloseSelectProduct = async (_: any) => {
+    const product_name = getValues('product_name');
 
-    //   if (product?.price) {
-    //     if (product?.price < 0.1 && product?.type === EnumTypeProduct.ICE_CREAM) {
-    //       setValue('total', '');
-    //       setValue('amount', defaultValueAmount);
-    //       setCount(Number(defaultValueAmount));
-    //     } else {
-    //       setValue('total', formatNumberToCurrencyInput(product.price));
-    //     }
+    if (product_name?.length > 0) {
+      const product = allProducts.find(item => item.name === product_name);
 
-    //     if (product.type === EnumTypeProduct.ACAI) {
-    //       await getCombinations();
-    //       setEnableOptions(true);
-    //     } else {
-    //       setEnableOptions(false);
-    //     }
-    //     setIsDisabledTextFieldCount(false);
-    //   }
-    // } else {
-    //   setCount(Number(defaultValueAmount));
-    //   setValue('total', '');
-    //   setIsDisabledTextFieldCount(true);
-    // }
+      if (product) {
+        setValue('data_product', product);
+      }
+
+      if (product?.price) {
+        if (product?.price < 0.1 && product?.type === EnumTypeProduct.ICE_CREAM) {
+          setValue('total', '');
+          setValue('amount', defaultValueAmount);
+          setCount(Number(defaultValueAmount));
+        } else {
+          setValue('total', formatNumberToCurrencyInput(product.price));
+        }
+
+        if (product.type === EnumTypeProduct.ACAI) {
+          await getCombinations();
+          setEnableOptions(true);
+        } else {
+          setEnableOptions(false);
+        }
+        setIsDisabledTextFieldCount(false);
+      }
+    } else {
+      setCount(Number(defaultValueAmount));
+      setValue('total', '');
+      setIsDisabledTextFieldCount(true);
+    }
   };
 
   const handleTextFieldCount = (onClick: 'add' | 'subt') => {
@@ -166,7 +169,7 @@ export function RegisterSale(): JSX.Element {
           <StyledCard>
             <GridForm>
               <AutoComplete
-                name={fieldsSale.PRODUCT_ID}
+                name={fieldsSale.PRODUCT_NAME}
                 control={control}
                 options={allProducts}
                 sortAlphabeticallyObject

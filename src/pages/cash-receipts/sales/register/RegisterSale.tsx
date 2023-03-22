@@ -4,6 +4,7 @@ import { AttachMoney } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import AutoComplete from 'shared/components/autocomplete/Autocomplete';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import SelectApp from 'shared/components/select/Select';
 import SelectMultiple from 'shared/components/selectMultiple/SelectMultiple';
@@ -67,35 +68,35 @@ export function RegisterSale(): JSX.Element {
   };
 
   const onCloseSelectProduct = async (event: React.SyntheticEvent<Element, Event>) => {
-    if (event.currentTarget.id) {
-      const product = allProducts.find(product => product.id === Number(event.currentTarget.id));
+    console.log(getValues('product_id'));
+    // const product = getValues('product_id') as any;
+    // if (product) {
+    //   if (product) {
+    //     setValue('data_product', product);
+    //   }
 
-      if (product) {
-        setValue('data_product', product);
-      }
+    //   if (product?.price) {
+    //     if (product?.price < 0.1 && product?.type === EnumTypeProduct.ICE_CREAM) {
+    //       setValue('total', '');
+    //       setValue('amount', defaultValueAmount);
+    //       setCount(Number(defaultValueAmount));
+    //     } else {
+    //       setValue('total', formatNumberToCurrencyInput(product.price));
+    //     }
 
-      if (product?.price) {
-        if (product?.price < 0.1 && product?.type === EnumTypeProduct.ICE_CREAM) {
-          setValue('total', '');
-          setValue('amount', defaultValueAmount);
-          setCount(Number(defaultValueAmount));
-        } else {
-          setValue('total', formatNumberToCurrencyInput(product.price));
-        }
-
-        if (product.type === EnumTypeProduct.ACAI) {
-          await getCombinations();
-          setEnableOptions(true);
-        } else {
-          setEnableOptions(false);
-        }
-        setIsDisabledTextFieldCount(false);
-      }
-    } else {
-      setCount(Number(defaultValueAmount));
-      setValue('total', '');
-      setIsDisabledTextFieldCount(true);
-    }
+    //     if (product.type === EnumTypeProduct.ACAI) {
+    //       await getCombinations();
+    //       setEnableOptions(true);
+    //     } else {
+    //       setEnableOptions(false);
+    //     }
+    //     setIsDisabledTextFieldCount(false);
+    //   }
+    // } else {
+    //   setCount(Number(defaultValueAmount));
+    //   setValue('total', '');
+    //   setIsDisabledTextFieldCount(true);
+    // }
   };
 
   const handleTextFieldCount = (onClick: 'add' | 'subt') => {
@@ -164,11 +165,10 @@ export function RegisterSale(): JSX.Element {
         <Form onSubmit={handleSubmit(onSubmitCreate)}>
           <StyledCard>
             <GridForm>
-              <SelectApp
+              <AutoComplete
                 name={fieldsSale.PRODUCT_ID}
                 control={control}
                 options={allProducts}
-                setId
                 sortAlphabeticallyObject
                 label="Produto"
                 required

@@ -68,7 +68,7 @@ export function RegisterSale(): JSX.Element {
   };
 
   const onCloseSelectProduct = async (event: React.SyntheticEvent<Element, Event>) => {
-    console.log(getValues('product_id'));
+    console.log('fora', getValues('product_id'));
     // const product = getValues('product_id') as any;
     // if (product) {
     //   if (product) {

@@ -31,7 +31,7 @@ const AutoComplete: React.FC<PropTypes> = ({
           .map(item => item.name)
       : options.map(item => item.name);
 
-    opt.push('');
+    opt.unshift('');
 
     return opt;
   }, [options]);
@@ -44,9 +44,7 @@ const AutoComplete: React.FC<PropTypes> = ({
         <Autocomplete
           options={sortedOptions}
           value={value ?? ''}
-          onChange={(event: React.SyntheticEvent<Element, Event>, newValue: any) =>
-            onChange(newValue ?? '')
-          }
+          onChange={(_, newValue: any) => onChange(newValue ?? '')}
           onClose={onClose}
           disabled={disabled}
           renderInput={params => (

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon, Switch } from '@mui/material';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { IPaymentDTO } from 'shared/dtos/IPaymentDTO';
@@ -129,8 +130,6 @@ export const _renderSaleClientName = (data: IClientDTO, { client }: ISaleDTO) =>
   <span>{client?.name || '--'}</span>
 );
 
-export const _renderSaleProductName = (data: IProductDTO, { data_product, amount }: ISaleDTO) => (
-  <span>
-    {`${amount} `} {data_product?.name || '--'}
-  </span>
+export const _renderSaleProductName = (data: IProductDTO, { data_product }: ISaleDTO) => (
+  <span>{(data_product?.length > 1 ? `Varios ...` : data_product[0]?.name) ?? '--'}</span>
 );

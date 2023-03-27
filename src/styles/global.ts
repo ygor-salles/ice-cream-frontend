@@ -96,6 +96,7 @@ export const GlobalStyle = createGlobalStyle`
 
 export const mediaQuery = {
   mobile: '@media screen and (max-width: 420px)',
+  tableSm: '@media screen and (max-width: 600px)',
   tablet: '@media screen and (max-width: 768px)',
   desktop: '@media screen and (max-width: 1280px)',
   desktopSm: '@media screen and (max-width: 1366px)',

@@ -25,13 +25,16 @@ export const Login: React.FC = () => {
 
   const onSubmit = async ({ email, password }: IFormLogin) => {
     setLoading(true);
-    const response = await authenticate(email, password);
-    setLoading(false);
-
-    if (response.role === EnumRoleUser.NORMAL) {
-      navigate(RoutesEnum.ACAIS_ACTIVES);
-    } else {
-      navigate(RoutesEnum.SALES_CREATE);
+    try {
+      const response = await authenticate(email, password);
+      if (response.role === EnumRoleUser.NORMAL) {
+        navigate(RoutesEnum.ACAIS_ACTIVES);
+      } else {
+        navigate(RoutesEnum.SALES_CREATE);
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
     }
   };
 

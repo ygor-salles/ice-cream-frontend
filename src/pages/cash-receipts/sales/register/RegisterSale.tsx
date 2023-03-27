@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AttachMoney } from '@mui/icons-material';
-import { Skeleton, Theme, useMediaQuery } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Button, Skeleton } from '@mui/material';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AutoComplete from 'shared/components/autocomplete/Autocomplete';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import SelectApp from 'shared/components/select/Select';
 import SelectMultiple from 'shared/components/selectMultiple/SelectMultiple';
 import TextFieldApp from 'shared/components/textField/TextField';
@@ -21,27 +21,29 @@ import {
   IFormSale,
   schemaCreateSale,
   schemaCreateSaleWithCustomer,
+  transformItemArray,
+  transformObject,
 } from 'shared/dtos/ISaleDTO';
 import { useClient } from 'shared/hooks/network/useClient';
 import { useCombination } from 'shared/hooks/network/useCombination';
 import { useProduct } from 'shared/hooks/network/useProduct';
 import { useSale } from 'shared/hooks/network/useSale';
 import { LayoutBaseDePagina } from 'shared/layouts';
+import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
 import Mask from 'shared/utils/masks';
 
-import { Form, GridForm, StyledCard } from './styles';
+import CartListing from './components/CartListing';
+import { Form, GridForm, StyledCard, Notificaion, Wrapper, WrapperButtons } from './styles';
 
 export function RegisterSale(): JSX.Element {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
   const [requiredClient, setRequiredClient] = useState(false);
   const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
   const [count, setCount] = useState(Number(defaultValueAmount));
   const [enableOptions, setEnableOptions] = useState(false);
   const [loadingRequests, setLoadingRequests] = useState(false);
 
-  const { handleSubmit, control, setValue, formState, reset, getValues } = useForm<IFormSale>({
+  const { handleSubmit, control, setValue, getValues } = useForm<IFormSale>({
     resolver: yupResolver(
       requiredClient === false ? schemaCreateSale : schemaCreateSaleWithCustomer,
     ),
@@ -56,16 +58,42 @@ export function RegisterSale(): JSX.Element {
 
   const { getCombinations, allCombinations, loadingCombinations } = useCombination();
 
-  const onSubmitCreate = (data: IFormSale) => {
-    const dataSubmit = { ...data };
-    dataSubmit.data_product.combinations = data.combinations;
-    handleSubmitCreate(dataSubmit);
+  const [showScreenCarListing, setShowScreenCarListing] = useState(false);
+  const onToggleScreenCarListing = () => setShowScreenCarListing(prev => !prev);
+  const [carListState, setCarListState] = useState<IDataProduct[]>([]);
+
+  const onSubmitInsert = useCallback((data: IFormSale) => {
+    const newItem: IDataProduct = transformItemArray(data);
+    console.log(newItem);
+    setCarListState(prev => [...prev, newItem]);
     setIsDisabledTextFieldCount(true);
+    onToggleScreenCarListing();
     setTimeout(() => {
+      setValue('combinations', []);
       setValue('amount', defaultValueAmount);
       setCount(Number(defaultValueAmount));
     }, 1000);
-  };
+  }, []);
+
+  const onDeleteList = useCallback(
+    (object: IDataProduct) => {
+      const newList = carListState.filter(item => item !== object);
+      setCarListState(newList);
+    },
+    [carListState],
+  );
+
+  const onSubmit = useCallback(() => {
+    handleSubmitCreate(
+      transformObject({
+        total: getValues('total'),
+        type_sale: getValues('type_sale'),
+        observation: getValues('observation'),
+        client_id: getValues('client_id'),
+        data_product: carListState,
+      }),
+    );
+  }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onCloseSelectProduct = async (_: any) => {
@@ -159,11 +187,17 @@ export function RegisterSale(): JSX.Element {
     Promise.all([getProducts(true), getClients()]).finally(() => setLoadingRequests(false));
   }, []);
 
-  useEffect(() => {
-    if (formState.isSubmitSuccessful) {
-      reset();
-    }
-  }, [formState, reset]);
+  // const [previousLocation, setPreviousLocation] = useState(null);
+  // const location = useLocation();
+
+  // useEffect(() => {
+  //   console.log('caiuu use', location);
+  //   if (previousLocation !== null && location.key !== previousLocation.key) {
+  //     console.log('aqui');
+  //     onToggleScreenCarListing();
+  //   }
+  //   setPreviousLocation(location);
+  // }, [location]);
 
   return (
     <LayoutBaseDePagina
@@ -175,72 +209,105 @@ export function RegisterSale(): JSX.Element {
       {loadingRequests || loadingCombinations ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
-        <Form onSubmit={handleSubmit(onSubmitCreate)}>
-          <StyledCard>
-            <GridForm>
-              <AutoComplete
-                name={fieldsSale.PRODUCT_NAME}
-                control={control}
-                options={allProducts}
-                sortAlphabeticallyObject
-                label="Produto"
-                required
-                onClose={onCloseSelectProduct}
-                disabled={loading}
-              />
-              {enableOptions && (
-                <SelectMultiple
-                  name={fieldsSale.COMBINATIONS}
-                  control={control}
-                  options={allCombinations}
-                  label="Combinações"
-                  setValue={setValue}
-                  disabled={loading}
-                  onClose={onCloseSelectCombinations}
-                />
-              )}
-              <TextFieldCount
-                name={fieldsSale.AMOUNT}
-                control={control}
-                label="Quantidade"
-                defaultValue={Number(defaultValueAmount)}
-                stateCount={count}
-                setStateCount={setCount}
-                handleOperation={handleTextFieldCount}
-                disabled={loading || isDisabledTextFieldCount}
-              />
-              <SelectApp
-                name={fieldsSale.TYPE_SALE}
-                control={control}
-                options={LISTTYPESALES}
-                label="Tipo de venda"
-                required
-                onClose={onCloseSelectSale}
-                disabled={loading}
-              />
-              <AutoComplete
-                name={fieldsSale.CLIENT_NAME}
-                control={control}
-                options={allClients}
-                sortAlphabeticallyObject
-                label="Cliente"
-                onClose={onCloseSelectClient}
-                required={requiredClient}
-                disabled={loading}
-              />
-              <TextFieldApp name={fieldsSale.OBSERVATION} control={control} label="Observação" />
-              <TextFieldApp
-                name={fieldsSale.TOTAL}
-                control={control}
-                label="Total"
-                currency
-                required
-                disabled={loading}
-              />
-            </GridForm>
+        <Form onSubmit={handleSubmit(onSubmitInsert)}>
+          {!showScreenCarListing ? (
+            <Wrapper style={{ position: 'relative' }}>
+              {carListState.length > 0 && <Notificaion>{carListState.length}</Notificaion>}
+              <StyledCard>
+                <GridForm>
+                  <AutoComplete
+                    name={fieldsSale.PRODUCT_NAME}
+                    control={control}
+                    options={allProducts}
+                    sortAlphabeticallyObject
+                    label="Produto"
+                    required
+                    onClose={onCloseSelectProduct}
+                    disabled={loading}
+                  />
+                  {enableOptions && (
+                    <SelectMultiple
+                      name={fieldsSale.COMBINATIONS}
+                      control={control}
+                      options={allCombinations}
+                      sortAlphabeticallyObject
+                      label="Combinações"
+                      setValue={setValue}
+                      disabled={loading}
+                      onClose={onCloseSelectCombinations}
+                    />
+                  )}
+                  <TextFieldCount
+                    name={fieldsSale.AMOUNT}
+                    control={control}
+                    label="Quantidade"
+                    defaultValue={Number(defaultValueAmount)}
+                    stateCount={count}
+                    setStateCount={setCount}
+                    handleOperation={handleTextFieldCount}
+                    disabled={loading || isDisabledTextFieldCount}
+                  />
+                  <SelectApp
+                    name={fieldsSale.TYPE_SALE}
+                    control={control}
+                    options={LISTTYPESALES}
+                    label="Tipo de venda"
+                    required
+                    onClose={onCloseSelectSale}
+                    disabled={loading}
+                  />
+                  <AutoComplete
+                    name={fieldsSale.CLIENT_NAME}
+                    control={control}
+                    options={allClients}
+                    sortAlphabeticallyObject
+                    label="Cliente"
+                    onClose={onCloseSelectClient}
+                    required={requiredClient}
+                    disabled={
+                      loading || (carListState.length >= 1 && getValues('client_name').length > 0)
+                    }
+                  />
+                  <TextFieldApp
+                    name={fieldsSale.OBSERVATION}
+                    control={control}
+                    label="Observação"
+                  />
+                  <TextFieldApp
+                    name={fieldsSale.TOTAL}
+                    control={control}
+                    label="Total"
+                    currency
+                    required
+                    disabled={loading}
+                  />
+                </GridForm>
 
-            <ButtonSubmitApp loading={loading} smDown={smDown} textButton="CADASTRAR" />
-          </StyledCard>
+                <WrapperButtons>
+                  <Button
+                    type="button"
+                    color="secondary"
+                    variant="outlined"
+                    onClick={onToggleScreenCarListing}
+                  >
+                    Visualizar pedidos
+                  </Button>
+                  <Button type="submit" variant="contained">
+                    INSERIR
+                  </Button>
+                </WrapperButtons>
+              </StyledCard>
+            </Wrapper>
+          ) : (
+            <CartListing
+              listSale={carListState}
+              observation={getValues('observation')}
+              onToggleScreenCarListing={onToggleScreenCarListing}
+              setValue={setValue}
+              onSubmit={onSubmit}
+              onDeleteList={onDeleteList}
+            />
+          )}
         </Form>
       )}
     </LayoutBaseDePagina>

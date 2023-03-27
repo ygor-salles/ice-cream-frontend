@@ -7,9 +7,7 @@ import { RoutesEnum } from 'shared/constants/routesList';
 import {
   IFormCashClosing,
   IFormFilterSales,
-  IFormSale,
   ISaleDTO,
-  transformObject,
   transformObjectCashClosing,
   transformObjectFilter,
 } from 'shared/dtos/ISaleDTO';
@@ -34,19 +32,20 @@ export function useSale() {
 
   const [totalPage, setTotalPage] = useState(1);
 
-  async function handleSubmitCreate(dataForm: IFormSale) {
-    setLoadingForm(true);
-    const data: ISaleDTO = transformObject(dataForm);
+  async function handleSubmitCreate(dataForm: ISaleDTO) {
+    // setLoadingForm(true);
+    // const data: ISaleDTO = transformObject(dataForm);
+    console.log(dataForm);
 
-    try {
-      await saleService.create(data);
-      addToast('Venda cadastrada com sucesso!', ToastType.success);
-    } catch (error) {
-      const { response } = error as AxiosError;
-      addToast(`Erro ao cadastrar venda - ${response?.data?.message}`, ToastType.error);
-    } finally {
-      setLoadingForm(false);
-    }
+    // try {
+    //   await saleService.create(data);
+    //   addToast('Venda cadastrada com sucesso!', ToastType.success);
+    // } catch (error) {
+    //   const { response } = error as AxiosError;
+    //   addToast(`Erro ao cadastrar venda - ${response?.data?.message}`, ToastType.error);
+    // } finally {
+    //   setLoadingForm(false);
+    // }
   }
 
   async function getSalesPaged(page?: string) {

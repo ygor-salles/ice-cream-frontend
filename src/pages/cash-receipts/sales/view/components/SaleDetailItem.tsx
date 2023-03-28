@@ -1,7 +1,9 @@
+import { Edit } from '@mui/icons-material';
+import { useState } from 'react';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
-import { Text, Title, WrapperDetail, StyledCardList } from './styles';
+import { Text, Title, WrapperDetail, StyledCardList, BttIcon } from './styles';
 
 interface SaleDetailItemProps {
   onClose: () => void;
@@ -14,19 +16,28 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
   onDeleteSale,
   saleDetail: { client, data_product, observation, updated_at, type_sale, total },
 }) => {
+  const [disabledActions, setDisabledActions] = useState(true);
+
   return (
     <>
-      <Title>Detalhes de vendas</Title>
+      <Title>
+        Detalhes de vendas{' '}
+        <BttIcon type="button" onClick={() => setDisabledActions(prev => !prev)}>
+          <Edit color="primary" />
+        </BttIcon>
+      </Title>
       <StyledCardList
         listSale={data_product ?? []}
         observation={observation}
         updated_at={updated_at}
         type_sale={type_sale}
+        disabledActions={disabledActions}
+        onAddList={() => console.log('adicionar')}
         onDeleteList={() => console.log('delete')}
         onClickPrimary={onDeleteSale}
         onClickSeconadary={onClose}
         textPrimary="Deletar"
-        textSecondary="Ok"
+        textSecondary={disabledActions ? 'Ok' : 'Cancelar'}
         totalSum={total}
         renderMain={
           client && (

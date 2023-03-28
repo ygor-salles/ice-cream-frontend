@@ -18,6 +18,7 @@ import {
   WrapperDel,
   Main,
   Row,
+  AddCircle,
 } from './styles';
 
 interface CartListing {
@@ -28,7 +29,11 @@ interface CartListing {
   totalSum: number;
   textPrimary: string;
   textSecondary: string;
+  disabledActions?: boolean;
   renderMain?: React.ReactElement;
+  renderTopButtons?: React.ReactElement;
+  renderBottomButtons?: React.ReactElement;
+  onAddList?: () => void;
   onDeleteList: (object: IDataProduct) => void;
   onClickPrimary: () => void;
   onClickSeconadary: () => void;
@@ -43,6 +48,10 @@ const CartListing: React.FC<CartListing> = ({
   textPrimary,
   textSecondary,
   renderMain,
+  disabledActions,
+  renderTopButtons,
+  renderBottomButtons,
+  onAddList,
   onDeleteList,
   onClickPrimary,
   onClickSeconadary,
@@ -65,7 +74,7 @@ const CartListing: React.FC<CartListing> = ({
         )}
 
         {updated_at && type_sale && (
-          <Row>
+          <Row hasBottom>
             <Typography>
               <b>Data:</b> {formatDateTime(updated_at) || '--'}
             </Typography>
@@ -95,6 +104,7 @@ const CartListing: React.FC<CartListing> = ({
                           e.stopPropagation();
                           onDeleteList(item);
                         }}
+                        disabled={disabledActions}
                       >
                         <Delete color="warning" />
                       </BttIcon>
@@ -114,7 +124,16 @@ const CartListing: React.FC<CartListing> = ({
                 </Accordion>
               )),
             )}
-            {totalSum > 0 && <Total>Total: {formatNumberToCurrency(totalSum)}</Total>}
+            <Row hasTop>
+              <div>
+                {onAddList && (
+                  <BttIcon type="button" disabled={disabledActions} onClick={onAddList}>
+                    <AddCircle color="success" />
+                  </BttIcon>
+                )}
+              </div>
+              {totalSum > 0 && <Total>Total: {formatNumberToCurrency(totalSum)}</Total>}
+            </Row>
             {renderMain && renderMain}
           </>
         ) : (
@@ -122,17 +141,23 @@ const CartListing: React.FC<CartListing> = ({
         )}
       </div>
       <WrapperButtons>
-        <Button type="button" variant="contained" color="secondary" onClick={onClickPrimary}>
-          {textPrimary}
-        </Button>
-        <Button
-          type="button"
-          variant="contained"
-          disabled={listSale.length === 0}
-          onClick={onClickSeconadary}
-        >
-          {textSecondary}
-        </Button>
+        <div>
+          {renderTopButtons && renderTopButtons}
+          <Button type="button" variant="contained" color="secondary" onClick={onClickPrimary}>
+            {textPrimary}
+          </Button>
+        </div>
+        <div>
+          {renderBottomButtons && renderBottomButtons}
+          <Button
+            type="button"
+            variant="contained"
+            disabled={listSale.length === 0}
+            onClick={onClickSeconadary}
+          >
+            {textSecondary}
+          </Button>
+        </div>
       </WrapperButtons>
     </Main>
   );

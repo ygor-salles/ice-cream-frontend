@@ -1,3 +1,4 @@
+import { AddCircle as MuiAddCircle } from '@mui/icons-material';
 import { AccordionSummary, Typography } from '@mui/material';
 import styled from 'styled-components';
 import { Colors, mediaQuery } from 'styles/global';
@@ -44,11 +45,15 @@ export const WrapperButtons = styled.div`
   ${mediaQuery.mobile} {
     flex-direction: column;
 
-    button {
+    div {
       width: 100%;
+
+      button {
+        width: 100%;
+      }
     }
 
-    button:first-child {
+    div:first-child {
       margin-bottom: 16px;
     }
   }
@@ -64,9 +69,6 @@ export const Empty = styled.span<EmptyProps>`
 `;
 
 export const Total = styled(Typography)`
-  width: 100%;
-  text-align: right;
-  margin-top: 16px;
   color: ${Colors.MAIN_SECONDARY};
   font-weight: bold;
 `;
@@ -78,9 +80,19 @@ export const Main = styled.div`
   height: calc(100vh - 96px);
 `;
 
-export const Row = styled.div`
+interface RowProps {
+  hasBottom?: boolean;
+  hasTop?: boolean;
+}
+
+export const Row = styled.div<RowProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: ${props => props.hasBottom && '16px'};
+  margin-top: ${props => props.hasTop && '16px'};
+`;
+
+export const AddCircle = styled(MuiAddCircle)`
+  font-size: 1.8rem;
 `;

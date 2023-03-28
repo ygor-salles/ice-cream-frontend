@@ -62,6 +62,7 @@ export const Title = styled(Typography)`
   font-weight: 600;
   font-size: 22px !important;
   text-align: center;
+  margin-bottom: 8px;
 `;
 
 export const Value = styled(Typography)`
@@ -105,4 +106,11 @@ export const StyledCardList = styled(CartListing)`
   width: 100%;
   margin-top: 10px;
   height: calc(100vh - 135px);
+`;
+
+export const BttIcon = styled.button`
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
 `;

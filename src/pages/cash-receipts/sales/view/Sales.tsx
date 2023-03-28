@@ -1,4 +1,4 @@
-import { AddBox } from '@mui/icons-material';
+import { AddBox, ArrowBack } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -48,9 +48,10 @@ export function Sales(): JSX.Element {
   return (
     <LayoutBaseDePagina
       titulo="Vendas"
-      navigatePage={RoutesEnum.SALES_CREATE}
-      textButton="CADASTRAR"
-      icon={<AddBox />}
+      onClick={showDetailItem ? () => setShowDetailItem(false) : undefined}
+      navigatePage={!showDetailItem ? RoutesEnum.SALES_CREATE : undefined}
+      textButton={showDetailItem ? 'Voltar' : 'Cadastrar'}
+      icon={showDetailItem ? <ArrowBack /> : <AddBox />}
     >
       {!showDetailItem ? (
         loadingSales ? (

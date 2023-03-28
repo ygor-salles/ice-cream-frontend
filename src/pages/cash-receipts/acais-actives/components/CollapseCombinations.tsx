@@ -1,5 +1,4 @@
 import { Switch } from '@mui/material';
-import { useMemo } from 'react';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import { ISaleDTO } from 'shared/dtos/ISaleDTO';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';

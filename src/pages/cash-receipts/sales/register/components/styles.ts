@@ -77,3 +77,10 @@ export const Main = styled.div`
   justify-content: space-between;
   height: calc(100vh - 96px);
 `;
+
+export const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+`;

@@ -10,21 +10,26 @@ interface SaleItemProps {
   detailSale: InstanceSale;
 }
 
-const SaleItem: React.FC<SaleItemProps> = ({ onClick, detailSale }) => {
+const SaleItem: React.FC<SaleItemProps> = ({
+  onClick,
+  detailSale: { data_product, total, client, type_sale, updated_at },
+}) => {
   return (
     <Container onClick={onClick}>
       <WrapperInfo>
-        <Text bold>{`${detailSale?.amount || '--'} ${
-          detailSale?.data_product?.name || '--'
-        }`}</Text>
-        <Text bold mgTop green>
-          {formatNumberToCurrency(detailSale?.total ?? null) || '--'}
+        <Text bold>
+          {data_product.length > 1
+            ? 'Varios ...'
+            : `${data_product[0].amount} ${data_product[0].name}`}
         </Text>
-        <Text>{detailSale?.client?.name || '--'}</Text>
-        <Text>{detailSale?.type_sale || '--'}</Text>
+        <Text bold mgTop green>
+          {formatNumberToCurrency(total ?? null) || '--'}
+        </Text>
+        {client?.name && <Text>{client.name}</Text>}
+        <Text>{type_sale || '--'}</Text>
       </WrapperInfo>
       <WrapperNavigate>
-        <Text>{formatDateTime(detailSale?.updated_at) || '--'}</Text>
+        <Text>{formatDateTime(updated_at) || '--'}</Text>
         <NavigateNext fontSize="large" />
       </WrapperNavigate>
     </Container>

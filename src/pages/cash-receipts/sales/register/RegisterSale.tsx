@@ -43,7 +43,7 @@ export function RegisterSale(): JSX.Element {
   const [enableOptions, setEnableOptions] = useState(false);
   const [loadingRequests, setLoadingRequests] = useState(false);
 
-  const { handleSubmit, control, setValue, getValues } = useForm<IFormSale>({
+  const { handleSubmit, control, setValue, reset, getValues } = useForm<IFormSale>({
     resolver: yupResolver(
       requiredClient === false ? schemaCreateSale : schemaCreateSaleWithCustomer,
     ),
@@ -89,8 +89,8 @@ export function RegisterSale(): JSX.Element {
     [carListState],
   );
 
-  const onSubmit = () => {
-    handleSubmitCreate(
+  const onSubmit = async () => {
+    await handleSubmitCreate(
       transformObject({
         total: totalSum,
         type_sale: getValues('type_sale'),
@@ -99,6 +99,9 @@ export function RegisterSale(): JSX.Element {
         data_product: carListState,
       }),
     );
+    reset();
+    setCarListState([]);
+    onToggleScreenCarListing();
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -309,10 +312,16 @@ export function RegisterSale(): JSX.Element {
               listSale={carListState}
               totalSum={totalSum}
               observation={getValues('observation')}
-              onToggleScreenCarListing={onToggleScreenCarListing}
-              setValue={setValue}
-              onSubmit={onSubmit}
               onDeleteList={onDeleteList}
+              onClickPrimary={() => {
+                setValue('product_name', '');
+                setValue('data_product', null);
+                setValue('total', '');
+                onToggleScreenCarListing();
+              }}
+              onClickSeconadary={onSubmit}
+              textPrimary="Inserir mais"
+              textSecondary="Finalizar pedido"
             />
           )}
         </Form>

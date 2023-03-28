@@ -1,10 +1,10 @@
 import { Delete } from '@mui/icons-material';
 import { Accordion, AccordionDetails, Button, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { UseFormSetValue } from 'react-hook-form';
-import { IFormSale } from 'shared/dtos/ISaleDTO';
+import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
 import { useThemeContext } from 'shared/hooks/useThemeContext';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
+import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
 import {
@@ -17,26 +17,36 @@ import {
   WrapperButtons,
   WrapperDel,
   Main,
+  Row,
 } from './styles';
 
 interface CartListing {
   listSale: IDataProduct[];
   observation: string;
+  updated_at?: string | Date;
+  type_sale?: EnumTypeSale;
   totalSum: number;
-  onToggleScreenCarListing: () => void;
-  setValue: UseFormSetValue<IFormSale>;
-  onSubmit: () => void;
+  textPrimary: string;
+  textSecondary: string;
+  renderMain?: React.ReactElement;
   onDeleteList: (object: IDataProduct) => void;
+  onClickPrimary: () => void;
+  onClickSeconadary: () => void;
 }
 
 const CartListing: React.FC<CartListing> = ({
   listSale,
   observation,
+  updated_at,
+  type_sale,
   totalSum,
-  onToggleScreenCarListing,
+  textPrimary,
+  textSecondary,
+  renderMain,
   onDeleteList,
-  setValue,
-  onSubmit,
+  onClickPrimary,
+  onClickSeconadary,
+  ...rest
 }) => {
   const { themeName } = useThemeContext();
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -46,11 +56,25 @@ const CartListing: React.FC<CartListing> = ({
   };
 
   return (
-    <Main>
+    <Main {...rest}>
       <div>
         {observation && (
-          <Typography style={{ marginBottom: 10 }}>Observação: {observation}</Typography>
+          <Typography style={{ marginBottom: 5 }}>
+            <b>Observação:</b> {observation}
+          </Typography>
         )}
+
+        {updated_at && type_sale && (
+          <Row>
+            <Typography>
+              <b>Data:</b> {formatDateTime(updated_at) || '--'}
+            </Typography>
+            <Typography>
+              <b>*</b> {type_sale}
+            </Typography>
+          </Row>
+        )}
+
         {listSale.length > 0 ? (
           <>
             {React.Children.toArray(
@@ -91,32 +115,23 @@ const CartListing: React.FC<CartListing> = ({
               )),
             )}
             {totalSum > 0 && <Total>Total: {formatNumberToCurrency(totalSum)}</Total>}
+            {renderMain && renderMain}
           </>
         ) : (
           <Empty isDark={themeName === 'dark'}>Não há pedidos cadastrados</Empty>
         )}
       </div>
       <WrapperButtons>
-        <Button
-          type="button"
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            setValue('product_name', '');
-            setValue('data_product', null);
-            setValue('total', '');
-            onToggleScreenCarListing();
-          }}
-        >
-          Inserir mais
+        <Button type="button" variant="contained" color="secondary" onClick={onClickPrimary}>
+          {textPrimary}
         </Button>
         <Button
           type="button"
           variant="contained"
           disabled={listSale.length === 0}
-          onClick={onSubmit}
+          onClick={onClickSeconadary}
         >
-          Finalizar pedido
+          {textSecondary}
         </Button>
       </WrapperButtons>
     </Main>

@@ -142,13 +142,13 @@ const CartListing: React.FC<CartListing> = ({
       </div>
       <WrapperButtons>
         <div>
-          {renderTopButtons && renderTopButtons}
+          {renderTopButtons && !disabledActions && renderTopButtons}
           <Button type="button" variant="contained" color="secondary" onClick={onClickPrimary}>
             {textPrimary}
           </Button>
         </div>
         <div>
-          {renderBottomButtons && renderBottomButtons}
+          {renderBottomButtons && !disabledActions && renderBottomButtons}
           <Button
             type="button"
             variant="contained"

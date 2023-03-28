@@ -1,4 +1,5 @@
 import { Edit } from '@mui/icons-material';
+import { Button } from '@mui/material';
 import { useState } from 'react';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
@@ -38,6 +39,16 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
         onClickSeconadary={onClose}
         textPrimary="Deletar"
         textSecondary={disabledActions ? 'Ok' : 'Cancelar'}
+        renderTopButtons={
+          <Button
+            type="button"
+            variant="contained"
+            color="secondary"
+            onClick={() => console.log('salvar')}
+          >
+            Salvar
+          </Button>
+        }
         totalSum={total}
         renderMain={
           client && (

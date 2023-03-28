@@ -38,16 +38,8 @@ export const WrapperButtons = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: -webkit-fill-available;
-  bottom: 24px;
-  left: 248px;
-  right: 24px;
-  position: absolute;
-
-  ${mediaQuery.tableSm} {
-    left: 24px;
-    bottom: 16px;
-  }
+  width: 100%;
+  padding: 16px 0;
 
   ${mediaQuery.mobile} {
     flex-direction: column;
@@ -77,4 +69,11 @@ export const Total = styled(Typography)`
   margin-top: 16px;
   color: ${Colors.MAIN_SECONDARY};
   font-weight: bold;
+`;
+
+export const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 96px);
 `;

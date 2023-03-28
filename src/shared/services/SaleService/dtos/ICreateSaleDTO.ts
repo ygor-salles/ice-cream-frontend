@@ -7,14 +7,14 @@ export interface IDataProduct {
   price: number;
   combinations?: Array<{ name: string; price: number }>;
   total: number;
-  type_product?: EnumTypeProduct;
+  type?: EnumTypeProduct;
 }
 export interface ICreateSaleDTORequest {
   total: number;
   type_sale: EnumTypeSale;
-  observation: string;
-  client_id: number;
-  in_progress: boolean;
+  observation?: string;
+  client_id?: number;
+  in_progress?: boolean;
   data_product: Array<IDataProduct>;
 }
 

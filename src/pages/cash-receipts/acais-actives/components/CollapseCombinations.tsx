@@ -1,5 +1,8 @@
 import { Switch } from '@mui/material';
+import { useMemo } from 'react';
+import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import { ISaleDTO } from 'shared/dtos/ISaleDTO';
+import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
 import { Li, Ul, Container, Text } from './styles';
@@ -15,7 +18,9 @@ const CollapseCombinations: React.FC<PropTypes> = ({
   updateSaleById,
   onToggleRefreshPage,
 }) => {
-  const combinations = sale?.data_product?.combinations;
+  const acais: IDataProduct[] = sale.data_product.filter(
+    item => item.type === EnumTypeProduct.ACAI,
+  );
 
   const onChangeCheck = async () => {
     await updateSaleById({ id: sale.id, in_progress: !sale.in_progress });
@@ -25,17 +30,27 @@ const CollapseCombinations: React.FC<PropTypes> = ({
   return (
     <Container>
       <div>
-        <Ul>
-          {combinations?.length > 0 ? (
-            combinations.map(item => (
-              <Li hasCombinations key={item.name}>
-                {item?.name || '--'}
-              </Li>
-            ))
-          ) : (
-            <Li>Não há combinações</Li>
-          )}
-        </Ul>
+        {acais?.length > 0 ? (
+          acais.map(item => (
+            <div key={`${item.amount} ${item.name}`}>
+              {acais.length > 1 && <Text>{`${item.amount} ${item.name}`}</Text>}
+              <Ul>
+                {item?.combinations?.length > 0 ? (
+                  item.combinations.map(item => (
+                    <Li hasCombinations key={item.name}>
+                      {item?.name || '--'}
+                    </Li>
+                  ))
+                ) : (
+                  <Li>Não há combinações</Li>
+                )}
+              </Ul>
+            </div>
+          ))
+        ) : (
+          <></>
+        )}
+
         {sale?.observation && <Text>Obs: {sale.observation}</Text>}
       </div>
       <Switch

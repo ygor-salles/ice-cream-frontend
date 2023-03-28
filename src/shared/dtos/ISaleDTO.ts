@@ -43,7 +43,7 @@ export interface IFormSale {
 }
 
 interface IFormSaleSubmit {
-  total: string;
+  total: number;
   type_sale: EnumTypeSale;
   observation?: string;
   client_id?: string;
@@ -112,16 +112,16 @@ export const transformItemArray = (dataForm: IFormSale): IDataProduct => {
     price: dataForm.data_product.price,
     total: Mask.convertCurrency(dataForm.total),
     combinations: dataForm.combinations.map(item => ({ name: item.name, price: item.price })),
-    type_product: dataForm.data_product.type,
+    type: dataForm.data_product.type,
   };
   return object;
 };
 
 export const transformObject = (dataForm: IFormSaleSubmit): ISaleDTO => {
-  const foundAcai = dataForm.data_product.find(item => item.type_product === EnumTypeProduct.ACAI);
+  const foundAcai = dataForm.data_product.find(item => item.type === EnumTypeProduct.ACAI);
 
   const objectSale: ISaleDTO = {
-    total: Mask.convertCurrency(dataForm.total),
+    total: dataForm.total,
     type_sale: convetSalesType(dataForm.type_sale),
     in_progress: !!foundAcai,
     data_product: dataForm.data_product.map(item =>
@@ -132,12 +132,14 @@ export const transformObject = (dataForm: IFormSaleSubmit): ISaleDTO => {
             price: item.price,
             total: item.total,
             combinations: item.combinations,
+            type: item.type,
           }
         : {
             amount: item.amount,
             name: item.name,
             price: item.price,
             total: item.total,
+            type: item.type,
           },
     ),
   };

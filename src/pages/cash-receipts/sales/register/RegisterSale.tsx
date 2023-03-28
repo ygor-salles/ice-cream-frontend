@@ -2,7 +2,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AttachMoney } from '@mui/icons-material';
 import { Button, Skeleton } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AutoComplete from 'shared/components/autocomplete/Autocomplete';
@@ -62,9 +62,15 @@ export function RegisterSale(): JSX.Element {
   const onToggleScreenCarListing = () => setShowScreenCarListing(prev => !prev);
   const [carListState, setCarListState] = useState<IDataProduct[]>([]);
 
+  const totalSum = useMemo(() => {
+    if (carListState?.length > 0) {
+      return carListState.reduce((acumulator, current) => acumulator + current.total, 0);
+    }
+    return 0;
+  }, [carListState]);
+
   const onSubmitInsert = useCallback((data: IFormSale) => {
     const newItem: IDataProduct = transformItemArray(data);
-    console.log(newItem);
     setCarListState(prev => [...prev, newItem]);
     setIsDisabledTextFieldCount(true);
     onToggleScreenCarListing();
@@ -83,17 +89,17 @@ export function RegisterSale(): JSX.Element {
     [carListState],
   );
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = () => {
     handleSubmitCreate(
       transformObject({
-        total: getValues('total'),
+        total: totalSum,
         type_sale: getValues('type_sale'),
         observation: getValues('observation'),
         client_id: getValues('client_id'),
         data_product: carListState,
       }),
     );
-  }, []);
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onCloseSelectProduct = async (_: any) => {
@@ -301,6 +307,7 @@ export function RegisterSale(): JSX.Element {
           ) : (
             <CartListing
               listSale={carListState}
+              totalSum={totalSum}
               observation={getValues('observation')}
               onToggleScreenCarListing={onToggleScreenCarListing}
               setValue={setValue}

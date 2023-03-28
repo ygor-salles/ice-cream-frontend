@@ -1,6 +1,6 @@
 import { Delete } from '@mui/icons-material';
 import { Accordion, AccordionDetails, Button, Typography } from '@mui/material';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
 import { IFormSale } from 'shared/dtos/ISaleDTO';
 import { useThemeContext } from 'shared/hooks/useThemeContext';
@@ -16,11 +16,13 @@ import {
   Ul,
   WrapperButtons,
   WrapperDel,
+  Main,
 } from './styles';
 
 interface CartListing {
   listSale: IDataProduct[];
   observation: string;
+  totalSum: number;
   onToggleScreenCarListing: () => void;
   setValue: UseFormSetValue<IFormSale>;
   onSubmit: () => void;
@@ -30,6 +32,7 @@ interface CartListing {
 const CartListing: React.FC<CartListing> = ({
   listSale,
   observation,
+  totalSum,
   onToggleScreenCarListing,
   onDeleteList,
   setValue,
@@ -42,62 +45,57 @@ const CartListing: React.FC<CartListing> = ({
     setExpanded(isExpanded ? panel : false);
   };
 
-  const totalSum = useMemo(() => {
-    if (listSale?.length > 0) {
-      return listSale.reduce((acumulator, current) => acumulator + current.total, 0);
-    }
-    return 0;
-  }, [listSale]);
-
   return (
-    <>
-      {observation && (
-        <Typography style={{ marginBottom: 10 }}>Observação: {observation}</Typography>
-      )}
-      {listSale.length > 0 ? (
-        <>
-          {React.Children.toArray(
-            listSale.map((item, index) => (
-              <Accordion
-                expanded={expanded === `panel${index + 1}`}
-                onChange={handleChange(`panel${index + 1}`)}
-              >
-                <ContentSummary>
-                  <Typography>{`${item.amount} ${item.name}${
-                    item?.combinations?.length > 0 ? ' - C/comb' : ''
-                  }`}</Typography>
-                  <WrapperDel>
-                    <Typography>{formatNumberToCurrency(item.total)}</Typography>
-                    <BttIcon
-                      type="button"
-                      onClick={e => {
-                        e.stopPropagation();
-                        onDeleteList(item);
-                      }}
-                    >
-                      <Delete color="warning" />
-                    </BttIcon>
-                  </WrapperDel>
-                </ContentSummary>
-                <AccordionDetails>
-                  {item?.combinations?.length > 0 && (
-                    <Ul>
-                      {item.combinations.map(item => (
-                        <Li key={item.name}>{`${item.name} - ${formatNumberToCurrency(
-                          item.price,
-                        )}`}</Li>
-                      ))}
-                    </Ul>
-                  )}
-                </AccordionDetails>
-              </Accordion>
-            )),
-          )}
-          {totalSum > 0 && <Total>Total: {formatNumberToCurrency(totalSum)}</Total>}
-        </>
-      ) : (
-        <Empty isDark={themeName === 'dark'}>Não há pedidos cadastrados</Empty>
-      )}
+    <Main>
+      <div>
+        {observation && (
+          <Typography style={{ marginBottom: 10 }}>Observação: {observation}</Typography>
+        )}
+        {listSale.length > 0 ? (
+          <>
+            {React.Children.toArray(
+              listSale.map((item, index) => (
+                <Accordion
+                  expanded={expanded === `panel${index + 1}`}
+                  onChange={handleChange(`panel${index + 1}`)}
+                >
+                  <ContentSummary>
+                    <Typography>{`${item.amount} ${item.name}${
+                      item?.combinations?.length > 0 ? ' - comb' : ''
+                    }`}</Typography>
+                    <WrapperDel>
+                      <Typography>{formatNumberToCurrency(item.total)}</Typography>
+                      <BttIcon
+                        type="button"
+                        onClick={e => {
+                          e.stopPropagation();
+                          onDeleteList(item);
+                        }}
+                      >
+                        <Delete color="warning" />
+                      </BttIcon>
+                    </WrapperDel>
+                  </ContentSummary>
+                  <AccordionDetails>
+                    {item?.combinations?.length > 0 && (
+                      <Ul>
+                        {item.combinations.map(item => (
+                          <Li key={item.name}>{`${item.name} - ${formatNumberToCurrency(
+                            item.price,
+                          )}`}</Li>
+                        ))}
+                      </Ul>
+                    )}
+                  </AccordionDetails>
+                </Accordion>
+              )),
+            )}
+            {totalSum > 0 && <Total>Total: {formatNumberToCurrency(totalSum)}</Total>}
+          </>
+        ) : (
+          <Empty isDark={themeName === 'dark'}>Não há pedidos cadastrados</Empty>
+        )}
+      </div>
       <WrapperButtons>
         <Button
           type="button"
@@ -121,7 +119,7 @@ const CartListing: React.FC<CartListing> = ({
           Finalizar pedido
         </Button>
       </WrapperButtons>
-    </>
+    </Main>
   );
 };
 

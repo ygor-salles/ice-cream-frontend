@@ -29,7 +29,6 @@ export function AcaisActives() {
   }, [refreshState]);
 
   const _renderCollapse = (sale: ISaleDTO) => (
-    // eslint-disable-next-line react/destructuring-assignment
     <CollapseCombinations
       sale={sale}
       updateSaleById={updateSaleById}

@@ -2,6 +2,10 @@ import { Typography } from '@mui/material';
 import styled from 'styled-components';
 import { Colors } from 'styles/global';
 
+interface UlProps {
+  hasBoder?: boolean;
+}
+
 export const Container = styled.div`
   padding: 16px 0;
   display: flex;
@@ -10,10 +14,10 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const Ul = styled.ul`
+export const Ul = styled.ul<UlProps>`
   padding-left: 30px;
   margin: 10px 0;
-  border-bottom: 1px solid #dedede;
+  border-bottom: ${props => props.hasBoder && `1px solid ${Colors.GRAY_LIGHT}`};
 `;
 
 export const Li = styled.li<{ hasCombinations?: boolean }>`

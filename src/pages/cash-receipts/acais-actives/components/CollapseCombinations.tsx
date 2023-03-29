@@ -33,7 +33,7 @@ const CollapseCombinations: React.FC<PropTypes> = ({
           acais.map(item => (
             <div key={`${item.amount} ${item.name}`}>
               {acais.length > 1 && <Text>{`${item.amount} ${item.name}`}</Text>}
-              <Ul>
+              <Ul hasBoder={acais?.length > 1}>
                 {item?.combinations?.length > 0 ? (
                   item.combinations.map(item => (
                     <Li hasCombinations key={item.name}>

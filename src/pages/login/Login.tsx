@@ -27,12 +27,13 @@ export const Login: React.FC = () => {
     setLoading(true);
     try {
       const response = await authenticate(email, password);
+      setLoading(false);
+
       if (response.role === EnumRoleUser.NORMAL) {
         navigate(RoutesEnum.ACAIS_ACTIVES);
       } else {
         navigate(RoutesEnum.SALES_CREATE);
       }
-      setLoading(false);
     } catch (error) {
       setLoading(false);
     }

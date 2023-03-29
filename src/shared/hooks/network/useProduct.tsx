@@ -1,13 +1,16 @@
 import { AxiosError } from 'axios';
 import { useRef, useState } from 'react';
 import { ToastType } from 'shared/components/snackBar/enum';
+import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { IFormProduct, IProductDTO, transformObject } from 'shared/dtos/IProductDTO';
 import ProductService from 'shared/services/ProductService';
 
+import { useCache } from '../useCache';
 import { useToastContext } from '../useToastContext';
 
 export function useProduct() {
   const { addToast } = useToastContext();
+  const { setDataLocalStorage } = useCache();
   const productService = new ProductService();
 
   const [allProducts, setAllProducts] = useState<IProductDTO[]>([]);
@@ -39,10 +42,21 @@ export function useProduct() {
 
     try {
       const listProducts = await productService.loadAll();
+      let isSetCache = false;
+
       if (onlyActive) {
         setAllProducts(listProducts.filter(item => item.status));
+        isSetCache = setDataLocalStorage(
+          localStorageKeys.PRODUCTS,
+          listProducts.filter(item => item.status),
+        );
       } else {
         setAllProducts(listProducts);
+        isSetCache = setDataLocalStorage(localStorageKeys.PRODUCTS, listProducts);
+      }
+
+      if (isSetCache) {
+        addToast('Dados salvos em cache', ToastType.success);
       }
     } catch (error) {
       const { response } = error as AxiosError;

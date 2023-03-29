@@ -11,8 +11,11 @@ import SelectMultiple from 'shared/components/selectMultiple/SelectMultiple';
 import TextFieldApp from 'shared/components/textField/TextField';
 import TextFieldCount from 'shared/components/textFieldCount/TextFieldCount';
 import { LISTTYPESALES } from 'shared/constants/listTypeSales';
+import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
+import { IClientDTO } from 'shared/dtos/IClientDTO';
+import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
+import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
 import {
   defaultValueAmount,
   defaultValuesSale,
@@ -28,6 +31,7 @@ import { useClient } from 'shared/hooks/network/useClient';
 import { useCombination } from 'shared/hooks/network/useCombination';
 import { useProduct } from 'shared/hooks/network/useProduct';
 import { useSale } from 'shared/hooks/network/useSale';
+import { useCache } from 'shared/hooks/useCache';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
@@ -50,13 +54,19 @@ export function RegisterSale(): JSX.Element {
     defaultValues: defaultValuesSale,
   });
 
+  const { getDataLocalStorage } = useCache();
   const { handleSubmitCreate, loadingForm: loading } = useSale();
+  const { getProducts, allProducts: productsAPI } = useProduct();
+  const { getClients, allClients: clientsAPI } = useClient();
+  const {
+    getCombinations,
+    allCombinations: combinationsAPI,
+    loadingCombinations,
+  } = useCombination();
 
-  const { getProducts, allProducts } = useProduct();
-
-  const { getClients, allClients } = useClient();
-
-  const { getCombinations, allCombinations, loadingCombinations } = useCombination();
+  const [allProducts, setAllProducts] = useState<IProductDTO[]>(productsAPI ?? []);
+  const [allClients, setAllClients] = useState<IClientDTO[]>(clientsAPI ?? []);
+  const [allCombinations, setAllCombinations] = useState<ICombinationDTO[]>(combinationsAPI ?? []);
 
   const [showScreenCarListing, setShowScreenCarListing] = useState(false);
   const onToggleScreenCarListing = () => setShowScreenCarListing(prev => !prev);
@@ -125,7 +135,16 @@ export function RegisterSale(): JSX.Element {
         }
 
         if (product.type === EnumTypeProduct.ACAI) {
-          await getCombinations();
+          const combinationStorage: ICombinationDTO[] = getDataLocalStorage(
+            localStorageKeys.COMBINATIONS,
+          );
+
+          if (combinationStorage?.length) {
+            setAllCombinations(combinationStorage);
+          } else {
+            await getCombinations();
+          }
+
           setEnableOptions(true);
         } else {
           setEnableOptions(false);
@@ -193,8 +212,22 @@ export function RegisterSale(): JSX.Element {
 
   useEffect(() => {
     setLoadingRequests(true);
-    Promise.all([getProducts(true), getClients()]).finally(() => setLoadingRequests(false));
-  }, []);
+
+    const clientsStorage: IClientDTO[] = getDataLocalStorage(localStorageKeys.CLIENTS);
+    const productsStorage: IProductDTO[] = getDataLocalStorage(localStorageKeys.PRODUCTS);
+
+    if (clientsStorage?.length && productsStorage?.length) {
+      setAllProducts(productsStorage.filter(item => item.status));
+      setAllClients(clientsStorage);
+      setLoadingRequests(false);
+    } else {
+      console.log('productsAPI', productsAPI.length);
+      console.log('clientsAPI', clientsAPI.length);
+      if (!productsAPI.length && !clientsAPI.length) {
+        Promise.all([getProducts(true), getClients()]).finally(() => setLoadingRequests(false));
+      }
+    }
+  }, [productsAPI.length, clientsAPI.length]);
 
   // const [previousLocation, setPreviousLocation] = useState(null);
   // const location = useLocation();

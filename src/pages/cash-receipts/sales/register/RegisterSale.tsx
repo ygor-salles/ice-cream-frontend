@@ -135,16 +135,6 @@ export function RegisterSale(): JSX.Element {
         }
 
         if (product.type === EnumTypeProduct.ACAI) {
-          const combinationStorage: ICombinationDTO[] = getDataLocalStorage(
-            localStorageKeys.COMBINATIONS,
-          );
-
-          if (combinationStorage?.length) {
-            setAllCombinations(combinationStorage);
-          } else {
-            await getCombinations();
-          }
-
           setEnableOptions(true);
         } else {
           setEnableOptions(false);
@@ -215,19 +205,21 @@ export function RegisterSale(): JSX.Element {
 
     const clientsStorage: IClientDTO[] = getDataLocalStorage(localStorageKeys.CLIENTS);
     const productsStorage: IProductDTO[] = getDataLocalStorage(localStorageKeys.PRODUCTS);
+    const combinationStorage: ICombinationDTO[] = getDataLocalStorage(
+      localStorageKeys.COMBINATIONS,
+    );
 
-    if (clientsStorage?.length && productsStorage?.length) {
+    if (clientsStorage?.length && productsStorage?.length && combinationStorage?.length) {
       setAllProducts(productsStorage.filter(item => item.status));
       setAllClients(clientsStorage);
+      setAllCombinations(combinationStorage);
       setLoadingRequests(false);
-    } else {
-      console.log('productsAPI', productsAPI.length);
-      console.log('clientsAPI', clientsAPI.length);
-      if (!productsAPI.length && !clientsAPI.length) {
-        Promise.all([getProducts(true), getClients()]).finally(() => setLoadingRequests(false));
-      }
+    } else if (!productsAPI.length && !clientsAPI.length && !combinationsAPI.length) {
+      Promise.all([getProducts(true), getClients(), getCombinations()]).finally(() =>
+        setLoadingRequests(false),
+      );
     }
-  }, [productsAPI.length, clientsAPI.length]);
+  }, [productsAPI.length, clientsAPI.length, combinationsAPI.length]);
 
   // const [previousLocation, setPreviousLocation] = useState(null);
   // const location = useLocation();

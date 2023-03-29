@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Colors } from 'styles/global';
 
-interface UlProps {
-  hasBoder?: boolean;
+interface WrapperProps {
+  hasBorder?: boolean;
 }
 
 export const Container = styled.div`
@@ -14,10 +14,23 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const Ul = styled.ul<UlProps>`
+export const ContentLeft = styled.div`
+  flex: 1;
+`;
+
+export const Wrapper = styled.div<WrapperProps>`
+  ${({ hasBorder }) =>
+    hasBorder &&
+    css`
+      border: 2px solid ${Colors.GRAY_LIGHT};
+      border-radius: 4px;
+      margin-bottom: 4px;
+    `}
+`;
+
+export const Ul = styled.ul`
   padding-left: 30px;
   margin: 10px 0;
-  border-bottom: ${props => props.hasBoder && `1px solid ${Colors.GRAY_LIGHT}`};
 `;
 
 export const Li = styled.li<{ hasCombinations?: boolean }>`

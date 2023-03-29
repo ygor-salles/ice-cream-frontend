@@ -4,7 +4,7 @@ import { ISaleDTO } from 'shared/dtos/ISaleDTO';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
-import { Li, Ul, Container, Text } from './styles';
+import { Li, Ul, Container, Text, Wrapper, ContentLeft } from './styles';
 
 interface PropTypes {
   sale: ISaleDTO;
@@ -28,12 +28,12 @@ const CollapseCombinations: React.FC<PropTypes> = ({
 
   return (
     <Container>
-      <div>
+      <ContentLeft>
         {acais?.length > 0 ? (
           acais.map(item => (
-            <div key={`${item.amount} ${item.name}`}>
+            <Wrapper key={`${item.amount} ${item.name}`} hasBorder={acais.length > 1}>
               {acais.length > 1 && <Text>{`${item.amount} ${item.name}`}</Text>}
-              <Ul hasBoder={acais?.length > 1}>
+              <Ul>
                 {item?.combinations?.length > 0 ? (
                   item.combinations.map(item => (
                     <Li hasCombinations key={item.name}>
@@ -44,14 +44,14 @@ const CollapseCombinations: React.FC<PropTypes> = ({
                   <Li>Não há combinações</Li>
                 )}
               </Ul>
-            </div>
+            </Wrapper>
           ))
         ) : (
           <></>
         )}
 
         {sale?.observation && <Text>Obs: {sale.observation}</Text>}
-      </div>
+      </ContentLeft>
       <Switch
         onClick={e => e.stopPropagation()}
         onChange={onChangeCheck}

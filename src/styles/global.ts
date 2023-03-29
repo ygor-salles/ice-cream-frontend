@@ -53,23 +53,11 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   }
 
-  // font-size: 16px (padrao-Desktop)
   html {
 
     p {
       font-size: 18px !important;
       font-family: 'Poppins', sans-serif !important;
-    }
-
-
-
-    @media (max-width: 720px) {
-      /* font-size: 87.5%; // 14px */
-      font-size: 16px;
-
-      p {
-        font-size: 16px !important;
-      }
     }
   }
 

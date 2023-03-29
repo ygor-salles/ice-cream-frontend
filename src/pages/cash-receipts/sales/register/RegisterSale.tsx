@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AttachMoney } from '@mui/icons-material';
+import { ArrowBack, AttachMoney } from '@mui/icons-material';
 import { Button, Skeleton } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -236,9 +236,10 @@ export function RegisterSale(): JSX.Element {
   return (
     <LayoutBaseDePagina
       titulo="Cadastro venda"
-      navigatePage={RoutesEnum.SALES}
-      textButton="VENDAS"
-      icon={<AttachMoney />}
+      onClick={showScreenCarListing ? () => setShowScreenCarListing(false) : undefined}
+      navigatePage={!showScreenCarListing ? RoutesEnum.SALES : undefined}
+      textButton={showScreenCarListing ? 'Voltar' : 'VENDAS'}
+      icon={showScreenCarListing ? <ArrowBack /> : <AttachMoney />}
     >
       {loadingRequests || loadingCombinations ? (
         <Skeleton variant="rectangular" width="100%" height={450} />

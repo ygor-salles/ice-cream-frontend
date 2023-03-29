@@ -14,6 +14,8 @@ export function Pagination({ ...props }: PaginationProps) {
         />
       )}
       {...props}
+      siblingCount={0}
+      boundaryCount={1}
     />
   );
 }

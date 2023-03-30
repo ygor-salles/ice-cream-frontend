@@ -19,7 +19,7 @@ const SaleItem: React.FC<SaleItemProps> = ({
       <WrapperInfo>
         <Text bold>
           {data_product.length > 1
-            ? 'Varios ...'
+            ? `${data_product[0].amount} ${data_product[0].name}, [...]`
             : `${data_product[0].amount} ${data_product[0].name}`}
         </Text>
         <Text bold mgTop green>
@@ -30,7 +30,7 @@ const SaleItem: React.FC<SaleItemProps> = ({
       </WrapperInfo>
       <WrapperNavigate>
         <Text>{formatDateTime(updated_at) || '--'}</Text>
-        <NavigateNext fontSize="large" />
+        <NavigateNext fontSize="large" style={{ cursor: 'pointer' }} />
       </WrapperNavigate>
     </Container>
   );

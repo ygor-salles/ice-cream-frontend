@@ -1,6 +1,6 @@
-import { Button, Typography } from '@mui/material';
+import { Button, Card, Typography } from '@mui/material';
 import styled, { css } from 'styled-components';
-import { Colors } from 'styles/global';
+import { Colors, mediaQuery } from 'styles/global';
 
 import CartListing from '../../register/components/CartListing';
 
@@ -113,4 +113,52 @@ export const BttIcon = styled.button`
   border: 0;
   padding: 0;
   background: transparent;
+`;
+
+export const Form = styled.form`
+  width: 100%;
+  height: auto;
+  padding: 32px;
+
+  ${mediaQuery.tableSm} {
+    height: 100vh;
+    padding: 24px;
+  }
+`;
+
+export const GridForm = styled.div`
+  display: grid;
+  grid-template-columns: auto;
+  gap: 30px;
+
+  width: 550px;
+
+  ${mediaQuery.tableSm} {
+    width: auto;
+  }
+`;
+
+export const WrapperButtons = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 40px;
+
+  ${mediaQuery.tableSm} {
+    left: 24px;
+    bottom: 16px;
+  }
+
+  ${mediaQuery.mobile} {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+
+    button:first-child {
+      margin-bottom: 16px;
+    }
+  }
 `;

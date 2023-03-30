@@ -1,9 +1,11 @@
 import { Edit } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { useState } from 'react';
+import { IFormSale } from 'shared/dtos/ISaleDTO';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
+import DialogCreateSale from './DialogCreateSale';
 import { Text, Title, WrapperDetail, StyledCardList, BttIcon } from './styles';
 
 interface SaleDetailItemProps {
@@ -19,6 +21,10 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
 }) => {
   const [disabledActions, setDisabledActions] = useState(true);
 
+  const [showDialogSale, setShowDialogSale] = useState(false);
+
+  const handleInsertSale = (data: IFormSale) => console.log('insert', data);
+
   return (
     <>
       <Title>
@@ -33,7 +39,7 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
         updated_at={updated_at}
         type_sale={type_sale}
         disabledActions={disabledActions}
-        onAddList={() => console.log('adicionar')}
+        onAddList={() => setShowDialogSale(true)}
         onDeleteList={() => console.log('delete')}
         onClickPrimary={onDeleteSale}
         onClickSeconadary={onClose}
@@ -65,6 +71,12 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
             </WrapperDetail>
           )
         }
+      />
+
+      <DialogCreateSale
+        open={showDialogSale}
+        onClose={() => setShowDialogSale(false)}
+        onSubmit={handleInsertSale}
       />
     </>
   );

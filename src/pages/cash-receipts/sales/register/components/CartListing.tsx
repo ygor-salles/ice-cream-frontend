@@ -33,6 +33,7 @@ interface CartListing {
   renderMain?: React.ReactElement;
   renderTopButtons?: React.ReactElement;
   renderBottomButtons?: React.ReactElement;
+  loading?: boolean;
   onAddList?: () => void;
   onDeleteList: (object: IDataProduct) => void;
   onClickPrimary: () => void;
@@ -51,6 +52,7 @@ const CartListing: React.FC<CartListing> = ({
   disabledActions,
   renderTopButtons,
   renderBottomButtons,
+  loading,
   onAddList,
   onDeleteList,
   onClickPrimary,
@@ -104,7 +106,7 @@ const CartListing: React.FC<CartListing> = ({
                           e.stopPropagation();
                           onDeleteList(item);
                         }}
-                        disabled={disabledActions}
+                        disabled={disabledActions || loading}
                       >
                         <Delete color="warning" />
                       </BttIcon>
@@ -127,7 +129,7 @@ const CartListing: React.FC<CartListing> = ({
             <Row hasTop>
               <div>
                 {onAddList && (
-                  <BttIcon type="button" disabled={disabledActions} onClick={onAddList}>
+                  <BttIcon type="button" disabled={disabledActions || loading} onClick={onAddList}>
                     <AddCircle color="success" />
                   </BttIcon>
                 )}
@@ -143,7 +145,13 @@ const CartListing: React.FC<CartListing> = ({
       <WrapperButtons>
         <div>
           {renderTopButtons && !disabledActions && renderTopButtons}
-          <Button type="button" variant="contained" color="secondary" onClick={onClickPrimary}>
+          <Button
+            type="button"
+            variant="contained"
+            color="secondary"
+            disabled={loading}
+            onClick={onClickPrimary}
+          >
             {textPrimary}
           </Button>
         </div>
@@ -152,7 +160,7 @@ const CartListing: React.FC<CartListing> = ({
           <Button
             type="button"
             variant="contained"
-            disabled={listSale.length === 0}
+            disabled={listSale.length === 0 || loading}
             onClick={onClickSeconadary}
           >
             {textSecondary}

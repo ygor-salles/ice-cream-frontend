@@ -72,7 +72,7 @@ export function useSale() {
       addToast(`Error ao deletar venda! - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingForm(false);
-      setReloadPage(true);
+      setReloadPage(prev => !prev);
     }
   }
 
@@ -152,7 +152,8 @@ export function useSale() {
       const { response } = error as AxiosError;
       addToast(`Erro ao atualizar dados - ${response?.data?.message}`, ToastType.error);
     } finally {
-      setLoadingForm(false);
+      setLoadingSales(false);
+      setReloadPage(prev => !prev);
     }
   }
 

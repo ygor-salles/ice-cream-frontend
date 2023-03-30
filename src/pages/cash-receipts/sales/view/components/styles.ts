@@ -1,4 +1,4 @@
-import { Button, Card, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import styled, { css } from 'styled-components';
 import { Colors, mediaQuery } from 'styles/global';
 
@@ -118,11 +118,15 @@ export const BttIcon = styled.button`
 export const Form = styled.form`
   width: 100%;
   height: auto;
-  padding: 32px;
+  padding: 24px;
+  overflow: auto;
 
   ${mediaQuery.tableSm} {
     height: 100vh;
     padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 `;
 
@@ -131,14 +135,14 @@ export const GridForm = styled.div`
   grid-template-columns: auto;
   gap: 30px;
 
-  width: 550px;
+  width: 530px;
 
   ${mediaQuery.tableSm} {
     width: auto;
   }
 `;
 
-export const WrapperButtons = styled.div`
+export const WrapperButtons = styled.footer`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -161,4 +165,13 @@ export const WrapperButtons = styled.div`
       margin-bottom: 16px;
     }
   }
+`;
+
+export const HeaderDialog = styled.header`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: ${Colors.MAIN_PRIMARY_LIGHT};
 `;

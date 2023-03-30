@@ -1,31 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Dialog, Theme, useMediaQuery } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { ArrowBack } from '@mui/icons-material';
+import { Button, Dialog, Theme, Typography, useMediaQuery } from '@mui/material';
+import { useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import AutoComplete from 'shared/components/autocomplete/Autocomplete';
-import SelectApp from 'shared/components/select/Select';
 import SelectMultiple from 'shared/components/selectMultiple/SelectMultiple';
 import TextFieldApp from 'shared/components/textField/TextField';
 import TextFieldCount from 'shared/components/textFieldCount/TextFieldCount';
-import { LISTTYPESALES } from 'shared/constants/listTypeSales';
 import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
   defaultValueAmount,
-  defaultValuesSale,
-  EnumTypeSale,
+  defaultValuesDialogSale,
   fieldsSale,
   IFormSale,
-  schemaCreateSale,
-  schemaCreateSaleWithCustomer,
+  schemaDialogCreateSale,
 } from 'shared/dtos/ISaleDTO';
 import { useCache } from 'shared/hooks/useCache';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
 import Mask from 'shared/utils/masks';
 
-import { Form, GridForm, WrapperButtons } from './styles';
+import { Form, GridForm, WrapperButtons, HeaderDialog } from './styles';
 
 interface PropTypes {
   open: boolean;
@@ -35,23 +32,16 @@ interface PropTypes {
 
 const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-  const [requiredClient, setRequiredClient] = useState(false);
 
-  const { handleSubmit, control, setValue, getValues } = useForm<IFormSale>({
-    resolver: yupResolver(
-      requiredClient === false ? schemaCreateSale : schemaCreateSaleWithCustomer,
-    ),
-    defaultValues: defaultValuesSale,
+  const { handleSubmit, control, setValue, reset, getValues } = useForm<IFormSale>({
+    resolver: yupResolver(schemaDialogCreateSale),
+    defaultValues: defaultValuesDialogSale,
   });
 
   const { getDataLocalStorage } = useCache();
 
   const allProducts = useMemo(() => {
     return getDataLocalStorage(localStorageKeys.PRODUCTS);
-  }, []);
-
-  const allClients = useMemo(() => {
-    return getDataLocalStorage(localStorageKeys.CLIENTS);
   }, []);
 
   const allCombinations = useMemo(() => {
@@ -61,6 +51,13 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
   const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
   const [count, setCount] = useState(Number(defaultValueAmount));
   const [enableOptions, setEnableOptions] = useState(false);
+
+  const handleClose = useCallback(() => {
+    setCount(Number(defaultValueAmount));
+    setIsDisabledTextFieldCount(true);
+    reset();
+    onClose();
+  }, [open]);
 
   const onCloseSelectProduct = async (_: any) => {
     const product_name = getValues('product_name');
@@ -128,25 +125,20 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
     }
   };
 
-  const onCloseSelectSale = (event: React.SyntheticEvent<Element, Event>) => {
-    if (event.currentTarget.id === EnumTypeSale.DEBIT) {
-      setRequiredClient(true);
-    } else {
-      setRequiredClient(false);
-    }
-  };
-
-  const onCloseSelectClient = (_: any) => {
-    const client_name = getValues('client_name');
-
-    if (client_name?.length > 0) {
-      const client = allClients.find(item => item.name === client_name);
-      setValue('client_id', client.id.toString());
-    }
-  };
-
   return (
     <Dialog fullScreen={smDown} open={open} onClose={onClose}>
+      <HeaderDialog>
+        <Typography color="white">Inserir venda</Typography>
+        <Button
+          type="button"
+          color="info"
+          variant="outlined"
+          startIcon={<ArrowBack />}
+          onClick={handleClose}
+        >
+          Voltar
+        </Button>
+      </HeaderDialog>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <GridForm>
           <AutoComplete
@@ -179,29 +171,11 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
             handleOperation={handleTextFieldCount}
             disabled={isDisabledTextFieldCount}
           />
-          <SelectApp
-            name={fieldsSale.TYPE_SALE}
-            control={control}
-            options={LISTTYPESALES}
-            label="Tipo de venda"
-            required
-            onClose={onCloseSelectSale}
-          />
-          <AutoComplete
-            name={fieldsSale.CLIENT_NAME}
-            control={control}
-            options={allClients}
-            sortAlphabeticallyObject
-            label="Cliente"
-            onClose={onCloseSelectClient}
-            required={requiredClient}
-          />
-          <TextFieldApp name={fieldsSale.OBSERVATION} control={control} label="Observação" />
           <TextFieldApp name={fieldsSale.TOTAL} control={control} label="Total" currency required />
         </GridForm>
 
         <WrapperButtons>
-          <Button type="button" color="secondary" variant="outlined" onClick={onClose}>
+          <Button type="button" color="secondary" variant="outlined" onClick={handleClose}>
             Cancelar
           </Button>
           <Button type="submit" variant="contained">

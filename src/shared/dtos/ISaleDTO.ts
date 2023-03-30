@@ -81,6 +81,14 @@ export const defaultValuesSale = {
   [fieldsSale.TOTAL]: '',
 };
 
+export const defaultValuesDialogSale = {
+  [fieldsSale.PRODUCT_NAME]: '',
+  [fieldsSale.DATA_PRODUCT]: null,
+  [fieldsSale.COMBINATIONS]: [],
+  [fieldsSale.AMOUNT]: defaultValueAmount,
+  [fieldsSale.TOTAL]: '',
+};
+
 export const schemaCreateSale = yup.object().shape({
   [fieldsSale.PRODUCT_NAME]: yup.string().required('Seleção de produto é obrigatório'),
   [fieldsSale.TYPE_SALE]: yup
@@ -101,6 +109,12 @@ export const schemaCreateSaleWithCustomer = yup.object().shape({
     .required('Tipo de venda é obrigatório'),
   [fieldsSale.CLIENT_NAME]: yup.string().required('Cliente é obrigatório para venda fiado'),
   [fieldsSale.OBSERVATION]: yup.string().optional(),
+  [fieldsSale.AMOUNT]: yup.string().required('Quantidade de produto é obrigatório'),
+  [fieldsSale.TOTAL]: yup.string().required('Total da venda é obrigatório'),
+});
+
+export const schemaDialogCreateSale = yup.object().shape({
+  [fieldsSale.PRODUCT_NAME]: yup.string().required('Seleção de produto é obrigatório'),
   [fieldsSale.AMOUNT]: yup.string().required('Quantidade de produto é obrigatório'),
   [fieldsSale.TOTAL]: yup.string().required('Total da venda é obrigatório'),
 });

@@ -133,10 +133,10 @@ export const _renderSaleClientName = (data: IClientDTO, { client }: ISaleDTO) =>
 export const _renderSaleProductName = (data: IProductDTO, { data_product }: ISaleDTO) => {
   const acais = data_product?.filter(item => item.type === EnumTypeProduct.ACAI);
 
-  if (acais) {
+  if (acais?.length) {
     return (
       <span>
-        {(acais.length > 1 ? `Varios ...` : `${acais[0].amount} ${acais[0]?.name}`) ?? '--'}
+        {(acais.length > 1 ? `Varios ...` : `${acais[0]?.amount} ${acais[0]?.name}`) ?? '--'}
       </span>
     );
   }

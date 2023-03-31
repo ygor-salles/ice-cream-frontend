@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import { RoutesEnum } from 'shared/constants/routesList';
+import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
   IFormCashClosing,
   IFormFilterSales,
@@ -133,7 +134,10 @@ export function useSale() {
 
     try {
       const orders = await saleService.loadSalesActivatedAcai();
-      setAllSales(orders);
+      const filterOrders = orders.filter(item =>
+        item.data_product.find(sub => sub.type === EnumTypeProduct.ACAI),
+      );
+      setAllSales(filterOrders);
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Erro ao buscar dados - ${response?.data?.message}`, ToastType.error);

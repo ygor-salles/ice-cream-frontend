@@ -139,7 +139,12 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
           Voltar
         </Button>
       </HeaderDialog>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form
+        onSubmit={handleSubmit((data: IFormSale) => {
+          onSubmit(data);
+          handleClose();
+        })}
+      >
         <GridForm>
           <AutoComplete
             name={fieldsSale.PRODUCT_NAME}

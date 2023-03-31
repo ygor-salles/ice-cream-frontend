@@ -11,6 +11,7 @@ import DialogCreateSale from './DialogCreateSale';
 import { Text, Title, WrapperDetail, StyledCardList, BttIcon } from './styles';
 
 interface SaleDetailItemProps {
+  oldSaleDetail: InstanceSale;
   saleDetail: InstanceSale;
   loading: boolean;
   onClose: () => void;
@@ -21,6 +22,7 @@ interface SaleDetailItemProps {
 }
 
 const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
+  oldSaleDetail,
   saleDetail,
   loading,
   onClose,
@@ -54,15 +56,17 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
         textPrimary="Deletar"
         textSecondary={disabledActions ? 'Ok' : 'Cancelar'}
         renderTopButtons={
-          <Button
-            type="button"
-            variant="contained"
-            color="secondary"
-            disabled={loading}
-            onClick={() => onSubmitUpdate(saleDetail)}
-          >
-            Salvar
-          </Button>
+          oldSaleDetail.data_product.length !== saleDetail.data_product.length && (
+            <Button
+              type="button"
+              variant="contained"
+              color="secondary"
+              disabled={loading}
+              onClick={() => onSubmitUpdate(saleDetail)}
+            >
+              Salvar
+            </Button>
+          )
         }
         loading={loading}
         totalSum={saleDetail.total}
@@ -87,10 +91,7 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
       <DialogCreateSale
         open={showDialogSale}
         onClose={() => setShowDialogSale(false)}
-        onSubmit={(data: IFormSale) => {
-          onInsertProductInSale(data);
-          setShowDialogSale(false);
-        }}
+        onSubmit={onInsertProductInSale}
       />
     </>
   );

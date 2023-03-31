@@ -65,7 +65,6 @@ export function DialogEdit({
                   control={control}
                   label="Dívida do cliente"
                   currency
-                  required
                   disabled={loading || disabledState}
                   renderRight={
                     disabledState ? (

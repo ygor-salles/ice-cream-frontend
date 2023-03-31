@@ -19,6 +19,7 @@ import {
   Main,
   Row,
   AddCircle,
+  TextTSale,
 } from './styles';
 
 interface CartListing {
@@ -80,9 +81,9 @@ const CartListing: React.FC<CartListing> = ({
             <Typography>
               <b>Data:</b> {formatDateTime(updated_at) || '--'}
             </Typography>
-            <Typography>
+            <TextTSale isDebit={type_sale === EnumTypeSale.DEBIT}>
               <b>*</b> {type_sale}
-            </Typography>
+            </TextTSale>
           </Row>
         )}
 

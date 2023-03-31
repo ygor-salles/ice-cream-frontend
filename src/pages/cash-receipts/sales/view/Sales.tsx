@@ -1,6 +1,6 @@
 import { AddBox, ArrowBack } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import DialogInfo from 'shared/components/dialog/Dialog';
 import { Pagination } from 'shared/components/pagination/Pagination';
@@ -32,6 +32,7 @@ export function Sales(): JSX.Element {
   const [showDetailItem, setShowDetailItem] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [detailItem, setDetailItem] = useState<InstanceSale>();
+  const refOldSaleItem = useRef<InstanceSale>(null);
 
   const onInsertProductInSale = useCallback(
     (data: IFormSale) => {
@@ -94,6 +95,7 @@ export function Sales(): JSX.Element {
   };
 
   const deletedSale = async () => {
+    setShowModalDelete(false);
     await handleSubmitDelete(detailItem.id);
   };
 
@@ -121,6 +123,7 @@ export function Sales(): JSX.Element {
                 key={item.id}
                 onClick={() => {
                   setDetailItem(item);
+                  refOldSaleItem.current = item;
                   setShowDetailItem(true);
                 }}
                 detailSale={item}
@@ -139,6 +142,7 @@ export function Sales(): JSX.Element {
           onClose={() => setShowDetailItem(false)}
           onDeleteSale={() => setShowModalDelete(true)}
           saleDetail={detailItem}
+          oldSaleDetail={refOldSaleItem.current}
           onInsertProductInSale={onInsertProductInSale}
           onDeleteProductInSale={onDeleteProductInSale}
           onSubmitUpdate={updatedSale}

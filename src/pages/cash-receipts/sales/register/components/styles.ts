@@ -103,3 +103,13 @@ export const Row = styled.div<RowProps>`
 export const AddCircle = styled(MuiAddCircle)`
   font-size: 1.8rem;
 `;
+
+interface TextTSaleProps {
+  isDebit: boolean;
+}
+
+export const TextTSale = styled(Typography).withConfig({
+  shouldForwardProp: props => !['isDebit'].includes(props),
+})<TextTSaleProps>`
+  color: ${props => props.isDebit && Colors.RED};
+`;

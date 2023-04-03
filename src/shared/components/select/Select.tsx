@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  Select,
   FormControl,
   InputLabel,
   MenuItem,
@@ -8,6 +7,8 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
+
+import { StyledSelect } from './styles';
 
 export interface TypeDefaultOptions {
   id: number;
@@ -24,6 +25,7 @@ interface SelectPropsApp {
   setId?: boolean;
   sortAlphabeticallyObject?: boolean;
   sortAlphabeticallyString?: boolean;
+  variant?: 'outlined' | 'filled' | 'standard';
   onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   onClose?: (event: React.SyntheticEvent<Element, Event>) => void;
   onChangeStateController?: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
@@ -39,6 +41,7 @@ export default function SelectApp({
   setId,
   sortAlphabeticallyObject,
   sortAlphabeticallyString,
+  variant = 'standard',
   onBlur,
   onClose,
   onChangeStateController,
@@ -89,12 +92,12 @@ export default function SelectApp({
           fullWidth
           required={required}
           disabled={disabled}
-          variant="standard"
+          variant={variant}
           error={!!error}
           {...rest}
         >
           <InputLabel>{label}</InputLabel>
-          <Select
+          <StyledSelect
             name={name}
             value={value || ''}
             label={label}
@@ -113,7 +116,7 @@ export default function SelectApp({
               <em>Selecione</em>
             </MenuItem>
             {_renderMenuItem()}
-          </Select>
+          </StyledSelect>
           {error && <FormHelperText>{error.message}</FormHelperText>}
         </FormControl>
       )}
@@ -121,12 +124,12 @@ export default function SelectApp({
   ) : (
     <FormControl fullWidth required={required} disabled={disabled} variant="standard" {...rest}>
       <InputLabel>{label}</InputLabel>
-      <Select label={label} onChange={onChangeStateController} defaultValue="">
+      <StyledSelect label={label} onChange={onChangeStateController} defaultValue="">
         <MenuItem value="">
           <em>Selecione</em>
         </MenuItem>
         {_renderMenuItem()}
-      </Select>
+      </StyledSelect>
     </FormControl>
   );
 }

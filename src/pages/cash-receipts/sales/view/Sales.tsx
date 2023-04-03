@@ -1,20 +1,23 @@
 import { AddBox, ArrowBack } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import DialogInfo from 'shared/components/dialog/Dialog';
 import { Pagination } from 'shared/components/pagination/Pagination';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { EnumTypeSale, IFormSale, transformItemArray } from 'shared/dtos/ISaleDTO';
+import { EnumTypeSale, IFormEditSale } from 'shared/dtos/ISaleDTO';
 import { useSale } from 'shared/hooks/network/useSale';
 import { LayoutBaseDePagina } from 'shared/layouts';
-import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 
 import SaleDetailItem from './components/SaleDetailItem';
 import SaleItem from './components/SaleItem';
 
 export function Sales(): JSX.Element {
+  const [showDetailItem, setShowDetailItem] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [detailItem, setDetailItem] = useState<InstanceSale>();
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const {
@@ -29,45 +32,6 @@ export function Sales(): JSX.Element {
     updateSaleById,
   } = useSale();
 
-  const [showDetailItem, setShowDetailItem] = useState(false);
-  const [showModalDelete, setShowModalDelete] = useState(false);
-  const [detailItem, setDetailItem] = useState<InstanceSale>();
-  const refOldSaleItem = useRef<InstanceSale>(null);
-
-  const onInsertProductInSale = useCallback(
-    (data: IFormSale) => {
-      if (data) {
-        const newItem: IDataProduct = transformItemArray(data);
-
-        if (newItem.combinations.length === 0) {
-          delete newItem.combinations;
-        }
-
-        setDetailItem(oldValue => ({
-          ...oldValue,
-          data_product: [...oldValue.data_product, newItem],
-          total: oldValue.total + newItem.total,
-        }));
-      }
-    },
-    [detailItem],
-  );
-
-  const onDeleteProductInSale = useCallback(
-    (data: IDataProduct) => {
-      if (data && detailItem?.data_product) {
-        const newDataProduct = detailItem.data_product.filter(item => item !== data);
-
-        setDetailItem(oldValue => ({
-          ...oldValue,
-          data_product: [...newDataProduct],
-          total: oldValue.total - data.total,
-        }));
-      }
-    },
-    [detailItem],
-  );
-
   const page = useMemo(() => {
     return searchParams.get('page') || '1';
   }, [searchParams]);
@@ -77,21 +41,21 @@ export function Sales(): JSX.Element {
     setSearchParams({ page: page.toString() }, { replace: true });
   };
 
-  const updatedSale = async () => {
-    const objectSale = detailItem;
-    delete objectSale.client;
-    delete objectSale.updated_at;
-    delete objectSale.created_at;
+  const updatedSale = async (data: IFormEditSale) => {
+    console.log('onSubmitUpdate', data);
 
-    if (!objectSale.observation) {
-      delete objectSale.observation;
+    delete data.client;
+    delete data.updated_at;
+
+    if (!data.observation.length) {
+      data.observation = null;
     }
 
-    if (!objectSale.client_id) {
-      delete objectSale.client_id;
+    if (!data.client_id) {
+      delete data.client_id;
     }
 
-    await updateSaleById(objectSale);
+    await updateSaleById(data);
   };
 
   const deletedSale = async () => {
@@ -123,7 +87,6 @@ export function Sales(): JSX.Element {
                 key={item.id}
                 onClick={() => {
                   setDetailItem(item);
-                  refOldSaleItem.current = item;
                   setShowDetailItem(true);
                 }}
                 detailSale={item}
@@ -142,9 +105,6 @@ export function Sales(): JSX.Element {
           onClose={() => setShowDetailItem(false)}
           onDeleteSale={() => setShowModalDelete(true)}
           saleDetail={detailItem}
-          oldSaleDetail={refOldSaleItem.current}
-          onInsertProductInSale={onInsertProductInSale}
-          onDeleteProductInSale={onDeleteProductInSale}
           onSubmitUpdate={updatedSale}
           loading={loadingSales || loadingForm}
         />

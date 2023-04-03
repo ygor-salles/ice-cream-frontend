@@ -55,6 +55,18 @@ export interface IFormCashClosing {
   created_at?: string;
 }
 
+export interface IFormEditSale {
+  id: number;
+  observation?: string;
+  type_sale: EnumTypeSale;
+  created_at?: string;
+  updated_at?: string;
+  data_product?: IDataProduct[];
+  total?: number;
+  client_id?: number;
+  client?: IClientDTO;
+}
+
 export const fieldsSale = {
   PRODUCT_NAME: 'product_name',
   DATA_PRODUCT: 'data_product',
@@ -66,6 +78,7 @@ export const fieldsSale = {
   AMOUNT: 'amount',
   TOTAL: 'total',
   CREATED_AT: 'created_at',
+  UPDATED_AT: 'updated_at',
 };
 
 export const defaultValueAmount = '1';
@@ -117,6 +130,14 @@ export const schemaDialogCreateSale = yup.object().shape({
   [fieldsSale.PRODUCT_NAME]: yup.string().required('Seleção de produto é obrigatório'),
   [fieldsSale.AMOUNT]: yup.string().required('Quantidade de produto é obrigatório'),
   [fieldsSale.TOTAL]: yup.string().required('Total da venda é obrigatório'),
+});
+
+export const schemaEditSale = yup.object().shape({
+  [fieldsSale.TYPE_SALE]: yup
+    .mixed<EnumTypeSale>()
+    .oneOf(Object.values(EnumTypeSale))
+    .required('Tipo de venda é obrigatório'),
+  [fieldsSale.OBSERVATION]: yup.string().optional(),
 });
 
 export const transformItemArray = (dataForm: IFormSale): IDataProduct => {

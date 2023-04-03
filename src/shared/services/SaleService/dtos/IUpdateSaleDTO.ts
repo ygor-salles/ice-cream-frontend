@@ -3,7 +3,7 @@ import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
 import { IDataProduct } from './ICreateSaleDTO';
 
 export interface IUpdateSaleDTORequest {
-  id?: number;
+  id: number;
   total?: number;
   type_sale?: EnumTypeSale;
   observation?: string;

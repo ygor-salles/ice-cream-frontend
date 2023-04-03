@@ -338,6 +338,7 @@ export function RegisterSale(): JSX.Element {
               listSale={carListState}
               totalSum={totalSum}
               observation={getValues('observation')}
+              type_sale={getValues('type_sale')}
               onDeleteList={onDeleteList}
               onClickPrimary={() => {
                 setValue('product_name', '');

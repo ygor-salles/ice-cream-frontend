@@ -1,5 +1,7 @@
 import { AddCircle as MuiAddCircle } from '@mui/icons-material';
 import { AccordionSummary, Typography } from '@mui/material';
+import SelectApp from 'shared/components/select/Select';
+import TextFieldApp from 'shared/components/textField/TextField';
 import styled from 'styled-components';
 import { Colors, mediaQuery } from 'styles/global';
 
@@ -80,7 +82,7 @@ export const Total = styled(Typography)`
   font-weight: bold;
 `;
 
-export const Main = styled.div`
+export const Main = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -98,10 +100,20 @@ export const Row = styled.div<RowProps>`
   align-items: center;
   margin-bottom: ${props => props.hasBottom && '16px'};
   margin-top: ${props => props.hasTop && '16px'};
+  gap: 10px;
 `;
 
 export const AddCircle = styled(MuiAddCircle)`
   font-size: 1.8rem;
+`;
+
+export const StyledSelectApp = styled(SelectApp)`
+  background-color: ${Colors.WHITE};
+  margin-bottom: 16px;
+`;
+
+export const StyledTextField = styled(TextFieldApp)`
+  background-color: ${Colors.WHITE};
 `;
 
 interface TextTSaleProps {

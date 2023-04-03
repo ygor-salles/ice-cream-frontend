@@ -1,40 +1,43 @@
 import { Delete } from '@mui/icons-material';
 import { Accordion, AccordionDetails, Button, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
+import { Control } from 'react-hook-form';
+import { LISTTYPESALES } from 'shared/constants/listTypeSales';
+import { EnumTypeSale, IFormEditSale, fieldsSale } from 'shared/dtos/ISaleDTO';
 import { useThemeContext } from 'shared/hooks/useThemeContext';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
-import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
 import {
+  AddCircle,
   BttIcon,
   ContentSummary,
   Empty,
   Li,
+  Main,
+  Row,
+  StyledSelectApp,
+  StyledTextField,
   Total,
   Ul,
   WrapperButtons,
   WrapperDel,
-  Main,
-  Row,
-  AddCircle,
   TextTSale,
 } from './styles';
 
 interface CartListing {
   listSale: IDataProduct[];
-  observation: string;
-  updated_at?: string | Date;
+  observation?: string;
   type_sale?: EnumTypeSale;
   totalSum: number;
   textPrimary: string;
   textSecondary: string;
   disabledActions?: boolean;
   renderMain?: React.ReactElement;
+  loading?: boolean;
+  control?: Control<IFormEditSale>;
   renderTopButtons?: React.ReactElement;
   renderBottomButtons?: React.ReactElement;
-  loading?: boolean;
   onAddList?: () => void;
   onDeleteList: (object: IDataProduct) => void;
   onClickPrimary: () => void;
@@ -44,16 +47,16 @@ interface CartListing {
 const CartListing: React.FC<CartListing> = ({
   listSale,
   observation,
-  updated_at,
   type_sale,
   totalSum,
   textPrimary,
   textSecondary,
   renderMain,
   disabledActions,
+  loading,
+  control,
   renderTopButtons,
   renderBottomButtons,
-  loading,
   onAddList,
   onDeleteList,
   onClickPrimary,
@@ -70,16 +73,45 @@ const CartListing: React.FC<CartListing> = ({
   return (
     <Main {...rest}>
       <div>
-        {observation && (
-          <Typography style={{ marginBottom: 5 }}>
-            <b>Observação:</b> {observation}
-          </Typography>
-        )}
+        {control ? (
+          <>
+            <StyledTextField
+              name={fieldsSale.OBSERVATION}
+              control={control}
+              label="Observação"
+              variant="outlined"
+              disabled={disabledActions}
+            />
 
-        {updated_at && type_sale && (
+            <Row hasBottom hasTop>
+              <StyledTextField
+                name={fieldsSale.UPDATED_AT}
+                control={control}
+                label="Data atualização"
+                variant="outlined"
+                disabled
+              />
+              <StyledTextField
+                name={fieldsSale.CREATED_AT}
+                control={control}
+                label="Data criação"
+                variant="outlined"
+                disabled
+              />
+            </Row>
+            <StyledSelectApp
+              name={fieldsSale.TYPE_SALE}
+              control={control}
+              options={LISTTYPESALES}
+              label="Tipo de venda"
+              variant="outlined"
+              disabled={disabledActions}
+            />
+          </>
+        ) : (
           <Row hasBottom>
             <Typography>
-              <b>Data:</b> {formatDateTime(updated_at) || '--'}
+              <b>Observação:</b> {observation}
             </Typography>
             <TextTSale isDebit={type_sale === EnumTypeSale.DEBIT}>
               <b>*</b> {type_sale}
@@ -143,6 +175,7 @@ const CartListing: React.FC<CartListing> = ({
           <Empty isDark={themeName === 'dark'}>Não há pedidos cadastrados</Empty>
         )}
       </div>
+
       <WrapperButtons>
         <div>
           {renderTopButtons && !disabledActions && renderTopButtons}
@@ -158,12 +191,7 @@ const CartListing: React.FC<CartListing> = ({
         </div>
         <div>
           {renderBottomButtons && !disabledActions && renderBottomButtons}
-          <Button
-            type="button"
-            variant="contained"
-            disabled={listSale.length === 0 || loading}
-            onClick={onClickSeconadary}
-          >
+          <Button type="button" variant="contained" disabled={loading} onClick={onClickSeconadary}>
             {textSecondary}
           </Button>
         </div>

@@ -38,7 +38,7 @@ import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput
 import Mask from 'shared/utils/masks';
 
 import CartListing from './components/CartListing';
-import { Form, GridForm, StyledCard, Notificaion, Wrapper, WrapperButtons } from './styles';
+import { Form, GridForm, StyledCard, Notificaion, Wrapper, WrapperButtons, Text } from './styles';
 
 export function RegisterSale(): JSX.Element {
   const [requiredClient, setRequiredClient] = useState(false);
@@ -356,6 +356,14 @@ export function RegisterSale(): JSX.Element {
               onClickSeconadary={onSubmit}
               textPrimary="Inserir mais"
               textSecondary="Finalizar pedido"
+              renderMain={
+                !!getValues('client_name') && (
+                  <Text>
+                    <b>Cliente: </b>
+                    {getValues('client_name')}
+                  </Text>
+                )
+              }
               disabledSecondary={!isValid || !carListState.length}
             />
           )}

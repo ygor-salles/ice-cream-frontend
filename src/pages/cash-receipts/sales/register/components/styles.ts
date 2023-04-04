@@ -5,6 +5,19 @@ import TextFieldApp from 'shared/components/textField/TextField';
 import styled from 'styled-components';
 import { Colors, mediaQuery } from 'styles/global';
 
+interface IsDarkProps {
+  isDark: boolean;
+}
+
+interface RowProps {
+  hasBottom?: boolean;
+  hasTop?: boolean;
+}
+
+interface TextTSaleProps {
+  isDebit: boolean;
+}
+
 export const ContentSummary = styled(AccordionSummary)`
   height: 80px;
 
@@ -68,11 +81,7 @@ export const WrapperButtons = styled.div`
   }
 `;
 
-interface EmptyProps {
-  isDark: boolean;
-}
-
-export const Empty = styled.span<EmptyProps>`
+export const Empty = styled.span<IsDarkProps>`
   color: ${props => (props.isDark ? Colors.WHITE : Colors.GRAY)};
   margin: 0 auto;
 `;
@@ -89,11 +98,6 @@ export const Main = styled.main`
   height: calc(100vh - 96px);
 `;
 
-interface RowProps {
-  hasBottom?: boolean;
-  hasTop?: boolean;
-}
-
 export const Row = styled.div<RowProps>`
   display: flex;
   justify-content: space-between;
@@ -107,18 +111,18 @@ export const AddCircle = styled(MuiAddCircle)`
   font-size: 1.8rem;
 `;
 
-export const StyledSelectApp = styled(SelectApp)`
-  background-color: ${Colors.WHITE};
+export const StyledSelectApp = styled(SelectApp).withConfig({
+  shouldForwardProp: props => !['isDark'].includes(props),
+})<IsDarkProps>`
+  background-color: ${props => !props.isDark && Colors.WHITE};
   margin-bottom: 16px;
 `;
 
-export const StyledTextField = styled(TextFieldApp)`
-  background-color: ${Colors.WHITE};
+export const StyledTextField = styled(TextFieldApp).withConfig({
+  shouldForwardProp: props => !['isDark'].includes(props),
+})<IsDarkProps>`
+  background-color: ${props => !props.isDark && Colors.WHITE};
 `;
-
-interface TextTSaleProps {
-  isDebit: boolean;
-}
 
 export const TextTSale = styled(Typography).withConfig({
   shouldForwardProp: props => !['isDebit'].includes(props),

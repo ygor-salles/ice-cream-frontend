@@ -89,6 +89,7 @@ const CartListing: React.FC<CartListing> = ({
               label="Observação"
               variant="outlined"
               disabled={disabledActions}
+              isDark={themeName === 'dark'}
             />
 
             <Row hasBottom hasTop>
@@ -98,6 +99,7 @@ const CartListing: React.FC<CartListing> = ({
                 label="Data atualização"
                 variant="outlined"
                 disabled
+                isDark={themeName === 'dark'}
               />
               <StyledTextField
                 name={fieldsSale.CREATED_AT}
@@ -105,6 +107,7 @@ const CartListing: React.FC<CartListing> = ({
                 label="Data criação"
                 variant="outlined"
                 disabled
+                isDark={themeName === 'dark'}
               />
             </Row>
             <StyledSelectApp
@@ -120,12 +123,13 @@ const CartListing: React.FC<CartListing> = ({
               label="Tipo de venda"
               variant="outlined"
               disabled={disabledActions}
+              isDark={themeName === 'dark'}
             />
           </>
         ) : (
           <Row hasBottom>
             <Typography>
-              <b>Observação:</b> {observation}
+              <b>Observação:</b> {observation || '--'}
             </Typography>
             <TextTSale isDebit={type_sale === EnumTypeSale.DEBIT}>
               <b>*</b> {type_sale}

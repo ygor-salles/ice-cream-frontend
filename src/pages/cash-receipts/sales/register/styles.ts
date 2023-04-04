@@ -1,4 +1,4 @@
-import { Card } from '@mui/material';
+import { Card, Typography } from '@mui/material';
 import styled from 'styled-components';
 import { Colors, mediaQuery } from 'styles/global';
 
@@ -57,4 +57,10 @@ export const WrapperButtons = styled.div`
       margin-bottom: 16px;
     }
   }
+`;
+
+export const Text = styled(Typography)`
+  border-top: solid 1px ${Colors.GRAY_LIGHT};
+  padding: 16px 0;
+  margin-top: 16px;
 `;

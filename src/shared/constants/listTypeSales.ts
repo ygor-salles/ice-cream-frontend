@@ -19,3 +19,18 @@ export const LISTTYPESALES: TypeDefaultOptions[] = [
     name: EnumTypeSale.DEBIT,
   },
 ];
+
+export const LISTTYPESALES_NOTDEBIT: TypeDefaultOptions[] = [
+  {
+    id: 1,
+    name: EnumTypeSale.PIX,
+  },
+  {
+    id: 2,
+    name: EnumTypeSale.CARD,
+  },
+  {
+    id: 3,
+    name: EnumTypeSale.MONEY,
+  },
+];

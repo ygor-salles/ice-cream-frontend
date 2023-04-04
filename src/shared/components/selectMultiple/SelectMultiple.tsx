@@ -108,7 +108,6 @@ const SelectMultiple: React.FC<PropTypes> = ({
             value={valueState}
             label={label}
             onChange={handleChange}
-            // renderValue={selected => selected.map(item => item.name).join(', ')}
             renderValue={selected => (
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                 {selected.map(item => (

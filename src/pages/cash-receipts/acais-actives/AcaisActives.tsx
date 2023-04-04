@@ -16,7 +16,7 @@ import CollapseCombinations from './components/CollapseCombinations';
 import { columnConfig, columnLabel, columnType, filterTable } from './constants';
 
 export function AcaisActives() {
-  const { allSales, getSalesActivatedAcai, loadingSales, updateSaleById } = useSale();
+  const { allSales, getSalesActivatedAcai, loadingSales, onChangeUpdateSaleById } = useSale();
 
   const [refreshState, setRefreshState] = useState(false);
   const onToggleRefreshPage = () => setRefreshState(prev => !prev);
@@ -29,10 +29,9 @@ export function AcaisActives() {
   }, [refreshState]);
 
   const _renderCollapse = (sale: ISaleDTO) => (
-    // eslint-disable-next-line react/destructuring-assignment
     <CollapseCombinations
       sale={sale}
-      updateSaleById={updateSaleById}
+      onChangeUpdateSaleById={onChangeUpdateSaleById}
       onToggleRefreshPage={onToggleRefreshPage}
     />
   );

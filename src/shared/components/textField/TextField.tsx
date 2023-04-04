@@ -18,6 +18,7 @@ interface TextFieldPropsApp {
   currency?: boolean;
   renderLeft?: React.ReactNode;
   renderRight?: React.ReactNode;
+  variant?: 'outlined' | 'filled' | 'standard';
   onChangeStateController?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   handleSearch?: (value: string) => void;
 }
@@ -34,8 +35,10 @@ export default function TextFieldApp({
   currency,
   renderLeft,
   renderRight,
+  variant = 'standard',
   onChangeStateController,
   handleSearch,
+  ...rest
 }: TextFieldPropsApp): JSX.Element {
   const [maskState, setMaskState] = useState(mask);
 
@@ -73,7 +76,7 @@ export default function TextFieldApp({
                 }
               : { startAdornment: renderLeft, endAdornment: renderRight }
           }
-          variant="standard"
+          variant={variant}
           type={type}
           inputMode={inputMode}
           error={!!error}
@@ -81,6 +84,7 @@ export default function TextFieldApp({
           required={required}
           fullWidth
           disabled={disabled}
+          {...rest}
         />
       )}
     />
@@ -120,6 +124,7 @@ export default function TextFieldApp({
       required={required}
       fullWidth
       disabled={disabled}
+      {...rest}
     />
   );
 }

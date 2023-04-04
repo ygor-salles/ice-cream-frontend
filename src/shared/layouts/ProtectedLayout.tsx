@@ -1,11 +1,12 @@
 import { ArrowBack } from '@mui/icons-material';
-import { Button, Theme, Typography, useMediaQuery } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import img from 'assets/401-ErrorUnauthorized-rafiki.png';
 import { useNavigate } from 'react-router-dom';
+import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 import { useAuthContext } from 'shared/hooks/useAuthContext';
 
-import { ImgUnauthorized, HeaderUnauth } from './styles';
+import { HeaderUnauth, ImgUnauthorized, WrapperUnauth } from './styles';
 
 interface PropTypes {
   accessUser: EnumRoleUser[];
@@ -14,7 +15,6 @@ interface PropTypes {
 const ProtectedLayout: React.FC<PropTypes> = ({ accessUser, children }) => {
   const navigate = useNavigate();
   const { role } = useAuthContext();
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const roleFound = accessUser.find(item => item === role);
 
@@ -23,22 +23,21 @@ const ProtectedLayout: React.FC<PropTypes> = ({ accessUser, children }) => {
   }
 
   return (
-    <>
-      {smDown && (
-        <HeaderUnauth>
-          <Typography color="white">Não autorizado</Typography>
-          <Button
-            onClick={() => navigate(-1)}
-            color="info"
-            variant="outlined"
-            startIcon={<ArrowBack />}
-          >
-            Voltar
-          </Button>
-        </HeaderUnauth>
-      )}
+    <WrapperUnauth>
+      <HeaderUnauth>
+        <Typography color="white">Não autorizado</Typography>
+        <Button
+          onClick={() => navigate(RoutesEnum.LOGIN)}
+          color="info"
+          variant="outlined"
+          startIcon={<ArrowBack />}
+        >
+          Voltar
+        </Button>
+      </HeaderUnauth>
+
       <ImgUnauthorized src={img} alt="unauthorized" />
-    </>
+    </WrapperUnauth>
   );
 };
 

@@ -114,7 +114,6 @@ export const HeaderUnauth = styled.header`
   background-color: ${Colors.MAIN_PRIMARY_LIGHT};
   padding: 16px;
   top: 0;
-  position: absolute;
 `;
 
 export const ImgUnauthorized = styled.img`
@@ -127,4 +126,11 @@ export const ImgUnauthorized = styled.img`
     height: 400px;
     margin-top: 50%;
   }
+`;
+
+export const WrapperUnauth = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
 `;

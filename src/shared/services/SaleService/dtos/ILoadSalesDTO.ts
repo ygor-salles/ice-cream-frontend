@@ -1,5 +1,7 @@
-import { IProductDTO } from 'shared/dtos/IProductDTO';
+import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
+
+import { IDataProduct } from './ICreateSaleDTO';
 
 export interface ILoadSaleDTOResponse {
   id: number;
@@ -7,8 +9,9 @@ export interface ILoadSaleDTOResponse {
   type_sale: EnumTypeSale;
   observation?: string;
   amount: number;
-  data_product: IProductDTO;
+  data_product: IDataProduct[];
   client_id?: number;
+  client?: IClientDTO;
   created_at: Date;
   updated_at: Date;
 }

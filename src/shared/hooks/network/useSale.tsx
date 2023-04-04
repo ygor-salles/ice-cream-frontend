@@ -7,9 +7,11 @@ import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
   IFormCashClosing,
+  IFormEditSale,
   IFormFilterSales,
   ISaleDTO,
   transformObjectCashClosing,
+  transformObjectEdit,
   transformObjectFilter,
 } from 'shared/dtos/ISaleDTO';
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
@@ -146,8 +148,9 @@ export function useSale() {
     }
   }
 
-  async function updateSaleById(data: IUpdateSaleDTORequest) {
+  async function updateSaleById(dataForm: IFormEditSale) {
     setLoadingSales(true);
+    const data: IUpdateSaleDTORequest = transformObjectEdit(dataForm);
 
     try {
       await saleService.updateById(data);

@@ -47,7 +47,14 @@ export function RegisterSale(): JSX.Element {
   const [enableOptions, setEnableOptions] = useState(false);
   const [loadingRequests, setLoadingRequests] = useState(false);
 
-  const { handleSubmit, control, setValue, reset, getValues } = useForm<IFormSale>({
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    reset,
+    getValues,
+    formState: { isValid },
+  } = useForm<IFormSale>({
     resolver: yupResolver(
       requiredClient === false ? schemaCreateSale : schemaCreateSaleWithCustomer,
     ),
@@ -349,6 +356,7 @@ export function RegisterSale(): JSX.Element {
               onClickSeconadary={onSubmit}
               textPrimary="Inserir mais"
               textSecondary="Finalizar pedido"
+              disabledSecondary={!isValid || !carListState.length}
             />
           )}
         </Form>

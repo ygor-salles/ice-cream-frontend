@@ -18,9 +18,11 @@ const SaleItem: React.FC<SaleItemProps> = ({
     <Container onClick={onClick}>
       <WrapperInfo>
         <Text bold>
-          {data_product.length > 1
+          {data_product?.length > 1
             ? `${data_product[0].amount} ${data_product[0].name}, [...]`
-            : `${data_product[0].amount} ${data_product[0].name}`}
+            : data_product?.length === 1
+            ? `${data_product[0].amount} ${data_product[0].name}`
+            : ''}
         </Text>
         <Text bold mgTop green>
           {formatNumberToCurrency(total ?? null) || '--'}

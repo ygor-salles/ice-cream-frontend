@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import DialogInfo from 'shared/components/dialog/Dialog';
 import { Pagination } from 'shared/components/pagination/Pagination';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { EnumTypeSale, IFormEditSale } from 'shared/dtos/ISaleDTO';
+import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
 import { useSale } from 'shared/hooks/network/useSale';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
@@ -39,23 +39,6 @@ export function Sales(): JSX.Element {
   const handleChangePage = (page: number) => {
     setLoadingSales(true);
     setSearchParams({ page: page.toString() }, { replace: true });
-  };
-
-  const updatedSale = async (data: IFormEditSale) => {
-    console.log('onSubmitUpdate', data);
-
-    delete data.client;
-    delete data.updated_at;
-
-    if (!data.observation.length) {
-      data.observation = null;
-    }
-
-    if (!data.client_id) {
-      delete data.client_id;
-    }
-
-    await updateSaleById(data);
   };
 
   const deletedSale = async () => {
@@ -105,7 +88,7 @@ export function Sales(): JSX.Element {
           onClose={() => setShowDetailItem(false)}
           onDeleteSale={() => setShowModalDelete(true)}
           saleDetail={detailItem}
-          onSubmitUpdate={updatedSale}
+          onSubmitUpdate={updateSaleById}
           loading={loadingSales || loadingForm}
         />
       )}

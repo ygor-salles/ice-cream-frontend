@@ -90,6 +90,7 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
         <StyledCardList
           listSale={data_product ?? []}
           control={control}
+          hasClient={!!client}
           disabledActions={disabledActions}
           onAddList={() => setShowDialogSale(true)}
           onDeleteList={onDeleteProductInSale}

@@ -1,6 +1,7 @@
 import { ICreateCashClosingDTORequest } from 'shared/services/SaleService/dtos/ICreateCashClosingDTO';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { ILoadSumSalesDTORequest } from 'shared/services/SaleService/dtos/ILoadSumSalesDTO';
+import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 import { convetSalesType } from 'shared/utils/convertTypes';
 import { getLocalDate } from 'shared/utils/getLocalDate';
 import Mask from 'shared/utils/masks';
@@ -138,6 +139,7 @@ export const schemaEditSale = yup.object().shape({
     .oneOf(Object.values(EnumTypeSale))
     .required('Tipo de venda é obrigatório'),
   [fieldsSale.OBSERVATION]: yup.string().optional(),
+  [fieldsSale.DATA_PRODUCT]: yup.array().min(1, 'Deve conter no mínimo um produto'),
 });
 
 export const transformItemArray = (dataForm: IFormSale): IDataProduct => {
@@ -187,6 +189,22 @@ export const transformObject = (dataForm: IFormSaleSubmit): ISaleDTO => {
   }
 
   return objectSale;
+};
+
+export const transformObjectEdit = (dataForm: IFormEditSale) => {
+  const objectEditSale: IUpdateSaleDTORequest = {
+    id: dataForm.id,
+    type_sale: dataForm.type_sale,
+    data_product: dataForm.data_product,
+    total: dataForm.total,
+    observation: dataForm.observation?.length ? dataForm.observation : null,
+  };
+
+  if (dataForm.client_id) {
+    objectEditSale.client_id = dataForm.client_id;
+  }
+
+  return objectEditSale;
 };
 
 export const defaultValuesCashClosing = {

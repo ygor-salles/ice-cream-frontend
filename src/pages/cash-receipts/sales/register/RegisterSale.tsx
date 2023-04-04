@@ -4,7 +4,6 @@ import { ArrowBack, AttachMoney } from '@mui/icons-material';
 import { Button, Skeleton } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useLocation } from 'react-router-dom';
 import AutoComplete from 'shared/components/autocomplete/Autocomplete';
 import SelectApp from 'shared/components/select/Select';
 import SelectMultiple from 'shared/components/selectMultiple/SelectMultiple';
@@ -227,18 +226,6 @@ export function RegisterSale(): JSX.Element {
       );
     }
   }, [productsAPI.length, clientsAPI.length, combinationsAPI.length]);
-
-  // const [previousLocation, setPreviousLocation] = useState(null);
-  // const location = useLocation();
-
-  // useEffect(() => {
-  //   console.log('caiuu use', location);
-  //   if (previousLocation !== null && location.key !== previousLocation.key) {
-  //     console.log('aqui');
-  //     onToggleScreenCarListing();
-  //   }
-  //   setPreviousLocation(location);
-  // }, [location]);
 
   return (
     <LayoutBaseDePagina

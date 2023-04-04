@@ -8,13 +8,13 @@ import { Li, Ul, Container, Text, Wrapper, ContentLeft } from './styles';
 
 interface PropTypes {
   sale: ISaleDTO;
-  updateSaleById: (data: IUpdateSaleDTORequest) => Promise<void>;
+  onChangeUpdateSaleById: (data: IUpdateSaleDTORequest) => Promise<void>;
   onToggleRefreshPage: () => void;
 }
 
 const CollapseCombinations: React.FC<PropTypes> = ({
   sale,
-  updateSaleById,
+  onChangeUpdateSaleById,
   onToggleRefreshPage,
 }) => {
   const acais: IDataProduct[] = sale.data_product.filter(
@@ -22,7 +22,7 @@ const CollapseCombinations: React.FC<PropTypes> = ({
   );
 
   const onChangeCheck = async () => {
-    await updateSaleById({ id: sale.id, in_progress: !sale.in_progress });
+    await onChangeUpdateSaleById({ id: sale.id, in_progress: !sale.in_progress });
     onToggleRefreshPage();
   };
 

@@ -164,6 +164,21 @@ export function useSale() {
     }
   }
 
+  async function onChangeUpdateSaleById(data: IUpdateSaleDTORequest) {
+    setLoadingSales(true);
+
+    try {
+      await saleService.updateById(data);
+      addToast('Pedido atualizado com sucesso!', ToastType.success);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(`Erro ao atualizar dados - ${response?.data?.message}`, ToastType.error);
+    } finally {
+      setLoadingSales(false);
+      setReloadPage(prev => !prev);
+    }
+  }
+
   return {
     allSales,
     loadingSales,
@@ -181,5 +196,6 @@ export function useSale() {
     handleSubmitCreateCashClosing,
     getSalesActivatedAcai,
     updateSaleById,
+    onChangeUpdateSaleById,
   };
 }

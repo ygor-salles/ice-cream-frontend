@@ -3,7 +3,10 @@ import { Edit } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { useState } from 'react';
 import { useForm, useController } from 'react-hook-form';
+import { ToastType } from 'shared/components/snackBar/enum';
+import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import { IFormEditSale, IFormSale, schemaEditSale, transformItemArray } from 'shared/dtos/ISaleDTO';
+import { useToastContext } from 'shared/hooks/useToastContext';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import formatDateTime from 'shared/utils/formatDateTime';
@@ -28,8 +31,9 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
   onSubmitUpdate,
 }) => {
   const [disabledActions, setDisabledActions] = useState(true);
-
   const [showDialogSale, setShowDialogSale] = useState(false);
+
+  const { addToast } = useToastContext();
 
   const {
     control,
@@ -60,6 +64,14 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
 
   const onInsertProductInSale = (data: IFormSale) => {
     const newItem: IDataProduct = transformItemArray(data);
+
+    if (newItem.type === EnumTypeProduct.ACAI && !saleDetail.in_progress) {
+      addToast(
+        'Não é possível adicionar novos açaís nessa venda pois esse pedido ja foi concluído na tela de Açaís ativos. Por favor cadastre uma nova venda!',
+        ToastType.error,
+      );
+      return;
+    }
 
     if (newItem.combinations.length === 0) {
       delete newItem.combinations;

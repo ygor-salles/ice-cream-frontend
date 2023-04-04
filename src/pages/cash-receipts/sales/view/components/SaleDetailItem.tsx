@@ -1,73 +1,151 @@
-import { Theme, useMediaQuery } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Edit } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import { useState } from 'react';
+import { useForm, useController } from 'react-hook-form';
+import { ToastType } from 'shared/components/snackBar/enum';
+import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
+import { IFormEditSale, IFormSale, schemaEditSale, transformItemArray } from 'shared/dtos/ISaleDTO';
+import { useToastContext } from 'shared/hooks/useToastContext';
+import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
-import { Text, Title, Value, WrapperDetail, StyledButton, FooterDetail, Li, Ul } from './styles';
+import DialogCreateSale from './DialogCreateSale';
+import { BttIcon, StyledCardList, Text, Title, WrapperDetail } from './styles';
 
 interface SaleDetailItemProps {
+  saleDetail: InstanceSale;
+  loading: boolean;
   onClose: () => void;
   onDeleteSale: () => void;
-  saleDetail: InstanceSale;
+  onSubmitUpdate: (data: IFormEditSale) => Promise<void>;
 }
 
-const SaleDetailItem: React.FC<SaleDetailItemProps> = ({ onClose, onDeleteSale, saleDetail }) => {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
+  saleDetail,
+  loading,
+  onClose,
+  onDeleteSale,
+  onSubmitUpdate,
+}) => {
+  const [disabledActions, setDisabledActions] = useState(true);
+  const [showDialogSale, setShowDialogSale] = useState(false);
+
+  const { addToast } = useToastContext();
+
+  const {
+    control,
+    setValue,
+    watch,
+    handleSubmit,
+    formState: { isDirty, isValid },
+  } = useForm<IFormEditSale>({
+    resolver: yupResolver(schemaEditSale),
+    defaultValues: {
+      id: saleDetail.id,
+      observation: saleDetail.observation,
+      type_sale: saleDetail.type_sale,
+      created_at: formatDateTime(saleDetail.created_at) ?? '--',
+      updated_at: formatDateTime(saleDetail.updated_at) ?? '--',
+      data_product: saleDetail.data_product,
+      total: saleDetail.total,
+      client: saleDetail.client,
+      client_id: saleDetail.client_id,
+    },
+  });
+
+  const { data_product, total, client } = watch();
+
+  const {
+    field: { onChange: onChangeDataProduct },
+  } = useController({ name: 'data_product', control });
+
+  const onInsertProductInSale = (data: IFormSale) => {
+    const newItem: IDataProduct = transformItemArray(data);
+
+    if (newItem.type === EnumTypeProduct.ACAI && !saleDetail.in_progress) {
+      addToast(
+        'Não é possível adicionar novos açaís nessa venda pois esse pedido ja foi concluído na tela de Açaís ativos. Por favor cadastre uma nova venda!',
+        ToastType.error,
+      );
+      return;
+    }
+
+    if (newItem.combinations.length === 0) {
+      delete newItem.combinations;
+    }
+
+    onChangeDataProduct([...data_product, newItem]);
+    setValue('total', total + newItem.total);
+  };
+
+  const onDeleteProductInSale = (data: IDataProduct) => {
+    if (data_product?.length) {
+      const newDataProduct = data_product.filter(item => item !== data);
+
+      onChangeDataProduct([...newDataProduct]);
+      setValue('total', total - data.total);
+    }
+  };
 
   return (
     <>
-      <Title>Detalhes de vendas</Title>
-      <WrapperDetail borderBottom>
-        <Text>
-          <b>Produto:</b>{' '}
-          {`${saleDetail?.amount || '--'} ${saleDetail?.data_product?.name || '--'}`}
-        </Text>
-        <Text>
-          <b>Preço unitário:</b>{' '}
-          {formatNumberToCurrency(saleDetail?.data_product?.price ?? null) || '--'}
-        </Text>
-        <Ul>
-          {saleDetail?.data_product?.combinations?.map(item => (
-            <Li key={item.name}>{`${item.name} - ${formatNumberToCurrency(item.price)}`}</Li>
-          )) || '--'}
-        </Ul>
-        <Text>
-          <b>Tipo de transação:</b> {saleDetail?.type_sale || '--'}
-        </Text>
-        <Text>
-          <b>Data:</b> {formatDateTime(saleDetail?.updated_at) || '--'}
-        </Text>
-        <Text>
-          <b>Observação:</b> {saleDetail?.observation || '--'}
-        </Text>
-        <Value>
-          <b>Total:</b> {formatNumberToCurrency(saleDetail?.total ?? null) || '--'}
-        </Value>
-      </WrapperDetail>
+      <Title>
+        Detalhes de vendas{' '}
+        <BttIcon type="button" disabled={loading} onClick={() => setDisabledActions(prev => !prev)}>
+          <Edit color="primary" />
+        </BttIcon>
+      </Title>
+      <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmitUpdate)}>
+        <StyledCardList
+          listSale={data_product ?? []}
+          control={control}
+          hasClient={!!client}
+          disabledActions={disabledActions}
+          onAddList={() => setShowDialogSale(true)}
+          onDeleteList={onDeleteProductInSale}
+          onClickPrimary={onDeleteSale}
+          onClickSeconadary={onClose}
+          textPrimary="Deletar"
+          textSecondary={disabledActions ? 'Ok' : 'Cancelar'}
+          renderTopButtons={
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              disabled={loading || !isValid || !isDirty}
+            >
+              Salvar
+            </Button>
+          }
+          loading={loading}
+          totalSum={total}
+          renderMain={
+            client && (
+              <WrapperDetail>
+                <Text>
+                  <b>Cliente:</b> {client?.name || '--'}
+                </Text>
+                <Text>
+                  <b>Telefone:</b> {client?.phone || '--'}
+                </Text>
+                <Text>
+                  <b>Dívida atual:</b>{' '}
+                  {client?.debit ? formatNumberToCurrency(client?.debit) : '--'}
+                </Text>
+              </WrapperDetail>
+            )
+          }
+        />
+      </form>
 
-      {saleDetail?.client && (
-        <WrapperDetail>
-          <Text>
-            <b>Cliente:</b> {saleDetail?.client?.name || '--'}
-          </Text>
-          <Text>
-            <b>Telefone:</b> {saleDetail?.client?.phone || '--'}
-          </Text>
-          <Text>
-            <b>Dívida atual:</b>{' '}
-            {saleDetail?.client?.debit ? formatNumberToCurrency(saleDetail?.client?.debit) : '--'}
-          </Text>
-        </WrapperDetail>
-      )}
-
-      <FooterDetail isMobile={smDown}>
-        <StyledButton variant="outlined" onClick={onDeleteSale}>
-          Deletar
-        </StyledButton>
-        <StyledButton variant="contained" onClick={onClose}>
-          OK
-        </StyledButton>
-      </FooterDetail>
+      <DialogCreateSale
+        open={showDialogSale}
+        onClose={() => setShowDialogSale(false)}
+        onSubmit={onInsertProductInSale}
+      />
     </>
   );
 };

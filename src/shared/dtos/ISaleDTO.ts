@@ -1,5 +1,7 @@
 import { ICreateCashClosingDTORequest } from 'shared/services/SaleService/dtos/ICreateCashClosingDTO';
+import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { ILoadSumSalesDTORequest } from 'shared/services/SaleService/dtos/ILoadSumSalesDTO';
+import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 import { convetSalesType } from 'shared/utils/convertTypes';
 import { getLocalDate } from 'shared/utils/getLocalDate';
 import Mask from 'shared/utils/masks';
@@ -7,7 +9,7 @@ import * as yup from 'yup';
 
 import { IClientDTO } from './IClientDTO';
 import { ICombinationDTO } from './ICombinationDTO';
-import { IProductDTO } from './IProductDTO';
+import { EnumTypeProduct, IProductDTO } from './IProductDTO';
 
 export enum EnumTypeSale {
   PIX = 'PIX',
@@ -18,13 +20,12 @@ export enum EnumTypeSale {
 
 export interface ISaleDTO {
   id?: number;
-  data_product: IProductDTO;
+  data_product: IDataProduct[];
   type_sale: EnumTypeSale;
   client_id?: number;
   client?: IClientDTO;
   in_progress?: boolean;
   observation?: string;
-  amount: number;
   total: number;
   created_at?: Date | string;
   updated_at?: Date | string;
@@ -34,7 +35,7 @@ export interface IFormSale {
   product_name: string;
   data_product: IProductDTO;
   combinations: ICombinationDTO[];
-  type_sale: string;
+  type_sale: EnumTypeSale;
   client_name?: string;
   client_id?: string;
   observation?: string;
@@ -42,9 +43,29 @@ export interface IFormSale {
   total: string;
 }
 
+interface IFormSaleSubmit {
+  total: number;
+  type_sale: EnumTypeSale;
+  observation?: string;
+  client_id?: string;
+  data_product: IDataProduct[];
+}
+
 export interface IFormCashClosing {
   total: string;
   created_at?: string;
+}
+
+export interface IFormEditSale {
+  id: number;
+  observation?: string;
+  type_sale: EnumTypeSale;
+  created_at?: string;
+  updated_at?: string;
+  data_product?: IDataProduct[];
+  total?: number;
+  client_id?: number;
+  client?: IClientDTO;
 }
 
 export const fieldsSale = {
@@ -58,6 +79,7 @@ export const fieldsSale = {
   AMOUNT: 'amount',
   TOTAL: 'total',
   CREATED_AT: 'created_at',
+  UPDATED_AT: 'updated_at',
 };
 
 export const defaultValueAmount = '1';
@@ -69,6 +91,14 @@ export const defaultValuesSale = {
   [fieldsSale.CLIENT_NAME]: '',
   [fieldsSale.CLIENT_ID]: '',
   [fieldsSale.OBSERVATION]: '',
+  [fieldsSale.AMOUNT]: defaultValueAmount,
+  [fieldsSale.TOTAL]: '',
+};
+
+export const defaultValuesDialogSale = {
+  [fieldsSale.PRODUCT_NAME]: '',
+  [fieldsSale.DATA_PRODUCT]: null,
+  [fieldsSale.COMBINATIONS]: [],
   [fieldsSale.AMOUNT]: defaultValueAmount,
   [fieldsSale.TOTAL]: '',
 };
@@ -97,22 +127,84 @@ export const schemaCreateSaleWithCustomer = yup.object().shape({
   [fieldsSale.TOTAL]: yup.string().required('Total da venda é obrigatório'),
 });
 
-export const transformObject = (dataForm: IFormSale): ISaleDTO => {
-  const objectSale: ISaleDTO = {
-    data_product: dataForm.data_product,
-    total: Mask.convertCurrency(dataForm.total),
-    type_sale: convetSalesType(dataForm.type_sale),
+export const schemaDialogCreateSale = yup.object().shape({
+  [fieldsSale.PRODUCT_NAME]: yup.string().required('Seleção de produto é obrigatório'),
+  [fieldsSale.AMOUNT]: yup.string().required('Quantidade de produto é obrigatório'),
+  [fieldsSale.TOTAL]: yup.string().required('Total da venda é obrigatório'),
+});
+
+export const schemaEditSale = yup.object().shape({
+  [fieldsSale.TYPE_SALE]: yup
+    .mixed<EnumTypeSale>()
+    .oneOf(Object.values(EnumTypeSale))
+    .required('Tipo de venda é obrigatório'),
+  [fieldsSale.OBSERVATION]: yup.string().optional(),
+  [fieldsSale.DATA_PRODUCT]: yup.array().min(1, 'Deve conter no mínimo um produto'),
+});
+
+export const transformItemArray = (dataForm: IFormSale): IDataProduct => {
+  const object: IDataProduct = {
     amount: Number(dataForm.amount),
+    name: dataForm.product_name,
+    price: dataForm.data_product.price,
+    total: Mask.convertCurrency(dataForm.total),
+    combinations: dataForm.combinations.map(item => ({ name: item.name, price: item.price })),
+    type: dataForm.data_product.type,
+  };
+  return object;
+};
+
+export const transformObject = (dataForm: IFormSaleSubmit): ISaleDTO => {
+  const foundAcai = dataForm.data_product.find(item => item.type === EnumTypeProduct.ACAI);
+
+  const objectSale: ISaleDTO = {
+    total: dataForm.total,
+    type_sale: convetSalesType(dataForm.type_sale),
+    in_progress: !!foundAcai,
+    data_product: dataForm.data_product.map(item =>
+      item?.combinations?.length
+        ? {
+            amount: item.amount,
+            name: item.name,
+            price: item.price,
+            total: item.total,
+            combinations: item.combinations,
+            type: item.type,
+          }
+        : {
+            amount: item.amount,
+            name: item.name,
+            price: item.price,
+            total: item.total,
+            type: item.type,
+          },
+    ),
   };
 
-  if (dataForm.observation.length) {
+  if (dataForm.observation?.length) {
     objectSale.observation = dataForm.observation;
   }
-  if (dataForm.client_id.length) {
+  if (dataForm.client_id?.length) {
     objectSale.client_id = Number(dataForm.client_id);
   }
 
   return objectSale;
+};
+
+export const transformObjectEdit = (dataForm: IFormEditSale) => {
+  const objectEditSale: IUpdateSaleDTORequest = {
+    id: dataForm.id,
+    type_sale: dataForm.type_sale,
+    data_product: dataForm.data_product,
+    total: dataForm.total,
+    observation: dataForm.observation?.length ? dataForm.observation : null,
+  };
+
+  if (dataForm.client_id) {
+    objectEditSale.client_id = dataForm.client_id;
+  }
+
+  return objectEditSale;
 };
 
 export const defaultValuesCashClosing = {

@@ -11,11 +11,6 @@ export const StyledTextField = styled(TextField)(() => ({
   '& .css-1u4qbjr-MuiInputBase-root-MuiInput-root:after': {
     borderBottom: useThemeContext().themeName === 'dark' ? Colors.WHITE : 'auto',
   },
-  // '& .MuiOutlinedInput-root': {
-  //   '&.Mui-focused fieldset': {
-  //     borderBottom: useThemeContext().themeName === 'dark' ? Colors.WHITE : 'auto',
-  //   },
-  // },
 }));
 
 export const StyledPhoneAndroid = styled(PhoneAndroid)`

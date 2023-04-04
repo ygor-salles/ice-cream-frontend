@@ -231,7 +231,7 @@ export function AppRoutes() {
         }
       />
 
-      <Route path="*" element={<Navigate to={RoutesEnum.SALES_CREATE} />} />
+      <Route path="*" element={<Navigate to={RoutesEnum.ACAIS_ACTIVES} />} />
     </Routes>
   );
 }

@@ -29,7 +29,8 @@ export const StyledTableCell = styled(TableCell).withConfig({
   border: ${props => props.borderNone && 'none'};
   text-align: ${props => props.align && props.align};
   width: ${props => props.width && props.width};
-  padding: ${props => props.isMobile && '18px'};
+  padding: ${props => props.isMobile && '18px 12px'};
+  font-size: 0.92rem;
 `;
 
 export const StyledTableRow = styled(TableRow)`

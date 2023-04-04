@@ -1,6 +1,6 @@
-import { AddBox } from '@mui/icons-material';
+import { AddBox, ArrowBack } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import DialogInfo from 'shared/components/dialog/Dialog';
 import { Pagination } from 'shared/components/pagination/Pagination';
@@ -14,6 +14,10 @@ import SaleDetailItem from './components/SaleDetailItem';
 import SaleItem from './components/SaleItem';
 
 export function Sales(): JSX.Element {
+  const [showDetailItem, setShowDetailItem] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [detailItem, setDetailItem] = useState<InstanceSale>();
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const {
@@ -25,11 +29,8 @@ export function Sales(): JSX.Element {
     handleSubmitDelete,
     loadingForm,
     reloadPage,
+    updateSaleById,
   } = useSale();
-
-  const [showDetailItem, setShowDetailItem] = useState(false);
-  const [showModalDelete, setShowModalDelete] = useState(false);
-  const [detailItem, setDetailItem] = useState<InstanceSale>();
 
   const page = useMemo(() => {
     return searchParams.get('page') || '1';
@@ -40,6 +41,11 @@ export function Sales(): JSX.Element {
     setSearchParams({ page: page.toString() }, { replace: true });
   };
 
+  const deletedSale = async () => {
+    setShowModalDelete(false);
+    await handleSubmitDelete(detailItem.id);
+  };
+
   useEffect(() => {
     getSalesPaged(page);
     setShowDetailItem(false);
@@ -48,9 +54,11 @@ export function Sales(): JSX.Element {
   return (
     <LayoutBaseDePagina
       titulo="Vendas"
-      navigatePage={RoutesEnum.SALES_CREATE}
-      textButton="CADASTRAR"
-      icon={<AddBox />}
+      onClick={showDetailItem ? () => setShowDetailItem(false) : undefined}
+      navigatePage={!showDetailItem ? RoutesEnum.SALES_CREATE : undefined}
+      textButton={showDetailItem ? 'Voltar' : 'Cadastrar'}
+      icon={showDetailItem ? <ArrowBack /> : <AddBox />}
+      disabled={loadingSales || loadingForm}
     >
       {!showDetailItem ? (
         loadingSales ? (
@@ -80,6 +88,8 @@ export function Sales(): JSX.Element {
           onClose={() => setShowDetailItem(false)}
           onDeleteSale={() => setShowModalDelete(true)}
           saleDetail={detailItem}
+          onSubmitUpdate={updateSaleById}
+          loading={loadingSales || loadingForm}
         />
       )}
 
@@ -94,10 +104,7 @@ export function Sales(): JSX.Element {
         textButtonSubmit="DELETAR"
         textButtonClose="CANCELAR"
         handleClose={() => setShowModalDelete(false)}
-        handleSubmit={() => {
-          handleSubmitDelete(detailItem.id);
-          setShowModalDelete(false);
-        }}
+        handleSubmit={deletedSale}
         loading={loadingForm}
       />
     </LayoutBaseDePagina>

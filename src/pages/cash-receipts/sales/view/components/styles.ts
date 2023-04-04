@@ -1,6 +1,8 @@
 import { Button, Typography } from '@mui/material';
 import styled, { css } from 'styled-components';
-import { Colors } from 'styles/global';
+import { Colors, mediaQuery } from 'styles/global';
+
+import CartListing from '../../register/components/CartListing';
 
 interface TextProps {
   bold?: boolean;
@@ -13,7 +15,7 @@ export const Container = styled.div`
   justify-content: space-between;
   padding: 10px;
   width: 100%;
-  border-bottom: 1.5px solid ${Colors.GRAY_LIGHT};
+  border-bottom: 1.9px solid ${Colors.GRAY_LIGHT};
 `;
 
 export const WrapperInfo = styled.div`
@@ -53,12 +55,14 @@ export const WrapperDetail = styled.div<{ borderBottom?: boolean }>`
   width: 100%;
   padding: 15px 0;
   border-bottom: ${props => props.borderBottom && `1px solid ${Colors.GRAY}`};
+  border-top: solid 1px ${Colors.GRAY_LIGHT};
 `;
 
 export const Title = styled(Typography)`
   font-weight: 600;
   font-size: 22px !important;
   text-align: center;
+  margin-bottom: 8px;
 `;
 
 export const Value = styled(Typography)`
@@ -96,4 +100,78 @@ export const Ul = styled.ul`
 
 export const Li = styled.li`
   color: ${Colors.GRAY};
+`;
+
+export const StyledCardList = styled(CartListing)`
+  width: 100%;
+  margin-top: 10px;
+  height: calc(100vh - 135px);
+`;
+
+export const BttIcon = styled.button`
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+`;
+
+export const Form = styled.form`
+  width: 100%;
+  height: auto;
+  padding: 24px;
+  overflow: auto;
+
+  ${mediaQuery.tableSm} {
+    height: 100vh;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+`;
+
+export const GridForm = styled.div`
+  display: grid;
+  grid-template-columns: auto;
+  gap: 30px;
+
+  width: 530px;
+
+  ${mediaQuery.tableSm} {
+    width: auto;
+  }
+`;
+
+export const WrapperButtons = styled.footer`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 40px;
+
+  ${mediaQuery.tableSm} {
+    left: 24px;
+    bottom: 16px;
+  }
+
+  ${mediaQuery.mobile} {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+
+    button:first-child {
+      margin-bottom: 16px;
+    }
+  }
+`;
+
+export const HeaderDialog = styled.header`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: ${Colors.MAIN_PRIMARY_LIGHT};
 `;

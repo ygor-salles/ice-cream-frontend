@@ -55,18 +55,14 @@ export const GlobalStyle = createGlobalStyle`
 
   // font-size: 16px (padrao-Desktop)
   html {
-
     p {
       font-size: 18px !important;
       font-family: 'Poppins', sans-serif !important;
     }
 
-
-
     @media (max-width: 720px) {
       /* font-size: 87.5%; // 14px */
       font-size: 16px;
-
       p {
         font-size: 16px !important;
       }
@@ -96,6 +92,7 @@ export const GlobalStyle = createGlobalStyle`
 
 export const mediaQuery = {
   mobile: '@media screen and (max-width: 420px)',
+  tableSm: '@media screen and (max-width: 600px)',
   tablet: '@media screen and (max-width: 768px)',
   desktop: '@media screen and (max-width: 1280px)',
   desktopSm: '@media screen and (max-width: 1366px)',

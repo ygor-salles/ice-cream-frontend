@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import { RoutesEnum } from 'shared/constants/routesList';
+import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
   IFormCashClosing,
+  IFormEditSale,
   IFormFilterSales,
-  IFormSale,
   ISaleDTO,
-  transformObject,
   transformObjectCashClosing,
+  transformObjectEdit,
   transformObjectFilter,
 } from 'shared/dtos/ISaleDTO';
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
@@ -34,9 +35,8 @@ export function useSale() {
 
   const [totalPage, setTotalPage] = useState(1);
 
-  async function handleSubmitCreate(dataForm: IFormSale) {
+  async function handleSubmitCreate(data: ISaleDTO) {
     setLoadingForm(true);
-    const data: ISaleDTO = transformObject(dataForm);
 
     try {
       await saleService.create(data);
@@ -75,7 +75,7 @@ export function useSale() {
       addToast(`Error ao deletar venda! - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingForm(false);
-      setReloadPage(true);
+      setReloadPage(prev => !prev);
     }
   }
 
@@ -136,7 +136,10 @@ export function useSale() {
 
     try {
       const orders = await saleService.loadSalesActivatedAcai();
-      setAllSales(orders);
+      const filterOrders = orders.filter(item =>
+        item.data_product.find(sub => sub.type === EnumTypeProduct.ACAI),
+      );
+      setAllSales(filterOrders);
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Erro ao buscar dados - ${response?.data?.message}`, ToastType.error);
@@ -145,7 +148,23 @@ export function useSale() {
     }
   }
 
-  async function updateSaleById(data: IUpdateSaleDTORequest) {
+  async function updateSaleById(dataForm: IFormEditSale) {
+    setLoadingSales(true);
+    const data: IUpdateSaleDTORequest = transformObjectEdit(dataForm);
+
+    try {
+      await saleService.updateById(data);
+      addToast('Pedido atualizado com sucesso!', ToastType.success);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(`Erro ao atualizar dados - ${response?.data?.message}`, ToastType.error);
+    } finally {
+      setLoadingSales(false);
+      setReloadPage(prev => !prev);
+    }
+  }
+
+  async function onChangeUpdateSaleById(data: IUpdateSaleDTORequest) {
     setLoadingSales(true);
 
     try {
@@ -155,7 +174,8 @@ export function useSale() {
       const { response } = error as AxiosError;
       addToast(`Erro ao atualizar dados - ${response?.data?.message}`, ToastType.error);
     } finally {
-      setLoadingForm(false);
+      setLoadingSales(false);
+      setReloadPage(prev => !prev);
     }
   }
 
@@ -176,5 +196,6 @@ export function useSale() {
     handleSubmitCreateCashClosing,
     getSalesActivatedAcai,
     updateSaleById,
+    onChangeUpdateSaleById,
   };
 }

@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon, Switch } from '@mui/material';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { IPaymentDTO } from 'shared/dtos/IPaymentDTO';
-import { IProductDTO } from 'shared/dtos/IProductDTO';
+import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
 import { IProviderDTO } from 'shared/dtos/IProviderDTO';
 import { IPurchaseDTO } from 'shared/dtos/IPurchaseDTO';
 import { ISaleDTO } from 'shared/dtos/ISaleDTO';
@@ -129,8 +130,15 @@ export const _renderSaleClientName = (data: IClientDTO, { client }: ISaleDTO) =>
   <span>{client?.name || '--'}</span>
 );
 
-export const _renderSaleProductName = (data: IProductDTO, { data_product, amount }: ISaleDTO) => (
-  <span>
-    {`${amount} `} {data_product?.name || '--'}
-  </span>
-);
+export const _renderSaleProductName = (data: IProductDTO, { data_product }: ISaleDTO) => {
+  const acais = data_product?.filter(item => item.type === EnumTypeProduct.ACAI);
+
+  if (acais?.length) {
+    return (
+      <span>
+        {(acais.length > 1 ? `Varios ...` : `${acais[0]?.amount} ${acais[0]?.name}`) ?? '--'}
+      </span>
+    );
+  }
+  return <></>;
+};

@@ -234,6 +234,7 @@ export function RegisterSale(): JSX.Element {
       navigatePage={!showScreenCarListing ? RoutesEnum.SALES : undefined}
       textButton={showScreenCarListing ? 'Voltar' : 'VENDAS'}
       icon={showScreenCarListing ? <ArrowBack /> : <AttachMoney />}
+      disabled={loading}
     >
       {loadingRequests || loadingCombinations ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
@@ -343,6 +344,7 @@ export function RegisterSale(): JSX.Element {
               onClickSeconadary={onSubmit}
               textPrimary="Inserir mais"
               textSecondary="Finalizar pedido"
+              loading={loading}
               renderMain={
                 !!getValues('client_name') && (
                   <Text>

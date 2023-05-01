@@ -1,6 +1,6 @@
 import { AddBox, ArrowBack } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import DialogInfo from 'shared/components/dialog/Dialog';
 import { Pagination } from 'shared/components/pagination/Pagination';

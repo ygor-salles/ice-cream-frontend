@@ -3,7 +3,7 @@ import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDT
 import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
-import { Container, WrapperInfo, Text, WrapperNavigate } from './styles';
+import { Container, WrapperInfo, Text, WrapperNavigate, TextCustom, Row } from './styles';
 
 interface SaleItemProps {
   onClick: () => void;
@@ -12,11 +12,11 @@ interface SaleItemProps {
 
 const SaleItem: React.FC<SaleItemProps> = ({
   onClick,
-  detailSale: { data_product, total, client, type_sale, updated_at },
+  detailSale: { data_product, total, client, type_sale, created_at, observation },
 }) => {
   return (
     <Container onClick={onClick}>
-      <WrapperInfo>
+      <Row>
         <Text bold>
           {data_product?.length > 1
             ? `${data_product[0].amount} ${data_product[0].name}, [...]`
@@ -24,16 +24,26 @@ const SaleItem: React.FC<SaleItemProps> = ({
             ? `${data_product[0].amount} ${data_product[0].name}`
             : ''}
         </Text>
-        <Text bold mgTop green>
-          {formatNumberToCurrency(total ?? null) || '--'}
-        </Text>
-        {client?.name && <Text>{client.name}</Text>}
-        <Text>{type_sale || '--'}</Text>
-      </WrapperInfo>
-      <WrapperNavigate>
-        <Text>{formatDateTime(updated_at) || '--'}</Text>
-        <NavigateNext fontSize="large" style={{ cursor: 'pointer' }} />
-      </WrapperNavigate>
+        <Text>{formatDateTime(created_at) || '--'}</Text>
+      </Row>
+      <Row alignCenter>
+        <WrapperInfo>
+          <Text bold mgTop green>
+            {formatNumberToCurrency(total ?? null) || '--'}
+          </Text>
+          <div>
+            {client?.name ? (
+              <TextCustom>{client.name}</TextCustom>
+            ) : (
+              <TextCustom>{observation}</TextCustom>
+            )}
+          </div>
+          <Text>{type_sale || '--'}</Text>
+        </WrapperInfo>
+        <WrapperNavigate>
+          <NavigateNext fontSize="large" style={{ cursor: 'pointer' }} />
+        </WrapperNavigate>
+      </Row>
     </Container>
   );
 };

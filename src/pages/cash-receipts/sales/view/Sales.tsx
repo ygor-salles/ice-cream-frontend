@@ -3,8 +3,11 @@ import { Skeleton } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Pagination } from 'shared/components/pagination/Pagination';
+import { ToastType } from 'shared/components/snackBar/enum';
 import { RoutesEnum } from 'shared/constants/routesList';
+import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
 import { useSale } from 'shared/hooks/network/useSale';
+import { useToastContext } from 'shared/hooks/useToastContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 import SaleItem from './components/SaleItem';
@@ -22,6 +25,8 @@ export function Sales(): JSX.Element {
     loadingForm,
     reloadPage,
   } = useSale();
+
+  const { addToast } = useToastContext();
 
   const page = useMemo(() => {
     return searchParams.get('page') || '1';
@@ -51,7 +56,16 @@ export function Sales(): JSX.Element {
           {allSales.map(item => (
             <SaleItem
               key={item.id}
-              onClick={() => navigate(RoutesEnum.SALE_DETAIL, { state: { saleDetail: item } })}
+              onClick={() => {
+                if (item.type_sale !== EnumTypeSale.CLOSURE) {
+                  navigate(RoutesEnum.SALE_DETAIL, { state: { saleDetail: item } });
+                } else {
+                  addToast(
+                    'Essa venda é um fechamento de caixa, não há mais detalhes',
+                    ToastType.success,
+                  );
+                }
+              }}
               detailSale={item}
             />
           ))}

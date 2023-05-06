@@ -16,6 +16,7 @@ export enum EnumTypeSale {
   CARD = 'CARTAO',
   MONEY = 'DINHEIRO',
   DEBIT = 'FIADO',
+  CLOSURE = 'FECHAMENTO DE CAIXA',
 }
 
 export interface ISaleDTO {

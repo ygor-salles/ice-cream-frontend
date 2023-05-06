@@ -23,6 +23,7 @@ import {
   AcaisActives,
   Login,
 } from 'pages';
+import SaleDetail from 'pages/cash-receipts/sales/saleDetail/SaleDetail';
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants/routesList';
@@ -227,6 +228,14 @@ export function AppRoutes() {
         element={
           <ProtectedLayout accessUser={[EnumRoleUser.NORMAL, EnumRoleUser.EMPLOYEE]}>
             <AcaisActives />
+          </ProtectedLayout>
+        }
+      />
+      <Route
+        path={RoutesEnum.SALE_DETAIL}
+        element={
+          <ProtectedLayout accessUser={[EnumRoleUser.NORMAL, EnumRoleUser.EMPLOYEE]}>
+            <SaleDetail />
           </ProtectedLayout>
         }
       />

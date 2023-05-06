@@ -11,6 +11,7 @@ export enum RoutesEnum {
   CLIENTS_CREATE = '/clients/create',
   SALES = '/sales',
   SALES_CREATE = '/sales/create',
+  SALE_DETAIL = '/sales/detail',
   PROVIDERS = '/providers',
   PROVIDERS_CREATE = '/providers/create',
   PURCHASES = '/purchases',

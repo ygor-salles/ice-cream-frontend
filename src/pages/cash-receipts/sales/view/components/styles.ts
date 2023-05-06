@@ -2,8 +2,6 @@ import { Button, Typography } from '@mui/material';
 import styled, { css } from 'styled-components';
 import { Colors, mediaQuery } from 'styles/global';
 
-import CartListing from '../../register/components/CartListing';
-
 interface TextProps {
   bold?: boolean;
   mgTop?: boolean;
@@ -77,17 +75,6 @@ export const WrapperNavigate = styled.div`
 
 // ---------------
 
-export const WrapperDetail = styled.div<{ borderBottom?: boolean }>`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 30px;
-  width: 100%;
-  padding: 15px 0;
-  border-bottom: ${props => props.borderBottom && `1px solid ${Colors.GRAY}`};
-  border-top: solid 1px ${Colors.GRAY_LIGHT};
-`;
-
 export const Title = styled(Typography)`
   font-weight: 600;
   font-size: 22px !important;
@@ -130,19 +117,6 @@ export const Ul = styled.ul`
 
 export const Li = styled.li`
   color: ${Colors.GRAY};
-`;
-
-export const StyledCardList = styled(CartListing)`
-  width: 100%;
-  margin-top: 10px;
-  height: calc(100vh - 135px);
-`;
-
-export const BttIcon = styled.button`
-  margin: 0;
-  border: 0;
-  padding: 0;
-  background: transparent;
 `;
 
 export const Form = styled.form`

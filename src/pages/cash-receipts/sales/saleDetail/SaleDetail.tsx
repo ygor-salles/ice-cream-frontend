@@ -2,38 +2,42 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Edit } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { useState } from 'react';
-import { useForm, useController } from 'react-hook-form';
+import { useController, useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
+import DialogInfo from 'shared/components/dialog/Dialog';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
-import { IFormEditSale, IFormSale, schemaEditSale, transformItemArray } from 'shared/dtos/ISaleDTO';
+import {
+  EnumTypeSale,
+  IFormEditSale,
+  IFormSale,
+  schemaEditSale,
+  transformItemArray,
+} from 'shared/dtos/ISaleDTO';
+import { useSale } from 'shared/hooks/network/useSale';
 import { useToastContext } from 'shared/hooks/useToastContext';
+import { LayoutBaseDePagina } from 'shared/layouts';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
-import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
-import DialogCreateSale from './DialogCreateSale';
+import DialogCreateSale from '../view/components/DialogCreateSale';
 import { BttIcon, StyledCardList, Text, Title, WrapperDetail } from './styles';
 
-interface SaleDetailItemProps {
-  saleDetail: InstanceSale;
-  loading: boolean;
-  onClose: () => void;
-  onDeleteSale: () => void;
-  onSubmitUpdate: (data: IFormEditSale) => Promise<void>;
-}
-
-const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
-  saleDetail,
-  loading,
-  onClose,
-  onDeleteSale,
-  onSubmitUpdate,
-}) => {
+const SaleDetail: React.FC = () => {
   const [disabledActions, setDisabledActions] = useState(true);
   const [showDialogSale, setShowDialogSale] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
+
+  const navigate = useNavigate();
+  const {
+    state: { saleDetail },
+  } = useLocation();
 
   const { addToast } = useToastContext();
+
+  const { updateSaleById, handleSubmitDelete, loadingSales, loadingForm } = useSale();
+  const loading = loadingSales || loadingForm;
 
   const {
     control,
@@ -90,15 +94,20 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
     }
   };
 
+  const deletedSale = async () => {
+    setShowModalDelete(false);
+    await handleSubmitDelete(saleDetail.id);
+  };
+
   return (
-    <>
+    <LayoutBaseDePagina titulo="Detalhes de venda">
       <Title>
         Detalhes de vendas{' '}
         <BttIcon type="button" disabled={loading} onClick={() => setDisabledActions(prev => !prev)}>
           <Edit color="primary" />
         </BttIcon>
       </Title>
-      <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmitUpdate)}>
+      <form style={{ width: '100%' }} onSubmit={handleSubmit(updateSaleById)}>
         <StyledCardList
           listSale={data_product ?? []}
           control={control}
@@ -106,8 +115,8 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
           disabledActions={disabledActions}
           onAddList={() => setShowDialogSale(true)}
           onDeleteList={onDeleteProductInSale}
-          onClickPrimary={onDeleteSale}
-          onClickSeconadary={onClose}
+          onClickPrimary={() => setShowModalDelete(true)}
+          onClickSeconadary={() => navigate(-1)}
           textPrimary="Deletar"
           textSecondary={disabledActions ? 'Ok' : 'Cancelar'}
           renderTopButtons={
@@ -146,8 +155,23 @@ const SaleDetailItem: React.FC<SaleDetailItemProps> = ({
         onClose={() => setShowDialogSale(false)}
         onSubmit={onInsertProductInSale}
       />
-    </>
+
+      <DialogInfo
+        open={showModalDelete}
+        title="Deletar Venda"
+        text={
+          saleDetail.type_sale === EnumTypeSale.DEBIT
+            ? 'Tem certeza que deseja deletar essa venda? 🤔🤔🤔 Ao deletar uma venda FIADO irá subtratir a dívida do cliente ❗❗'
+            : 'Tem certeza que deseja deletar essa venda? 🤔'
+        }
+        textButtonSubmit="DELETAR"
+        textButtonClose="CANCELAR"
+        handleClose={() => setShowModalDelete(false)}
+        handleSubmit={deletedSale}
+        loading={loadingForm}
+      />
+    </LayoutBaseDePagina>
   );
 };
 
-export default SaleDetailItem;
+export default SaleDetail;

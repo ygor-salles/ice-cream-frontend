@@ -18,11 +18,12 @@ import { useSale } from 'shared/hooks/network/useSale';
 import { useToastContext } from 'shared/hooks/useToastContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
+import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
 import DialogCreateSale from '../view/components/DialogCreateSale';
-import { BttIcon, StyledCardList, Text, Title, WrapperDetail } from './styles';
+import { StyledCardList, Text, WrapperDetail } from './styles';
 
 const SaleDetail: React.FC = () => {
   const [disabledActions, setDisabledActions] = useState(true);
@@ -30,9 +31,9 @@ const SaleDetail: React.FC = () => {
   const [showModalDelete, setShowModalDelete] = useState(false);
 
   const navigate = useNavigate();
-  const {
-    state: { saleDetail },
-  } = useLocation();
+  const { state } = useLocation();
+  // eslint-disable-next-line prefer-destructuring
+  const saleDetail: InstanceSale = state.saleDetail;
 
   const { addToast } = useToastContext();
 
@@ -100,14 +101,19 @@ const SaleDetail: React.FC = () => {
   };
 
   return (
-    <LayoutBaseDePagina titulo="Detalhes de venda">
-      <Title>
-        Detalhes de vendas{' '}
-        <BttIcon type="button" disabled={loading} onClick={() => setDisabledActions(prev => !prev)}>
-          <Edit color="primary" />
-        </BttIcon>
-      </Title>
-      <form style={{ width: '100%' }} onSubmit={handleSubmit(updateSaleById)}>
+    <LayoutBaseDePagina
+      titulo="Detalhes de venda"
+      textButton="EDITAR"
+      icon={<Edit />}
+      onClick={() => setDisabledActions(prev => !prev)}
+    >
+      <form
+        style={{ width: '100%' }}
+        onSubmit={handleSubmit(async (dataForm: IFormEditSale) => {
+          await updateSaleById(dataForm);
+          navigate(-1);
+        })}
+      >
         <StyledCardList
           listSale={data_product ?? []}
           control={control}
@@ -124,7 +130,10 @@ const SaleDetail: React.FC = () => {
               type="submit"
               variant="contained"
               color="secondary"
-              disabled={loading || !isValid || !isDirty}
+              disabled={
+                (loading || !isValid || !isDirty) &&
+                saleDetail.data_product.length === data_product.length
+              }
             >
               Salvar
             </Button>

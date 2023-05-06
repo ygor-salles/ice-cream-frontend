@@ -138,7 +138,7 @@ export const schemaEditSale = yup.object().shape({
     .mixed<EnumTypeSale>()
     .oneOf(Object.values(EnumTypeSale))
     .required('Tipo de venda é obrigatório'),
-  [fieldsSale.OBSERVATION]: yup.string().optional(),
+  [fieldsSale.OBSERVATION]: yup.string().optional().nullable(),
   [fieldsSale.DATA_PRODUCT]: yup.array().min(1, 'Deve conter no mínimo um produto'),
 });
 

@@ -21,26 +21,12 @@ export const WrapperDetail = styled.div<{ borderBottom?: boolean }>`
   border-top: solid 1px ${Colors.GRAY_LIGHT};
 `;
 
-export const BttIcon = styled.button`
-  margin: 0;
-  border: 0;
-  padding: 0;
-  background: transparent;
-`;
-
 export const Text = styled(Typography).withConfig({
   shouldForwardProp: props => !['bold', 'mgTop', 'green'].includes(props),
 })<TextProps>`
   font-weight: ${props => (props.bold ? '600' : '400')};
   margin-top: ${props => props.mgTop && '10px'};
   color: ${props => props.green && Colors.MAIN_SECONDARY};
-`;
-
-export const Title = styled(Typography)`
-  font-weight: 600;
-  font-size: 22px !important;
-  text-align: center;
-  margin-bottom: 8px;
 `;
 
 export const StyledCardList = styled(CartListing)`

@@ -1,8 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AttachMoney } from '@mui/icons-material';
-import { Skeleton, Theme, Typography, useMediaQuery } from '@mui/material';
+import { ArrowBack } from '@mui/icons-material';
+import { Button, Skeleton, Theme, Typography, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import DatePicker from 'shared/components/datePicker/DatePicker';
 import TextFieldApp from 'shared/components/textField/TextField';
@@ -19,6 +20,8 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 import { Form, GridForm, StyledCard } from './styles';
 
 export function DailyCashClosing() {
+  const navigate = useNavigate();
+
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmitCreateCashClosing, loadingForm } = useSale();
@@ -37,9 +40,16 @@ export function DailyCashClosing() {
   return (
     <LayoutBaseDePagina
       titulo="Fechamento caixa"
-      navigatePage={RoutesEnum.SALES}
-      textButton="VENDAS"
-      icon={<AttachMoney />}
+      renderHeaderButton={
+        <Button
+          color="info"
+          variant="outlined"
+          startIcon={<ArrowBack />}
+          onClick={() => navigate(RoutesEnum.CASH_RECEIPTS)}
+        >
+          VOLTAR
+        </Button>
+      }
     >
       {loadingForm ? (
         <Skeleton variant="rectangular" width="100%" height={450} />

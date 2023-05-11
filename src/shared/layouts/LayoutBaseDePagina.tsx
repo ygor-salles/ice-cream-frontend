@@ -26,6 +26,7 @@ interface ILayoutBaseDePaginaProps {
   colorButtonRight?: 'inherit' | 'secondary' | 'primary' | 'success' | 'error' | 'info' | 'warning';
   disabledRight?: boolean;
   onClickRight?: () => void;
+  renderHeaderButton?: React.ReactElement;
 }
 export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
   children,
@@ -39,6 +40,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
   colorButtonRight,
   disabled,
   disabledRight,
+  renderHeaderButton,
   onClick,
   onClickRight,
 }) => {
@@ -105,6 +107,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
             {textButton}
           </Button>
         )}
+        {renderHeaderButton && smDown && renderHeaderButton}
       </Header>
 
       {/* main section */}

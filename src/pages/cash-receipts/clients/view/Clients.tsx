@@ -1,6 +1,7 @@
-import { AddBox, FilterAlt } from '@mui/icons-material';
-import { Skeleton, Theme, useMediaQuery } from '@mui/material';
+import { AddBox, ArrowBack, FilterAlt } from '@mui/icons-material';
+import { Button, Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ActionComponent,
   _renderBasicDate,
@@ -26,6 +27,8 @@ import {
 } from './constants';
 
 export function Clients(): JSX.Element {
+  const navigate = useNavigate();
+
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {
@@ -79,6 +82,16 @@ export function Clients(): JSX.Element {
         textButtonRight="FILTRAR"
         iconRight={<FilterAlt />}
         onClickRight={() => setShowFilterState(value => !value)}
+        renderHeaderButton={
+          <Button
+            color="info"
+            variant="outlined"
+            startIcon={<ArrowBack />}
+            onClick={() => navigate(RoutesEnum.CASH_RECEIPTS)}
+          >
+            VOLTAR
+          </Button>
+        }
       >
         {loadingClients ? (
           <Skeleton variant="rectangular" width="100%" height={450} />

@@ -121,7 +121,7 @@ export function AppRoutes() {
       <Route
         path={RoutesEnum.PROVIDERS}
         element={
-          <ProtectedLayout accessUser={[EnumRoleUser.SUPER]}>
+          <ProtectedLayout accessUser={[EnumRoleUser.EMPLOYEE]}>
             <Providers />
           </ProtectedLayout>
         }
@@ -129,7 +129,7 @@ export function AppRoutes() {
       <Route
         path={RoutesEnum.PURCHASES}
         element={
-          <ProtectedLayout accessUser={[EnumRoleUser.SUPER]}>
+          <ProtectedLayout accessUser={[EnumRoleUser.EMPLOYEE]}>
             <Purchases />
           </ProtectedLayout>
         }
@@ -145,7 +145,7 @@ export function AppRoutes() {
       <Route
         path={RoutesEnum.PAYMENTS}
         element={
-          <ProtectedLayout accessUser={[EnumRoleUser.SUPER]}>
+          <ProtectedLayout accessUser={[EnumRoleUser.EMPLOYEE]}>
             <Payments />
           </ProtectedLayout>
         }
@@ -186,7 +186,7 @@ export function AppRoutes() {
       <Route
         path={RoutesEnum.PROVIDERS_CREATE}
         element={
-          <ProtectedLayout accessUser={[EnumRoleUser.SUPER]}>
+          <ProtectedLayout accessUser={[EnumRoleUser.EMPLOYEE]}>
             <RegisterProvider />
           </ProtectedLayout>
         }
@@ -194,7 +194,7 @@ export function AppRoutes() {
       <Route
         path={RoutesEnum.PURCHASES_CREATE}
         element={
-          <ProtectedLayout accessUser={[EnumRoleUser.SUPER]}>
+          <ProtectedLayout accessUser={[EnumRoleUser.EMPLOYEE]}>
             <RegisterPurchase />
           </ProtectedLayout>
         }
@@ -210,7 +210,7 @@ export function AppRoutes() {
       <Route
         path={RoutesEnum.PAYMENTS_CREATE}
         element={
-          <ProtectedLayout accessUser={[EnumRoleUser.SUPER]}>
+          <ProtectedLayout accessUser={[EnumRoleUser.EMPLOYEE]}>
             <RegisterPayment />
           </ProtectedLayout>
         }

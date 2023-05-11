@@ -1,4 +1,5 @@
-import { Close as MuiClose } from '@mui/icons-material';
+import { Close as MuiClose, Image as MuiImage, HideImage, Edit, Delete } from '@mui/icons-material';
+import { Typography, Checkbox } from '@mui/material';
 import styled from 'styled-components';
 import { Colors, mediaQuery } from 'styles/global';
 
@@ -9,6 +10,17 @@ interface FormProps {
 interface StyledProps {
   isMobile?: boolean;
   isDarkTheme?: boolean;
+}
+
+interface RowProps {
+  alignCenter?: boolean;
+  gap?: number;
+}
+
+interface TextProps {
+  bold?: boolean;
+  mgTop?: boolean;
+  color?: string;
 }
 
 export const Form = styled.form<FormProps>`
@@ -43,11 +55,13 @@ export const Observation = styled.span<StyledProps>`
   text-align: justify;
 `;
 
-export const Row = styled.div`
+export const Row = styled.div<RowProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
+  gap: ${props => props.gap && `${props.gap}px`};
 `;
 
 export const WrapperAction = styled.div<StyledProps>`
@@ -81,4 +95,53 @@ export const ImgDialog = styled.img`
     height: auto;
     object-fit: cover;
   }
+`;
+
+export const SCheckbox = styled(Checkbox)`
+  padding: 0;
+  color: ${Colors.RED} !important;
+  cursor: auto !important;
+`;
+
+export const Bold = styled.span`
+  font-weight: bold;
+`;
+
+// -------------------------------------------------------
+
+export const ContainerItem = styled.div`
+  padding: 15px 10px;
+  width: 100%;
+  border-bottom: 1.9px solid ${Colors.GRAY_LIGHT};
+`;
+
+export const Text = styled(Typography).withConfig({
+  shouldForwardProp: props => !['bold', 'mgTop', 'color'].includes(props),
+})<TextProps>`
+  font-weight: ${props => (props.bold ? '600' : '400')};
+  margin-top: ${props => props.mgTop && '10px'};
+  color: ${props => props.color && props.color};
+`;
+
+export const WrapperInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+export const SImage = styled(MuiImage)`
+  cursor: pointer;
+  color: ${Colors.BLUE};
+`;
+
+export const SHideImage = styled(HideImage)`
+  color: ${Colors.BLUE};
+`;
+
+export const SEdit = styled(Edit)`
+  cursor: pointer;
+`;
+
+export const SDelete = styled(Delete)`
+  cursor: pointer;
 `;

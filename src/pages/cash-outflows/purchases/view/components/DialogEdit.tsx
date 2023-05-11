@@ -41,7 +41,7 @@ export function DialogEdit({
     getProviders();
   }, []);
 
-  const { handleSubmit, control, setValue, watch } = useForm<IFormPurchase>({
+  const { handleSubmit, control, watch } = useForm<IFormPurchase>({
     resolver: yupResolver(schemaCreatePurchase),
     defaultValues: defaultValuesPurchaseEdit(purchase),
   });

@@ -45,7 +45,7 @@ const CollapsePurchase: React.FC<PropTypes> = ({
           {rowData.observation && (
             <Observation isDarkTheme={isDarkTheme}>{rowData.observation}</Observation>
           )}
-          <Row>
+          <Row alignCenter>
             <Observation isDarkTheme={isDarkTheme}>
               {formatDateTime(rowData?.updated_at) || '--'}
             </Observation>

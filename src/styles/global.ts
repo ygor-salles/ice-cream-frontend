@@ -30,6 +30,7 @@ export const Colors = {
   PURPLE_LIGHT: '#6933ff',
   DISABLED: '#00000042',
   YELLOW_PASTEL: '#fdfd96',
+  BLUE: '#2eb3ee',
 
   TEXT_TITLE: '#363f5f',
   TEXT_BODY: '#969cb3',

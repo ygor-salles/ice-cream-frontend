@@ -56,7 +56,7 @@ export const defaultValuesPurchaseEdit = (purchase: IPurchaseDTO) => ({
 
 export const schemaCreatePurchase = yup.object().shape({
   [fieldsPurchase.VALUE_TOTAL]: yup.string().required('Valor total é obrigatório'),
-  [fieldsPurchase.OBSERVATION]: yup.string().optional(),
+  [fieldsPurchase.OBSERVATION]: yup.string().optional().nullable(),
   [fieldsPurchase.ITS_ICE_CREAM_SHOP]: yup.boolean().required('Marcação é obrigatório'),
   [fieldsPurchase.PROVIDER_ID]: yup.string().required('A seleção de fornecedor é obrigatória'),
   [fieldsPurchase.FILE]: yup
@@ -83,7 +83,7 @@ export const transformObject = (dataForm: IFormPurchase): IPurchaseDTO => {
     value_total: Mask.convertCurrency(dataForm.value_total),
     provider_id: Number(dataForm.provider_id),
   };
-  if (dataForm.observation.length === 0) {
+  if (!dataForm.observation || dataForm.observation?.length === 0) {
     delete object.observation;
   }
   if (!dataForm.file) {

@@ -113,13 +113,7 @@ const CartListing: React.FC<CartListing> = ({
             <StyledSelectApp
               name={fieldsSale.TYPE_SALE}
               control={control}
-              options={[
-                ...listTypeSales,
-                {
-                  id: 5,
-                  name: 'FECHAMENTO DE CAIXA',
-                },
-              ]}
+              options={listTypeSales}
               label="Tipo de venda"
               variant="outlined"
               disabled={disabledActions}

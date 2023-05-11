@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { ToastType } from 'shared/components/snackBar/enum';
+import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import {
   IFormFilterPurchase,
   IFormPurchase,
@@ -9,6 +10,7 @@ import {
   transformObjectFilter,
 } from 'shared/dtos/IPurchaseDTO';
 import PurchaseService from 'shared/services/PurchaseService';
+import { InstancePurchase } from 'shared/services/PurchaseService/dtos/ILoadPagedPurchasesDTO';
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 
 import { useToastContext } from '../useToastContext';
@@ -17,7 +19,7 @@ export function usePurchase() {
   const { addToast } = useToastContext();
   const purchaseService = new PurchaseService();
 
-  const [allPurchases, setAllPurchases] = useState<IPurchaseDTO[]>([]);
+  const [allPurchases, setAllPurchases] = useState<InstancePurchase[]>([]);
   const [loadingPurchases, setLoadingPurchases] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
 
@@ -27,6 +29,10 @@ export function usePurchase() {
 
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
+
+  const [totalPage, setTotalPage] = useState(1);
+
+  const [reloadPage, setReloadPage] = useState(false);
 
   const handleClickEdit = (data: IPurchaseDTO) => {
     setDataActionTable(data);
@@ -61,7 +67,7 @@ export function usePurchase() {
 
     try {
       await purchaseService.create(data);
-      addToast('compra cadastrado com sucesso!', ToastType.success);
+      addToast('Compra cadastrada com sucesso!', ToastType.success);
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Erro ao cadastrar compra - ${response?.data?.message}`, ToastType.error);
@@ -76,8 +82,8 @@ export function usePurchase() {
 
     try {
       await purchaseService.updateById({ ...data, id: dataForm.id });
-      addToast('compra atualizado com sucesso!', ToastType.success);
-      getPurchases();
+      addToast('Compra atualizada com sucesso!', ToastType.success);
+      setReloadPage(prev => !prev);
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Erro ao atualizar compra! - ${response?.data?.message}`, ToastType.error);
@@ -91,8 +97,8 @@ export function usePurchase() {
     setLoadingForm(true);
     try {
       await purchaseService.deleteById(id);
-      addToast('compra deletado com sucesso!', ToastType.success);
-      getPurchases();
+      addToast('Compra deletada com sucesso!', ToastType.success);
+      setReloadPage(prev => !prev);
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Error ao deletar compra! - ${response?.data?.message}`, ToastType.error);
@@ -136,6 +142,21 @@ export function usePurchase() {
     }
   }
 
+  async function getPurchasesPaged(page?: string) {
+    setLoadingPurchases(true);
+
+    try {
+      const response = await purchaseService.loadPaged(LIMIT_PAGED, Number(page));
+      setAllPurchases(response.instances ?? []);
+      setTotalPage(parseInt(response.totalPages.toString(), 10));
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(`Falha ao buscar compras - ${response?.data?.message}`, ToastType.error);
+    } finally {
+      setLoadingPurchases(false);
+    }
+  }
+
   return {
     allPurchases,
     loadingPurchases,
@@ -144,6 +165,8 @@ export function usePurchase() {
     showModalDelete,
     dataActionTable,
     sumPurchasesState,
+    totalPage,
+    reloadPage,
     handleClickEdit,
     handleClickDelete,
     handleCloseModalEdit,
@@ -154,5 +177,7 @@ export function usePurchase() {
     handleSubmitCreate,
     handleSubmitUpdate,
     handleSubmitDelete,
+    getPurchasesPaged,
+    setLoadingPurchases,
   };
 }

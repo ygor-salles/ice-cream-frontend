@@ -1,37 +1,25 @@
-import { AddBox, ArrowBack, FilterAlt } from '@mui/icons-material';
-import { Button, Skeleton, Theme, useMediaQuery } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import DialogInfo from 'shared/components/dialog/Dialog';
+import { AddBox } from '@mui/icons-material';
 import {
-  ActionComponent,
-  _renderBasicDate,
-  _renderBasicTextCell,
-  _renderBasicToCurrencyGreen,
-  _renderPaymentClientDebit,
-  _renderPaymentClientName,
-} from 'shared/components/renderCellTable/RenderCellTable';
-import TableApp from 'shared/components/table/TableApp';
-import { ITypeComponents } from 'shared/components/table/types';
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Skeleton,
+} from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import DialogInfo from 'shared/components/dialog/Dialog';
+import { Pagination } from 'shared/components/pagination/Pagination';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { IPaymentDTO } from 'shared/dtos/IPaymentDTO';
 import { usePayment } from 'shared/hooks/network/usePayment';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
-import {
-  columnConfig,
-  columnConfigCollapse,
-  columnLabel,
-  columnLabelCollapse,
-  columnType,
-  columnTypeCollapse,
-  filterTable,
-} from './constants';
+import PaymentItem from './components/PaymentItem';
 
 export function Payments(): JSX.Element {
-  const navigate = useNavigate();
-
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const {
     allPayments,
@@ -39,40 +27,29 @@ export function Payments(): JSX.Element {
     showModalDelete,
     dataActionTable,
     loadingForm,
+    totalPage,
+    reloadPage,
+    setLoadingPayments,
     handleClickDelete,
     handleCloseModalDelete,
-    getPayments,
+    getPaymentsPaged,
     handleSubmitDelete,
   } = usePayment();
 
+  const page = useMemo(() => {
+    return searchParams.get('page') || '1';
+  }, [searchParams]);
+
+  const handleChangePage = (page: number) => {
+    setLoadingPayments(true);
+    setSearchParams({ page: page.toString() }, { replace: true });
+  };
+
+  const [showModalObservation, setShowModalObservation] = useState('');
+
   useEffect(() => {
-    getPayments();
-  }, []);
-
-  const [showFilterState, setShowFilterState] = useState(false);
-
-  const _renderAction = (value: string, { observation, ...rowData }: IPaymentDTO) => {
-    observation = observation || '';
-    return (
-      <ActionComponent
-        smDown={smDown}
-        rowData={{ observation, ...rowData }}
-        handleClickDelete={handleClickDelete}
-      />
-    );
-  };
-
-  const components: ITypeComponents = {
-    [columnType.VALUE]: _renderBasicToCurrencyGreen,
-    [columnType.CLIENT]: _renderPaymentClientName,
-    [columnType.DEBIT]: _renderPaymentClientDebit,
-  };
-
-  const componentsCollapse: ITypeComponents = {
-    [columnTypeCollapse.OBSERVATION]: _renderBasicTextCell,
-    [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
-    [columnTypeCollapse.ACTION]: _renderAction,
-  };
+    getPaymentsPaged(page);
+  }, [page, reloadPage]);
 
   return (
     <>
@@ -81,37 +58,26 @@ export function Payments(): JSX.Element {
         navigatePage={RoutesEnum.PAYMENTS_CREATE}
         textButton="CADASTRAR"
         icon={<AddBox />}
-        textButtonRight="FILTRAR"
-        iconRight={<FilterAlt />}
-        onClickRight={() => setShowFilterState(value => !value)}
-        renderHeaderButton={
-          <Button
-            color="info"
-            variant="outlined"
-            startIcon={<ArrowBack />}
-            onClick={() => navigate(RoutesEnum.CASH_RECEIPTS)}
-          >
-            VOLTAR
-          </Button>
-        }
       >
         {loadingPayments ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp
-            tableName="table-payments"
-            data={allPayments}
-            mappedColumnSubObject={columnType} // para subObjetos
-            components={components}
-            columnConfig={columnConfig}
-            renderCellHeader={key => columnLabel[key]}
-            columnConfigCollapse={columnConfigCollapse}
-            componentsCollapse={componentsCollapse}
-            renderCellHeaderCollapse={key => columnLabelCollapse[key]}
-            isMobile={smDown}
-            showFilterState={showFilterState}
-            renderInputSearchAndSelect={filterTable}
-          />
+          <>
+            {allPayments.map(item => (
+              <PaymentItem
+                key={item.id}
+                detailPayment={item}
+                handleClickDelete={handleClickDelete}
+                setShowModalObservation={setShowModalObservation}
+              />
+            ))}
+
+            <Pagination
+              count={totalPage}
+              page={Number(page)}
+              onChange={(_, newPage) => handleChangePage(newPage)}
+            />
+          </>
         )}
       </LayoutBaseDePagina>
 
@@ -127,6 +93,18 @@ export function Payments(): JSX.Element {
           text={`Tem certeza que deseja deletar este pagamento? 🤔🤔🤔 \n\n Ao deletar este pagamento irá somatizar a dívida do cliente ❗❗`}
           loading={loadingForm}
         />
+      )}
+
+      {!!showModalObservation.length && (
+        <Dialog open={!!showModalObservation.length} onClose={() => setShowModalObservation('')}>
+          <DialogTitle>Observação</DialogTitle>
+          <DialogContent>
+            <DialogContentText>{showModalObservation}</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setShowModalObservation('')}>OK</Button>
+          </DialogActions>
+        </Dialog>
       )}
     </>
   );

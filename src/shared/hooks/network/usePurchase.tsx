@@ -47,20 +47,6 @@ export function usePurchase() {
   const handleCloseModalEdit = () => setShowModalEdit(false);
   const handleCloseModalDelete = () => setShowModalDelete(false);
 
-  async function getPurchases(): Promise<void> {
-    setLoadingPurchases(true);
-
-    try {
-      const listPurchases = await purchaseService.loadAll();
-      setAllPurchases(listPurchases);
-    } catch (error) {
-      const { response } = error as AxiosError;
-      addToast(`Erro ao buscar dados de compra! - ${response?.data?.message}`, ToastType.error);
-    } finally {
-      setLoadingPurchases(false);
-    }
-  }
-
   async function handleSubmitCreate(dataForm: IFormPurchase) {
     setLoadingForm(true);
     const data: IPurchaseDTO = transformObject(dataForm);
@@ -171,7 +157,6 @@ export function usePurchase() {
     handleClickDelete,
     handleCloseModalEdit,
     handleCloseModalDelete,
-    getPurchases,
     getSumPurchasesToday,
     getSumPurchasesByPeriod,
     handleSubmitCreate,

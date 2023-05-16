@@ -1,6 +1,7 @@
-import { AddBox, FilterAlt } from '@mui/icons-material';
-import { Skeleton, Theme, useMediaQuery } from '@mui/material';
+import { AddBox, FilterAlt, ArrowBack } from '@mui/icons-material';
+import { Skeleton, Theme, useMediaQuery, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DialogInfo from 'shared/components/dialog/Dialog';
 import {
   ActionComponent,
@@ -27,6 +28,8 @@ import {
 } from './constants';
 
 export function Combinations(): JSX.Element {
+  const navigate = useNavigate();
+
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {
@@ -83,6 +86,16 @@ export function Combinations(): JSX.Element {
         textButtonRight="FILTRAR"
         iconRight={<FilterAlt />}
         onClickRight={() => setShowFilterState(value => !value)}
+        renderHeaderButton={
+          <Button
+            color="info"
+            variant="outlined"
+            startIcon={<ArrowBack />}
+            onClick={() => navigate(RoutesEnum.PRODUCT_COMBINATION)}
+          >
+            VOLTAR
+          </Button>
+        }
       >
         {loadingCombinations ? (
           <Skeleton variant="rectangular" width="100%" height={450} />

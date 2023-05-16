@@ -1,5 +1,12 @@
 import { Delete } from '@mui/icons-material';
-import { Accordion, AccordionDetails, Button, Typography } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  Backdrop,
+  Button,
+  CircularProgress,
+  Typography,
+} from '@mui/material';
 import React, { useMemo, useState } from 'react';
 import { Control } from 'react-hook-form';
 import { LISTTYPESALES, LISTTYPESALES_NOTDEBIT } from 'shared/constants/listTypeSales';
@@ -213,6 +220,10 @@ const CartListing: React.FC<CartListing> = ({
           </Button>
         </div>
       </WrapperButtons>
+
+      <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Main>
   );
 };

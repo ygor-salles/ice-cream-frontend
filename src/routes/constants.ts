@@ -64,6 +64,11 @@ export const DRAWER_OPTIONS_EMPLOYEE: IDrawerOption[] = [
     label: 'Açaís ativos',
   },
   {
+    icon: 'inventory',
+    path: RoutesEnum.PRODUCT_COMBINATION,
+    label: 'Estoque',
+  },
+  {
     icon: 'point_of_sale',
     path: RoutesEnum.CASH_RECEIPTS,
     label: 'Entradas',

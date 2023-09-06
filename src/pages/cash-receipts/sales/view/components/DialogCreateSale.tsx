@@ -10,7 +10,8 @@ import SelectMultiple from 'shared/components/selectMultiple/SelectMultiple';
 import TextFieldApp from 'shared/components/textField/TextField';
 import TextFieldCount from 'shared/components/textFieldCount/TextFieldCount';
 import { localStorageKeys } from 'shared/constants/localStorageKeys';
-import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
+import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
+import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
 import {
   defaultValueAmount,
   defaultValuesDialogSale,
@@ -40,14 +41,13 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
 
   const { getDataLocalStorage } = useCache();
 
-  const allProducts = useMemo(() => {
+  const allProducts: IProductDTO[] = useMemo(() => {
     return getDataLocalStorage(localStorageKeys.PRODUCTS);
   }, []);
 
-  const allCombinations = useMemo(() => {
-    return getDataLocalStorage(localStorageKeys.COMBINATIONS);
-  }, []);
-
+  const [allCombinations, setAllCombinations] = useState<ICombinationDTO[]>(
+    getDataLocalStorage(localStorageKeys.COMBINATIONS),
+  );
   const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
   const [count, setCount] = useState(Number(defaultValueAmount));
   const [enableOptions, setEnableOptions] = useState(false);
@@ -59,10 +59,22 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
     onClose();
   }, [open]);
 
+  const ruleAcais = (product: IProductDTO) => {
+    if (product.name.includes('200')) {
+      setAllCombinations(allCombinations.map(item => ({ ...item, price: 3 })));
+    } else if (product.name.includes(' 1L') || product.name.includes(' 1 L')) {
+      setAllCombinations(allCombinations.map(item => ({ ...item, price: item.price + 1 })));
+    } else {
+      setAllCombinations(getDataLocalStorage(localStorageKeys.COMBINATIONS));
+    }
+  };
+
   const onCloseSelectProduct = async (_: any) => {
     const product_name = getValues('product_name');
 
     if (product_name?.length > 0) {
+      if (getValues('combinations').length > 0) setValue('combinations', []);
+
       const product = allProducts.find(item => item.name === product_name);
 
       if (product) {
@@ -79,6 +91,7 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
         }
 
         if (product.type === EnumTypeProduct.ACAI) {
+          ruleAcais(product);
           setEnableOptions(true);
         } else {
           setEnableOptions(false);
@@ -88,6 +101,8 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
     } else {
       setCount(Number(defaultValueAmount));
       setValue('total', '');
+      setAllCombinations(getDataLocalStorage(localStorageKeys.COMBINATIONS));
+      setEnableOptions(false);
       setIsDisabledTextFieldCount(true);
     }
   };
@@ -162,7 +177,6 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
               options={allCombinations}
               sortAlphabeticallyObject
               label="Combinações"
-              setValue={setValue}
               onClose={onCloseSelectCombinations}
             />
           )}

@@ -126,8 +126,8 @@ export const _renderPurchaseProviderName = (
   { provider: { name } }: IPurchaseDTO,
 ) => <span>{name || '--'}</span>;
 
-export const _renderSaleClientName = (data: IClientDTO, { client }: ISaleDTO) => (
-  <span>{client?.name || '--'}</span>
+export const _renderSaleClientName = (data: IClientDTO, { client, observation }: ISaleDTO) => (
+  <span>{client?.name ? client.name : observation ? observation.split(' ')[0] : '--'}</span>
 );
 
 export const _renderSaleProductName = (data: IProductDTO, { data_product }: ISaleDTO) => {

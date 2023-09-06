@@ -10,9 +10,8 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import { useState } from 'react';
-import { Control, Controller } from 'react-hook-form';
-import { UseFormSetValue } from 'react-hook-form/dist/types';
+import { Control, useController } from 'react-hook-form';
+import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
 interface PropTypes {
   name: string;
@@ -25,7 +24,6 @@ interface PropTypes {
   sortAlphabeticallyString?: boolean;
   onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   onClose?: (event: React.SyntheticEvent<Element, Event>) => void;
-  setValue?: UseFormSetValue<any>;
 }
 
 const SelectMultiple: React.FC<PropTypes> = ({
@@ -39,12 +37,14 @@ const SelectMultiple: React.FC<PropTypes> = ({
   sortAlphabeticallyString,
   onBlur,
   onClose,
-  setValue,
   ...rest
 }) => {
-  const [valueState, setValueState] = useState<any[]>([]);
+  const {
+    field: { value, onChange },
+    fieldState: { error },
+  } = useController({ name, control });
 
-  const handleChange = (event: SelectChangeEvent<typeof valueState>) => {
+  const handleChange = (event: SelectChangeEvent<any>) => {
     const value = event.target.value as any;
 
     let duplicateRemoved = [];
@@ -57,8 +57,7 @@ const SelectMultiple: React.FC<PropTypes> = ({
       }
     });
 
-    setValueState(duplicateRemoved);
-    setValue(name, duplicateRemoved);
+    onChange(duplicateRemoved);
   };
 
   const _renderMenuItem = () => {
@@ -67,73 +66,67 @@ const SelectMultiple: React.FC<PropTypes> = ({
         .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
         .map(item => (
           <MenuItem key={item.id ?? item.name} value={item}>
-            <Checkbox checked={valueState.findIndex(x => x.id === item.id) >= 0} />
-            <ListItemText primary={item.name} />
+            <Checkbox checked={value.findIndex(x => x.id === item.id) >= 0} />
+            <ListItemText primary={`${item.name} - ${formatNumberToCurrency(item.price)}`} />
           </MenuItem>
         ));
     }
     if (sortAlphabeticallyString) {
       return options.sort().map(item => (
         <MenuItem key={item.id ?? item.name} value={item}>
-          <Checkbox checked={valueState.findIndex(x => x.id === item.id) >= 0} />
-          <ListItemText primary={item.name} />
+          <Checkbox checked={value.findIndex(x => x.id === item.id) >= 0} />
+          <ListItemText primary={`${item.name} - ${formatNumberToCurrency(item.price)}`} />
         </MenuItem>
       ));
     }
     return options.map(item => (
       <MenuItem key={item.id ?? item.name} value={item}>
-        <Checkbox checked={valueState.findIndex(x => x.id === item.id) >= 0} />
-        <ListItemText primary={item.name} />
+        <Checkbox checked={value.findIndex(x => x.id === item.id) >= 0} />
+        <ListItemText primary={`${item.name} - ${formatNumberToCurrency(item.price)}`} />
       </MenuItem>
     ));
   };
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ fieldState: { error } }) => (
-        <FormControl
-          fullWidth
-          required={required}
-          disabled={disabled}
-          variant="standard"
-          error={!!error}
-          {...rest}
-        >
-          <InputLabel>{label}</InputLabel>
-          <Select
-            multiple
-            name={name}
-            value={valueState}
-            label={label}
-            onChange={handleChange}
-            renderValue={selected => (
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                {selected.map(item => (
-                  <Chip key={item.id ?? item.name} label={item.name} />
-                ))}
-              </Box>
-            )}
-            onBlur={onBlur}
-            onClose={onClose}
-            MenuProps={{
-              PaperProps: {
-                sx: {
-                  maxHeight: 400,
-                },
-              },
-            }}
-          >
-            <MenuItem value="">
-              <em>Selecione</em>
-            </MenuItem>
-            {_renderMenuItem()}
-          </Select>
-          {error && <FormHelperText>{error.message}</FormHelperText>}
-        </FormControl>
-      )}
-    />
+    <FormControl
+      fullWidth
+      required={required}
+      disabled={disabled}
+      variant="standard"
+      error={!!error}
+      {...rest}
+    >
+      <InputLabel>{label}</InputLabel>
+      <Select
+        multiple
+        name={name}
+        value={value}
+        label={label}
+        onChange={handleChange}
+        renderValue={selected => (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+            {selected.map(item => (
+              <Chip key={item.id ?? item.name} label={item.name} />
+            ))}
+          </Box>
+        )}
+        onBlur={onBlur}
+        onClose={onClose}
+        MenuProps={{
+          PaperProps: {
+            sx: {
+              maxHeight: 400,
+            },
+          },
+        }}
+      >
+        <MenuItem value="">
+          <em>Selecione</em>
+        </MenuItem>
+        {_renderMenuItem()}
+      </Select>
+      {error && <FormHelperText>{error.message}</FormHelperText>}
+    </FormControl>
   );
 };
 

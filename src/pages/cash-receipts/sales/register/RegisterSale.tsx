@@ -120,11 +120,22 @@ export function RegisterSale(): JSX.Element {
     onToggleScreenCarListing();
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onCloseSelectProduct = async (_: any) => {
+  const ruleAcais = (product: IProductDTO) => {
+    if (product.name.includes('200')) {
+      setAllCombinations(allCombinations.map(item => ({ ...item, price: 3 })));
+    } else if (product.name.includes(' 1L') || product.name.includes(' 1 L')) {
+      setAllCombinations(allCombinations.map(item => ({ ...item, price: item.price + 1 })));
+    } else {
+      setAllCombinations(getDataLocalStorage(localStorageKeys.COMBINATIONS));
+    }
+  };
+
+  const onCloseSelectProduct = async () => {
     const product_name = getValues('product_name');
 
     if (product_name?.length > 0) {
+      if (getValues('combinations').length > 0) setValue('combinations', []);
+
       const product = allProducts.find(item => item.name === product_name);
 
       if (product) {
@@ -141,6 +152,7 @@ export function RegisterSale(): JSX.Element {
         }
 
         if (product.type === EnumTypeProduct.ACAI) {
+          ruleAcais(product);
           setEnableOptions(true);
         } else {
           setEnableOptions(false);
@@ -150,12 +162,13 @@ export function RegisterSale(): JSX.Element {
     } else {
       setCount(Number(defaultValueAmount));
       setValue('total', '');
+      setAllCombinations(getDataLocalStorage(localStorageKeys.COMBINATIONS));
+      setEnableOptions(false);
       setIsDisabledTextFieldCount(true);
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onCloseSelectClient = (_: any) => {
+  const onCloseSelectClient = () => {
     const client_name = getValues('client_name');
 
     if (client_name?.length > 0) {
@@ -195,8 +208,7 @@ export function RegisterSale(): JSX.Element {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onCloseSelectCombinations = (event: React.SyntheticEvent<Element, Event>) => {
+  const onCloseSelectCombinations = () => {
     const optionsCombinations = getValues('combinations');
     const priceProduct = getValues('data_product.price');
 
@@ -262,7 +274,6 @@ export function RegisterSale(): JSX.Element {
                       options={allCombinations}
                       sortAlphabeticallyObject
                       label="Combinações"
-                      setValue={setValue}
                       disabled={loading}
                       onClose={onCloseSelectCombinations}
                     />

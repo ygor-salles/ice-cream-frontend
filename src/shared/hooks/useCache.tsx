@@ -24,20 +24,24 @@ export function useCache() {
     return JSON.parse(json) ?? null;
   }, []);
 
-  const setDataLocalStorage = useCallback((key: string, data: any[]) => {
-    const dataCache: any[] = getDataLocalStorage(key);
+  const setDataLocalStorage = useCallback((key: string, data: any[] | any) => {
+    if (Array.isArray(data)) {
+      const dataCache: any[] = getDataLocalStorage(key);
 
-    if (dataCache && !isEqual(dataCache, data)) {
-      localStorage.setItem(key, JSON.stringify(data));
-      return true;
+      if (dataCache && !isEqual(dataCache, data)) {
+        localStorage.setItem(key, JSON.stringify(data));
+        return true;
+      }
+
+      if (!dataCache) {
+        localStorage.setItem(key, JSON.stringify(data));
+        return true;
+      }
+
+      return false;
     }
 
-    if (!dataCache) {
-      localStorage.setItem(key, JSON.stringify(data));
-      return true;
-    }
-
-    return false;
+    localStorage.setItem(key, JSON.stringify(data));
   }, []);
 
   return {

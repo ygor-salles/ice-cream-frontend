@@ -3,4 +3,5 @@ export const localStorageKeys = {
   PRODUCTS: 'products',
   CLIENTS: 'clients',
   COMBINATIONS: 'combinations',
+  LAST_ORDER: 'lastOrder',
 };

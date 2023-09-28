@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { LIMIT_PAGED } from 'shared/constants/limitPaged';
+import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
@@ -19,11 +20,13 @@ import SaleService from 'shared/services/SaleService';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
+import { useCache } from '../useCache';
 import { useToastContext } from '../useToastContext';
 
 export function useSale() {
   const navigate = useNavigate();
   const { addToast } = useToastContext();
+  const { setDataLocalStorage } = useCache();
   const saleService = new SaleService();
 
   const [allSales, setAllSales] = useState<InstanceSale[]>([]);
@@ -169,7 +172,24 @@ export function useSale() {
 
     try {
       await saleService.updateById(data);
+      setDataLocalStorage(localStorageKeys.LAST_ORDER, data);
       addToast('Pedido atualizado com sucesso!', ToastType.success);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(`Erro ao atualizar dados - ${response?.data?.message}`, ToastType.error);
+    } finally {
+      setLoadingSales(false);
+      setReloadPage(prev => !prev);
+    }
+  }
+
+  async function onReturnActionUpdateSale(lastSale: IUpdateSaleDTORequest) {
+    setLoadingSales(true);
+
+    try {
+      await saleService.updateById({ ...lastSale, in_progress: true });
+      setDataLocalStorage(localStorageKeys.LAST_ORDER, null);
+      addToast('Pedido retornado com sucesso!', ToastType.success);
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Erro ao atualizar dados - ${response?.data?.message}`, ToastType.error);
@@ -197,5 +217,6 @@ export function useSale() {
     getSalesActivatedAcai,
     updateSaleById,
     onChangeUpdateSaleById,
+    onReturnActionUpdateSale,
   };
 }

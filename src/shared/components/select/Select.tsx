@@ -26,6 +26,7 @@ interface SelectPropsApp {
   sortAlphabeticallyObject?: boolean;
   sortAlphabeticallyString?: boolean;
   variant?: 'outlined' | 'filled' | 'standard';
+  defaultValue?: string;
   onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   onClose?: (event: React.SyntheticEvent<Element, Event>) => void;
   onChangeStateController?: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
@@ -42,6 +43,7 @@ export default function SelectApp({
   sortAlphabeticallyObject,
   sortAlphabeticallyString,
   variant = 'standard',
+  defaultValue,
   onBlur,
   onClose,
   onChangeStateController,
@@ -124,10 +126,16 @@ export default function SelectApp({
   ) : (
     <FormControl fullWidth required={required} disabled={disabled} variant="standard" {...rest}>
       <InputLabel>{label}</InputLabel>
-      <StyledSelect label={label} onChange={onChangeStateController} defaultValue="">
-        <MenuItem value="">
-          <em>Selecione</em>
-        </MenuItem>
+      <StyledSelect
+        label={label}
+        onChange={onChangeStateController}
+        defaultValue={defaultValue || ''}
+      >
+        {!defaultValue && (
+          <MenuItem value={defaultValue || ''}>
+            <em>Selecione</em>
+          </MenuItem>
+        )}
         {_renderMenuItem()}
       </StyledSelect>
     </FormControl>

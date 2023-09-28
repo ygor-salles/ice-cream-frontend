@@ -22,7 +22,9 @@ const HeaderTable: React.FC<HeaderTableProps> = ({
   isMobile,
   ...rest
 }) => {
-  const [searchSelectState, setSearchSelectState] = useState('');
+  const defaultValue = renderInputSearchAndSelect[0].placeholder;
+
+  const [searchSelectState, setSearchSelectState] = useState(defaultValue);
 
   return renderInputSearchAndSelect ? (
     <StyledAccordion open={open} isMobile={isMobile} {...rest}>
@@ -37,6 +39,7 @@ const HeaderTable: React.FC<HeaderTableProps> = ({
           setSearchSelectState(e.target.value as string);
         }}
         required
+        defaultValue={defaultValue}
         isMobile={isMobile}
       />
       <TextFieldApp

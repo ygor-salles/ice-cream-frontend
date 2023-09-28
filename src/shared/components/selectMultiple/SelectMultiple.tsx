@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
   Checkbox,
@@ -51,7 +52,7 @@ const SelectMultiple: React.FC<PropTypes> = ({
 
     value.forEach((item: any) => {
       if (duplicateRemoved.findIndex(o => o.id === item.id) >= 0) {
-        duplicateRemoved = duplicateRemoved.filter(x => x.id === item.id);
+        duplicateRemoved = duplicateRemoved.filter(x => x.id !== item.id);
       } else {
         duplicateRemoved.push(item);
       }

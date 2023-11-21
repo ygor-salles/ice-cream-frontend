@@ -9,7 +9,9 @@ import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
 import { useSale } from 'shared/hooks/network/useSale';
 import { useToastContext } from 'shared/hooks/useToastContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
+import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 
+import FilterSale from './components/FilterSale';
 import SaleItem from './components/SaleItem';
 
 export function Sales(): JSX.Element {
@@ -37,6 +39,14 @@ export function Sales(): JSX.Element {
     setSearchParams({ page: page.toString() }, { replace: true });
   };
 
+  const handleClickSale = (item: InstanceSale) => {
+    if (item.type_sale !== EnumTypeSale.CLOSURE) {
+      navigate(RoutesEnum.SALE_DETAIL, { state: { saleDetail: item } });
+    } else {
+      addToast('Essa venda é um fechamento de caixa, não há mais detalhes', ToastType.success);
+    }
+  };
+
   useEffect(() => {
     getSalesPaged(page);
   }, [page, reloadPage]);
@@ -53,21 +63,10 @@ export function Sales(): JSX.Element {
         <Skeleton variant="rectangular" width="100%" height={500} />
       ) : (
         <>
+          <FilterSale />
+
           {allSales.map(item => (
-            <SaleItem
-              key={item.id}
-              onClick={() => {
-                if (item.type_sale !== EnumTypeSale.CLOSURE) {
-                  navigate(RoutesEnum.SALE_DETAIL, { state: { saleDetail: item } });
-                } else {
-                  addToast(
-                    'Essa venda é um fechamento de caixa, não há mais detalhes',
-                    ToastType.success,
-                  );
-                }
-              }}
-              detailSale={item}
-            />
+            <SaleItem key={item.id} onClick={() => handleClickSale(item)} detailSale={item} />
           ))}
 
           <Pagination

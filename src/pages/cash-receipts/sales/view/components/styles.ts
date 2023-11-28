@@ -179,3 +179,9 @@ export const HeaderDialog = styled.header`
   padding: 16px;
   background-color: ${Colors.MAIN_PRIMARY_LIGHT};
 `;
+
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;

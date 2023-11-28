@@ -263,3 +263,12 @@ export const transformObjectFilter = (dataForm: IFormFilterSales): ILoadSumSales
   }
   return object;
 };
+
+// -------
+
+export interface IFormFilterSalePage {
+  client_name?: string;
+  observation?: string;
+  start_date?: string;
+  end_date?: string;
+}

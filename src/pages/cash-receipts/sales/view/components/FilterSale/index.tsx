@@ -9,24 +9,20 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import DatePicker from 'shared/components/datePicker/DatePicker';
-import SelectApp from 'shared/components/select/Select';
-import { LISTTYPESALES } from 'shared/constants/listTypeSales';
+import TextFieldApp from 'shared/components/textField/TextField';
+import { IFormFilterSalePage } from 'shared/dtos/ISaleDTO';
 
-import { StyledAccordion, Form, StyledButton } from './styles';
-
-interface IForm {
-  date: string;
-  type_sale: string;
-}
+import { ContentDate, Form, StyledAccordion, StyledButton } from './styles';
+import { defaultValues, fieldSaleFilter } from './utils';
 
 const FilterSale: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const { handleSubmit, control } = useForm<IForm>({
-    defaultValues: { date: '', type_sale: '' },
+  const { handleSubmit, control } = useForm<IFormFilterSalePage>({
+    defaultValues,
   });
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const onSubmit = (dataForm: IForm) => console.log('*', dataForm);
+  const onSubmit = (dataForm: IFormFilterSalePage) => console.log('*', dataForm);
 
   return (
     <StyledAccordion expanded={open} onChange={() => setOpen(!open)}>
@@ -39,14 +35,16 @@ const FilterSale: React.FC = () => {
       </AccordionSummary>
       <AccordionDetails>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <TextFieldApp name={fieldsSale.OBSERVATION} control={control} label="Observação" />
-          <DatePicker label="Data" name="date" control={control} />
-          <SelectApp
-            name="type_sale"
+          <TextFieldApp name={fieldSaleFilter.observation} control={control} label="Observação" />
+          <TextFieldApp
+            name={fieldSaleFilter.client_name}
             control={control}
-            options={LISTTYPESALES}
-            label="Tipo de venda"
+            label="Nome do cliente"
           />
+          <ContentDate>
+            <DatePicker label="Data início" name={fieldSaleFilter.start_date} control={control} />
+            <DatePicker label="Data fim" name={fieldSaleFilter.end_date} control={control} />
+          </ContentDate>
           <StyledButton loading={false} textButton="Buscar" smDown={smDown} />
         </Form>
       </AccordionDetails>

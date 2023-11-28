@@ -18,6 +18,13 @@ export const Form = styled.form`
   gap: 20px;
 `;
 
+export const ContentDate = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 10px;
+`;
+
 export const StyledButton = styled(ButtonSubmitApp)`
   margin-top: 15px;
 `;

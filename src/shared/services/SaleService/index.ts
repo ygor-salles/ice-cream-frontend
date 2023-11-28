@@ -1,3 +1,5 @@
+import { IFormFilterSalePage } from 'shared/dtos/ISaleDTO';
+
 import { api } from '../api';
 import {
   ICreateCashClosingDTORequest,
@@ -75,6 +77,16 @@ export default class SaleService {
 
   public async loadSalesActivatedAcai(): Promise<ILoadActivetedAcaiDTOResponse[]> {
     const { data } = await api.get<ILoadActivetedAcaiDTOResponse[]>(`${this.route}/activated-acai`);
+    return data;
+  }
+
+  public async loadSalesFilterPage(
+    params: IFormFilterSalePage,
+  ): Promise<ILoadPagedSalesDTOResponse> {
+    const { data } = await api.get<ILoadPagedSalesDTOResponse>(`${this.route}/filter-page`, {
+      params: { ...params },
+    });
+
     return data;
   }
 }

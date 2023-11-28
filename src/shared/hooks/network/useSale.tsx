@@ -9,6 +9,7 @@ import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
   IFormCashClosing,
   IFormEditSale,
+  IFormFilterSalePage,
   IFormFilterSales,
   ISaleDTO,
   transformObjectCashClosing,
@@ -196,6 +197,20 @@ export function useSale() {
     } finally {
       setLoadingSales(false);
       setReloadPage(prev => !prev);
+    }
+  }
+
+  async function getSalesFilterPage(filter: IFormFilterSalePage) {
+    setLoadingForm(true);
+
+    try {
+      const response = await saleService.loadSalesFilterPage(filter);
+      console.log('resposta', response);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      addToast(`Erro ao buscar dados - ${response?.data?.message}`, ToastType.error);
+    } finally {
+      setLoadingForm(false);
     }
   }
 

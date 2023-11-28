@@ -72,3 +72,9 @@ export const WrapperNavigate = styled.div`
     font-size: 800;
   }
 `;
+
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;

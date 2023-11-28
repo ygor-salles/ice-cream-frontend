@@ -1,9 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Edit } from '@mui/icons-material';
 import { Button } from '@mui/material';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
 import DialogInfo from 'shared/components/dialog/Dialog';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
@@ -11,6 +12,7 @@ import {
   EnumTypeSale,
   IFormEditSale,
   IFormSale,
+  fieldsSale,
   schemaEditSale,
   transformItemArray,
 } from 'shared/dtos/ISaleDTO';
@@ -32,8 +34,7 @@ const SaleDetail: React.FC = () => {
 
   const navigate = useNavigate();
   const { state } = useLocation();
-  // eslint-disable-next-line prefer-destructuring
-  const saleDetail: InstanceSale = state.saleDetail;
+  const { created_at, updated_at, ...saleDetail }: InstanceSale = state.saleDetail;
 
   const { addToast } = useToastContext();
 
@@ -49,15 +50,9 @@ const SaleDetail: React.FC = () => {
   } = useForm<IFormEditSale>({
     resolver: yupResolver(schemaEditSale),
     defaultValues: {
-      id: saleDetail.id,
-      observation: saleDetail.observation,
-      type_sale: saleDetail.type_sale,
-      created_at: formatDateTime(saleDetail.created_at) ?? '--',
-      updated_at: formatDateTime(saleDetail.updated_at) ?? '--',
-      data_product: saleDetail.data_product,
-      total: saleDetail.total,
-      client: saleDetail.client,
-      client_id: saleDetail.client_id,
+      ...saleDetail,
+      created_at: formatDateTime(created_at) ?? '--',
+      updated_at: formatDateTime(updated_at) ?? '--',
     },
   });
 
@@ -66,6 +61,10 @@ const SaleDetail: React.FC = () => {
   const {
     field: { onChange: onChangeDataProduct },
   } = useController({ name: 'data_product', control });
+
+  const hasAcai = useMemo(() => {
+    return Boolean(saleDetail.data_product.find(item => item.type === EnumTypeProduct.ACAI));
+  }, [saleDetail.data_product]);
 
   const onInsertProductInSale = (data: IFormSale) => {
     const newItem: IDataProduct = transformItemArray(data);
@@ -114,6 +113,14 @@ const SaleDetail: React.FC = () => {
           navigate(-1);
         })}
       >
+        {hasAcai && !disabledActions && (
+          <CheckboxApp
+            name={fieldsSale.IN_PROGRESS}
+            control={control}
+            label="Ativo na lista de pedidos"
+            disabled={loading}
+          />
+        )}
         <StyledCardList
           listSale={data_product ?? []}
           control={control}

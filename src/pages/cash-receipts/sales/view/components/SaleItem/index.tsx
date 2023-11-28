@@ -1,9 +1,12 @@
 import { NavigateNext } from '@mui/icons-material';
+import { CircularProgress, Icon } from '@mui/material';
+import { useMemo } from 'react';
+import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
-import { Container, WrapperInfo, Text, WrapperNavigate, TextCustom, Row } from './styles';
+import { Container, Row, Text, TextCustom, Wrapper, WrapperInfo, WrapperNavigate } from './styles';
 
 interface SaleItemProps {
   onClick: () => void;
@@ -12,8 +15,12 @@ interface SaleItemProps {
 
 const SaleItem: React.FC<SaleItemProps> = ({
   onClick,
-  detailSale: { data_product, total, client, type_sale, created_at, observation },
+  detailSale: { data_product, total, client, type_sale, created_at, observation, in_progress },
 }) => {
+  const hasAcai = useMemo(() => {
+    return Boolean(data_product.find(item => item.type === EnumTypeProduct.ACAI));
+  }, [data_product]);
+
   return (
     <Container onClick={onClick}>
       <Row>
@@ -24,20 +31,35 @@ const SaleItem: React.FC<SaleItemProps> = ({
             ? `${data_product[0].amount} ${data_product[0].name}`
             : ''}
         </Text>
-        <Text>{formatDateTime(created_at) || '--'}</Text>
+
+        <Wrapper>
+          {hasAcai && (
+            <>
+              {in_progress ? (
+                <CircularProgress size={16} disableShrink />
+              ) : (
+                <Icon color="success">done_all</Icon>
+              )}
+            </>
+          )}
+
+          <Text>{formatDateTime(created_at, true)}</Text>
+        </Wrapper>
       </Row>
       <Row alignCenter>
         <WrapperInfo>
           <Text bold mgTop green>
             {formatNumberToCurrency(total ?? null) || '--'}
           </Text>
-          <div>
+          <Wrapper>
             {client?.name ? (
-              <TextCustom>{client.name}</TextCustom>
+              <TextCustom>
+                {client.name} {observation && `- ${observation}`}
+              </TextCustom>
             ) : (
               <TextCustom>{observation}</TextCustom>
             )}
-          </div>
+          </Wrapper>
           <Text>{type_sale || '--'}</Text>
         </WrapperInfo>
         <WrapperNavigate>

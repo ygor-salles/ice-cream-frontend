@@ -67,6 +67,7 @@ export interface IFormEditSale {
   total?: number;
   client_id?: number;
   client?: IClientDTO;
+  in_progress?: boolean;
 }
 
 export const fieldsSale = {
@@ -79,6 +80,7 @@ export const fieldsSale = {
   OBSERVATION: 'observation',
   AMOUNT: 'amount',
   TOTAL: 'total',
+  IN_PROGRESS: 'in_progress',
   CREATED_AT: 'created_at',
   UPDATED_AT: 'updated_at',
 };
@@ -199,6 +201,7 @@ export const transformObjectEdit = (dataForm: IFormEditSale) => {
     data_product: dataForm.data_product,
     total: dataForm.total,
     observation: dataForm.observation?.length ? dataForm.observation : null,
+    in_progress: dataForm.in_progress,
   };
 
   if (dataForm.client_id) {

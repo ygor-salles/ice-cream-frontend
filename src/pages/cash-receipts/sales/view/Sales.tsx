@@ -26,6 +26,7 @@ export function Sales(): JSX.Element {
     setLoadingSales,
     loadingForm,
     reloadPage,
+    getSalesFilterPage,
   } = useSale();
 
   const { addToast } = useToastContext();
@@ -63,7 +64,7 @@ export function Sales(): JSX.Element {
         <Skeleton variant="rectangular" width="100%" height={500} />
       ) : (
         <>
-          <FilterSale />
+          <FilterSale getSalesFilterPage={getSalesFilterPage} />
 
           {allSales.map(item => (
             <SaleItem key={item.id} onClick={() => handleClickSale(item)} detailSale={item} />

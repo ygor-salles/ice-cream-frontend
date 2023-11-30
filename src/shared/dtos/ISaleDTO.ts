@@ -271,6 +271,7 @@ export const transformObjectFilter = (dataForm: IFormFilterSales): ILoadSumSales
 
 export interface IFormFilterSalePage {
   client_name?: string;
+  client_id?: string;
   observation?: string;
   start_date?: string;
   end_date?: string;

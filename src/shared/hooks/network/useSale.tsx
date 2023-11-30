@@ -9,7 +9,6 @@ import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
   IFormCashClosing,
   IFormEditSale,
-  IFormFilterSalePage,
   IFormFilterSales,
   ISaleDTO,
   transformObjectCashClosing,
@@ -19,6 +18,7 @@ import {
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 import SaleService from 'shared/services/SaleService';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
+import { ILoadPagedSalesFilterDTORequest } from 'shared/services/SaleService/dtos/ILoadPagedSalesFilterDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
 import { useCache } from '../useCache';
@@ -200,17 +200,18 @@ export function useSale() {
     }
   }
 
-  async function getSalesFilterPage(filter: IFormFilterSalePage) {
-    setLoadingForm(true);
+  async function getSalesFilterPage(filter: ILoadPagedSalesFilterDTORequest) {
+    setLoadingSales(true);
 
     try {
       const response = await saleService.loadSalesFilterPage(filter);
-      console.log('resposta', response);
+      setAllSales(response.instances ?? []);
+      setTotalPage(parseInt(response.totalPages.toString(), 10));
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Erro ao buscar dados - ${response?.data?.message}`, ToastType.error);
     } finally {
-      setLoadingForm(false);
+      setLoadingSales(false);
     }
   }
 
@@ -233,5 +234,6 @@ export function useSale() {
     updateSaleById,
     onChangeUpdateSaleById,
     onReturnActionUpdateSale,
+    getSalesFilterPage,
   };
 }

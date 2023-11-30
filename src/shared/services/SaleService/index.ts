@@ -10,6 +10,7 @@ import { IDeleteSaleDTOResponse } from './dtos/IDeleteSaleDTO';
 import { ILoadActivetedAcaiDTOResponse } from './dtos/ILoadActivetedAcaiDTO';
 import { ILoadByIdSaleDTOResponse } from './dtos/ILoadByIdSaleDTO';
 import { ILoadPagedSalesDTOResponse } from './dtos/ILoadPagedSalesDTO';
+import { ILoadPagedSalesFilterDTORequest } from './dtos/ILoadPagedSalesFilterDTO';
 import { ILoadSaleDTOResponse } from './dtos/ILoadSalesDTO';
 import { ILoadSumSalesDTORequest, ILoadSumSalesDTOResponse } from './dtos/ILoadSumSalesDTO';
 import { ILoadSumSalesTodayDTOResponse } from './dtos/ILoadSumSalesTodayDTO';
@@ -81,7 +82,7 @@ export default class SaleService {
   }
 
   public async loadSalesFilterPage(
-    params: IFormFilterSalePage,
+    params: ILoadPagedSalesFilterDTORequest,
   ): Promise<ILoadPagedSalesDTOResponse> {
     const { data } = await api.get<ILoadPagedSalesDTOResponse>(`${this.route}/filter-page`, {
       params: { ...params },

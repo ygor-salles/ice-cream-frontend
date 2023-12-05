@@ -2,7 +2,6 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastType } from 'shared/components/snackBar/enum';
-import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
@@ -14,11 +13,14 @@ import {
   transformObjectCashClosing,
   transformObjectEdit,
   transformObjectFilter,
+  transformObjectFilterSale,
 } from 'shared/dtos/ISaleDTO';
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 import SaleService from 'shared/services/SaleService';
-import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
-import { ILoadPagedSalesFilterDTORequest } from 'shared/services/SaleService/dtos/ILoadPagedSalesFilterDTO';
+import {
+  ILoadPagedSalesDTORequest,
+  InstanceSale,
+} from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
 import { useCache } from '../useCache';
@@ -53,16 +55,17 @@ export function useSale() {
     }
   }
 
-  async function getSalesPaged(page?: string) {
+  async function getSalesPaged(filter: ILoadPagedSalesDTORequest) {
     setLoadingSales(true);
 
+    const objectFormmated = transformObjectFilterSale(filter);
     try {
-      const response = await saleService.loadPaged(LIMIT_PAGED, Number(page));
+      const response = await saleService.loadPaged(objectFormmated);
       setAllSales(response.instances ?? []);
       setTotalPage(parseInt(response.totalPages.toString(), 10));
     } catch (error) {
       const { response } = error as AxiosError;
-      addToast(`Falha ao buscar vendas - ${response?.data?.message}`, ToastType.error);
+      addToast(`Erro ao buscar dados - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingSales(false);
     }
@@ -200,21 +203,6 @@ export function useSale() {
     }
   }
 
-  async function getSalesFilterPage(filter: ILoadPagedSalesFilterDTORequest) {
-    setLoadingSales(true);
-
-    try {
-      const response = await saleService.loadSalesFilterPage(filter);
-      setAllSales(response.instances ?? []);
-      setTotalPage(parseInt(response.totalPages.toString(), 10));
-    } catch (error) {
-      const { response } = error as AxiosError;
-      addToast(`Erro ao buscar dados - ${response?.data?.message}`, ToastType.error);
-    } finally {
-      setLoadingSales(false);
-    }
-  }
-
   return {
     allSales,
     loadingSales,
@@ -234,6 +222,5 @@ export function useSale() {
     updateSaleById,
     onChangeUpdateSaleById,
     onReturnActionUpdateSale,
-    getSalesFilterPage,
   };
 }

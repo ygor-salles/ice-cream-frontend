@@ -4,6 +4,7 @@ import { useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Pagination } from 'shared/components/pagination/Pagination';
 import { ToastType } from 'shared/components/snackBar/enum';
+import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
 import { useSale } from 'shared/hooks/network/useSale';
@@ -26,7 +27,6 @@ export function Sales(): JSX.Element {
     setLoadingSales,
     loadingForm,
     reloadPage,
-    getSalesFilterPage,
   } = useSale();
 
   const { addToast } = useToastContext();
@@ -49,7 +49,7 @@ export function Sales(): JSX.Element {
   };
 
   useEffect(() => {
-    getSalesPaged(page);
+    getSalesPaged({ page: Number(page), limit: LIMIT_PAGED });
   }, [page, reloadPage]);
 
   return (
@@ -64,7 +64,7 @@ export function Sales(): JSX.Element {
         <Skeleton variant="rectangular" width="100%" height={500} />
       ) : (
         <>
-          <FilterSale getSalesFilterPage={getSalesFilterPage} />
+          <FilterSale getSalesFilterPage={getSalesPaged} />
 
           {allSales.map(item => (
             <SaleItem key={item.id} onClick={() => handleClickSale(item)} detailSale={item} />

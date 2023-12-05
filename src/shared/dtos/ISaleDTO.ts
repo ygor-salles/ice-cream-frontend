@@ -1,5 +1,6 @@
 import { ICreateCashClosingDTORequest } from 'shared/services/SaleService/dtos/ICreateCashClosingDTO';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
+import { ILoadPagedSalesDTORequest } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { ILoadSumSalesDTORequest } from 'shared/services/SaleService/dtos/ILoadSumSalesDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 import { convetSalesType } from 'shared/utils/convertTypes';
@@ -276,3 +277,22 @@ export interface IFormFilterSalePage {
   start_date?: string;
   end_date?: string;
 }
+
+export const transformObjectFilterSale = (dataForm: ILoadPagedSalesDTORequest) => {
+  const { limit, page, client_id, end_date, observation, start_date } = dataForm;
+
+  const obj: ILoadPagedSalesDTORequest = { limit, page };
+
+  if (client_id) {
+    obj.client_id = client_id;
+  }
+  if (observation) {
+    obj.observation = observation;
+  }
+  if (start_date && end_date) {
+    obj.start_date = start_date;
+    obj.end_date = end_date;
+  }
+
+  return obj;
+};

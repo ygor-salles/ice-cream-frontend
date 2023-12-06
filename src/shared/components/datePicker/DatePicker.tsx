@@ -4,6 +4,7 @@ import { Input } from './styles';
 
 interface PropTypes extends UseControllerProps<any> {
   label: string;
+  disabled?: boolean;
 }
 
 const DatePicker: React.FC<PropTypes> = ({ label, children, ...props }) => {

@@ -7,8 +7,7 @@ import { ICreateSaleDTORequest, ICreateSaleDTOResponse } from './dtos/ICreateSal
 import { IDeleteSaleDTOResponse } from './dtos/IDeleteSaleDTO';
 import { ILoadActivetedAcaiDTOResponse } from './dtos/ILoadActivetedAcaiDTO';
 import { ILoadByIdSaleDTOResponse } from './dtos/ILoadByIdSaleDTO';
-import { ILoadPagedSalesDTOResponse } from './dtos/ILoadPagedSalesDTO';
-import { ILoadSaleDTOResponse } from './dtos/ILoadSalesDTO';
+import { ILoadPagedSalesDTORequest, ILoadPagedSalesDTOResponse } from './dtos/ILoadPagedSalesDTO';
 import { ILoadSumSalesDTORequest, ILoadSumSalesDTOResponse } from './dtos/ILoadSumSalesDTO';
 import { ILoadSumSalesTodayDTOResponse } from './dtos/ILoadSumSalesTodayDTO';
 import { IUpdateSaleDTORequest, IUpdateSaleDTOResponse } from './dtos/IUpdateSaleDTO';
@@ -18,11 +17,6 @@ export default class SaleService {
 
   public async create(dataRequest: ICreateSaleDTORequest): Promise<ICreateSaleDTOResponse> {
     const { data } = await api.post<ICreateSaleDTOResponse>(this.route, dataRequest);
-    return data;
-  }
-
-  public async loadAll(): Promise<ILoadSaleDTOResponse[]> {
-    const { data } = await api.get<ILoadSaleDTOResponse[]>(this.route);
     return data;
   }
 
@@ -44,9 +38,9 @@ export default class SaleService {
     return data;
   }
 
-  public async loadPaged(limit: number, page: number): Promise<ILoadPagedSalesDTOResponse> {
+  public async loadPaged(params: ILoadPagedSalesDTORequest): Promise<ILoadPagedSalesDTOResponse> {
     const { data } = await api.get<ILoadPagedSalesDTOResponse>(`${this.route}/paged`, {
-      params: { limit, page },
+      params: { ...params },
     });
     return data;
   }

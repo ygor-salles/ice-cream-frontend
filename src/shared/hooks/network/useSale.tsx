@@ -1,8 +1,7 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ToastType } from 'shared/components/snackBar/enum';
-import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
@@ -14,10 +13,14 @@ import {
   transformObjectCashClosing,
   transformObjectEdit,
   transformObjectFilter,
+  transformObjectFilterSale,
 } from 'shared/dtos/ISaleDTO';
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 import SaleService from 'shared/services/SaleService';
-import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
+import {
+  ILoadPagedSalesDTORequest,
+  InstanceSale,
+} from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
 import { useCache } from '../useCache';
@@ -25,6 +28,8 @@ import { useToastContext } from '../useToastContext';
 
 export function useSale() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const { addToast } = useToastContext();
   const { setDataLocalStorage } = useCache();
   const saleService = new SaleService();
@@ -52,16 +57,26 @@ export function useSale() {
     }
   }
 
-  async function getSalesPaged(page?: string) {
+  async function getSalesPaged(filter: ILoadPagedSalesDTORequest) {
     setLoadingSales(true);
 
     try {
-      const response = await saleService.loadPaged(LIMIT_PAGED, Number(page));
+      const objectFormmated = transformObjectFilterSale(filter);
+      setSearchParams(
+        {
+          ...objectFormmated,
+          page: objectFormmated.page.toString(),
+          limit: objectFormmated.limit.toString(),
+        },
+        { replace: true },
+      );
+
+      const response = await saleService.loadPaged(objectFormmated);
       setAllSales(response.instances ?? []);
       setTotalPage(parseInt(response.totalPages.toString(), 10));
     } catch (error) {
       const { response } = error as AxiosError;
-      addToast(`Falha ao buscar vendas - ${response?.data?.message}`, ToastType.error);
+      addToast(`Erro ao buscar dados - ${response?.data?.message}`, ToastType.error);
     } finally {
       setLoadingSales(false);
     }
@@ -206,6 +221,7 @@ export function useSale() {
     totalPage,
     reloadPage,
     sumSalesState,
+    searchParams,
     setReloadPage,
     getSalesPaged,
     handleSubmitCreate,

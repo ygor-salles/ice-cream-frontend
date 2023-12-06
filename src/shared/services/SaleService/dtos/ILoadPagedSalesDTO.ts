@@ -24,3 +24,12 @@ export interface ILoadPagedSalesDTOResponse {
   offset: number;
   instances: Array<InstanceSale>;
 }
+
+export interface ILoadPagedSalesDTORequest {
+  limit: number;
+  page: number;
+  client_id?: string;
+  observation?: string;
+  start_date?: string;
+  end_date?: string;
+}

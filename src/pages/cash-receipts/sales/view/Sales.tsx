@@ -79,23 +79,25 @@ export function Sales(): JSX.Element {
       icon={<AddBox />}
       disabled={loadingSales || loadingForm}
     >
-      {loadingSales ? (
-        <Skeleton variant="rectangular" width="100%" height={500} />
-      ) : (
-        <>
-          <FilterSale onSubmitFilter={onSubmitFilter} />
+      <>
+        <FilterSale onSubmitFilter={onSubmitFilter} loadingSales={loadingSales} />
 
-          {allSales.map(item => (
-            <SaleItem key={item.id} onClick={() => handleClickSale(item)} detailSale={item} />
-          ))}
+        {loadingSales ? (
+          <Skeleton variant="rectangular" width="100%" height={500} />
+        ) : (
+          <>
+            {allSales.map(item => (
+              <SaleItem key={item.id} onClick={() => handleClickSale(item)} detailSale={item} />
+            ))}
 
-          <Pagination
-            count={totalPage}
-            page={Number(queryParams.page)}
-            onChange={(_, newPage) => handleChangePage(newPage)}
-          />
-        </>
-      )}
+            <Pagination
+              count={totalPage}
+              page={Number(queryParams.page)}
+              onChange={(_, newPage) => handleChangePage(newPage)}
+            />
+          </>
+        )}
+      </>
     </LayoutBaseDePagina>
   );
 }

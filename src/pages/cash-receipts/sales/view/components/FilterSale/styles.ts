@@ -1,5 +1,4 @@
 import { Accordion } from '@mui/material';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import styled from 'styled-components';
 
 export const StyledAccordion = styled(Accordion)`
@@ -23,8 +22,17 @@ export const ContentDate = styled.div`
   flex-direction: row;
   width: 100%;
   gap: 10px;
+  margin-top: 10px;
 `;
 
-export const StyledButton = styled(ButtonSubmitApp)`
-  margin-top: 15px;
+export const Wrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 16px;
+  margin-top: 16px;
+
+  button,
+  div {
+    margin: 0;
+  }
 `;

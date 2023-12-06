@@ -283,13 +283,18 @@ export const transformObjectFilterSale = (dataForm: ILoadPagedSalesDTORequest) =
 
   const obj: ILoadPagedSalesDTORequest = { limit, page };
 
-  if (client_id && client_id !== 'null') {
+  const clientOk = client_id && client_id !== 'null' && client_id.length > 0;
+  const observationOk = observation && observation !== 'null' && observation.length > 0;
+  const startDateOk = start_date && start_date !== 'null' && start_date.length > 0;
+  const endDateOk = end_date && end_date !== 'null' && end_date.length > 0;
+
+  if (clientOk) {
     obj.client_id = client_id;
   }
-  if (observation && observation !== 'null') {
+  if (observationOk) {
     obj.observation = observation;
   }
-  if (start_date && end_date && start_date !== 'null' && end_date !== 'null') {
+  if (startDateOk && endDateOk) {
     obj.start_date = start_date;
     obj.end_date = end_date;
   }

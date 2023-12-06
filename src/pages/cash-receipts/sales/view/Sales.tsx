@@ -1,12 +1,12 @@
 import { AddBox } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
 import { useEffect, useMemo } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Pagination } from 'shared/components/pagination/Pagination';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
+import { EnumTypeSale, IFormFilterSalePage } from 'shared/dtos/ISaleDTO';
 import { useSale } from 'shared/hooks/network/useSale';
 import { useToastContext } from 'shared/hooks/useToastContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -17,7 +17,6 @@ import SaleItem from './components/SaleItem';
 
 export function Sales(): JSX.Element {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const {
     allSales,
@@ -27,18 +26,22 @@ export function Sales(): JSX.Element {
     setLoadingSales,
     loadingForm,
     reloadPage,
+    searchParams,
   } = useSale();
 
   const { addToast } = useToastContext();
 
-  const page = useMemo(() => {
-    return searchParams.get('page') || '1';
-  }, [searchParams]);
-
-  const handleChangePage = (page: number) => {
-    setLoadingSales(true);
-    setSearchParams({ page: page.toString() }, { replace: true });
-  };
+  const queryParams = useMemo(
+    () => ({
+      limit: searchParams.get('limit') || `${LIMIT_PAGED}`,
+      page: searchParams.get('page') || '1',
+      client_id: searchParams.get('client_id'),
+      observation: searchParams.get('observation'),
+      start_date: searchParams.get('start_date'),
+      end_date: searchParams.get('end_date'),
+    }),
+    [searchParams],
+  );
 
   const handleClickSale = (item: InstanceSale) => {
     if (item.type_sale !== EnumTypeSale.CLOSURE) {
@@ -48,9 +51,25 @@ export function Sales(): JSX.Element {
     }
   };
 
+  const handleChangePage = async (page: number) => {
+    setLoadingSales(true);
+    await getSalesPaged({ ...queryParams, limit: LIMIT_PAGED, page });
+  };
+
+  const onSubmitFilter = async (dataForm: IFormFilterSalePage) => {
+    const hasRangeDate = dataForm.start_date && dataForm.end_date;
+    const notRangeDate = !dataForm.start_date && !dataForm.end_date;
+
+    if (hasRangeDate || notRangeDate) {
+      await getSalesPaged({ ...dataForm, limit: LIMIT_PAGED, page: 1 });
+    } else {
+      addToast('Deve ser passado as duas datas ou nenhuma data', ToastType.error);
+    }
+  };
+
   useEffect(() => {
-    getSalesPaged({ page: Number(page), limit: LIMIT_PAGED });
-  }, [page, reloadPage]);
+    getSalesPaged({ page: 1, limit: LIMIT_PAGED });
+  }, [reloadPage]);
 
   return (
     <LayoutBaseDePagina
@@ -64,7 +83,7 @@ export function Sales(): JSX.Element {
         <Skeleton variant="rectangular" width="100%" height={500} />
       ) : (
         <>
-          <FilterSale getSalesFilterPage={getSalesPaged} />
+          <FilterSale onSubmitFilter={onSubmitFilter} />
 
           {allSales.map(item => (
             <SaleItem key={item.id} onClick={() => handleClickSale(item)} detailSale={item} />
@@ -72,7 +91,7 @@ export function Sales(): JSX.Element {
 
           <Pagination
             count={totalPage}
-            page={Number(page)}
+            page={Number(queryParams.page)}
             onChange={(_, newPage) => handleChangePage(newPage)}
           />
         </>

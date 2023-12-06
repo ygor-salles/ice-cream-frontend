@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ToastType } from 'shared/components/snackBar/enum';
 import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { RoutesEnum } from 'shared/constants/routesList';
@@ -28,6 +28,8 @@ import { useToastContext } from '../useToastContext';
 
 export function useSale() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const { addToast } = useToastContext();
   const { setDataLocalStorage } = useCache();
   const saleService = new SaleService();
@@ -58,8 +60,17 @@ export function useSale() {
   async function getSalesPaged(filter: ILoadPagedSalesDTORequest) {
     setLoadingSales(true);
 
-    const objectFormmated = transformObjectFilterSale(filter);
     try {
+      const objectFormmated = transformObjectFilterSale(filter);
+      setSearchParams(
+        {
+          ...objectFormmated,
+          page: objectFormmated.page.toString(),
+          limit: objectFormmated.limit.toString(),
+        },
+        { replace: true },
+      );
+
       const response = await saleService.loadPaged(objectFormmated);
       setAllSales(response.instances ?? []);
       setTotalPage(parseInt(response.totalPages.toString(), 10));
@@ -210,6 +221,7 @@ export function useSale() {
     totalPage,
     reloadPage,
     sumSalesState,
+    searchParams,
     setReloadPage,
     getSalesPaged,
     handleSubmitCreate,

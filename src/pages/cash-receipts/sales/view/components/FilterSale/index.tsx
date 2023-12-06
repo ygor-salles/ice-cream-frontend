@@ -10,31 +10,26 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import AutoComplete from 'shared/components/autocomplete/Autocomplete';
 import DatePicker from 'shared/components/datePicker/DatePicker';
-import { ToastType } from 'shared/components/snackBar/enum';
 import TextFieldApp from 'shared/components/textField/TextField';
-import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { IFormFilterSalePage } from 'shared/dtos/ISaleDTO';
 import { useCache } from 'shared/hooks/useCache';
-import { useToastContext } from 'shared/hooks/useToastContext';
-import { ILoadPagedSalesDTORequest } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 
 import { ContentDate, Form, StyledAccordion, StyledButton } from './styles';
 import { defaultValues, fieldSaleFilter } from './utils';
 
 interface PropTypes {
-  getSalesFilterPage: (filter: ILoadPagedSalesDTORequest) => Promise<void>;
+  onSubmitFilter: (dataForm: IFormFilterSalePage) => Promise<void>;
 }
 
-const FilterSale: React.FC<PropTypes> = ({ getSalesFilterPage }) => {
+const FilterSale: React.FC<PropTypes> = ({ onSubmitFilter }) => {
   const [open, setOpen] = useState(false);
   const { handleSubmit, getValues, setValue, control } = useForm<IFormFilterSalePage>({
     defaultValues,
   });
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const { addToast } = useToastContext();
   const { getDataLocalStorage } = useCache();
 
   const [allClients, setAllClients] = useState<IClientDTO[]>([]);
@@ -45,17 +40,6 @@ const FilterSale: React.FC<PropTypes> = ({ getSalesFilterPage }) => {
     if (client_name?.length > 0) {
       const client = allClients.find(item => item.name === client_name);
       setValue('client_id', client.id.toString());
-    }
-  };
-
-  const onSubmit = (dataForm: IFormFilterSalePage) => {
-    const hasRangeDate = dataForm.start_date && dataForm.end_date;
-    const notRangeDate = !dataForm.start_date && !dataForm.end_date;
-
-    if (hasRangeDate || notRangeDate) {
-      getSalesFilterPage({ ...dataForm, limit: LIMIT_PAGED, page: 1 });
-    } else {
-      addToast('Deve ser passado as duas datas ou nenhuma data', ToastType.error);
     }
   };
 
@@ -75,7 +59,7 @@ const FilterSale: React.FC<PropTypes> = ({ getSalesFilterPage }) => {
         <Typography>Filtros</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmitFilter)}>
           <TextFieldApp name={fieldSaleFilter.observation} control={control} label="Observação" />
           <AutoComplete
             name={fieldSaleFilter.client_name}

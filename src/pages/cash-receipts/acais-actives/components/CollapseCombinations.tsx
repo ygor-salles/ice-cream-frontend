@@ -50,7 +50,17 @@ const CollapseCombinations: React.FC<PropTypes> = ({
           <></>
         )}
 
-        {sale?.observation && <Text>Obs: {sale.observation}</Text>}
+        {sale?.observation && (
+          <Text>
+            Obs:{' '}
+            {sale.observation.includes(';')
+              ? sale.observation
+                  .split(';')
+                  // eslint-disable-next-line react/no-array-index-key
+                  .map((item, index) => <Text key={index}>{item.trim()}</Text>)
+              : sale.observation}
+          </Text>
+        )}
       </ContentLeft>
       <Switch
         onClick={e => e.stopPropagation()}

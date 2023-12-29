@@ -1,4 +1,5 @@
 import { Switch } from '@mui/material';
+import { Children } from 'react';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import { ISaleDTO } from 'shared/dtos/ISaleDTO';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
@@ -29,37 +30,37 @@ const CollapseCombinations: React.FC<PropTypes> = ({
   return (
     <Container>
       <ContentLeft>
-        {acais?.length > 0 ? (
-          acais.map(item => (
-            <Wrapper key={`${item.amount} ${item.name}`} hasBorder={acais.length > 1}>
-              {acais.length > 1 && <Text>{`${item.amount} ${item.name}`}</Text>}
-              <Ul>
-                {item?.combinations?.length > 0 ? (
-                  item.combinations.map(item => (
-                    <Li hasCombinations key={item.name}>
-                      {item?.name || '--'}
-                    </Li>
-                  ))
-                ) : (
-                  <Li>Não há combinações</Li>
-                )}
-              </Ul>
-            </Wrapper>
-          ))
-        ) : (
-          <></>
-        )}
+        {acais?.length > 0
+          ? Children.toArray(
+              acais.map(item => (
+                <Wrapper hasBorder={acais.length > 1}>
+                  {acais.length > 1 && <Text>{`${item.amount} ${item.name}`}</Text>}
+                  <Ul>
+                    {item?.combinations?.length > 0 ? (
+                      item.combinations.map(item => (
+                        <Li hasCombinations key={item.name}>
+                          {item?.name || '--'}
+                        </Li>
+                      ))
+                    ) : (
+                      <Li>Não há combinações</Li>
+                    )}
+                  </Ul>
+                </Wrapper>
+              )),
+            )
+          : null}
 
         {sale?.observation && (
-          <Text>
-            Obs:{' '}
-            {sale.observation.includes(';')
-              ? sale.observation
-                  .split(';')
-                  // eslint-disable-next-line react/no-array-index-key
-                  .map((item, index) => <Text key={index}>{item.trim()}</Text>)
-              : sale.observation}
-          </Text>
+          <>
+            {sale.observation.includes(';') ? (
+              Children.toArray(
+                sale.observation.split(';').map(item => <Text>* {item.trim()}</Text>),
+              )
+            ) : (
+              <Text>Obs: {sale.observation}</Text>
+            )}
+          </>
         )}
       </ContentLeft>
       <Switch

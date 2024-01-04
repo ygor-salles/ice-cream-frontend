@@ -10,41 +10,35 @@ import SelectMultiple from 'shared/components/selectMultiple/SelectMultiple';
 import TextFieldApp from 'shared/components/textField/TextField';
 import TextFieldCount from 'shared/components/textFieldCount/TextFieldCount';
 import { LISTTYPESALES } from 'shared/constants/listTypeSales';
-import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { RoutesEnum } from 'shared/constants/routesList';
-import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
 import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
 import {
+  EnumTypeSale,
+  IFormSale,
   defaultValueAmount,
   defaultValuesSale,
-  EnumTypeSale,
   fieldsSale,
-  IFormSale,
   schemaCreateSale,
   schemaCreateSaleWithCustomer,
   transformItemArray,
   transformObject,
 } from 'shared/dtos/ISaleDTO';
-import { useClient } from 'shared/hooks/network/useClient';
-import { useCombination } from 'shared/hooks/network/useCombination';
-import { useProduct } from 'shared/hooks/network/useProduct';
 import { useSale } from 'shared/hooks/network/useSale';
-import { useCache } from 'shared/hooks/useCache';
+import { useDrawerContext } from 'shared/hooks/useDrawerContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
 import Mask from 'shared/utils/masks';
 
 import CartListing from './components/CartListing';
-import { Form, GridForm, StyledCard, Notificaion, Wrapper, WrapperButtons, Text } from './styles';
+import { Form, GridForm, Notificaion, StyledCard, Text, Wrapper, WrapperButtons } from './styles';
 
 export function RegisterSale(): JSX.Element {
   const [requiredClient, setRequiredClient] = useState(false);
   const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
   const [count, setCount] = useState(Number(defaultValueAmount));
   const [enableOptions, setEnableOptions] = useState(false);
-  const [loadingRequests, setLoadingRequests] = useState(false);
 
   const {
     handleSubmit,
@@ -60,19 +54,21 @@ export function RegisterSale(): JSX.Element {
     defaultValues: defaultValuesSale,
   });
 
-  const { getDataLocalStorage } = useCache();
-  const { handleSubmitCreate, loadingForm: loading } = useSale();
-  const { getProducts, allProducts: productsAPI } = useProduct();
-  const { getClients, allClients: clientsAPI } = useClient();
   const {
-    getCombinations,
-    allCombinations: combinationsAPI,
-    loadingCombinations,
-  } = useCombination();
+    allClientsStorage: allCli,
+    allCombinationsStorage,
+    allProductsStorage: allProd,
+    handleUpdateStorageData,
+    loadingStorage,
+  } = useDrawerContext();
+  const allProductsStorage = allProd ? allProd.filter(item => item.status) : [];
+  const allClientsStorage = allCli ?? [];
 
-  const [allProducts, setAllProducts] = useState<IProductDTO[]>(productsAPI ?? []);
-  const [allClients, setAllClients] = useState<IClientDTO[]>(clientsAPI ?? []);
-  const [allCombinations, setAllCombinations] = useState<ICombinationDTO[]>(combinationsAPI ?? []);
+  const { handleSubmitCreate, loadingForm: loading } = useSale();
+
+  const [allCombinations, setAllCombinations] = useState<ICombinationDTO[]>(
+    allCombinationsStorage ?? [],
+  );
 
   const [showScreenCarListing, setShowScreenCarListing] = useState(false);
   const onToggleScreenCarListing = () => setShowScreenCarListing(prev => !prev);
@@ -126,7 +122,7 @@ export function RegisterSale(): JSX.Element {
     } else if (product.name.includes(' 1L') || product.name.includes(' 1 L')) {
       setAllCombinations(allCombinations.map(item => ({ ...item, price: item.price + 1 })));
     } else {
-      setAllCombinations(getDataLocalStorage(localStorageKeys.COMBINATIONS));
+      setAllCombinations(allCombinationsStorage);
     }
   };
 
@@ -136,7 +132,7 @@ export function RegisterSale(): JSX.Element {
     if (product_name?.length > 0) {
       if (getValues('combinations').length > 0) setValue('combinations', []);
 
-      const product = allProducts.find(item => item.name === product_name);
+      const product = allProductsStorage.find(item => item.name === product_name);
 
       if (product) {
         setValue('data_product', product);
@@ -162,7 +158,7 @@ export function RegisterSale(): JSX.Element {
     } else {
       setCount(Number(defaultValueAmount));
       setValue('total', '');
-      setAllCombinations(getDataLocalStorage(localStorageKeys.COMBINATIONS));
+      setAllCombinations(allCombinationsStorage);
       setEnableOptions(false);
       setIsDisabledTextFieldCount(true);
     }
@@ -172,7 +168,7 @@ export function RegisterSale(): JSX.Element {
     const client_name = getValues('client_name');
 
     if (client_name?.length > 0) {
-      const client = allClients.find(item => item.name === client_name);
+      const client = allClientsStorage.find(item => item.name === client_name);
       setValue('client_id', client.id.toString());
     }
   };
@@ -218,26 +214,17 @@ export function RegisterSale(): JSX.Element {
     setValue('total', formatNumberToCurrencyInput(soma));
   };
 
+  const getDataStorage = async () => {
+    await handleUpdateStorageData();
+  };
+
   useEffect(() => {
-    setLoadingRequests(true);
-
-    const clientsStorage: IClientDTO[] = getDataLocalStorage(localStorageKeys.CLIENTS);
-    const productsStorage: IProductDTO[] = getDataLocalStorage(localStorageKeys.PRODUCTS);
-    const combinationStorage: ICombinationDTO[] = getDataLocalStorage(
-      localStorageKeys.COMBINATIONS,
-    );
-
-    if (clientsStorage?.length && productsStorage?.length && combinationStorage?.length) {
-      setAllProducts(productsStorage.filter(item => item.status));
-      setAllClients(clientsStorage);
-      setAllCombinations(combinationStorage);
-      setLoadingRequests(false);
-    } else if (!productsAPI.length && !clientsAPI.length && !combinationsAPI.length) {
-      Promise.all([getProducts(true), getClients(), getCombinations()]).finally(() =>
-        setLoadingRequests(false),
-      );
+    if (allCombinationsStorage) {
+      setAllCombinations(allCombinationsStorage);
+    } else {
+      getDataStorage();
     }
-  }, [productsAPI.length, clientsAPI.length, combinationsAPI.length]);
+  }, [allCombinationsStorage]);
 
   return (
     <LayoutBaseDePagina
@@ -248,7 +235,7 @@ export function RegisterSale(): JSX.Element {
       icon={showScreenCarListing ? <ArrowBack /> : <AttachMoney />}
       disabled={loading}
     >
-      {loadingRequests || loadingCombinations ? (
+      {loadingStorage ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
         <Form onSubmit={handleSubmit(onSubmitInsert)}>
@@ -260,7 +247,7 @@ export function RegisterSale(): JSX.Element {
                   <AutoComplete
                     name={fieldsSale.PRODUCT_NAME}
                     control={control}
-                    options={allProducts}
+                    options={allProductsStorage}
                     sortAlphabeticallyObject
                     label="Produto"
                     required
@@ -300,7 +287,7 @@ export function RegisterSale(): JSX.Element {
                   <AutoComplete
                     name={fieldsSale.CLIENT_NAME}
                     control={control}
-                    options={allClients}
+                    options={allClientsStorage}
                     sortAlphabeticallyObject
                     label="Cliente"
                     onClose={onCloseSelectClient}

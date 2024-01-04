@@ -1,4 +1,7 @@
 import { ToastType } from 'shared/components/snackBar/enum';
+import { IClientDTO } from 'shared/dtos/IClientDTO';
+import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
+import { IProductDTO } from 'shared/dtos/IProductDTO';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 
 export interface IAuthResponse {
@@ -30,6 +33,11 @@ export interface IDrawerContextData {
   toggleDrawerOpen: () => void;
   drawerOptions: IDrawerOption[];
   setDrawerOptions: (newDrawerOptions: IDrawerOption[]) => void;
+  handleUpdateStorageData: () => Promise<void>;
+  loadingStorage: boolean;
+  allProductsStorage: IProductDTO[] | undefined;
+  allClientsStorage: IClientDTO[] | undefined;
+  allCombinationsStorage: ICombinationDTO[] | undefined;
 }
 
 export interface IThemeContextData {

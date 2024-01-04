@@ -1,5 +1,6 @@
 import {
   Box,
+  CircularProgress,
   Divider,
   Drawer,
   Icon,
@@ -39,17 +40,20 @@ export const MenuLateral: React.FC = ({ children }) => {
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
 
-  const { isDrawerOpen, drawerOptions, toggleDrawerOpen } = useDrawerContext();
+  const { isDrawerOpen, drawerOptions, toggleDrawerOpen, handleUpdateStorageData, loadingStorage } =
+    useDrawerContext();
   const { toggleTheme } = useThemeContext();
   const { logout, email, role, name } = useAuthContext();
 
-  const logoutApp = () => {
-    logout();
-    if (smDown) {
-      toggleDrawerOpen();
-    }
-    navigate(RoutesEnum.LOGIN);
-  };
+  const logoutApp = !loadingStorage
+    ? () => {
+        logout();
+        if (smDown) {
+          toggleDrawerOpen();
+        }
+        navigate(RoutesEnum.LOGIN);
+      }
+    : undefined;
 
   const shortName = useMemo(() => getShortName(name), [name]);
   const roleUser = useMemo(() => translateTypeUser(role), [role]);
@@ -59,7 +63,7 @@ export const MenuLateral: React.FC = ({ children }) => {
       <Drawer
         open={isDrawerOpen}
         variant={smDown || !email ? 'temporary' : 'permanent'}
-        onClose={toggleDrawerOpen}
+        onClose={!loadingStorage ? toggleDrawerOpen : undefined}
       >
         <Container width={theme.spacing(28)} sx={{ bgcolor: 'primary.main' }}>
           <ContentLogo>
@@ -80,6 +84,7 @@ export const MenuLateral: React.FC = ({ children }) => {
                   key={drawerOption.path}
                   icon={drawerOption.icon}
                   label={drawerOption.label}
+                  loadingDataState={loadingStorage}
                   onClick={smDown ? toggleDrawerOpen : undefined}
                 />
               ))}
@@ -87,13 +92,26 @@ export const MenuLateral: React.FC = ({ children }) => {
           </ContentNav>
 
           <NavLogout>
-            <ListItemButton onClick={toggleTheme}>
+            <ListItemButton disabled={loadingStorage} onClick={handleUpdateStorageData}>
+              <ListItemIcon>
+                {loadingStorage ? (
+                  <CircularProgress size={22} color="info" disableShrink />
+                ) : (
+                  <Icon color="info">refresh</Icon>
+                )}
+              </ListItemIcon>
+              <ListItemText primary="Atualizar dados" primaryTypographyProps={StyledListItemText} />
+            </ListItemButton>
+            <ListItemButton
+              disabled={loadingStorage}
+              onClick={!loadingStorage ? toggleTheme : undefined}
+            >
               <ListItemIcon>
                 <Icon color="info">dark_mode</Icon>
               </ListItemIcon>
               <ListItemText primary="Alternar tema" primaryTypographyProps={StyledListItemText} />
             </ListItemButton>
-            <ListItemButton onClick={logoutApp}>
+            <ListItemButton disabled={loadingStorage} onClick={logoutApp}>
               <ListItemIcon>
                 <Icon color="info">logout</Icon>
               </ListItemIcon>

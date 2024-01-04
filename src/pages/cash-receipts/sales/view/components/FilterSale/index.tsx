@@ -7,16 +7,14 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import AutoComplete from 'shared/components/autocomplete/Autocomplete';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import DatePicker from 'shared/components/datePicker/DatePicker';
 import TextFieldApp from 'shared/components/textField/TextField';
-import { localStorageKeys } from 'shared/constants/localStorageKeys';
-import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { IFormFilterSalePage } from 'shared/dtos/ISaleDTO';
-import { useCache } from 'shared/hooks/useCache';
+import { useDrawerContext } from 'shared/hooks/useDrawerContext';
 
 import { ContentDate, Form, StyledAccordion, Wrapper } from './styles';
 import { defaultValues, fieldSaleFilter } from './utils';
@@ -33,26 +31,18 @@ const FilterSale: React.FC<PropTypes> = ({ onSubmitFilter, loadingSales }) => {
   });
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const { getDataLocalStorage } = useCache();
-
-  const [allClients, setAllClients] = useState<IClientDTO[]>([]);
+  const { allClientsStorage } = useDrawerContext();
 
   const onCloseSelectClient = () => {
     const client_name = getValues('client_name');
 
-    if (client_name?.length > 0) {
-      const client = allClients.find(item => item.name === client_name);
+    if (client_name?.length > 0 && allClientsStorage) {
+      const client = allClientsStorage.find(item => item.name === client_name);
       setValue('client_id', client.id.toString());
     } else {
       setValue('client_id', '');
     }
   };
-
-  useEffect(() => {
-    const clientsStorage: IClientDTO[] = getDataLocalStorage(localStorageKeys.CLIENTS);
-
-    setAllClients(clientsStorage);
-  }, []);
 
   return (
     <StyledAccordion expanded={open} onChange={loadingSales ? undefined : () => setOpen(!open)}>
@@ -74,7 +64,7 @@ const FilterSale: React.FC<PropTypes> = ({ onSubmitFilter, loadingSales }) => {
           <AutoComplete
             name={fieldSaleFilter.client_name}
             control={control}
-            options={allClients}
+            options={allClientsStorage ?? []}
             sortAlphabeticallyObject
             label="Cliente"
             onClose={onCloseSelectClient}

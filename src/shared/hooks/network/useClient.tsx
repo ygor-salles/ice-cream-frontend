@@ -1,16 +1,13 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { ToastType } from 'shared/components/snackBar/enum';
-import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { IClientDTO, IFormClient, transformObject } from 'shared/dtos/IClientDTO';
 import ClientService from 'shared/services/ClientService';
 
-import { useCache } from '../useCache';
 import { useToastContext } from '../useToastContext';
 
 export function useClient() {
   const { addToast } = useToastContext();
-  const { setDataLocalStorage } = useCache();
   const clientService = new ClientService();
 
   const [allClients, setAllClients] = useState<IClientDTO[]>([]);
@@ -34,13 +31,7 @@ export function useClient() {
 
     try {
       const listClients = await clientService.loadAll();
-
       setAllClients(listClients);
-      const isSetCache = setDataLocalStorage(localStorageKeys.CLIENTS, listClients);
-
-      if (isSetCache) {
-        addToast('Dados salvos em cache', ToastType.success);
-      }
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Erro ao buscar dados de cliente! - ${response?.data?.message}`, ToastType.error);

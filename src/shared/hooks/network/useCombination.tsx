@@ -1,16 +1,13 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { ToastType } from 'shared/components/snackBar/enum';
-import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { ICombinationDTO, IFormCombination, transformObject } from 'shared/dtos/ICombinationDTO';
 import CombinationService from 'shared/services/CombinationService';
 
-import { useCache } from '../useCache';
 import { useToastContext } from '../useToastContext';
 
 export function useCombination() {
   const { addToast } = useToastContext();
-  const { setDataLocalStorage } = useCache();
   const combinationService = new CombinationService();
 
   const [allCombinations, setAllCombinations] = useState<ICombinationDTO[]>([]);
@@ -40,13 +37,7 @@ export function useCombination() {
 
     try {
       const listCombinations = await combinationService.loadAll();
-
       setAllCombinations(listCombinations);
-      const isSetCache = setDataLocalStorage(localStorageKeys.COMBINATIONS, listCombinations);
-
-      if (isSetCache) {
-        addToast('Dados salvos em cache', ToastType.success);
-      }
     } catch (error) {
       const { response } = error as AxiosError;
       addToast(`Erro ao buscar dados de combinação! - ${response?.data?.message}`, ToastType.error);

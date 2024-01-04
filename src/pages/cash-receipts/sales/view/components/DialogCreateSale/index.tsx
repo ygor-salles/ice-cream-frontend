@@ -3,27 +3,26 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
 import { Button, Dialog, Theme, Typography, useMediaQuery } from '@mui/material';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import AutoComplete from 'shared/components/autocomplete/Autocomplete';
 import SelectMultiple from 'shared/components/selectMultiple/SelectMultiple';
 import TextFieldApp from 'shared/components/textField/TextField';
 import TextFieldCount from 'shared/components/textFieldCount/TextFieldCount';
-import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
 import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
 import {
+  IFormSale,
   defaultValueAmount,
   defaultValuesDialogSale,
   fieldsSale,
-  IFormSale,
   schemaDialogCreateSale,
 } from 'shared/dtos/ISaleDTO';
-import { useCache } from 'shared/hooks/useCache';
+import { useDrawerContext } from 'shared/hooks/useDrawerContext';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
 import Mask from 'shared/utils/masks';
 
-import { Form, GridForm, WrapperButtons, HeaderDialog } from './styles';
+import { Form, GridForm, HeaderDialog, WrapperButtons } from './styles';
 
 interface PropTypes {
   open: boolean;
@@ -39,15 +38,11 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
     defaultValues: defaultValuesDialogSale,
   });
 
-  const { getDataLocalStorage } = useCache();
+  const { allProductsStorage: allProd, allCombinationsStorage: allComb } = useDrawerContext();
+  const allProductsStorage = allProd ?? [];
+  const allCombinationsStorage = allComb ?? [];
 
-  const allProducts: IProductDTO[] = useMemo(() => {
-    return getDataLocalStorage(localStorageKeys.PRODUCTS);
-  }, []);
-
-  const [allCombinations, setAllCombinations] = useState<ICombinationDTO[]>(
-    getDataLocalStorage(localStorageKeys.COMBINATIONS),
-  );
+  const [allCombinations, setAllCombinations] = useState<ICombinationDTO[]>(allCombinationsStorage);
   const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
   const [count, setCount] = useState(Number(defaultValueAmount));
   const [enableOptions, setEnableOptions] = useState(false);
@@ -65,7 +60,7 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
     } else if (product.name.includes(' 1L') || product.name.includes(' 1 L')) {
       setAllCombinations(allCombinations.map(item => ({ ...item, price: item.price + 1 })));
     } else {
-      setAllCombinations(getDataLocalStorage(localStorageKeys.COMBINATIONS));
+      setAllCombinations(allCombinationsStorage);
     }
   };
 
@@ -75,7 +70,7 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
     if (product_name?.length > 0) {
       if (getValues('combinations').length > 0) setValue('combinations', []);
 
-      const product = allProducts.find(item => item.name === product_name);
+      const product = allProductsStorage.find(item => item.name === product_name);
 
       if (product) {
         setValue('data_product', product);
@@ -101,7 +96,7 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
     } else {
       setCount(Number(defaultValueAmount));
       setValue('total', '');
-      setAllCombinations(getDataLocalStorage(localStorageKeys.COMBINATIONS));
+      setAllCombinations(allCombinationsStorage);
       setEnableOptions(false);
       setIsDisabledTextFieldCount(true);
     }
@@ -164,7 +159,7 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
           <AutoComplete
             name={fieldsSale.PRODUCT_NAME}
             control={control}
-            options={allProducts}
+            options={allProductsStorage}
             sortAlphabeticallyObject
             label="Produto"
             required

@@ -18,7 +18,9 @@ const SaleItem: React.FC<SaleItemProps> = ({
   detailSale: { data_product, total, client, type_sale, created_at, observation, in_progress },
 }) => {
   const hasAcai = useMemo(() => {
-    return Boolean(data_product.find(item => item.type === EnumTypeProduct.ACAI));
+    return data_product && Array.isArray(data_product)
+      ? Boolean(data_product?.find(item => item.type === EnumTypeProduct.ACAI))
+      : false;
   }, [data_product]);
 
   return (

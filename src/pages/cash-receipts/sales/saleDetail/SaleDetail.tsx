@@ -63,7 +63,9 @@ const SaleDetail: React.FC = () => {
   } = useController({ name: 'data_product', control });
 
   const hasAcai = useMemo(() => {
-    return Boolean(saleDetail.data_product.find(item => item.type === EnumTypeProduct.ACAI));
+    return saleDetail.data_product && Array.isArray(saleDetail.data_product)
+      ? Boolean(saleDetail.data_product?.find(item => item.type === EnumTypeProduct.ACAI))
+      : false;
   }, [saleDetail.data_product]);
 
   const onInsertProductInSale = (data: IFormSale) => {

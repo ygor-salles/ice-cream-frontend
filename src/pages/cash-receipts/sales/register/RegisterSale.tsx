@@ -207,11 +207,12 @@ export function RegisterSale(): JSX.Element {
   const onCloseSelectCombinations = () => {
     const optionsCombinations = getValues('combinations');
     const priceProduct = getValues('data_product.price');
+    const amount = Number(getValues('amount'));
 
     let soma = optionsCombinations.reduce((acumulator, { price }) => acumulator + price, 0);
     soma += priceProduct;
 
-    setValue('total', formatNumberToCurrencyInput(soma));
+    setValue('total', formatNumberToCurrencyInput(soma * amount));
   };
 
   const getDataStorage = async () => {

@@ -2,6 +2,7 @@ export interface ICreatePurchaseDTORequest {
   value_total: number;
   observation?: string;
   its_ice_cream_shoop: boolean;
+  created_at?: string | Date;
   file?: File;
   provider_id: number;
 }

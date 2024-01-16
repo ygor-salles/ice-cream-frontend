@@ -31,7 +31,7 @@ export const fieldsProvider = {
 export const defaultValuesProvider = {
   [fieldsProvider.NAME]: '',
   [fieldsProvider.PHONE]: '',
-  [fieldsProvider.ITS_ICE_CREAM_SHOP]: false,
+  [fieldsProvider.ITS_ICE_CREAM_SHOP]: true,
 };
 
 export const defaultValuesProviderEdit = (provider: IProviderDTO) => ({

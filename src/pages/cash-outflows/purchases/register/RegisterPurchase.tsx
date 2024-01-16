@@ -1,10 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
-import { Theme, useMediaQuery } from '@mui/material';
+import { Theme, Typography, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
+import DatePicker from 'shared/components/datePicker/DatePicker';
 import InputFile from 'shared/components/inputFile/InputFile';
 import SelectApp from 'shared/components/select/Select';
 import TextFieldApp from 'shared/components/textField/TextField';
@@ -77,6 +78,16 @@ export function RegisterPurchase(): JSX.Element {
               required
               disabled={loading}
             />
+            <div>
+              <Typography>
+                Caso não seja selecionado a data será marcado com a data de hoje
+              </Typography>
+              <DatePicker
+                label="Data(opcional)"
+                name={fieldsPurchase.CREATED_AT}
+                control={control}
+              />
+            </div>
             <CheckboxApp
               name={fieldsPurchase.ITS_ICE_CREAM_SHOP}
               control={control}

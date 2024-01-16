@@ -24,5 +24,9 @@ export const convertMultipartFormPurchase = (
 
   formData.append(fieldsPurchase.PROVIDER_ID, dataRequest.provider_id.toString());
 
+  if (dataRequest?.created_at) {
+    formData.append(fieldsPurchase.CREATED_AT, dataRequest.created_at.toString());
+  }
+
   return formData;
 };

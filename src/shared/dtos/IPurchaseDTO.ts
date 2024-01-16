@@ -1,5 +1,6 @@
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
+import { getLocalDate } from 'shared/utils/getLocalDate';
 import Mask from 'shared/utils/masks';
 import * as yup from 'yup';
 
@@ -12,8 +13,8 @@ export interface IPurchaseDTO {
   its_ice_cream_shoop: boolean;
   file?: File;
   nf_url?: string;
-  created_at?: Date;
-  updated_at?: Date;
+  created_at?: string | Date;
+  updated_at?: string | Date;
   provider_id: number;
   provider?: IProviderDTO;
 }
@@ -24,6 +25,7 @@ export interface IFormPurchase {
   observation?: string;
   provider_id: string;
   its_ice_cream_shoop: boolean;
+  created_at: string;
   file?: File;
   nf_url?: string;
 }
@@ -34,6 +36,7 @@ export const fieldsPurchase = {
   ITS_ICE_CREAM_SHOP: 'its_ice_cream_shoop',
   FILE: 'file',
   PROVIDER_ID: 'provider_id',
+  CREATED_AT: 'created_at',
   NF_URL: 'nf_url',
 };
 
@@ -43,6 +46,7 @@ export const defaultValuesPurchase = {
   [fieldsPurchase.ITS_ICE_CREAM_SHOP]: true,
   [fieldsPurchase.FILE]: null,
   [fieldsPurchase.PROVIDER_ID]: '',
+  [fieldsPurchase.CREATED_AT]: '',
 };
 
 export const defaultValuesPurchaseEdit = (purchase: IPurchaseDTO) => ({
@@ -52,6 +56,7 @@ export const defaultValuesPurchaseEdit = (purchase: IPurchaseDTO) => ({
   [fieldsPurchase.ITS_ICE_CREAM_SHOP]: purchase.its_ice_cream_shoop,
   [fieldsPurchase.NF_URL]: purchase.nf_url,
   [fieldsPurchase.PROVIDER_ID]: purchase.provider_id.toString(),
+  [fieldsPurchase.CREATED_AT]: purchase.created_at,
 });
 
 export const schemaCreatePurchase = yup.object().shape({
@@ -59,6 +64,7 @@ export const schemaCreatePurchase = yup.object().shape({
   [fieldsPurchase.OBSERVATION]: yup.string().optional().nullable(),
   [fieldsPurchase.ITS_ICE_CREAM_SHOP]: yup.boolean().required('Marcação é obrigatório'),
   [fieldsPurchase.PROVIDER_ID]: yup.string().required('A seleção de fornecedor é obrigatória'),
+  [fieldsPurchase.CREATED_AT]: yup.string().optional(),
   [fieldsPurchase.FILE]: yup
     .mixed()
     .test('type', 'Formato inválido', (value: File) => {
@@ -80,6 +86,8 @@ export const schemaCreatePurchase = yup.object().shape({
 export const transformObject = (dataForm: IFormPurchase): IPurchaseDTO => {
   const object: IPurchaseDTO = {
     ...dataForm,
+    created_at:
+      dataForm?.created_at?.length > 0 ? getLocalDate(dataForm.created_at) : getLocalDate(),
     value_total: Mask.convertCurrency(dataForm.value_total),
     provider_id: Number(dataForm.provider_id),
   };

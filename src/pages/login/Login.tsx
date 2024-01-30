@@ -30,7 +30,7 @@ export const Login: React.FC = () => {
       setLoading(false);
 
       if (response.role === EnumRoleUser.NORMAL) {
-        navigate(RoutesEnum.ACAIS_ACTIVES);
+        navigate(RoutesEnum.ORDERS_ACTIVES);
       } else {
         navigate(RoutesEnum.SALES_CREATE);
       }

@@ -23,4 +23,4 @@ export * from './product-combination/combinations/register/RegisterCombination';
 export * from './cash-outflows/providers/register/RegisterProvider';
 export * from './cash-outflows/purchases/register/RegisterPurchase';
 export * from './cash-receipts/daily-cash-closing/DailyCashClosing';
-export * from './cash-receipts/acais-actives/AcaisActives';
+export * from './cash-receipts/orders-actives/OrdersActives';

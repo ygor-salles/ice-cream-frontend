@@ -70,7 +70,7 @@ export function AcaisActives() {
 
   return (
     <LayoutBaseDePagina
-      titulo="Açaís ativos"
+      titulo="Pedidos ativos"
       textButton="Atualizar"
       icon={<Refresh />}
       onClick={onToggleRefreshPage}

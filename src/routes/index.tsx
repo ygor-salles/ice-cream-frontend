@@ -224,7 +224,7 @@ export function AppRoutes() {
         }
       />
       <Route
-        path={RoutesEnum.ACAIS_ACTIVES}
+        path={RoutesEnum.ORDERS_ACTIVES}
         element={
           <ProtectedLayout accessUser={[EnumRoleUser.NORMAL, EnumRoleUser.EMPLOYEE]}>
             <AcaisActives />
@@ -240,7 +240,7 @@ export function AppRoutes() {
         }
       />
 
-      <Route path="*" element={<Navigate to={RoutesEnum.ACAIS_ACTIVES} />} />
+      <Route path="*" element={<Navigate to={RoutesEnum.ORDERS_ACTIVES} />} />
     </Routes>
   );
 }

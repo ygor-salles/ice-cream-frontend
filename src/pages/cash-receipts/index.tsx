@@ -46,12 +46,12 @@ export function CashReceipts() {
             onNavigate: () => navigate(RoutesEnum.DAILY_CASH_CLOSING),
           },
           {
-            title: 'Açaís ativos',
+            title: 'Pedidos ativos',
             description:
-              'Visualize os pedidos dos açaís para produzir o produto e marque aqueles que ja foram finalizados',
+              'Visualize os pedidos ativos para entrega e marque aqueles que ja foram finalizados',
             srcImage: produceProductImage,
             altImage: 'produzindo produto',
-            onNavigate: () => navigate(RoutesEnum.ACAIS_ACTIVES),
+            onNavigate: () => navigate(RoutesEnum.ORDERS_ACTIVES),
           },
         ]}
       />

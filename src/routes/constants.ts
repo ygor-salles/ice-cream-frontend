@@ -37,8 +37,8 @@ export const DRAWER_OPTIONS_NORMAL: IDrawerOption[] = [
   },
   {
     icon: 'notifications_active',
-    path: RoutesEnum.ACAIS_ACTIVES,
-    label: 'Açaís ativos',
+    path: RoutesEnum.ORDERS_ACTIVES,
+    label: 'Pedidos ativos',
   },
   {
     icon: 'point_of_sale',
@@ -60,8 +60,8 @@ export const DRAWER_OPTIONS_EMPLOYEE: IDrawerOption[] = [
   },
   {
     icon: 'notifications_active',
-    path: RoutesEnum.ACAIS_ACTIVES,
-    label: 'Açaís ativos',
+    path: RoutesEnum.ORDERS_ACTIVES,
+    label: 'Pedidos ativos',
   },
   {
     icon: 'inventory',

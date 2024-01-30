@@ -73,7 +73,7 @@ const SaleDetail: React.FC = () => {
 
     if (newItem.type === EnumTypeProduct.ACAI && !saleDetail.in_progress) {
       addToast(
-        'Não é possível adicionar novos açaís nessa venda pois esse pedido ja foi concluído na tela de Açaís ativos. Por favor cadastre uma nova venda!',
+        'Não é possível adicionar novos açaís nessa venda pois esse pedido ja foi concluído na tela de Pedidos ativos. Por favor cadastre uma nova venda!',
         ToastType.error,
       );
       return;

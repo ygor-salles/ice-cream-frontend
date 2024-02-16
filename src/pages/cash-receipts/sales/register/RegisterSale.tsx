@@ -111,6 +111,7 @@ export function RegisterSale(): JSX.Element {
         data_product: carListState,
       }),
     );
+    setRequiredClient(false);
     reset();
     setCarListState([]);
     onToggleScreenCarListing();

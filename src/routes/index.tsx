@@ -20,7 +20,7 @@ import {
   Purchases,
   RegisterPurchase,
   DailyCashClosing,
-  AcaisActives,
+  OrdersActives,
   Login,
 } from 'pages';
 import SaleDetail from 'pages/cash-receipts/sales/saleDetail/SaleDetail';
@@ -227,7 +227,7 @@ export function AppRoutes() {
         path={RoutesEnum.ORDERS_ACTIVES}
         element={
           <ProtectedLayout accessUser={[EnumRoleUser.NORMAL, EnumRoleUser.EMPLOYEE]}>
-            <AcaisActives />
+            <OrdersActives />
           </ProtectedLayout>
         }
       />

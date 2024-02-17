@@ -20,7 +20,7 @@ import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateS
 import CollapseCombinations from './components/CollapseCombinations';
 import { columnConfig, columnLabel, columnType, filterTable } from './constants';
 
-export function AcaisActives() {
+export function OrdersActives() {
   const {
     allSales,
     getSalesActivatedAcai,

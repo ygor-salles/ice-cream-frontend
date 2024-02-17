@@ -3,6 +3,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  CircularProgress,
   Theme,
   Typography,
   useMediaQuery,
@@ -14,6 +15,7 @@ import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
 import DatePicker from 'shared/components/datePicker/DatePicker';
 import TextFieldApp from 'shared/components/textField/TextField';
 import { IFormFilterPaymentPage } from 'shared/dtos/IPaymentDTO';
+import { useClient } from 'shared/hooks/network/useClient';
 import { useDrawerContext } from 'shared/hooks/useDrawerContext';
 
 import { ContentDate, Form, StyledAccordion, Wrapper } from './styles';
@@ -32,6 +34,7 @@ const FilterPayment: React.FC<PropTypes> = ({ onSubmitFilter, loadingPayments })
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { allClientsStorage } = useDrawerContext();
+  const { allClients, getClients, loadingClients } = useClient();
 
   const onCloseSelectClient = () => {
     const client_name = getValues('client_name');
@@ -39,15 +42,28 @@ const FilterPayment: React.FC<PropTypes> = ({ onSubmitFilter, loadingPayments })
     if (client_name?.length > 0 && allClientsStorage) {
       const client = allClientsStorage.find(item => item.name === client_name);
       setValue('client_id', client.id.toString());
+    } else if (client_name?.length > 0 && allClients.length > 0) {
+      const client = allClients.find(item => item.name === client_name);
+      setValue('client_id', client.id.toString());
     } else {
       setValue('client_id', '');
     }
   };
 
+  const handleOpenAccordion = async () => {
+    if (!open && !allClientsStorage) {
+      await getClients();
+    }
+
+    setOpen(!open);
+  };
+
   return (
-    <StyledAccordion expanded={open} onChange={loadingPayments ? undefined : () => setOpen(!open)}>
+    <StyledAccordion expanded={open} onChange={loadingPayments ? undefined : handleOpenAccordion}>
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
+        expandIcon={
+          loadingClients ? <CircularProgress size={16} disableShrink /> : <ExpandMoreIcon />
+        }
         aria-controls="panel1bh-content"
         id="panel1bh-header"
       >
@@ -64,7 +80,7 @@ const FilterPayment: React.FC<PropTypes> = ({ onSubmitFilter, loadingPayments })
           <AutoComplete
             name={fieldPaymentFilter.client_name}
             control={control}
-            options={allClientsStorage ?? []}
+            options={allClientsStorage ?? allClients}
             sortAlphabeticallyObject
             label="Cliente"
             onClose={onCloseSelectClient}

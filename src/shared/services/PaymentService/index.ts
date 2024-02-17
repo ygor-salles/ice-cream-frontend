@@ -2,7 +2,10 @@ import { api } from '../api';
 import { ICreatePaymentDTORequest, ICreatePaymentDTOResponse } from './dtos/ICreatePaymentDTO';
 import { IDeletePaymentDTOResponse } from './dtos/IDeletePaymentDTO';
 import { ILoadByIdPaymentDTOResponse } from './dtos/ILoadByIdPaymentDTO';
-import { ILoadPagedPaymentsDTOResponse } from './dtos/ILoadPagedPaymentsDTO';
+import {
+  ILoadPagedPaymentsDTORequest,
+  ILoadPagedPaymentsDTOResponse,
+} from './dtos/ILoadPagedPaymentsDTO';
 import { ILoadPaymentDTOResponse } from './dtos/ILoadPaymentDTO';
 import { IUpdatePaymentDTORequest, IUpdatePaymentDTOResponse } from './dtos/IUpdatePaymentDTO';
 
@@ -39,9 +42,11 @@ export default class PaymentService {
     return data;
   }
 
-  public async loadPaged(limit: number, page: number): Promise<ILoadPagedPaymentsDTOResponse> {
+  public async loadPaged(
+    params: ILoadPagedPaymentsDTORequest,
+  ): Promise<ILoadPagedPaymentsDTOResponse> {
     const { data } = await api.get<ILoadPagedPaymentsDTOResponse>(`${this.route}/paged`, {
-      params: { limit, page },
+      params: { ...params },
     });
     return data;
   }

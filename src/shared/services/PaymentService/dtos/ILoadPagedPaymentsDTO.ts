@@ -18,3 +18,12 @@ export interface ILoadPagedPaymentsDTOResponse {
   offset: number;
   instances: Array<InstancePayment>;
 }
+
+export interface ILoadPagedPaymentsDTORequest {
+  limit: number;
+  page: number;
+  client_id?: string;
+  observation?: string;
+  start_date?: string;
+  end_date?: string;
+}

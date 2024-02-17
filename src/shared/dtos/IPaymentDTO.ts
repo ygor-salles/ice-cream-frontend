@@ -1,3 +1,4 @@
+import { ILoadPagedPaymentsDTORequest } from 'shared/services/PaymentService/dtos/ILoadPagedPaymentsDTO';
 import Mask from 'shared/utils/masks';
 import * as yup from 'yup';
 
@@ -19,6 +20,14 @@ export interface IFormPayment {
   value: string;
   observation?: string;
   client_id: string;
+}
+
+export interface IFormFilterPaymentPage {
+  client_name?: string;
+  client_id?: string;
+  observation?: string;
+  start_date?: string;
+  end_date?: string;
 }
 
 export const fieldsPayment = {
@@ -48,4 +57,28 @@ export const transformObject = (dataForm: IFormPayment): IPaymentDTO => {
     object.observation = dataForm.observation;
   }
   return object;
+};
+
+export const transformObjectFilterPayment = (dataForm: ILoadPagedPaymentsDTORequest) => {
+  const { limit, page, client_id, end_date, observation, start_date } = dataForm;
+
+  const obj: ILoadPagedPaymentsDTORequest = { limit, page };
+
+  const clientOk = client_id && client_id !== 'null' && client_id.length > 0;
+  const observationOk = observation && observation !== 'null' && observation.length > 0;
+  const startDateOk = start_date && start_date !== 'null' && start_date.length > 0;
+  const endDateOk = end_date && end_date !== 'null' && end_date.length > 0;
+
+  if (clientOk) {
+    obj.client_id = client_id;
+  }
+  if (observationOk) {
+    obj.observation = observation;
+  }
+  if (startDateOk && endDateOk) {
+    obj.start_date = start_date;
+    obj.end_date = end_date;
+  }
+
+  return obj;
 };

@@ -1,15 +1,24 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ToastType } from 'shared/components/snackBar/enum';
-import { LIMIT_PAGED } from 'shared/constants/limitPaged';
-import { IFormPayment, IPaymentDTO, transformObject } from 'shared/dtos/IPaymentDTO';
+import {
+  IFormPayment,
+  IPaymentDTO,
+  transformObject,
+  transformObjectFilterPayment,
+} from 'shared/dtos/IPaymentDTO';
 import PaymentService from 'shared/services/PaymentService';
-import { InstancePayment } from 'shared/services/PaymentService/dtos/ILoadPagedPaymentsDTO';
+import {
+  ILoadPagedPaymentsDTORequest,
+  InstancePayment,
+} from 'shared/services/PaymentService/dtos/ILoadPagedPaymentsDTO';
 
 import { useToastContext } from '../useToastContext';
 
 export function usePayment() {
   const { addToast } = useToastContext();
+  const [searchParams, setSearchParams] = useSearchParams();
   const paymentService = new PaymentService();
 
   const [allPayments, setAllPayments] = useState<InstancePayment[]>([]);
@@ -30,11 +39,21 @@ export function usePayment() {
 
   const handleCloseModalDelete = () => setShowModalDelete(false);
 
-  async function getPaymentsPaged(page?: string) {
+  async function getPaymentsPaged(filter: ILoadPagedPaymentsDTORequest) {
     setLoadingPayments(true);
 
     try {
-      const response = await paymentService.loadPaged(LIMIT_PAGED, Number(page));
+      const objectFormmated = transformObjectFilterPayment(filter);
+      setSearchParams(
+        {
+          ...objectFormmated,
+          page: objectFormmated.page.toString(),
+          limit: objectFormmated.limit.toString(),
+        },
+        { replace: true },
+      );
+
+      const response = await paymentService.loadPaged(objectFormmated);
       setAllPayments(response.instances ?? []);
       setTotalPage(parseInt(response.totalPages.toString(), 10));
     } catch (error) {
@@ -88,6 +107,7 @@ export function usePayment() {
     dataActionTable,
     totalPage,
     reloadPage,
+    searchParams,
     setLoadingPayments,
     setReloadPage,
     handleClickDelete,

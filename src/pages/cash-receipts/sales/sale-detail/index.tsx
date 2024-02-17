@@ -27,7 +27,7 @@ import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 import DialogCreateSale from '../view/components/DialogCreateSale';
 import { StyledCardList, Text, WrapperDetail } from './styles';
 
-const SaleDetail: React.FC = () => {
+export const SaleDetail: React.FC = () => {
   const [disabledActions, setDisabledActions] = useState(true);
   const [showDialogSale, setShowDialogSale] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
@@ -191,5 +191,3 @@ const SaleDetail: React.FC = () => {
     </LayoutBaseDePagina>
   );
 };
-
-export default SaleDetail;

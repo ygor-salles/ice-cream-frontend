@@ -22,8 +22,8 @@ import {
   DailyCashClosing,
   OrdersActives,
   Login,
+  SaleDetail,
 } from 'pages';
-import SaleDetail from 'pages/cash-receipts/sales/saleDetail';
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants/routesList';

@@ -24,3 +24,4 @@ export * from './cash-outflows/providers/register';
 export * from './cash-outflows/purchases/register';
 export * from './cash-receipts/daily-cash-closing';
 export * from './cash-receipts/orders-actives';
+export * from './cash-receipts/sales/sale-detail';

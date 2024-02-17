@@ -3,21 +3,23 @@ import { AddBox } from '@mui/icons-material';
 import { Dialog, Skeleton, Theme, useMediaQuery } from '@mui/material';
 import dump from 'assets/dump.png';
 import { useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import DialogInfo from 'shared/components/dialog/Dialog';
 import { Pagination } from 'shared/components/pagination/Pagination';
+import { ToastType } from 'shared/components/snackBar/enum';
+import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import { RoutesEnum } from 'shared/constants/routesList';
+import { IFormFilterPurchasePage } from 'shared/dtos/IPurchaseDTO';
 import { usePurchase } from 'shared/hooks/network/usePurchase';
+import { useToastContext } from 'shared/hooks/useToastContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import transformImageUrl from 'shared/utils/transformImageUrl';
 
 import { DialogEdit } from './components/DialogEdit';
+import FilterPurchase from './components/FilterPurchase';
 import PurchaseItem from './components/PurchaseItem';
 import { Close, ImgDialog } from './styles';
 
 export function Purchases(): JSX.Element {
-  const [searchParams, setSearchParams] = useSearchParams();
-
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {
@@ -29,6 +31,7 @@ export function Purchases(): JSX.Element {
     loadingForm,
     totalPage,
     reloadPage,
+    searchParams,
     handleClickEdit,
     handleClickDelete,
     handleCloseModalEdit,
@@ -39,20 +42,41 @@ export function Purchases(): JSX.Element {
     setLoadingPurchases,
   } = usePurchase();
 
-  const page = useMemo(() => {
-    return searchParams.get('page') || '1';
-  }, [searchParams]);
-
-  const handleChangePage = (page: number) => {
-    setLoadingPurchases(true);
-    setSearchParams({ page: page.toString() }, { replace: true });
-  };
+  const { addToast } = useToastContext();
 
   const [showImgUrl, setShowImgUrl] = useState('');
 
+  const queryParams = useMemo(
+    () => ({
+      limit: searchParams.get('limit') || `${LIMIT_PAGED}`,
+      page: searchParams.get('page') || '1',
+      provider_id: searchParams.get('provider_id'),
+      observation: searchParams.get('observation'),
+      start_date: searchParams.get('start_date'),
+      end_date: searchParams.get('end_date'),
+    }),
+    [searchParams],
+  );
+
+  const handleChangePage = async (page: number) => {
+    setLoadingPurchases(true);
+    await getPurchasesPaged({ ...queryParams, limit: LIMIT_PAGED, page });
+  };
+
+  const onSubmitFilter = async (dataForm: IFormFilterPurchasePage) => {
+    const hasRangeDate = dataForm.start_date && dataForm.end_date;
+    const notRangeDate = !dataForm.start_date && !dataForm.end_date;
+
+    if (hasRangeDate || notRangeDate) {
+      await getPurchasesPaged({ ...dataForm, limit: LIMIT_PAGED, page: 1 });
+    } else {
+      addToast('Deve ser passado as duas datas ou nenhuma data', ToastType.error);
+    }
+  };
+
   useEffect(() => {
-    getPurchasesPaged(page);
-  }, [page, reloadPage]);
+    getPurchasesPaged({ page: 1, limit: LIMIT_PAGED });
+  }, [reloadPage]);
 
   return (
     <>
@@ -62,6 +86,8 @@ export function Purchases(): JSX.Element {
         textButton="CADASTRAR"
         icon={<AddBox />}
       >
+        <FilterPurchase onSubmitFilter={onSubmitFilter} loadingPurchases={loadingPurchases} />
+
         {loadingPurchases ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
@@ -78,7 +104,7 @@ export function Purchases(): JSX.Element {
 
             <Pagination
               count={totalPage}
-              page={Number(page)}
+              page={Number(queryParams.page)}
               onChange={(_, newPage) => handleChangePage(newPage)}
             />
           </>

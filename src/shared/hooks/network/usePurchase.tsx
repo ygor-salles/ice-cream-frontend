@@ -1,22 +1,27 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ToastType } from 'shared/components/snackBar/enum';
-import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import {
   IFormFilterPurchase,
   IFormPurchase,
   IPurchaseDTO,
   transformObject,
   transformObjectFilter,
+  transformObjectFilterPurchase,
 } from 'shared/dtos/IPurchaseDTO';
 import PurchaseService from 'shared/services/PurchaseService';
-import { InstancePurchase } from 'shared/services/PurchaseService/dtos/ILoadPagedPurchasesDTO';
+import {
+  ILoadPagedPurchasesDTORequest,
+  InstancePurchase,
+} from 'shared/services/PurchaseService/dtos/ILoadPagedPurchasesDTO';
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 
 import { useToastContext } from '../useToastContext';
 
 export function usePurchase() {
   const { addToast } = useToastContext();
+  const [searchParams, setSearchParams] = useSearchParams();
   const purchaseService = new PurchaseService();
 
   const [allPurchases, setAllPurchases] = useState<InstancePurchase[]>([]);
@@ -128,11 +133,21 @@ export function usePurchase() {
     }
   }
 
-  async function getPurchasesPaged(page?: string) {
+  async function getPurchasesPaged(filter: ILoadPagedPurchasesDTORequest) {
     setLoadingPurchases(true);
 
     try {
-      const response = await purchaseService.loadPaged(LIMIT_PAGED, Number(page));
+      const objectFormmated = transformObjectFilterPurchase(filter);
+      setSearchParams(
+        {
+          ...objectFormmated,
+          page: objectFormmated.page.toString(),
+          limit: objectFormmated.limit.toString(),
+        },
+        { replace: true },
+      );
+
+      const response = await purchaseService.loadPaged(objectFormmated);
       setAllPurchases(response.instances ?? []);
       setTotalPage(parseInt(response.totalPages.toString(), 10));
     } catch (error) {
@@ -153,6 +168,7 @@ export function usePurchase() {
     sumPurchasesState,
     totalPage,
     reloadPage,
+    searchParams,
     handleClickEdit,
     handleClickDelete,
     handleCloseModalEdit,

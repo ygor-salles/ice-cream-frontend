@@ -1,3 +1,4 @@
+import { ILoadPagedPurchasesDTORequest } from 'shared/services/PurchaseService/dtos/ILoadPagedPurchasesDTO';
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
 import { getLocalDate } from 'shared/utils/getLocalDate';
@@ -28,6 +29,14 @@ export interface IFormPurchase {
   created_at: string;
   file?: File;
   nf_url?: string;
+}
+
+export interface IFormFilterPurchasePage {
+  provider_name?: string;
+  provider_id?: string;
+  observation?: string;
+  start_date?: string;
+  end_date?: string;
 }
 
 export const fieldsPurchase = {
@@ -145,4 +154,28 @@ export const transformObjectFilter = (
     object.provider_id = Number(dataForm.provider_id);
   }
   return object;
+};
+
+export const transformObjectFilterPurchase = (dataForm: ILoadPagedPurchasesDTORequest) => {
+  const { limit, page, provider_id, end_date, observation, start_date } = dataForm;
+
+  const obj: ILoadPagedPurchasesDTORequest = { limit, page };
+
+  const clientOk = provider_id && provider_id !== 'null' && provider_id.length > 0;
+  const observationOk = observation && observation !== 'null' && observation.length > 0;
+  const startDateOk = start_date && start_date !== 'null' && start_date.length > 0;
+  const endDateOk = end_date && end_date !== 'null' && end_date.length > 0;
+
+  if (clientOk) {
+    obj.provider_id = provider_id;
+  }
+  if (observationOk) {
+    obj.observation = observation;
+  }
+  if (startDateOk && endDateOk) {
+    obj.start_date = start_date;
+    obj.end_date = end_date;
+  }
+
+  return obj;
 };

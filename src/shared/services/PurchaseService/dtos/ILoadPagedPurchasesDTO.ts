@@ -20,3 +20,12 @@ export interface ILoadPagedPurchasesDTOResponse {
   offset: number;
   instances: Array<InstancePurchase>;
 }
+
+export interface ILoadPagedPurchasesDTORequest {
+  limit: number;
+  page: number;
+  provider_id?: string;
+  observation?: string;
+  start_date?: string;
+  end_date?: string;
+}

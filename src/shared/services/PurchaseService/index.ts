@@ -4,7 +4,10 @@ import { api } from '../api';
 import { ICreatePurchaseDTORequest, ICreatePurchaseDTOResponse } from './dtos/ICreatePurchaseDTO';
 import { IDeletePurchaseDTOResponse } from './dtos/IDeletePurchaseDTO';
 import { ILoadByIdPurchaseDTOResponse } from './dtos/ILoadByIdPurchaseDTO';
-import { ILoadPagedPurchasesDTOResponse } from './dtos/ILoadPagedPurchasesDTO';
+import {
+  ILoadPagedPurchasesDTORequest,
+  ILoadPagedPurchasesDTOResponse,
+} from './dtos/ILoadPagedPurchasesDTO';
 import { ILoadPurchaseDTOResponse } from './dtos/ILoadPurchaseDTO';
 import {
   ILoadSumPurchaseDTORequest,
@@ -74,9 +77,11 @@ export default class PurchaseService {
     return data;
   }
 
-  public async loadPaged(limit: number, page: number): Promise<ILoadPagedPurchasesDTOResponse> {
+  public async loadPaged(
+    params: ILoadPagedPurchasesDTORequest,
+  ): Promise<ILoadPagedPurchasesDTOResponse> {
     const { data } = await api.get<ILoadPagedPurchasesDTOResponse>(`${this.route}/paged`, {
-      params: { limit, page },
+      params: { ...params },
     });
     return data;
   }

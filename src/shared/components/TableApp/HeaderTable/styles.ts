@@ -1,5 +1,5 @@
 import { Card } from '@mui/material';
-import { SelectApp } from 'shared/components/SelectApp';
+import { SelectApp } from 'shared/components';
 import styled, { css } from 'styled-components';
 
 interface IStyledAccordion {

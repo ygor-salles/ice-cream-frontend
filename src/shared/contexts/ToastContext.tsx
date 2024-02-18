@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import { Snackbar } from 'shared/components/SnackBar';
+import { Snackbar } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 
 import { IToast, ToastContextData } from './utils/types';

@@ -2,7 +2,7 @@ import { AddBox } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Pagination } from 'shared/components/Pagination';
+import { Pagination } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import { RoutesEnum } from 'shared/constants/routesList';

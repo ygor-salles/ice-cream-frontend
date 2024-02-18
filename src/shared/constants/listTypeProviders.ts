@@ -1,4 +1,4 @@
-import { TypeDefaultOptions } from 'shared/components/SelectApp';
+import { TypeDefaultOptions } from 'shared/components';
 import { EnumTypeProvider } from 'shared/dtos/IProviderDTO';
 
 export const LISTTYPEPROVIDER: TypeDefaultOptions[] = [

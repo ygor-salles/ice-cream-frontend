@@ -1,6 +1,6 @@
 import { AttachMoney as MuiAttachMoney } from '@mui/icons-material';
 import { Card as MuiCard, Typography } from '@mui/material';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
+import { ButtonSubmitApp } from 'shared/components';
 import styled, { css } from 'styled-components';
 import { Colors, mediaQuery } from 'styles/global';
 

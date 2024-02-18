@@ -1,7 +1,7 @@
 import providerImage from 'assets/provider.svg';
 import purchaseImage from 'assets/purchase.svg';
 import { useNavigate } from 'react-router-dom';
-import SplashScreen from 'shared/components/splashScreen/SplashScreen';
+import { SplashScreen } from 'shared/components';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { LayoutBaseDePagina } from 'shared/layouts';
 

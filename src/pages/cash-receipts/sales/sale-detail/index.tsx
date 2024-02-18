@@ -4,9 +4,8 @@ import { Button } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
-import DialogInfo from 'shared/components/dialog/Dialog';
-import { ToastType } from 'shared/components/snackBar/enum';
+import { CheckboxApp, DialogInfo } from 'shared/components';
+import { ToastType } from 'shared/components/SnackBar/enum';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
   EnumTypeSale,

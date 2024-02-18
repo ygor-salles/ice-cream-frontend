@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ToastType } from 'shared/components/snackBar/enum';
+import { ToastType } from 'shared/components/SnackBar/enum';
 import {
   IFormFilterPurchase,
   IFormPurchase,

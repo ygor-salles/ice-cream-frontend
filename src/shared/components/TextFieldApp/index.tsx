@@ -1,0 +1,130 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from 'react';
+import { Control, Controller } from 'react-hook-form';
+
+import { NumberFormatCustom } from '../NumberFormatCustom';
+import { TextMaskCustom } from '../TextMaskCustom';
+import { StyledTextField, StyledLocalPhone, StyledPhoneAndroid } from './styles';
+
+interface TextFieldPropsApp {
+  name: string;
+  control: Control<any>;
+  label: React.ReactNode;
+  type?: React.HTMLInputTypeAttribute;
+  required?: boolean;
+  inputMode?: 'email' | 'search' | 'tel' | 'text' | 'url' | 'none' | 'numeric' | 'decimal';
+  disabled?: boolean;
+  mask?: string;
+  currency?: boolean;
+  renderLeft?: React.ReactNode;
+  renderRight?: React.ReactNode;
+  variant?: 'outlined' | 'filled' | 'standard';
+  onChangeStateController?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  handleSearch?: (value: string) => void;
+}
+
+export function TextFieldApp({
+  name,
+  control,
+  label,
+  type,
+  required,
+  inputMode,
+  disabled,
+  mask,
+  currency,
+  renderLeft,
+  renderRight,
+  variant = 'standard',
+  onChangeStateController,
+  handleSearch,
+  ...rest
+}: TextFieldPropsApp): JSX.Element {
+  const [maskState, setMaskState] = useState(mask);
+
+  return control ? (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
+        <StyledTextField
+          label={label}
+          value={value || ''}
+          onChange={onChange}
+          InputProps={
+            mask
+              ? {
+                  inputComponent: TextMaskCustom as any,
+                  inputProps: { mask: maskState },
+                  startAdornment: renderLeft,
+                  endAdornment:
+                    type === 'tel' ? (
+                      maskState.length >= 15 ? (
+                        <StyledLocalPhone onClick={() => setMaskState('(00) 0000-0000')} />
+                      ) : (
+                        <StyledPhoneAndroid onClick={() => setMaskState('(00) 00000-0000')} />
+                      )
+                    ) : (
+                      renderRight
+                    ),
+                }
+              : currency
+              ? {
+                  inputComponent: NumberFormatCustom as any,
+                  startAdornment: renderLeft,
+                  endAdornment: renderRight,
+                }
+              : { startAdornment: renderLeft, endAdornment: renderRight }
+          }
+          variant={variant}
+          type={type}
+          inputMode={inputMode}
+          error={!!error}
+          helperText={error ? error.message : null}
+          required={required}
+          fullWidth
+          disabled={disabled}
+          {...rest}
+        />
+      )}
+    />
+  ) : (
+    <StyledTextField
+      label={label}
+      onChange={onChangeStateController}
+      onKeyUp={handleSearch ? (e: any) => handleSearch(e.target.value) : undefined}
+      InputProps={
+        mask
+          ? {
+              inputComponent: TextMaskCustom as any,
+              inputProps: { mask: maskState },
+              startAdornment: renderLeft,
+              endAdornment:
+                type === 'tel' ? (
+                  maskState.length >= 15 ? (
+                    <StyledLocalPhone onClick={() => setMaskState('(00) 0000-0000')} />
+                  ) : (
+                    <StyledPhoneAndroid onClick={() => setMaskState('(00) 00000-0000')} />
+                  )
+                ) : (
+                  renderRight
+                ),
+            }
+          : currency
+          ? {
+              inputComponent: NumberFormatCustom as any,
+              startAdornment: renderLeft,
+              endAdornment: renderRight,
+            }
+          : { startAdornment: renderLeft, endAdornment: renderRight }
+      }
+      variant="standard"
+      type={type}
+      inputMode={inputMode}
+      required={required}
+      fullWidth
+      disabled={disabled}
+      {...rest}
+    />
+  );
+}

@@ -2,7 +2,7 @@ import {
   IRenderInputSearch,
   ITypeColumnConfig,
   ITypeColumnLabel,
-} from 'shared/components/table/types';
+} from 'shared/components/TableApp/types';
 
 // Table Row --------------------------
 export const columnType = {

@@ -3,8 +3,7 @@ import { ReportOff, Report } from '@mui/icons-material';
 import { Dialog, DialogContent, DialogTitle, Grid, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
-import TextFieldApp from 'shared/components/textField/TextField';
+import { FooterDialogActions, TextFieldApp } from 'shared/components';
 import {
   defaultValuesClientEdit,
   fieldsClient,

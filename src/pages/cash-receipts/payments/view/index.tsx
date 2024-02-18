@@ -9,9 +9,8 @@ import {
   Skeleton,
 } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import DialogInfo from 'shared/components/dialog/Dialog';
-import { Pagination } from 'shared/components/pagination/Pagination';
-import { ToastType } from 'shared/components/snackBar/enum';
+import { DialogInfo, Pagination } from 'shared/components';
+import { ToastType } from 'shared/components/SnackBar/enum';
 import { LIMIT_PAGED } from 'shared/constants/limitPaged';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { IFormFilterPaymentPage } from 'shared/dtos/IPaymentDTO';

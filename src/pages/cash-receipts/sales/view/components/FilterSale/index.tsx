@@ -9,10 +9,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import AutoComplete from 'shared/components/autocomplete/Autocomplete';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
-import DatePicker from 'shared/components/datePicker/DatePicker';
-import TextFieldApp from 'shared/components/textField/TextField';
+import { AutoComplete, ButtonSubmitApp, DatePicker, TextFieldApp } from 'shared/components';
 import { IFormFilterSalePage } from 'shared/dtos/ISaleDTO';
 import { useDrawerContext } from 'shared/hooks/useDrawerContext';
 

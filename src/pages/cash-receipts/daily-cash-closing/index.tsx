@@ -4,9 +4,7 @@ import { Button, Skeleton, Theme, Typography, useMediaQuery } from '@mui/materia
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
-import DatePicker from 'shared/components/datePicker/DatePicker';
-import TextFieldApp from 'shared/components/textField/TextField';
+import { ButtonSubmitApp, DatePicker, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants/routesList';
 import {
   defaultValuesCashClosing,

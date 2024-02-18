@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { ToastType } from 'shared/components/snackBar/enum';
+import { ToastType } from 'shared/components/SnackBar/enum';
 import { IFormProvider, IProviderDTO, transformObject } from 'shared/dtos/IProviderDTO';
 import ProviderService from 'shared/services/ProviderService';
 

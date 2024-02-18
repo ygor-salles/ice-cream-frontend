@@ -3,9 +3,7 @@ import { ArrowBack } from '@mui/icons-material';
 import { Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
-import SelectApp from 'shared/components/select/Select';
-import TextFieldApp from 'shared/components/textField/TextField';
+import { ButtonSubmitApp, SelectApp, TextFieldApp } from 'shared/components';
 import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
 import { RoutesEnum } from 'shared/constants/routesList';
 import {

@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { ToastType } from 'shared/components/snackBar/enum';
+import { ToastType } from 'shared/components/SnackBar/enum';
 import { ICombinationDTO, IFormCombination, transformObject } from 'shared/dtos/ICombinationDTO';
 import CombinationService from 'shared/services/CombinationService';
 

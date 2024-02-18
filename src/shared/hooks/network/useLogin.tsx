@@ -1,4 +1,4 @@
-import { ToastType } from 'shared/components/snackBar/enum';
+import { ToastType } from 'shared/components/SnackBar/enum';
 
 import { IAuthResponse } from '../../contexts/utils/types';
 import { IFormLogin } from '../../dtos/ILoginDTO';

@@ -2,11 +2,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
-import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
-import InputFile from 'shared/components/inputFile/InputFile';
-import SelectApp from 'shared/components/select/Select';
-import TextFieldApp from 'shared/components/textField/TextField';
+import {
+  FooterDialogActions,
+  InputFile,
+  CheckboxApp,
+  TextFieldApp,
+  SelectApp,
+} from 'shared/components';
 import {
   defaultValuesPurchaseEdit,
   fieldsPurchase,

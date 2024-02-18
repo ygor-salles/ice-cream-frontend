@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { createContext, useCallback, useState } from 'react';
-import { ToastType } from 'shared/components/snackBar/enum';
+import { ToastType } from 'shared/components/SnackBar/enum';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
 import { IProductDTO } from 'shared/dtos/IProductDTO';

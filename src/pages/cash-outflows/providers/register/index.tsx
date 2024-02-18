@@ -3,9 +3,7 @@ import { ArrowBack } from '@mui/icons-material';
 import { Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
-import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
-import TextFieldApp from 'shared/components/textField/TextField';
+import { ButtonSubmitApp, CheckboxApp, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants/routesList';
 import {
   defaultValuesProvider,

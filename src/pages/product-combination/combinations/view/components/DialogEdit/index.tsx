@@ -1,8 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
-import TextFieldApp from 'shared/components/textField/TextField';
+import { FooterDialogActions, TextFieldApp } from 'shared/components';
 import {
   defaultValuesCombinationEdit,
   fieldsCombination,

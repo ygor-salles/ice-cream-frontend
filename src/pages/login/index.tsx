@@ -10,7 +10,7 @@ import { defaultValuesLogin, fieldsLogin, IFormLogin, schemaLogin } from 'shared
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 import { useAuthContext } from 'shared/hooks/useAuthContext';
 
-import TextFieldApp from '../../shared/components/textField/TextField';
+import { TextFieldApp } from '../../shared/components';
 import { Container, Form } from './styles';
 
 export const Login: React.FC = () => {

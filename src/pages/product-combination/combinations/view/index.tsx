@@ -2,15 +2,15 @@ import { AddBox, FilterAlt, ArrowBack } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DialogInfo from 'shared/components/dialog/Dialog';
 import {
+  DialogInfo,
   ActionComponent,
   _renderBasicDate,
   _renderBasicTextCell,
   _renderBasicToCurrency,
-} from 'shared/components/renderCellTable/RenderCellTable';
-import TableApp from 'shared/components/table/TableApp';
-import { ITypeComponents } from 'shared/components/table/types';
+  TableApp,
+} from 'shared/components';
+import { ITypeComponents } from 'shared/components/TableApp/types';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
 import { useCombination } from 'shared/hooks/network/useCombination';

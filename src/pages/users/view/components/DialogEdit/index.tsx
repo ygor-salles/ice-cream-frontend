@@ -3,9 +3,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Dialog, DialogContent, DialogTitle, Grid, IconButton } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
-import SelectApp from 'shared/components/select/Select';
-import TextFieldApp from 'shared/components/textField/TextField';
+import { FooterDialogActions, SelectApp, TextFieldApp } from 'shared/components';
 import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
 import {
   defaultValuesUserEdit,

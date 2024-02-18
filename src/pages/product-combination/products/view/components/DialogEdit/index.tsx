@@ -1,9 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
-import SelectApp from 'shared/components/select/Select';
-import TextFieldApp from 'shared/components/textField/TextField';
+import { FooterDialogActions, SelectApp, TextFieldApp } from 'shared/components';
 import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
 import {
   defaultValuesProductEdit,

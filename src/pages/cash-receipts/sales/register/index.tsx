@@ -4,11 +4,13 @@ import { ArrowBack, AttachMoney } from '@mui/icons-material';
 import { Button, Skeleton } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import AutoComplete from 'shared/components/autocomplete/Autocomplete';
-import SelectApp from 'shared/components/select/Select';
-import SelectMultiple from 'shared/components/selectMultiple/SelectMultiple';
-import TextFieldApp from 'shared/components/textField/TextField';
-import TextFieldCount from 'shared/components/textFieldCount/TextFieldCount';
+import {
+  AutoComplete,
+  SelectApp,
+  SelectMultiple,
+  TextFieldApp,
+  TextFieldCount,
+} from 'shared/components';
 import { LISTTYPESALES } from 'shared/constants/listTypeSales';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';

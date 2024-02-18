@@ -2,13 +2,13 @@ import { FilterAlt, Refresh } from '@mui/icons-material';
 import { Button, Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
+  TableApp,
   _renderBasicToCurrency,
   _renderSaleClientName,
   _renderSaleProductName,
-} from 'shared/components/renderCellTable/RenderCellTable';
-import { ToastType } from 'shared/components/snackBar/enum';
-import TableApp from 'shared/components/table/TableApp';
-import { ITypeComponents } from 'shared/components/table/types';
+} from 'shared/components';
+import { ToastType } from 'shared/components/SnackBar/enum';
+import { ITypeComponents } from 'shared/components/TableApp/types';
 import { localStorageKeys } from 'shared/constants/localStorageKeys';
 import { ISaleDTO } from 'shared/dtos/ISaleDTO';
 import { useSale } from 'shared/hooks/network/useSale';

@@ -1,15 +1,15 @@
 import { AddBox, FilterAlt } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
-import DialogInfo from 'shared/components/dialog/Dialog';
 import {
+  DialogInfo,
   ActionComponent,
   _renderBasicDate,
   _renderBasicTextCell,
   _renderRoleCell,
-} from 'shared/components/renderCellTable/RenderCellTable';
-import TableApp from 'shared/components/table/TableApp';
-import { ITypeComponents } from 'shared/components/table/types';
+  TableApp,
+} from 'shared/components';
+import { ITypeComponents } from 'shared/components/TableApp/types';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { IUserDTO } from 'shared/dtos/IUserDTO';
 import { useUser } from 'shared/hooks/network/useUser';

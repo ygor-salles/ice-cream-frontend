@@ -1,7 +1,6 @@
 import { AddCircle as MuiAddCircle } from '@mui/icons-material';
 import { AccordionSummary, Typography } from '@mui/material';
-import SelectApp from 'shared/components/select/Select';
-import TextFieldApp from 'shared/components/textField/TextField';
+import { SelectApp, TextFieldApp } from 'shared/components';
 import styled from 'styled-components';
 import { Colors, mediaQuery } from 'styles/global';
 

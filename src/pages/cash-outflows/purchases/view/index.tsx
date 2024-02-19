@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AddBox } from '@mui/icons-material';
 import { Dialog, Skeleton, Theme, useMediaQuery } from '@mui/material';
-import dump from 'assets/dump.png';
+import { images } from 'assets';
 import { useEffect, useMemo, useState } from 'react';
 import { DialogInfo, Pagination } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
@@ -137,7 +137,7 @@ export function Purchases(): JSX.Element {
 
       {!!showImgUrl.length && (
         <Dialog open={!!showImgUrl.length} onClose={() => setShowImgUrl('')}>
-          <ImgDialog src={showImgUrl.length ? transformImageUrl(showImgUrl) : dump} />
+          <ImgDialog src={showImgUrl.length ? transformImageUrl(showImgUrl) : images.dump} />
           <Close onClick={() => setShowImgUrl('')} />
         </Dialog>
       )}

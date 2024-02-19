@@ -1,8 +1,4 @@
-import closingBoxImage from 'assets/closing-box.svg';
-import customerCreamImage from 'assets/customer.svg';
-import paymentImage from 'assets/payment.svg';
-import produceProductImage from 'assets/produce-product.svg';
-import salesImage from 'assets/sales.svg';
+import { images } from 'assets';
 import { useNavigate } from 'react-router-dom';
 import { SplashScreen } from 'shared/components';
 import { RoutesEnum } from 'shared/constants/routesList';
@@ -19,7 +15,7 @@ export function CashReceipts() {
           {
             title: 'Tela de clientes',
             description: 'Cadastre novos clientes para ter controle sobre vendas a prazo',
-            srcImage: customerCreamImage,
+            srcImage: images.customer,
             altImage: 'clientes',
             onNavigate: () => navigate(RoutesEnum.CLIENTS),
           },
@@ -27,21 +23,21 @@ export function CashReceipts() {
             title: 'Tela de pagamentos',
             description:
               'Cadastre os pagamentos dos clientes referente as dívidas que possuem com seu negócio',
-            srcImage: paymentImage,
+            srcImage: images.payment,
             altImage: 'pagamentos',
             onNavigate: () => navigate(RoutesEnum.PAYMENTS),
           },
           {
             title: 'Tela de vendas',
             description: 'Cadastre suas vendas ao decorrer do dia',
-            srcImage: salesImage,
+            srcImage: images.sales,
             altImage: 'vendas',
             onNavigate: () => navigate(RoutesEnum.SALES_CREATE),
           },
           {
             title: 'Fechamento diário',
             description: 'Cadastre suas vendas que ocorreram no dia (somente no final do dia)',
-            srcImage: closingBoxImage,
+            srcImage: images.closingBox,
             altImage: 'fechamento de caixa',
             onNavigate: () => navigate(RoutesEnum.DAILY_CASH_CLOSING),
           },
@@ -49,7 +45,7 @@ export function CashReceipts() {
             title: 'Pedidos ativos',
             description:
               'Visualize os pedidos ativos para entrega e marque aqueles que ja foram finalizados',
-            srcImage: produceProductImage,
+            srcImage: images.produceProduct,
             altImage: 'produzindo produto',
             onNavigate: () => navigate(RoutesEnum.ORDERS_ACTIVES),
           },

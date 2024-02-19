@@ -9,7 +9,7 @@ import iceCream from './ice-cream.svg';
 import iceCream2 from './icecream_5nd69k2ouf5k.svg';
 import logo from './logo.png';
 import payment from './payment.svg';
-import producrProduct from './produce-product.svg';
+import produceProduct from './produce-product.svg';
 import provider from './provider.svg';
 import purchase from './purchase.svg';
 import saidas from './saídas.svg';
@@ -28,7 +28,7 @@ export const images = {
   iceCream2,
   logo,
   payment,
-  producrProduct,
+  produceProduct,
   provider,
   purchase,
   saidas,

@@ -1,6 +1,6 @@
 import { ArrowBack } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
-import img from 'assets/401-ErrorUnauthorized-rafiki.png';
+import { images } from 'assets';
 import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
@@ -33,7 +33,7 @@ export const ProtectedLayout = ({ accessUser, children }: ProtectedLayoutProps) 
         </Button>
       </HeaderUnauth>
 
-      <ImgUnauthorized src={img} alt="unauthorized" />
+      <ImgUnauthorized src={images.errorUnauthorized} alt="unauthorized" />
     </WrapperUnauth>
   );
 };

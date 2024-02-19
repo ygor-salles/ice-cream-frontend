@@ -1,20 +1,20 @@
-import errorUnauthorized from './401-ErrorUnauthorized-rafiki.png';
-import closingBox from './closing-box.svg';
-import combinations from './combinations.svg';
-import customer from './customer.svg';
-import devicesFrames from './deviceframes.png';
-import dump from './dump.png';
-import entradas from './entradas.svg';
-import iceCream from './ice-cream.svg';
-import iceCream2 from './icecream_5nd69k2ouf5k.svg';
-import logo from './logo.png';
-import payment from './payment.svg';
-import produceProduct from './produce-product.svg';
-import provider from './provider.svg';
-import purchase from './purchase.svg';
-import saidas from './saídas.svg';
-import sales from './sales.svg';
-import total from './total.svg';
+import errorUnauthorized from './png/errorUnauthorized.png';
+import closingBox from './svg/closing-box.svg';
+import combinations from './svg/combinations.svg';
+import customer from './svg/customer.svg';
+import devicesFrames from './png/deviceframes.png';
+import dump from './png/dump.png';
+import entradas from './svg/entradas.svg';
+import iceCream from './svg/ice-cream.svg';
+import iceCream2 from './svg/icecream_5nd69k2ouf5k.svg';
+import logo from './png/logo.png';
+import payment from './svg/payment.svg';
+import produceProduct from './svg/produce-product.svg';
+import provider from './svg/provider.svg';
+import purchase from './svg/purchase.svg';
+import saidas from './svg/saídas.svg';
+import sales from './svg/sales.svg';
+import total from './svg/total.svg';
 
 export const images = {
   errorUnauthorized,

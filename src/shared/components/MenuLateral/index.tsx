@@ -11,7 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import logoImg from 'assets/icecream_5nd69k2ouf5k.svg';
+import { images } from 'assets';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants/routesList';
@@ -68,7 +68,7 @@ export const MenuLateral = ({ children }: MenuLateralProps) => {
       >
         <Container width={theme.spacing(28)} sx={{ bgcolor: 'primary.main' }}>
           <ContentLogo>
-            <Image src={logoImg} alt="logo" />
+            <Image src={images.logo} alt="logo" />
             <Title>Sorveteria da</Title>
             <Title>Vilma</Title>
           </ContentLogo>

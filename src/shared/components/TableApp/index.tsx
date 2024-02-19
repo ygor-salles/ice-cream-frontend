@@ -36,18 +36,22 @@ export const TableApp = ({
 }: TableAppProps) => {
   const [dataState, setDataState] = useState(data);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const columnConfigKeys = [...Object.entries(columnConfig).map(([key, value]) => key)];
 
   const columnConfigKeysCollapse = columnConfigCollapse
-    ? [...Object.entries(columnConfigCollapse).map(([key, value]) => key)]
+    ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      [...Object.entries(columnConfigCollapse).map(([key, value]) => key)]
     : undefined;
 
   const mappedColumn = mappedColumnSubObject
-    ? [...Object.entries(mappedColumnSubObject).map(([key, value]) => value)]
+    ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      [...Object.entries(mappedColumnSubObject).map(([key, value]) => value)]
     : undefined;
 
   const mappedColumnCollapse = mappedColumnSubObjectCollapse
-    ? [...Object.entries(mappedColumnSubObjectCollapse).map(([key, value]) => value)]
+    ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      [...Object.entries(mappedColumnSubObjectCollapse).map(([key, value]) => value)]
     : undefined;
 
   const [page, setPage] = useState(0);
@@ -67,13 +71,8 @@ export const TableApp = ({
   };
 
   const handleSearch = useCallback(
-    (
-      value: string,
-      searchPropertName: string,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      type: keyof typeof TypeColumnTableEnum,
-    ) => {
-      const newUpdateInstance: any[] = [];
+    (value: string, searchPropertName: string, type: keyof typeof TypeColumnTableEnum) => {
+      const newUpdateInstance: unknown[] = [];
       const textTyped = new RegExp(value.toUpperCase(), 'i');
       const propert = searchPropertName.split('.')[0];
       const subPropert = searchPropertName.split('.')[1];

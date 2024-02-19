@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
   Checkbox,
@@ -34,11 +33,14 @@ export const SelectMultiple = ({
     fieldState: { error },
   } = useController({ name, control });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: SelectChangeEvent<any>) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const value = event.target.value as any;
 
     let duplicateRemoved = [];
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value.forEach((item: any) => {
       if (duplicateRemoved.findIndex(o => o.id === item.id) >= 0) {
         duplicateRemoved = duplicateRemoved.filter(x => x.id !== item.id);

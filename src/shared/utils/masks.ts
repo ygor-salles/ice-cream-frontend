@@ -1,6 +1,5 @@
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 
-/* eslint-disable no-param-reassign */
 export default class Mask {
   static currency(text: string): string {
     let value = text;

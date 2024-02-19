@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Autocomplete, TextField } from '@mui/material';
 import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
@@ -35,7 +34,7 @@ export const AutoComplete = ({
         <Autocomplete
           options={sortedOptions}
           value={value ?? ''}
-          onChange={(_, newValue: any) => onChange(newValue ?? '')}
+          onChange={(_, newValue) => onChange(newValue ?? '')}
           onClose={onClose}
           disabled={disabled}
           renderInput={params => (

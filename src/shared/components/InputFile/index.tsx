@@ -27,7 +27,7 @@ export const InputFile = ({
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
-    reader.onloadend = (e: any) => {
+    reader.onloadend = () => {
       setImgSrcState(reader.result as string);
       onChange(file);
     };

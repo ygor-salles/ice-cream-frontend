@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack, AttachMoney } from '@mui/icons-material';
 import { Button, Skeleton } from '@mui/material';

@@ -3,6 +3,7 @@ import NumberFormat from 'react-number-format';
 
 import { CustomProps } from './types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function currencyFormatter(value: any): string {
   if (!Number(value)) return '';
 
@@ -14,6 +15,7 @@ function currencyFormatter(value: any): string {
   return `${amount}`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const NumberFormatCustom = React.forwardRef<NumberFormat<any>, CustomProps>(
   function NumberFormatCustom(props, ref) {
     const { onChange, ...other } = props;

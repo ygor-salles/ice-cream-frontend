@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 
@@ -38,6 +37,7 @@ export function TextFieldApp({
           InputProps={
             mask
               ? {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   inputComponent: TextMaskCustom as any,
                   inputProps: { mask: maskState },
                   startAdornment: renderLeft,
@@ -54,6 +54,7 @@ export function TextFieldApp({
                 }
               : currency
               ? {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   inputComponent: NumberFormatCustom as any,
                   startAdornment: renderLeft,
                   endAdornment: renderRight,
@@ -76,10 +77,12 @@ export function TextFieldApp({
     <StyledTextField
       label={label}
       onChange={onChangeStateController}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onKeyUp={handleSearch ? (e: any) => handleSearch(e.target.value) : undefined}
       InputProps={
         mask
           ? {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               inputComponent: TextMaskCustom as any,
               inputProps: { mask: maskState },
               startAdornment: renderLeft,
@@ -96,6 +99,7 @@ export function TextFieldApp({
             }
           : currency
           ? {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               inputComponent: NumberFormatCustom as any,
               startAdornment: renderLeft,
               endAdornment: renderRight,

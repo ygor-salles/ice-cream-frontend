@@ -18,7 +18,7 @@ export const TextMaskCustom = React.forwardRef<HTMLElement, CustomProps>(functio
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       inputRef={ref}
-      onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+      onAccept={(value: unknown) => onChange({ target: { name: props.name, value } })}
       overwrite
     />
   );

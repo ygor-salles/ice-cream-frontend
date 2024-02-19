@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/ban-types */
 import { Collapse, Table, TableBody, TableHead, TableRow } from '@mui/material';
 import React, { useState } from 'react';
 
@@ -19,7 +17,6 @@ export const Row = ({
   renderCellHeaderCollapse,
   isMobile,
   mappedColumn,
-  mappedColumnCollapse,
   renderCollapse,
 }: RowProps) => {
   const [open, setOpen] = useState(false);

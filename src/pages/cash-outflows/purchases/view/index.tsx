@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AddBox } from '@mui/icons-material';
 import { Dialog, Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { images } from 'assets';

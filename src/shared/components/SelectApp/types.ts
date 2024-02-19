@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SelectChangeEvent } from '@mui/material';
 import { Control } from 'react-hook-form';
 
@@ -9,7 +8,9 @@ export interface TypeDefaultOptions {
 
 export interface SelectPropsApp {
   name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: any[];
   label: React.ReactNode;
   required?: boolean;
@@ -21,5 +22,6 @@ export interface SelectPropsApp {
   defaultValue?: string;
   onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   onClose?: (event: React.SyntheticEvent<Element, Event>) => void;
-  onChangeStateController?: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChangeStateController?: (event: SelectChangeEvent<any>, child: React.ReactNode) => void;
 }

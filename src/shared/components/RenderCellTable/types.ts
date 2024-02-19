@@ -6,9 +6,9 @@ export interface SwitchComponentProps {
 
 export interface ActionComponentProps {
   smDown: boolean;
-  rowData: any;
+  rowData: unknown;
   accessDelete?: boolean;
   accessEdit?: boolean;
-  handleClickEdit?: (data: any) => void;
-  handleClickDelete?: (data: any) => void;
+  handleClickEdit?: (data: unknown) => void;
+  handleClickDelete?: (data: unknown) => void;
 }

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
 import { Button, Dialog, Theme, Typography, useMediaQuery } from '@mui/material';
@@ -56,7 +54,7 @@ export const DialogCreateSale = ({ open, onClose, onSubmit }: DialogCreateSalePr
     }
   };
 
-  const onCloseSelectProduct = async (_: any) => {
+  const onCloseSelectProduct = async () => {
     const product_name = getValues('product_name');
 
     if (product_name?.length > 0) {
@@ -94,7 +92,7 @@ export const DialogCreateSale = ({ open, onClose, onSubmit }: DialogCreateSalePr
     }
   };
 
-  const onCloseSelectCombinations = (_: any) => {
+  const onCloseSelectCombinations = () => {
     const optionsCombinations = getValues('combinations');
     const priceProduct = getValues('data_product.price');
     const amount = Number(getValues('amount'));

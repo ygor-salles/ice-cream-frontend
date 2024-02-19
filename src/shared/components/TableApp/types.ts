@@ -18,6 +18,7 @@ export interface ITypeColumnLabel {
 }
 
 export interface ITypeComponents {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [x: string]: (value?: any, data?: object, rowIndex?: number, isChecked?: boolean) => JSX.Element;
 }
 
@@ -39,6 +40,7 @@ export interface TableAppProps {
   tableName: string;
   columnConfig: ITypeColumnConfig;
   columnConfigCollapse?: ITypeColumnConfig;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
   components: ITypeComponents;
   componentsCollapse?: ITypeComponents;
@@ -51,5 +53,6 @@ export interface TableAppProps {
   renderInputSearchAndSelect?: IRenderInputSearch[];
   mappedColumnSubObject?: ITypeColumnType;
   mappedColumnSubObjectCollapse?: ITypeColumnType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderCollapse?: (rowData: any) => React.ReactElement;
 }

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 export function useCache() {
-  const isEqual = (arr1: any[], arr2: any[]) => {
+  const isEqual = (arr1: unknown[], arr2: unknown[]) => {
     if (arr1.length !== arr2.length) {
       return false;
     }
@@ -24,9 +24,9 @@ export function useCache() {
     return JSON.parse(json) ?? null;
   }, []);
 
-  const setDataLocalStorage = useCallback((key: string, data: any[] | any) => {
+  const setDataLocalStorage = useCallback((key: string, data: unknown[] | unknown) => {
     if (Array.isArray(data)) {
-      const dataCache: any[] = getDataLocalStorage(key);
+      const dataCache: unknown[] = getDataLocalStorage(key);
 
       if (dataCache && !isEqual(dataCache, data)) {
         localStorage.setItem(key, JSON.stringify(data));

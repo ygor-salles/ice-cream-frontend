@@ -41,11 +41,7 @@ interface SwitchComponentProps {
   onSubmitSwitchToogle: (isActive: boolean, id: number) => Promise<void>;
 }
 
-export const SwitchComponent: React.FC<SwitchComponentProps> = ({
-  id,
-  value,
-  onSubmitSwitchToogle,
-}) => (
+export const SwitchComponent = ({ id, value, onSubmitSwitchToogle }: SwitchComponentProps) => (
   <Switch
     onClick={e => e.stopPropagation()}
     onChange={e => onSubmitSwitchToogle(e.target.checked, id)}
@@ -62,14 +58,14 @@ interface ActionComponentProps {
   handleClickDelete?: (data: any) => void;
 }
 
-export const ActionComponent: React.FC<ActionComponentProps> = ({
+export const ActionComponent = ({
   smDown,
   rowData,
   accessDelete,
   accessEdit,
   handleClickEdit,
   handleClickDelete,
-}) => {
+}: ActionComponentProps) => {
   const { role } = useAuthContext();
 
   return (

@@ -23,12 +23,12 @@ interface PurchaseItemProps {
   setShowImgUrl: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const PurchaseItem: React.FC<PurchaseItemProps> = ({
+export const PurchaseItem = ({
   detailPurchase,
   handleClickEdit,
   handleClickDelete,
   setShowImgUrl,
-}) => {
+}: PurchaseItemProps) => {
   const { provider, created_at, value_total, nf_url, its_ice_cream_shoop } = detailPurchase;
 
   return (
@@ -59,5 +59,3 @@ const PurchaseItem: React.FC<PurchaseItemProps> = ({
     </ContainerItem>
   );
 };
-
-export default PurchaseItem;

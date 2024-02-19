@@ -1,4 +1,5 @@
 import { Theme, useMediaQuery, IconButton, Icon, Button, Container } from '@mui/material';
+import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDrawerContext } from 'shared/hooks/useDrawerContext';
 
@@ -14,6 +15,7 @@ import {
 } from './styles';
 
 interface ILayoutBaseDePaginaProps {
+  children: ReactNode;
   titulo: string;
   textButton?: string;
   navigatePage?: string;
@@ -28,7 +30,7 @@ interface ILayoutBaseDePaginaProps {
   onClickRight?: () => void;
   renderHeaderButton?: React.ReactElement;
 }
-export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
+export const LayoutBaseDePagina = ({
   children,
   titulo,
   navigatePage,
@@ -43,7 +45,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
   renderHeaderButton,
   onClick,
   onClickRight,
-}) => {
+}: ILayoutBaseDePaginaProps) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const mdDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 

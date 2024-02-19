@@ -53,7 +53,8 @@ interface CartListing {
   onClickSeconadary: () => void;
 }
 
-const CartListing: React.FC<CartListing> = ({
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const CartListing = ({
   listSale,
   observation,
   type_sale,
@@ -73,7 +74,7 @@ const CartListing: React.FC<CartListing> = ({
   onClickPrimary,
   onClickSeconadary,
   ...rest
-}) => {
+}: CartListing) => {
   const { themeName } = useThemeContext();
   const [expanded, setExpanded] = useState<string | false>(false);
 
@@ -227,5 +228,3 @@ const CartListing: React.FC<CartListing> = ({
     </Main>
   );
 };
-
-export default CartListing;

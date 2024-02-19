@@ -9,13 +9,13 @@ interface IButtonSubmitAppProps {
   disabled?: boolean;
 }
 
-export const ButtonSubmitApp: React.FC<IButtonSubmitAppProps> = ({
+export const ButtonSubmitApp = ({
   loading,
   smDown,
   textButton,
   disabled,
   ...props
-}) =>
+}: IButtonSubmitAppProps) =>
   smDown !== undefined ? (
     <ContentButton {...props}>
       <Button

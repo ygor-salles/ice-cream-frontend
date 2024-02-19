@@ -24,7 +24,7 @@ interface PropTypes {
   }>;
 }
 
-export const SplashScreen: React.FC<PropTypes> = ({ description, cardsList, ...props }) => {
+export const SplashScreen = ({ description, cardsList, ...props }: PropTypes) => {
   const { themeName } = useThemeContext();
 
   return (

@@ -11,13 +11,7 @@ interface PropTypes {
   onClick: (() => void) | undefined;
 }
 
-export const ListItemLink: React.FC<PropTypes> = ({
-  icon,
-  label,
-  onClick,
-  to,
-  loadingDataState,
-}) => {
+export const ListItemLink = ({ icon, label, onClick, to, loadingDataState }: PropTypes) => {
   const navigate = useNavigate();
 
   const resolvedPath = useResolvedPath(to);

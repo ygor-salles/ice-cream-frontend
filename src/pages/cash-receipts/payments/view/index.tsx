@@ -18,8 +18,8 @@ import { usePayment } from 'shared/hooks/network/usePayment';
 import { useToastContext } from 'shared/hooks/useToastContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
-import FilterPayment from './components/FilterPayment';
-import PaymentItem from './components/PaymentItem';
+import { FilterPayment } from './components/FilterPayment';
+import { PaymentItem } from './components/PaymentItem';
 
 export function Payments(): JSX.Element {
   const {

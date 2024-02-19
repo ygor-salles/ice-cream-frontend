@@ -13,11 +13,11 @@ interface PropTypes {
   onToggleRefreshPage: () => void;
 }
 
-const CollapseCombinations: React.FC<PropTypes> = ({
+export const CollapseCombinations = ({
   sale,
   onChangeUpdateSaleById,
   onToggleRefreshPage,
-}) => {
+}: PropTypes) => {
   const acais: IDataProduct[] = sale.data_product.filter(
     item => item.type === EnumTypeProduct.ACAI,
   );
@@ -71,5 +71,3 @@ const CollapseCombinations: React.FC<PropTypes> = ({
     </Container>
   );
 };
-
-export default CollapseCombinations;

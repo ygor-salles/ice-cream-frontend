@@ -17,7 +17,7 @@ import { useToastContext } from 'shared/hooks/useToastContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
-import CollapseCombinations from './components/CollapseCombinations';
+import { CollapseCombinations } from './components/CollapseCombinations';
 import { columnConfig, columnLabel, columnType, filterTable } from './constants';
 
 export function OrdersActives() {

@@ -27,7 +27,7 @@ interface PropTypes {
   onClose?: (event: React.SyntheticEvent<Element, Event>) => void;
 }
 
-export const SelectMultiple: React.FC<PropTypes> = ({
+export const SelectMultiple = ({
   name,
   control,
   options,
@@ -39,7 +39,7 @@ export const SelectMultiple: React.FC<PropTypes> = ({
   onBlur,
   onClose,
   ...rest
-}) => {
+}: PropTypes) => {
   const {
     field: { value, onChange },
     fieldState: { error },

@@ -13,7 +13,7 @@ import { useAuthContext } from 'shared/hooks/useAuthContext';
 import { TextFieldApp } from '../../shared/components';
 import { Container, Form } from './styles';
 
-export const Login: React.FC = () => {
+export const Login = () => {
   const navigate = useNavigate();
   const { authenticate } = useAuthContext();
   const [loading, setLoading] = useState(false);

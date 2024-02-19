@@ -12,7 +12,7 @@ import {
   useTheme,
 } from '@mui/material';
 import logoImg from 'assets/icecream_5nd69k2ouf5k.svg';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { useAuthContext } from 'shared/hooks/useAuthContext';
@@ -35,7 +35,11 @@ import {
   User,
 } from './styles';
 
-export const MenuLateral: React.FC = ({ children }) => {
+interface PropTypes {
+  children: ReactNode;
+}
+
+export const MenuLateral = ({ children }: PropTypes) => {
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();

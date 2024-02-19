@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import styled from 'styled-components';
 import { Colors } from 'styles/global';
 
-import CartListing from '../register/components/CartListing';
+import { CartListing } from '../register/components/CartListing';
 
 interface TextProps {
   bold?: boolean;

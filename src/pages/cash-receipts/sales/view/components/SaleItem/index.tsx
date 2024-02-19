@@ -13,10 +13,10 @@ interface SaleItemProps {
   detailSale: InstanceSale;
 }
 
-const SaleItem: React.FC<SaleItemProps> = ({
+export const SaleItem = ({
   onClick,
   detailSale: { data_product, total, client, type_sale, created_at, observation, in_progress },
-}) => {
+}: SaleItemProps) => {
   const hasAcai = useMemo(() => {
     return data_product && Array.isArray(data_product)
       ? Boolean(data_product?.find(item => item.type === EnumTypeProduct.ACAI))
@@ -71,5 +71,3 @@ const SaleItem: React.FC<SaleItemProps> = ({
     </Container>
   );
 };
-
-export default SaleItem;

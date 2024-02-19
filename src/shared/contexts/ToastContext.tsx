@@ -1,12 +1,16 @@
-import { createContext, useState } from 'react';
+import { ReactNode, createContext, useState } from 'react';
 import { Snackbar } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 
 import { IToast, ToastContextData } from './utils/types';
 
+interface ToastProviderProps {
+  children: ReactNode;
+}
+
 export const ToastContext = createContext<ToastContextData>({} as ToastContextData);
 
-export const ToastProvider: React.FC = ({ children }) => {
+export const ToastProvider = ({ children }: ToastProviderProps) => {
   const [toast, setToast] = useState<IToast>({
     open: false,
     message: '',

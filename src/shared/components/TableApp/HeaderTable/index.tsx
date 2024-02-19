@@ -4,13 +4,13 @@ import { TextFieldApp } from 'shared/components';
 import { StyledAccordion, CustomSelectApp } from './styles';
 import { HeaderTableProps } from './types';
 
-export const HeaderTable: React.FC<HeaderTableProps> = ({
+export const HeaderTable = ({
   open,
   renderInputSearchAndSelect,
   handleSearch,
   isMobile,
   ...rest
-}) => {
+}: HeaderTableProps) => {
   const defaultValue = renderInputSearchAndSelect[0].placeholder;
 
   const [searchSelectState, setSearchSelectState] = useState(defaultValue);

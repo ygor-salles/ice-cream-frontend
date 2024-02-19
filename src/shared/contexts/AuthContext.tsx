@@ -1,12 +1,16 @@
-import React, { createContext, useState } from 'react';
+import React, { ReactNode, createContext, useState } from 'react';
 import { useLogin } from 'shared/hooks/network/useLogin';
 
 import { IContext, IDescribedUser } from './utils/types';
 import { getDescribedToken, getTokenLocalStorage, setTokenLocalStorage } from './utils/utils';
 
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
 export const AuthContext = createContext<IContext>({} as IContext);
 
-export const AuthProvider: React.FC = ({ children }) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [describedUserState, setDescribedUserState] = useState<IDescribedUser | null>(() => {
     const objToken = getTokenLocalStorage();
 

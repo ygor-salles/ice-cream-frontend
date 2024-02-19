@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { StyledTableRow, StyledTableCell, TableCellCollapse, Container, Content } from './styles';
 import { RowProps } from './types';
 
-export const Row: React.FC<RowProps> = ({
+export const Row = ({
   columnConfig,
   columnConfigCollapse,
   columnConfigKeys,
@@ -21,7 +21,7 @@ export const Row: React.FC<RowProps> = ({
   mappedColumn,
   mappedColumnCollapse,
   renderCollapse,
-}) => {
+}: RowProps) => {
   const [open, setOpen] = useState(false);
 
   return (

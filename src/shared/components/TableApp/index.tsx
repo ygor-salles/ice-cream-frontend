@@ -18,7 +18,7 @@ import { Row } from './Row';
 import { StyledTableCell } from './styles';
 import { TableAppProps, TypeColumnTableEnum } from './types';
 
-export const TableApp: React.FC<TableAppProps> = ({
+export const TableApp = ({
   tableName,
   columnConfig,
   columnConfigCollapse,
@@ -33,7 +33,7 @@ export const TableApp: React.FC<TableAppProps> = ({
   renderCellHeaderCollapse,
   renderCellHeader,
   renderCollapse,
-}) => {
+}: TableAppProps) => {
   const [dataState, setDataState] = useState(data);
 
   const columnConfigKeys = [...Object.entries(columnConfig).map(([key, value]) => key)];

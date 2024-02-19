@@ -23,7 +23,7 @@ interface TextFieldCountProps {
   setStateCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const TextFieldCount: React.FC<TextFieldCountProps> = ({
+export const TextFieldCount = ({
   name,
   control,
   label,
@@ -33,7 +33,7 @@ export const TextFieldCount: React.FC<TextFieldCountProps> = ({
   stateCount,
   setStateCount,
   ...rest
-}) => {
+}: TextFieldCountProps) => {
   const { themeName } = useThemeContext();
 
   return (

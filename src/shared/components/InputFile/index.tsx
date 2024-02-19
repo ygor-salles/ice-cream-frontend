@@ -14,14 +14,7 @@ interface PropTypes {
   pathApi?: string;
 }
 
-export const InputFile: React.FC<PropTypes> = ({
-  control,
-  name,
-  isMobile,
-  label,
-  disabled,
-  pathApi,
-}) => {
+export const InputFile = ({ control, name, isMobile, label, disabled, pathApi }: PropTypes) => {
   const {
     field: { value, onChange },
     fieldState: { error },

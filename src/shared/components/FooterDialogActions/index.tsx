@@ -13,7 +13,7 @@ interface FooterDialogActionsProps {
   id?: number;
 }
 
-export const FooterDialogActions: React.FC<FooterDialogActionsProps> = ({
+export const FooterDialogActions = ({
   textButtonCancel,
   textButtonConfirm,
   onClose,
@@ -21,7 +21,7 @@ export const FooterDialogActions: React.FC<FooterDialogActionsProps> = ({
   isDialogDelete,
   onSubmitDelete,
   id,
-}) =>
+}: FooterDialogActionsProps) =>
   isDialogDelete ? (
     <StyledDialogActions>
       <StyledButton autoFocus variant="outlined" onClick={onClose} disabled={loading}>

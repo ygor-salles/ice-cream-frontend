@@ -11,11 +11,11 @@ interface PaymentProps {
   detailPayment: InstancePayment;
 }
 
-const PaymentItem: React.FC<PaymentProps> = ({
+export const PaymentItem = ({
   handleClickDelete,
   setShowModalObservation,
   detailPayment,
-}) => {
+}: PaymentProps) => {
   const { client, value, created_at, observation } = detailPayment;
 
   return (
@@ -41,5 +41,3 @@ const PaymentItem: React.FC<PaymentProps> = ({
     </Container>
   );
 };
-
-export default PaymentItem;

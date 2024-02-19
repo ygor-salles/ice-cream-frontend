@@ -14,7 +14,7 @@ interface PropTypes {
   onClose?: (event: React.SyntheticEvent<Element, Event>, reason: AutocompleteCloseReason) => void;
 }
 
-export const AutoComplete: React.FC<PropTypes> = ({
+export const AutoComplete = ({
   control,
   label,
   name,
@@ -23,7 +23,7 @@ export const AutoComplete: React.FC<PropTypes> = ({
   required,
   sortAlphabeticallyObject,
   onClose,
-}) => {
+}: PropTypes) => {
   const sortedOptions = useMemo(() => {
     const opt = sortAlphabeticallyObject
       ? options

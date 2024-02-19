@@ -23,10 +23,10 @@ import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDT
 import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
-import DialogCreateSale from '../view/components/DialogCreateSale';
+import { DialogCreateSale } from '../view/components/DialogCreateSale';
 import { StyledCardList, Text, WrapperDetail } from './styles';
 
-export const SaleDetail: React.FC = () => {
+export const SaleDetail = () => {
   const [disabledActions, setDisabledActions] = useState(true);
   const [showDialogSale, setShowDialogSale] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);

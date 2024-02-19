@@ -7,11 +7,10 @@ interface PropTypes extends UseControllerProps<any> {
   disabled?: boolean;
 }
 
-export const DatePicker: React.FC<PropTypes> = ({ label, children, ...props }) => {
+export const DatePicker = ({ label, ...props }: PropTypes) => {
   const {
     field,
     fieldState: { error },
-    formState,
   } = useController(props);
 
   return (

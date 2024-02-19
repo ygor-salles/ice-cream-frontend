@@ -14,8 +14,8 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 import transformImageUrl from 'shared/utils/transformImageUrl';
 
 import { DialogEdit } from './components/DialogEdit';
-import FilterPurchase from './components/FilterPurchase';
-import PurchaseItem from './components/PurchaseItem';
+import { FilterPurchase } from './components/FilterPurchase';
+import { PurchaseItem } from './components/PurchaseItem';
 import { Close, ImgDialog } from './styles';
 
 export function Purchases(): JSX.Element {

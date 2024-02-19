@@ -23,7 +23,7 @@ interface PropTypes {
   onSubmitFilter: (dataForm: IFormFilterPaymentPage) => Promise<void>;
 }
 
-const FilterPayment: React.FC<PropTypes> = ({ onSubmitFilter, loadingPayments }) => {
+export const FilterPayment = ({ onSubmitFilter, loadingPayments }: PropTypes) => {
   const [open, setOpen] = useState(false);
   const { handleSubmit, getValues, setValue, control, reset } = useForm<IFormFilterPaymentPage>({
     defaultValues,
@@ -111,5 +111,3 @@ const FilterPayment: React.FC<PropTypes> = ({ onSubmitFilter, loadingPayments })
     </StyledAccordion>
   );
 };
-
-export default FilterPayment;

@@ -33,7 +33,7 @@ import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
 import Mask from 'shared/utils/masks';
 
-import CartListing from './components/CartListing';
+import { CartListing } from './components/CartListing';
 import { Form, GridForm, Notificaion, StyledCard, Text, Wrapper, WrapperButtons } from './styles';
 
 export function RegisterSale(): JSX.Element {

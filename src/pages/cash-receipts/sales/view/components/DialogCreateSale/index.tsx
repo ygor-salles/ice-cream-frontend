@@ -27,7 +27,7 @@ interface PropTypes {
   onSubmit: (data: IFormSale) => void;
 }
 
-const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
+export const DialogCreateSale = ({ open, onClose, onSubmit }: PropTypes) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, setValue, reset, getValues } = useForm<IFormSale>({
@@ -198,5 +198,3 @@ const DialogCreateSale: React.FC<PropTypes> = ({ open, onClose, onSubmit }) => {
     </Dialog>
   );
 };
-
-export default DialogCreateSale;

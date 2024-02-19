@@ -12,8 +12,8 @@ import { useToastContext } from 'shared/hooks/useToastContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 
-import FilterSale from './components/FilterSale';
-import SaleItem from './components/SaleItem';
+import { FilterSale } from './components/FilterSale';
+import { SaleItem } from './components/SaleItem';
 
 export function Sales(): JSX.Element {
   const navigate = useNavigate();

@@ -1,36 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  FormHelperText,
-  SelectChangeEvent,
-} from '@mui/material';
-import { Control, Controller } from 'react-hook-form';
+import { FormControl, FormHelperText, InputLabel, MenuItem } from '@mui/material';
+import { Controller } from 'react-hook-form';
 
 import { StyledSelect } from './styles';
-
-export interface TypeDefaultOptions {
-  id: number;
-  name: string;
-}
-
-interface SelectPropsApp {
-  name: string;
-  control: Control<any>;
-  options: any[];
-  label: React.ReactNode;
-  required?: boolean;
-  disabled?: boolean;
-  setId?: boolean;
-  sortAlphabeticallyObject?: boolean;
-  sortAlphabeticallyString?: boolean;
-  variant?: 'outlined' | 'filled' | 'standard';
-  defaultValue?: string;
-  onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-  onClose?: (event: React.SyntheticEvent<Element, Event>) => void;
-  onChangeStateController?: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
-}
+import { SelectPropsApp } from './types';
 
 export function SelectApp({
   name,

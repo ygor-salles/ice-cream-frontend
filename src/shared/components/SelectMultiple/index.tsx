@@ -11,21 +11,10 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import { Control, useController } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
-interface PropTypes {
-  name: string;
-  control: Control<any>;
-  options: any[];
-  label: React.ReactNode;
-  required?: boolean;
-  disabled?: boolean;
-  sortAlphabeticallyObject?: boolean;
-  sortAlphabeticallyString?: boolean;
-  onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-  onClose?: (event: React.SyntheticEvent<Element, Event>) => void;
-}
+import { SelectMultipleProps } from './types';
 
 export const SelectMultiple = ({
   name,
@@ -39,7 +28,7 @@ export const SelectMultiple = ({
   onBlur,
   onClose,
   ...rest
-}: PropTypes) => {
+}: SelectMultipleProps) => {
   const {
     field: { value, onChange },
     fieldState: { error },

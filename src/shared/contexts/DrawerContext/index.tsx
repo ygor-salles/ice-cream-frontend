@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { ReactNode, createContext, useCallback, useState } from 'react';
+import { createContext, useCallback, useState } from 'react';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
@@ -9,11 +9,7 @@ import ClientService from 'shared/services/ClientService';
 import CombinationService from 'shared/services/CombinationService';
 import ProductService from 'shared/services/ProductService';
 
-import { IDrawerContextData, IDrawerOption } from './utils/types';
-
-interface DrawerProviderProps {
-  children: ReactNode;
-}
+import { DrawerProviderProps, IDrawerContextData, IDrawerOption } from './types';
 
 export const DrawerContext = createContext({} as IDrawerContextData);
 

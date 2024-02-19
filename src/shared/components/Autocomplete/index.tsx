@@ -1,18 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Autocomplete, AutocompleteCloseReason, TextField } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import { useMemo } from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
-interface PropTypes {
-  name: string;
-  control: Control<any>;
-  options: any[];
-  label: string;
-  required?: boolean;
-  disabled?: boolean;
-  sortAlphabeticallyObject?: boolean;
-  onClose?: (event: React.SyntheticEvent<Element, Event>, reason: AutocompleteCloseReason) => void;
-}
+import { AutoCompleteProps } from './types';
 
 export const AutoComplete = ({
   control,
@@ -23,7 +14,7 @@ export const AutoComplete = ({
   required,
   sortAlphabeticallyObject,
   onClose,
-}: PropTypes) => {
+}: AutoCompleteProps) => {
   const sortedOptions = useMemo(() => {
     const opt = sortAlphabeticallyObject
       ? options

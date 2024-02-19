@@ -1,4 +1,4 @@
-import { TypeDefaultOptions } from 'shared/components';
+import { TypeDefaultOptions } from 'shared/components/SelectApp/types';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 
 export const LISTTYPEUSERS: TypeDefaultOptions[] = [

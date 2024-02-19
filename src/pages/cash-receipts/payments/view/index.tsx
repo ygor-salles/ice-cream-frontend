@@ -21,7 +21,7 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 import { FilterPayment } from './components/FilterPayment';
 import { PaymentItem } from './components/PaymentItem';
 
-export function Payments(): JSX.Element {
+export function Payments() {
   const {
     allPayments,
     loadingPayments,

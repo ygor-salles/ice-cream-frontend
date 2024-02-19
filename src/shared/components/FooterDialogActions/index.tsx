@@ -2,16 +2,7 @@ import { Button, CircularProgress } from '@mui/material';
 
 import { ButtonSubmitApp } from '../ButtonSubmitApp';
 import { StyledButton, StyledDialogActions } from './styles';
-
-interface FooterDialogActionsProps {
-  textButtonCancel: string;
-  textButtonConfirm: string;
-  onClose: () => void;
-  loading: boolean;
-  isDialogDelete?: boolean;
-  onSubmitDelete?: (id: number) => void;
-  id?: number;
-}
+import { FooterDialogActionsProps } from './types';
 
 export const FooterDialogActions = ({
   textButtonCancel,

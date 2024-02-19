@@ -18,7 +18,7 @@ import { FilterPurchase } from './components/FilterPurchase';
 import { PurchaseItem } from './components/PurchaseItem';
 import { Close, ImgDialog } from './styles';
 
-export function Purchases(): JSX.Element {
+export function Purchases() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {

@@ -1,20 +1,19 @@
 import { Upload } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
-import { Control, useController } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 import transformImageUrl from 'shared/utils/transformImageUrl';
 
 import { Close, ContentImage, ContentInputFile, ContentLabel, Img, TextError } from './styles';
+import { InputFileProps } from './types';
 
-interface PropTypes {
-  name: string;
-  label: string;
-  isMobile: boolean;
-  control: Control<any>;
-  disabled?: boolean;
-  pathApi?: string;
-}
-
-export const InputFile = ({ control, name, isMobile, label, disabled, pathApi }: PropTypes) => {
+export const InputFile = ({
+  control,
+  name,
+  isMobile,
+  label,
+  disabled,
+  pathApi,
+}: InputFileProps) => {
   const {
     field: { value, onChange },
     fieldState: { error },

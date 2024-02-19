@@ -1,27 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
 import { NumberFormatCustom } from '../NumberFormatCustom';
 import { TextMaskCustom } from '../TextMaskCustom';
 import { StyledTextField, StyledLocalPhone, StyledPhoneAndroid } from './styles';
-
-interface TextFieldPropsApp {
-  name: string;
-  control: Control<any>;
-  label: React.ReactNode;
-  type?: React.HTMLInputTypeAttribute;
-  required?: boolean;
-  inputMode?: 'email' | 'search' | 'tel' | 'text' | 'url' | 'none' | 'numeric' | 'decimal';
-  disabled?: boolean;
-  mask?: string;
-  currency?: boolean;
-  renderLeft?: React.ReactNode;
-  renderRight?: React.ReactNode;
-  variant?: 'outlined' | 'filled' | 'standard';
-  onChangeStateController?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-  handleSearch?: (value: string) => void;
-}
+import { TextFieldAppProps } from './types';
 
 export function TextFieldApp({
   name,
@@ -39,7 +23,7 @@ export function TextFieldApp({
   onChangeStateController,
   handleSearch,
   ...rest
-}: TextFieldPropsApp): JSX.Element {
+}: TextFieldAppProps) {
   const [maskState, setMaskState] = useState(mask);
 
   return control ? (

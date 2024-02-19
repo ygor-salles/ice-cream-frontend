@@ -1,12 +1,8 @@
-import { ThemeProvider, Box } from '@mui/material';
-import { ReactNode, createContext, useCallback, useMemo, useState } from 'react';
-import { LightTheme, DarkTheme } from 'shared/themes';
+import { Box, ThemeProvider } from '@mui/material';
+import { createContext, useCallback, useMemo, useState } from 'react';
+import { DarkTheme, LightTheme } from 'shared/themes';
 
-import { IThemeContextData } from './utils/types';
-
-interface AppThemeProviderProps {
-  children: ReactNode;
-}
+import { AppThemeProviderProps, IThemeContextData } from './types';
 
 export const ThemeContext = createContext({} as IThemeContextData);
 

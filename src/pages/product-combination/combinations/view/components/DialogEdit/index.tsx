@@ -3,23 +3,14 @@ import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { FooterDialogActions, TextFieldApp } from 'shared/components';
 import {
+  IFormCombination,
   defaultValuesCombinationEdit,
   fieldsCombination,
-  ICombinationDTO,
-  IFormCombination,
   schemaCreateCombination,
 } from 'shared/dtos/ICombinationDTO';
 
 import { Form } from './styles';
-
-interface DialogEditProps {
-  smDown?: boolean;
-  combination: ICombinationDTO;
-  open: boolean;
-  onSubmitUpdate: (dataForm: IFormCombination) => Promise<void>;
-  handleClose: () => void;
-  loading: boolean;
-}
+import { DialogEditProps } from './types';
 
 export function DialogEdit({
   combination,
@@ -28,7 +19,7 @@ export function DialogEdit({
   open,
   handleClose,
   loading,
-}: DialogEditProps): JSX.Element {
+}: DialogEditProps) {
   const { handleSubmit, control } = useForm<IFormCombination>({
     resolver: yupResolver(schemaCreateCombination),
     defaultValues: defaultValuesCombinationEdit(combination),

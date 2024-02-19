@@ -1,5 +1,5 @@
 import { RoutesEnum } from 'shared/constants/routesList';
-import { IDrawerOption } from 'shared/contexts/utils/types';
+import { IDrawerOption } from 'shared/contexts/DrawerContext/types';
 
 export const DRAWER_OPTIONS_SUPER: IDrawerOption[] = [
   {

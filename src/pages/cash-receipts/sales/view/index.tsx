@@ -15,7 +15,7 @@ import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDT
 import { FilterSale } from './components/FilterSale';
 import { SaleItem } from './components/SaleItem';
 
-export function Sales(): JSX.Element {
+export function Sales() {
   const navigate = useNavigate();
 
   const {

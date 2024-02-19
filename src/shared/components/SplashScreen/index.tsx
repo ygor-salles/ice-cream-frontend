@@ -12,19 +12,9 @@ import {
   DescriptionCard,
   ContentDescription,
 } from './styles';
+import { SplashScreenProps } from './types';
 
-interface PropTypes {
-  description: string;
-  cardsList: Array<{
-    title: string;
-    description: string;
-    srcImage: string;
-    altImage: string;
-    onNavigate: () => void;
-  }>;
-}
-
-export const SplashScreen = ({ description, cardsList, ...props }: PropTypes) => {
+export const SplashScreen = ({ description, cardsList, ...props }: SplashScreenProps) => {
   const { themeName } = useThemeContext();
 
   return (

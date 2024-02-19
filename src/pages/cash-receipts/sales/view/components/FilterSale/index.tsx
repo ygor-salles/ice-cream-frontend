@@ -14,14 +14,10 @@ import { IFormFilterSalePage } from 'shared/dtos/ISaleDTO';
 import { useDrawerContext } from 'shared/hooks/useDrawerContext';
 
 import { ContentDate, Form, StyledAccordion, Wrapper } from './styles';
+import { FilterSaleProps } from './types';
 import { defaultValues, fieldSaleFilter } from './utils';
 
-interface PropTypes {
-  loadingSales: boolean;
-  onSubmitFilter: (dataForm: IFormFilterSalePage) => Promise<void>;
-}
-
-export const FilterSale = ({ onSubmitFilter, loadingSales }: PropTypes) => {
+export const FilterSale = ({ onSubmitFilter, loadingSales }: FilterSaleProps) => {
   const [open, setOpen] = useState(false);
   const { handleSubmit, getValues, setValue, control, reset } = useForm<IFormFilterSalePage>({
     defaultValues,

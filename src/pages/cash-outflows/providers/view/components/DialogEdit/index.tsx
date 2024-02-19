@@ -3,23 +3,14 @@ import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { CheckboxApp, FooterDialogActions, TextFieldApp } from 'shared/components';
 import {
+  IFormProvider,
   defaultValuesProviderEdit,
   fieldsProvider,
-  IFormProvider,
-  IProviderDTO,
   schemaCreateProvider,
 } from 'shared/dtos/IProviderDTO';
 
 import { Form } from './styles';
-
-interface DialogEditProps {
-  smDown?: boolean;
-  provider: IProviderDTO;
-  open: boolean;
-  onSubmitUpdate: (dataForm: IFormProvider) => Promise<void>;
-  handleClose: () => void;
-  loading: boolean;
-}
+import { DialogEditProps } from './types';
 
 export function DialogEdit({
   provider,
@@ -28,7 +19,7 @@ export function DialogEdit({
   open,
   handleClose,
   loading,
-}: DialogEditProps): JSX.Element {
+}: DialogEditProps) {
   const { handleSubmit, control } = useForm<IFormProvider>({
     resolver: yupResolver(schemaCreateProvider),
     defaultValues: defaultValuesProviderEdit(provider),

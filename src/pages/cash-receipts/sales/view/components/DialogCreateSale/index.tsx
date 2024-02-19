@@ -20,14 +20,9 @@ import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput
 import Mask from 'shared/utils/masks';
 
 import { Form, GridForm, HeaderDialog, WrapperButtons } from './styles';
+import { DialogCreateSaleProps } from './types';
 
-interface PropTypes {
-  open: boolean;
-  onClose: () => void;
-  onSubmit: (data: IFormSale) => void;
-}
-
-export const DialogCreateSale = ({ open, onClose, onSubmit }: PropTypes) => {
+export const DialogCreateSale = ({ open, onClose, onSubmit }: DialogCreateSaleProps) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, setValue, reset, getValues } = useForm<IFormSale>({

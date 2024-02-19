@@ -1,13 +1,7 @@
 import { Button, CircularProgress } from '@mui/material';
 
 import { ContentButton } from './styles';
-
-interface IButtonSubmitAppProps {
-  loading: boolean;
-  smDown?: boolean;
-  textButton: string;
-  disabled?: boolean;
-}
+import { IButtonSubmitAppProps } from './types';
 
 export const ButtonSubmitApp = ({
   loading,

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icon, Switch } from '@mui/material';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { IPaymentDTO } from 'shared/dtos/IPaymentDTO';
@@ -12,6 +11,7 @@ import formatDate from 'shared/utils/formatDate';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
 import { ActionContent, StyledIcon, Green, Red } from './styles';
+import { ActionComponentProps, SwitchComponentProps } from './types';
 
 export const _renderBasicTextCell = (value: string) => <span>{value || '--'}</span>;
 
@@ -35,12 +35,6 @@ export const _renderTextCellYesOrNo = (value: boolean) => (
   <span>{value ? 'Sim' : 'Não' || '--'}</span>
 );
 
-interface SwitchComponentProps {
-  value: boolean;
-  id: number;
-  onSubmitSwitchToogle: (isActive: boolean, id: number) => Promise<void>;
-}
-
 export const SwitchComponent = ({ id, value, onSubmitSwitchToogle }: SwitchComponentProps) => (
   <Switch
     onClick={e => e.stopPropagation()}
@@ -48,15 +42,6 @@ export const SwitchComponent = ({ id, value, onSubmitSwitchToogle }: SwitchCompo
     defaultChecked={value}
   />
 );
-
-interface ActionComponentProps {
-  smDown: boolean;
-  rowData: any;
-  accessDelete?: boolean;
-  accessEdit?: boolean;
-  handleClickEdit?: (data: any) => void;
-  handleClickDelete?: (data: any) => void;
-}
 
 export const ActionComponent = ({
   smDown,

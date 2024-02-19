@@ -1,4 +1,4 @@
-import { TypeDefaultOptions } from 'shared/components';
+import { TypeDefaultOptions } from 'shared/components/SelectApp/types';
 import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
 
 export const LISTTYPESALES: TypeDefaultOptions[] = [

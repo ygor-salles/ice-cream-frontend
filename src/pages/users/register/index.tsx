@@ -12,7 +12,7 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { Form, GridForm, StyledCard } from './styles';
 
-export function RegisterUser(): JSX.Element {
+export function RegisterUser() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, formState, reset } = useForm<IFormUser>({

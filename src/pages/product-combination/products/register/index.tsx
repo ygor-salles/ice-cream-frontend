@@ -17,7 +17,7 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { Form, GridForm, StyledCard } from './styles';
 
-export function RegisterProduct(): JSX.Element {
+export function RegisterProduct() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmitCreate, loadingForm: loading } = useProduct();

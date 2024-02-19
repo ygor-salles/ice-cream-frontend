@@ -19,7 +19,7 @@ import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
 import { Form, GridForm, StyledCard, TextDebit, WrapperDebit } from './styles';
 
-export function RegisterPayment(): JSX.Element {
+export function RegisterPayment() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, formState, reset } = useForm<IFormPayment>({

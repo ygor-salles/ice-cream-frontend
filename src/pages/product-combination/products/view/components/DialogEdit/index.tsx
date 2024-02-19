@@ -4,23 +4,14 @@ import { useForm } from 'react-hook-form';
 import { FooterDialogActions, SelectApp, TextFieldApp } from 'shared/components';
 import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
 import {
+  IFormProduct,
   defaultValuesProductEdit,
   fieldsProduct,
-  IFormProduct,
-  IProductDTO,
   schemaCreateProduct,
 } from 'shared/dtos/IProductDTO';
 
 import { Form } from './styles';
-
-interface DialogEditProps {
-  smDown?: boolean;
-  product: IProductDTO;
-  open: boolean;
-  onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
-  handleClose: () => void;
-  loading: boolean;
-}
+import { DialogEditProps } from './types';
 
 export function DialogEdit({
   product,
@@ -29,7 +20,7 @@ export function DialogEdit({
   open,
   handleClose,
   loading,
-}: DialogEditProps): JSX.Element {
+}: DialogEditProps) {
   const { handleSubmit, control } = useForm<IFormProduct>({
     resolver: yupResolver(schemaCreateProduct),
     defaultValues: defaultValuesProductEdit(product),

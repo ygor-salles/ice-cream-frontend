@@ -1,27 +1,16 @@
 import { Add, Remove } from '@mui/icons-material';
-import { Control, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { useThemeContext } from 'shared/hooks/useThemeContext';
 
 import {
-  Container,
   ButtonIcon,
-  StyledNumberFormat,
-  Label,
+  Container,
   ContainerInput,
+  Label,
+  StyledNumberFormat,
   TextError,
 } from './styles';
-
-interface TextFieldCountProps {
-  name: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: Control<any>;
-  label: React.ReactNode;
-  defaultValue: number;
-  disabled?: boolean;
-  handleOperation: (onClick?: 'add' | 'subt') => void;
-  stateCount: number;
-  setStateCount: React.Dispatch<React.SetStateAction<number>>;
-}
+import { TextFieldCountProps } from './types';
 
 export const TextFieldCount = ({
   name,

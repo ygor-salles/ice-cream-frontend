@@ -3,31 +3,22 @@ import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
+  CheckboxApp,
   FooterDialogActions,
   InputFile,
-  CheckboxApp,
-  TextFieldApp,
   SelectApp,
+  TextFieldApp,
 } from 'shared/components';
 import {
+  IFormPurchase,
   defaultValuesPurchaseEdit,
   fieldsPurchase,
-  IFormPurchase,
-  IPurchaseDTO,
   schemaCreatePurchase,
 } from 'shared/dtos/IPurchaseDTO';
 import { useProvider } from 'shared/hooks/network/useProvider';
 
 import { Form } from './styles';
-
-interface DialogEditProps {
-  smDown?: boolean;
-  purchase: IPurchaseDTO;
-  open: boolean;
-  onSubmitUpdate: (dataForm: IFormPurchase) => Promise<void>;
-  handleClose: () => void;
-  loading: boolean;
-}
+import { DialogEditProps } from './types';
 
 export function DialogEdit({
   purchase,
@@ -36,7 +27,7 @@ export function DialogEdit({
   open,
   handleClose,
   loading,
-}: DialogEditProps): JSX.Element {
+}: DialogEditProps) {
   const { allProviders, getProviders, loadingProviders } = useProvider();
 
   useEffect(() => {

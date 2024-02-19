@@ -1,35 +1,19 @@
-import { Theme, useMediaQuery, IconButton, Icon, Button, Container } from '@mui/material';
-import { ReactNode } from 'react';
+import { Button, Container, Icon, IconButton, Theme, useMediaQuery } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDrawerContext } from 'shared/hooks/useDrawerContext';
 
 import {
-  Main,
-  Header,
-  Wrapper,
-  Title,
-  Section,
+  ButtonFooter,
   ContentChildren,
   Footer,
-  ButtonFooter,
+  Header,
+  Main,
+  Section,
+  Title,
+  Wrapper,
 } from './styles';
+import { ILayoutBaseDePaginaProps } from './types';
 
-interface ILayoutBaseDePaginaProps {
-  children: ReactNode;
-  titulo: string;
-  textButton?: string;
-  navigatePage?: string;
-  icon?: React.ReactElement;
-  colorButton?: 'inherit' | 'secondary' | 'primary' | 'success' | 'error' | 'info' | 'warning';
-  disabled?: boolean;
-  onClick?: () => void;
-  textButtonRight?: string;
-  iconRight?: React.ReactElement;
-  colorButtonRight?: 'inherit' | 'secondary' | 'primary' | 'success' | 'error' | 'info' | 'warning';
-  disabledRight?: boolean;
-  onClickRight?: () => void;
-  renderHeaderButton?: React.ReactElement;
-}
 export const LayoutBaseDePagina = ({
   children,
   titulo,

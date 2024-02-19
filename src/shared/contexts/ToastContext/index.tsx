@@ -1,12 +1,8 @@
-import { ReactNode, createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import { Snackbar } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 
-import { IToast, ToastContextData } from './utils/types';
-
-interface ToastProviderProps {
-  children: ReactNode;
-}
+import { IToast, ToastContextData, ToastProviderProps } from './types';
 
 export const ToastContext = createContext<ToastContextData>({} as ToastContextData);
 

@@ -24,7 +24,7 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { Form, GridForm, StyledCard } from './styles';
 
-export function RegisterPurchase(): JSX.Element {
+export function RegisterPurchase() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, reset, formState } = useForm<IFormPurchase>({

@@ -1,23 +1,16 @@
 import { Switch } from '@mui/material';
 import { Children } from 'react';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
-import { ISaleDTO } from 'shared/dtos/ISaleDTO';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
-import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
-import { Li, Ul, Container, Text, Wrapper, ContentLeft } from './styles';
-
-interface PropTypes {
-  sale: ISaleDTO;
-  onChangeUpdateSaleById: (data: IUpdateSaleDTORequest) => Promise<void>;
-  onToggleRefreshPage: () => void;
-}
+import { Container, ContentLeft, Li, Text, Ul, Wrapper } from './styles';
+import { CollapseCombinationsProps } from './types';
 
 export const CollapseCombinations = ({
   sale,
   onChangeUpdateSaleById,
   onToggleRefreshPage,
-}: PropTypes) => {
+}: CollapseCombinationsProps) => {
   const acais: IDataProduct[] = sale.data_product.filter(
     item => item.type === EnumTypeProduct.ACAI,
   );

@@ -1,10 +1,7 @@
 import React from 'react';
 import NumberFormat from 'react-number-format';
 
-interface CustomProps {
-  onChange: (event: { target: { name: string; value: string } }) => void;
-  name: string;
-}
+import { CustomProps } from './types';
 
 function currencyFormatter(value: any): string {
   if (!Number(value)) return '';

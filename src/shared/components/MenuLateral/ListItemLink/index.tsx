@@ -2,16 +2,9 @@ import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 
 import { StyledIcon, StyledListItemText } from './styles';
+import { ListItemLinkProps } from './types';
 
-interface PropTypes {
-  to: string;
-  icon: string;
-  label: string;
-  loadingDataState: boolean;
-  onClick: (() => void) | undefined;
-}
-
-export const ListItemLink = ({ icon, label, onClick, to, loadingDataState }: PropTypes) => {
+export const ListItemLink = ({ icon, label, onClick, to, loadingDataState }: ListItemLinkProps) => {
   const navigate = useNavigate();
 
   const resolvedPath = useResolvedPath(to);

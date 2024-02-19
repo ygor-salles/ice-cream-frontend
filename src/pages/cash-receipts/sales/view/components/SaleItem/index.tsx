@@ -2,16 +2,11 @@ import { NavigateNext } from '@mui/icons-material';
 import { CircularProgress, Icon } from '@mui/material';
 import { useMemo } from 'react';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
-import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
 import { Container, Row, Text, TextCustom, Wrapper, WrapperInfo, WrapperNavigate } from './styles';
-
-interface SaleItemProps {
-  onClick: () => void;
-  detailSale: InstanceSale;
-}
+import { SaleItemProps } from './types';
 
 export const SaleItem = ({
   onClick,

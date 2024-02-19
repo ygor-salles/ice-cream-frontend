@@ -27,7 +27,7 @@ import {
   filterTable,
 } from './constants';
 
-export function Combinations(): JSX.Element {
+export function Combinations() {
   const navigate = useNavigate();
 
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));

@@ -1,13 +1,9 @@
-import { UseControllerProps, useController } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 
 import { Input } from './styles';
+import { DatePickerProps } from './types';
 
-interface PropTypes extends UseControllerProps<any> {
-  label: string;
-  disabled?: boolean;
-}
-
-export const DatePicker = ({ label, ...props }: PropTypes) => {
+export const DatePicker = ({ label, ...props }: DatePickerProps) => {
   const {
     field,
     fieldState: { error },

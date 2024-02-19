@@ -15,14 +15,10 @@ import { IFormFilterPurchasePage } from 'shared/dtos/IPurchaseDTO';
 import { useProvider } from 'shared/hooks/network/useProvider';
 
 import { ContentDate, Form, StyledAccordion, Wrapper } from './styles';
+import { FilterPurchaseProps } from './types';
 import { defaultValues, fieldPurchaseFilter } from './utils';
 
-interface PropTypes {
-  loadingPurchases: boolean;
-  onSubmitFilter: (dataForm: IFormFilterPurchasePage) => Promise<void>;
-}
-
-export const FilterPurchase = ({ onSubmitFilter, loadingPurchases }: PropTypes) => {
+export const FilterPurchase = ({ onSubmitFilter, loadingPurchases }: FilterPurchaseProps) => {
   const [open, setOpen] = useState(false);
   const { handleSubmit, getValues, setValue, control, reset } = useForm<IFormFilterPurchasePage>({
     defaultValues,

@@ -8,11 +8,9 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useMemo, useState } from 'react';
-import { Control } from 'react-hook-form';
 import { LISTTYPESALES, LISTTYPESALES_NOTDEBIT } from 'shared/constants/listTypeSales';
-import { EnumTypeSale, IFormEditSale, fieldsSale } from 'shared/dtos/ISaleDTO';
+import { EnumTypeSale, fieldsSale } from 'shared/dtos/ISaleDTO';
 import { useThemeContext } from 'shared/hooks/useThemeContext';
-import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
 import {
@@ -25,35 +23,14 @@ import {
   Row,
   StyledSelectApp,
   StyledTextField,
+  TextTSale,
   Total,
   Ul,
   WrapperButtons,
   WrapperDel,
-  TextTSale,
 } from './styles';
+import { CartListingProps } from './types';
 
-interface CartListing {
-  listSale: IDataProduct[];
-  observation?: string;
-  type_sale?: EnumTypeSale;
-  totalSum: number;
-  textPrimary: string;
-  textSecondary: string;
-  disabledSecondary?: boolean;
-  disabledActions?: boolean;
-  renderMain?: React.ReactElement;
-  loading?: boolean;
-  control?: Control<IFormEditSale>;
-  renderTopButtons?: React.ReactElement;
-  renderBottomButtons?: React.ReactElement;
-  hasClient?: boolean;
-  onAddList?: () => void;
-  onDeleteList: (object: IDataProduct) => void;
-  onClickPrimary: () => void;
-  onClickSeconadary: () => void;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const CartListing = ({
   listSale,
   observation,
@@ -74,7 +51,7 @@ export const CartListing = ({
   onClickPrimary,
   onClickSeconadary,
   ...rest
-}: CartListing) => {
+}: CartListingProps) => {
   const { themeName } = useThemeContext();
   const [expanded, setExpanded] = useState<string | false>(false);
 

@@ -1,27 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ReportOff, Report } from '@mui/icons-material';
+import { Report, ReportOff } from '@mui/icons-material';
 import { Dialog, DialogContent, DialogTitle, Grid, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FooterDialogActions, TextFieldApp } from 'shared/components';
 import {
+  IFormClient,
   defaultValuesClientEdit,
   fieldsClient,
-  IClientDTO,
-  IFormClient,
   schemaCreateClient,
 } from 'shared/dtos/IClientDTO';
 
 import { Form, stylesIcon } from './styles';
-
-interface DialogEditProps {
-  smDown?: boolean;
-  client: IClientDTO;
-  open: boolean;
-  onSubmitUpdate: (dataForm: IFormClient) => Promise<void>;
-  handleClose: () => void;
-  loading: boolean;
-}
+import { DialogEditProps } from './types';
 
 export function DialogEdit({
   client,
@@ -30,7 +21,7 @@ export function DialogEdit({
   open,
   handleClose,
   loading,
-}: DialogEditProps): JSX.Element {
+}: DialogEditProps) {
   const { handleSubmit, control } = useForm<IFormClient>({
     resolver: yupResolver(schemaCreateClient),
     defaultValues: defaultValuesClientEdit(client),

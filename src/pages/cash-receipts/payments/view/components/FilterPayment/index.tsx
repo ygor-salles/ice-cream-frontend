@@ -16,14 +16,10 @@ import { useClient } from 'shared/hooks/network/useClient';
 import { useDrawerContext } from 'shared/hooks/useDrawerContext';
 
 import { ContentDate, Form, StyledAccordion, Wrapper } from './styles';
+import { FilterPaymentProps } from './types';
 import { defaultValues, fieldPaymentFilter } from './utils';
 
-interface PropTypes {
-  loadingPayments: boolean;
-  onSubmitFilter: (dataForm: IFormFilterPaymentPage) => Promise<void>;
-}
-
-export const FilterPayment = ({ onSubmitFilter, loadingPayments }: PropTypes) => {
+export const FilterPayment = ({ onSubmitFilter, loadingPayments }: FilterPaymentProps) => {
   const [open, setOpen] = useState(false);
   const { handleSubmit, getValues, setValue, control, reset } = useForm<IFormFilterPaymentPage>({
     defaultValues,

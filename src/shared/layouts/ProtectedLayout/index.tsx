@@ -1,20 +1,15 @@
 import { ArrowBack } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import img from 'assets/401-ErrorUnauthorized-rafiki.png';
-import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants/routesList';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 import { useAuthContext } from 'shared/hooks/useAuthContext';
 
 import { HeaderUnauth, ImgUnauthorized, WrapperUnauth } from './styles';
+import { ProtectedLayoutProps } from './types';
 
-interface PropTypes {
-  children: ReactNode;
-  accessUser: EnumRoleUser[];
-}
-
-export const ProtectedLayout = ({ accessUser, children }: PropTypes) => {
+export const ProtectedLayout = ({ accessUser, children }: ProtectedLayoutProps) => {
   const navigate = useNavigate();
   const { role } = useAuthContext();
 

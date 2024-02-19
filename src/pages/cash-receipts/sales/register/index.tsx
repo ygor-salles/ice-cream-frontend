@@ -36,7 +36,7 @@ import Mask from 'shared/utils/masks';
 import { CartListing } from './components/CartListing';
 import { Form, GridForm, Notificaion, StyledCard, Text, Wrapper, WrapperButtons } from './styles';
 
-export function RegisterSale(): JSX.Element {
+export function RegisterSale() {
   const [requiredClient, setRequiredClient] = useState(false);
   const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
   const [count, setCount] = useState(Number(defaultValueAmount));

@@ -1,5 +1,3 @@
-import { IPurchaseDTO } from 'shared/dtos/IPurchaseDTO';
-import { InstancePurchase } from 'shared/services/PurchaseService/dtos/ILoadPagedPurchasesDTO';
 import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 import { Colors } from 'styles/global';
@@ -8,20 +6,14 @@ import {
   ContainerItem,
   Row,
   SCheckbox,
+  SDelete,
+  SEdit,
+  SHideImage,
+  SImage,
   Text,
   WrapperInfo,
-  SImage,
-  SHideImage,
-  SEdit,
-  SDelete,
 } from './styles';
-
-interface PurchaseItemProps {
-  detailPurchase: InstancePurchase;
-  handleClickDelete: (data: IPurchaseDTO) => void;
-  handleClickEdit: (data: IPurchaseDTO) => void;
-  setShowImgUrl: React.Dispatch<React.SetStateAction<string>>;
-}
+import { PurchaseItemProps } from './types';
 
 export const PurchaseItem = ({
   detailPurchase,

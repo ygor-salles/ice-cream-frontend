@@ -1,12 +1,8 @@
-import React, { ReactNode, createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import { useLogin } from 'shared/hooks/network/useLogin';
 
-import { IContext, IDescribedUser } from './utils/types';
-import { getDescribedToken, getTokenLocalStorage, setTokenLocalStorage } from './utils/utils';
-
-interface AuthProviderProps {
-  children: ReactNode;
-}
+import { AuthProviderProps, IContext, IDescribedUser } from './types';
+import { getDescribedToken, getTokenLocalStorage, setTokenLocalStorage } from './utils';
 
 export const AuthContext = createContext<IContext>({} as IContext);
 

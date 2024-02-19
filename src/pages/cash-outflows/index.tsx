@@ -1,5 +1,4 @@
-import providerImage from 'assets/provider.svg';
-import purchaseImage from 'assets/purchase.svg';
+import { images } from 'assets';
 import { useNavigate } from 'react-router-dom';
 import { SplashScreen } from 'shared/components';
 import { RoutesEnum } from 'shared/constants/routesList';
@@ -17,7 +16,7 @@ export function CashOutflows() {
             title: 'Tela de fornecedores/funcionários',
             description:
               'Cadastre novos funcionários ou fornecedores para utilização de compras de produtos ou pagamento de funcionários',
-            srcImage: providerImage,
+            srcImage: images.provider,
             altImage: 'fornecedores',
             onNavigate: () => navigate(RoutesEnum.PROVIDERS),
           },
@@ -25,7 +24,7 @@ export function CashOutflows() {
             title: 'Tela de compras/folha de pagamento',
             description:
               'Cadastre as compras realizadas para o estoque de produtos do seu negócio ou pagamento dos funcionários',
-            srcImage: purchaseImage,
+            srcImage: images.purchase,
             altImage: 'compras',
             onNavigate: () => navigate(RoutesEnum.PURCHASES),
           },

@@ -1,5 +1,4 @@
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+import { Add, Remove } from '@mui/icons-material';
 import { Control, Controller } from 'react-hook-form';
 import { useThemeContext } from 'shared/hooks/useThemeContext';
 
@@ -64,7 +63,7 @@ export const TextFieldCount: React.FC<TextFieldCountProps> = ({
                 }}
                 disabled={disabled}
               >
-                <RemoveIcon color="info" />
+                <Remove color="info" />
               </ButtonIcon>
               <StyledNumberFormat
                 decimalScale={0}
@@ -104,7 +103,7 @@ export const TextFieldCount: React.FC<TextFieldCountProps> = ({
                 }}
                 disabled={disabled}
               >
-                <AddIcon color="info" />
+                <Add color="info" />
               </ButtonIcon>
             </ContainerInput>
             {error && <TextError>{error?.message}</TextError>}

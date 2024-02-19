@@ -1,4 +1,4 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ExpandMore } from '@mui/icons-material';
 import {
   AccordionDetails,
   AccordionSummary,
@@ -44,7 +44,7 @@ const FilterSale: React.FC<PropTypes> = ({ onSubmitFilter, loadingSales }) => {
   return (
     <StyledAccordion expanded={open} onChange={loadingSales ? undefined : () => setOpen(!open)}>
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
+        expandIcon={<ExpandMore />}
         aria-controls="panel1bh-content"
         id="panel1bh-header"
       >

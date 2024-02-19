@@ -1,4 +1,4 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ExpandMore } from '@mui/icons-material';
 import {
   AccordionDetails,
   AccordionSummary,
@@ -58,9 +58,7 @@ const FilterPayment: React.FC<PropTypes> = ({ onSubmitFilter, loadingPayments })
   return (
     <StyledAccordion expanded={open} onChange={loadingPayments ? undefined : handleOpenAccordion}>
       <AccordionSummary
-        expandIcon={
-          loadingClients ? <CircularProgress size={16} disableShrink /> : <ExpandMoreIcon />
-        }
+        expandIcon={loadingClients ? <CircularProgress size={16} disableShrink /> : <ExpandMore />}
         aria-controls="panel1bh-content"
         id="panel1bh-header"
       >

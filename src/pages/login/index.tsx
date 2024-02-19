@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import { defaultValuesLogin, fieldsLogin, IFormLogin, schemaLogin } from 'shared/dtos/ILoginDTO';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 import { useAuthContext } from 'shared/hooks/useAuthContext';

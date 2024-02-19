@@ -10,8 +10,7 @@ import {
   TextFieldApp,
   TextFieldCount,
 } from 'shared/components';
-import { LISTTYPESALES } from 'shared/constants/listTypeSales';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { LISTTYPESALES, RoutesEnum } from 'shared/constants';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
 import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
 import {

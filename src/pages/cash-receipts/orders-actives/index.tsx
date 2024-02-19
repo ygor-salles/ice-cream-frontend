@@ -9,7 +9,7 @@ import {
 } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { ITypeComponents } from 'shared/components/TableApp/types';
-import { localStorageKeys } from 'shared/constants/localStorageKeys';
+import { localStorageKeys } from 'shared/constants';
 import { ISaleDTO } from 'shared/dtos/ISaleDTO';
 import { useSale } from 'shared/hooks/network/useSale';
 import { useCache } from 'shared/hooks/useCache';

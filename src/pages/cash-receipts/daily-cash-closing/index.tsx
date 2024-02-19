@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { ButtonSubmitApp, DatePicker, TextFieldApp } from 'shared/components';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import {
   defaultValuesCashClosing,
   fieldsSale,

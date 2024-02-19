@@ -4,7 +4,7 @@ import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ButtonSubmitApp, SelectApp, TextFieldApp } from 'shared/components';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import {
   defaultValuesPayment,

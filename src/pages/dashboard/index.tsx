@@ -5,8 +5,7 @@ import { images } from 'assets';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { DatePicker, SelectApp } from 'shared/components';
-import { LISTTYPEPROVIDER } from 'shared/constants/listTypeProviders';
-import { LISTTYPESALES } from 'shared/constants/listTypeSales';
+import { LISTTYPEPROVIDER, LISTTYPESALES } from 'shared/constants';
 import { EnumTypeProvider } from 'shared/dtos/IProviderDTO';
 import {
   defaultValuesFilterPurchase,

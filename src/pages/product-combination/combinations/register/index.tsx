@@ -4,7 +4,7 @@ import { Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ButtonSubmitApp, TextFieldApp } from 'shared/components';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import {
   defaultValuesCombination,
   fieldsCombination,

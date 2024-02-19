@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useMemo, useState } from 'react';
-import { LISTTYPESALES, LISTTYPESALES_NOTDEBIT } from 'shared/constants/listTypeSales';
+import { LISTTYPESALES, LISTTYPESALES_NOTDEBIT } from 'shared/constants';
 import { EnumTypeSale, fieldsSale } from 'shared/dtos/ISaleDTO';
 import { useThemeContext } from 'shared/hooks/useThemeContext';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';

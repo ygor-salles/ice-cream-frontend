@@ -11,7 +11,7 @@ import {
   TableApp,
 } from 'shared/components';
 import { ITypeComponents } from 'shared/components/TableApp/types';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
 import { useCombination } from 'shared/hooks/network/useCombination';
 import { LayoutBaseDePagina } from 'shared/layouts';

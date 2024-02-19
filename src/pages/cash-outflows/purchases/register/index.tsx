@@ -11,7 +11,7 @@ import {
   SelectApp,
   TextFieldApp,
 } from 'shared/components';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import {
   defaultValuesPurchase,
   fieldsPurchase,

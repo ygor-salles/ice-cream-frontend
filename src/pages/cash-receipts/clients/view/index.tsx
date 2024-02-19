@@ -10,7 +10,7 @@ import {
   _renderBasicToCurrencyRed,
 } from 'shared/components';
 import { ITypeComponents } from 'shared/components/TableApp/types';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { useClient } from 'shared/hooks/network/useClient';
 import { LayoutBaseDePagina } from 'shared/layouts';

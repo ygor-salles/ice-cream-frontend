@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogTitle, Grid, IconButton } from '@mui/mater
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FooterDialogActions, SelectApp, TextFieldApp } from 'shared/components';
-import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
+import { LISTTYPEUSERS } from 'shared/constants';
 import { IFormUser, defaultValuesUserEdit, fieldsUser, schemaEditUser } from 'shared/dtos/IUserDTO';
 
 import { Form } from './styles';

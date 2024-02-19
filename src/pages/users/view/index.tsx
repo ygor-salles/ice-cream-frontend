@@ -10,7 +10,7 @@ import {
   TableApp,
 } from 'shared/components';
 import { ITypeComponents } from 'shared/components/TableApp/types';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import { IUserDTO } from 'shared/dtos/IUserDTO';
 import { useUser } from 'shared/hooks/network/useUser';
 import { LayoutBaseDePagina } from 'shared/layouts';

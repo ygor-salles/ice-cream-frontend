@@ -11,7 +11,7 @@ import {
   _renderTextCellYesOrNo,
 } from 'shared/components';
 import { ITypeComponents } from 'shared/components/TableApp/types';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import { IProviderDTO } from 'shared/dtos/IProviderDTO';
 import { useProvider } from 'shared/hooks/network/useProvider';
 import { LayoutBaseDePagina } from 'shared/layouts';

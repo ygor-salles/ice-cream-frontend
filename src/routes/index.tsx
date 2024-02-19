@@ -26,7 +26,7 @@ import {
 } from 'pages';
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 import { useAuthContext } from 'shared/hooks/useAuthContext';
 import { useDrawerContext } from 'shared/hooks/useDrawerContext';

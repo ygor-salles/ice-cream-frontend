@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { localStorageKeys } from 'shared/constants/localStorageKeys';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { localStorageKeys, RoutesEnum } from 'shared/constants';
 import { setTokenLocalStorage } from 'shared/contexts/AuthContext/utils';
 
 const ENVIROMENT = process.env.REACT_APP_ENVIROMENT;

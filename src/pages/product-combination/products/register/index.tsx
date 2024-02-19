@@ -4,8 +4,7 @@ import { Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ButtonSubmitApp, SelectApp, TextFieldApp } from 'shared/components';
-import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { LISTTYPEPRODUCTS, RoutesEnum } from 'shared/constants';
 import {
   defaultValuesProduct,
   fieldsProduct,

@@ -2,8 +2,7 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ToastType } from 'shared/components/SnackBar/enum';
-import { localStorageKeys } from 'shared/constants/localStorageKeys';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { localStorageKeys, RoutesEnum } from 'shared/constants';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
   IFormCashClosing,

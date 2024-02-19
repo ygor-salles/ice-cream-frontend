@@ -2,7 +2,7 @@ import { ArrowBack } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import { images } from 'assets';
 import { useNavigate } from 'react-router-dom';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 import { useAuthContext } from 'shared/hooks/useAuthContext';
 

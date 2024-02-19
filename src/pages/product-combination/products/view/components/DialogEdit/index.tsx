@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { FooterDialogActions, SelectApp, TextFieldApp } from 'shared/components';
-import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
+import { LISTTYPEPRODUCTS } from 'shared/constants';
 import {
   IFormProduct,
   defaultValuesProductEdit,

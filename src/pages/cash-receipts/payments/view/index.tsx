@@ -11,8 +11,7 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { DialogInfo, Pagination } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
-import { LIMIT_PAGED } from 'shared/constants/limitPaged';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { LIMIT_PAGED, RoutesEnum } from 'shared/constants';
 import { IFormFilterPaymentPage } from 'shared/dtos/IPaymentDTO';
 import { usePayment } from 'shared/hooks/network/usePayment';
 import { useToastContext } from 'shared/hooks/useToastContext';

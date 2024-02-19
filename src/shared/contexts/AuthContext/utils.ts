@@ -1,5 +1,5 @@
 import jwt_decode from 'jwt-decode';
-import { localStorageKeys } from 'shared/constants/localStorageKeys';
+import { localStorageKeys } from 'shared/constants';
 
 import { IAuthResponse, IDescribedUser } from './types';
 

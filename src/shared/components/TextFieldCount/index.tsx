@@ -62,11 +62,11 @@ export const TextFieldCount = ({
 
                   if (!inputValue.length) {
                     onChange('');
-                    setStateCount(undefined);
+                    setStateCount(1);
                   }
 
                   if (Number(inputValue) >= 1) {
-                    setStateCount(undefined);
+                    setStateCount(1);
                     onChange(inputValue);
                     handleOperation();
                   }

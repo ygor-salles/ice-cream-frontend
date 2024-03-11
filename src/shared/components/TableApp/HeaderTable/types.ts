@@ -8,5 +8,5 @@ export interface HeaderTableProps {
     searchPropertName: string,
     type: keyof typeof TypeColumnTableEnum,
   ) => void;
-  isMobile: boolean;
+  isMobile: boolean | undefined;
 }

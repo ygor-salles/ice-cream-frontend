@@ -7,7 +7,7 @@ export interface TextFieldCountProps {
   label: React.ReactNode;
   defaultValue: number;
   disabled?: boolean;
-  handleOperation: (onClick?: 'add' | 'subt') => void;
+  handleOperation: (onClick?: 'add' | 'subt' | undefined) => void;
   stateCount: number;
   setStateCount: React.Dispatch<React.SetStateAction<number>>;
 }

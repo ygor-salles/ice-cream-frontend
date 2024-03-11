@@ -37,7 +37,9 @@ export const LayoutBaseDePagina = ({
 
   const navigate = useNavigate();
 
-  const onNavigate = () => navigate(navigatePage);
+  const onNavigate = () => {
+    if (navigatePage) navigate(navigatePage);
+  };
 
   return (
     <Main>

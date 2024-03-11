@@ -24,7 +24,7 @@ export function DialogInfo({
       <FooterDialogActions
         textButtonCancel={textButtonClose}
         textButtonConfirm={textButtonSubmit}
-        loading={loading}
+        loading={!!loading}
         onClose={handleClose}
         isDialogDelete
         onSubmitDelete={handleSubmit}

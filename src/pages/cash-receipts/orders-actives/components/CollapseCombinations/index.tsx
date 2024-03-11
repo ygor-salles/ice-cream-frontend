@@ -16,7 +16,9 @@ export const CollapseCombinations = ({
   );
 
   const onChangeCheck = async () => {
-    await onChangeUpdateSaleById({ id: sale.id, in_progress: !sale.in_progress });
+    if (sale.id) {
+      await onChangeUpdateSaleById({ id: sale.id, in_progress: !sale.in_progress });
+    }
     onToggleRefreshPage();
   };
 
@@ -29,7 +31,7 @@ export const CollapseCombinations = ({
                 <Wrapper hasBorder={acais.length > 1}>
                   {acais.length > 1 && <Text>{`${item.amount} ${item.name}`}</Text>}
                   <Ul>
-                    {item?.combinations?.length > 0 ? (
+                    {item.combinations && item?.combinations?.length > 0 ? (
                       item.combinations.map(item => (
                         <Li hasCombinations key={item.name}>
                           {item?.name || '--'}

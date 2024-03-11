@@ -34,10 +34,10 @@ export function Sales() {
     () => ({
       limit: searchParams.get('limit') || `${LIMIT_PAGED}`,
       page: searchParams.get('page') || '1',
-      client_id: searchParams.get('client_id'),
-      observation: searchParams.get('observation'),
-      start_date: searchParams.get('start_date'),
-      end_date: searchParams.get('end_date'),
+      client_id: searchParams.get('client_id') || undefined,
+      observation: searchParams.get('observation') || undefined,
+      start_date: searchParams.get('start_date') || undefined,
+      end_date: searchParams.get('end_date') || undefined,
     }),
     [searchParams],
   );

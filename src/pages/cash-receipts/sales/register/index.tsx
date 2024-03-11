@@ -16,6 +16,7 @@ import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
 import {
   EnumTypeSale,
   IFormSale,
+  defaultDataProduct,
   defaultValueAmount,
   defaultValuesSale,
   fieldsSale,
@@ -123,7 +124,7 @@ export function RegisterSale() {
     } else if (product.name.includes(' 1L') || product.name.includes(' 1 L')) {
       setAllCombinations(allCombinations.map(item => ({ ...item, price: item.price + 1 })));
     } else {
-      setAllCombinations(allCombinationsStorage);
+      setAllCombinations(allCombinationsStorage ?? []);
     }
   };
 
@@ -159,7 +160,7 @@ export function RegisterSale() {
     } else {
       setCount(Number(defaultValueAmount));
       setValue('total', '');
-      setAllCombinations(allCombinationsStorage);
+      setAllCombinations(allCombinationsStorage ?? []);
       setEnableOptions(false);
       setIsDisabledTextFieldCount(true);
     }
@@ -170,11 +171,11 @@ export function RegisterSale() {
 
     if (client_name?.length > 0) {
       const client = allClientsStorage.find(item => item.name === client_name);
-      setValue('client_id', client.id.toString());
+      if (client?.id) setValue('client_id', client.id.toString());
     }
   };
 
-  const handleTextFieldCount = (onClick: 'add' | 'subt') => {
+  const handleTextFieldCount = (onClick: 'add' | 'subt' | undefined) => {
     const { price, type } = getValues('data_product');
     const combinations = getValues('combinations');
 
@@ -337,7 +338,7 @@ export function RegisterSale() {
               onDeleteList={onDeleteList}
               onClickPrimary={() => {
                 setValue('product_name', '');
-                setValue('data_product', null);
+                setValue('data_product', defaultDataProduct);
                 setValue('total', '');
                 onToggleScreenCarListing();
               }}
@@ -346,12 +347,12 @@ export function RegisterSale() {
               textSecondary="Finalizar pedido"
               loading={loading}
               renderMain={
-                !!getValues('client_name') && (
+                getValues('client_name') ? (
                   <Text>
                     <b>Cliente: </b>
                     {getValues('client_name')}
                   </Text>
-                )
+                ) : undefined
               }
               disabledSecondary={!isValid || !carListState.length}
             />

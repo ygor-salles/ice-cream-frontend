@@ -34,10 +34,12 @@ export const FilterPayment = ({ onSubmitFilter, loadingPayments }: FilterPayment
 
     if (client_name?.length > 0 && allClientsStorage) {
       const client = allClientsStorage.find(item => item.name === client_name);
-      setValue('client_id', client.id.toString());
+
+      if (client?.id) setValue('client_id', client.id.toString());
     } else if (client_name?.length > 0 && allClients.length > 0) {
       const client = allClients.find(item => item.name === client_name);
-      setValue('client_id', client.id.toString());
+
+      if (client?.id) setValue('client_id', client.id.toString());
     } else {
       setValue('client_id', '');
     }

@@ -28,7 +28,7 @@ export function usePurchase() {
   const [loadingPurchases, setLoadingPurchases] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
 
-  const [sumPurchasesState, setSumPurchasesState] = useState<number>();
+  const [sumPurchasesState, setSumPurchasesState] = useState(0);
 
   const [dataActionTable, setDataActionTable] = useState<IPurchaseDTO>();
 

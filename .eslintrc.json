@@ -27,6 +27,8 @@
     "react/require-default-props": "off",
     "react/jsx-props-no-spreading": "off",
     "react/no-unstable-nested-components": "off",
+    "no-restricted-syntax": "off",
+    "guard-for-in": "off",
     "no-underscore-dangle": "off",
     "consistent-return": "off",
     "no-param-reassign": "off",

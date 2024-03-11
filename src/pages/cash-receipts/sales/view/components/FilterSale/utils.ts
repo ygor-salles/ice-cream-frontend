@@ -1,7 +1,6 @@
-import { IFormFilterSalePage } from 'shared/dtos/ISaleDTO';
 import * as yup from 'yup';
 
-export const fieldSaleFilter: IFormFilterSalePage = {
+export const fieldSaleFilter = {
   client_name: 'client_name',
   client_id: 'client_id',
   observation: 'observation',

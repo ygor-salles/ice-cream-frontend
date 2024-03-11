@@ -78,11 +78,15 @@ export const SaleDetail = () => {
       return;
     }
 
-    if (newItem.combinations.length === 0) {
+    if (newItem?.combinations?.length === 0) {
       delete newItem.combinations;
     }
 
-    onChangeDataProduct([...data_product, newItem]);
+    if (data_product) {
+      onChangeDataProduct([...data_product, newItem]);
+    } else {
+      onChangeDataProduct([newItem]);
+    }
     setValue('total', total + newItem.total);
   };
 
@@ -140,7 +144,7 @@ export const SaleDetail = () => {
               color="secondary"
               disabled={
                 (loading || !isValid || !isDirty) &&
-                saleDetail.data_product.length === data_product.length
+                saleDetail.data_product.length === data_product?.length
               }
             >
               Salvar

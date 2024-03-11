@@ -103,7 +103,7 @@ export const DialogCreateSale = ({ open, onClose, onSubmit }: DialogCreateSalePr
     setValue('total', formatNumberToCurrencyInput(soma * amount));
   };
 
-  const handleTextFieldCount = (onClick: 'add' | 'subt') => {
+  const handleTextFieldCount = (onClick: 'add' | 'subt' | undefined) => {
     const { price, type } = getValues('data_product');
     const combinations = getValues('combinations');
 

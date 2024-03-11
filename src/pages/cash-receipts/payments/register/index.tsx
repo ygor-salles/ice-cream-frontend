@@ -31,7 +31,7 @@ export function RegisterPayment() {
 
   const { handleSubmitCreate, loadingForm: loading } = usePayment();
 
-  const [clientState, setClientState] = useState<IClientDTO>();
+  const [clientState, setClientState] = useState<IClientDTO | null>();
 
   const onCloseSelectClient = (event: React.SyntheticEvent<Element, Event>) => {
     const idClient = event?.currentTarget?.id;
@@ -66,7 +66,7 @@ export function RegisterPayment() {
         <Form
           noValidate
           onSubmit={handleSubmit((data: IFormPayment) => {
-            handleSubmitCreate(data, clientState.debit);
+            if (clientState) handleSubmitCreate(data, clientState.debit);
             setClientState(null);
           })}
         >

@@ -8,6 +8,8 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Theme,
+  useMediaQuery,
 } from '@mui/material';
 import React, { useCallback, useState } from 'react';
 import Mask from 'shared/utils/masks';
@@ -18,14 +20,13 @@ import { Row } from './Row';
 import { StyledTableCell } from './styles';
 import { TableAppProps, TypeColumnTableEnum } from './types';
 
-export const TableApp = ({
+export const TableApp = <T, S>({
   tableName,
   columnConfig,
   columnConfigCollapse,
   data,
   components,
   componentsCollapse,
-  isMobile,
   showFilterState,
   renderInputSearchAndSelect,
   mappedColumnSubObject,
@@ -33,8 +34,11 @@ export const TableApp = ({
   renderCellHeaderCollapse,
   renderCellHeader,
   renderCollapse,
-}: TableAppProps) => {
-  const [dataState, setDataState] = useState(data);
+}: TableAppProps<T, S>) => {
+  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [dataState, setDataState] = useState(data as any[]);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const columnConfigKeys = [...Object.entries(columnConfig).map(([key, value]) => key)];
@@ -72,13 +76,15 @@ export const TableApp = ({
 
   const handleSearch = useCallback(
     (value: string, searchPropertName: string, type: keyof typeof TypeColumnTableEnum) => {
-      const newUpdateInstance: unknown[] = [];
+      const newUpdateInstance = [];
       const textTyped = new RegExp(value.toUpperCase(), 'i');
       const propert = searchPropertName.split('.')[0];
       const subPropert = searchPropertName.split('.')[1];
 
       // eslint-disable-next-line no-restricted-syntax
-      for (const instance of data) {
+      for (const iterator of data) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const instance = iterator as { [key: string]: any };
         if (!subPropert) {
           if (
             (type === 'string' && instance[propert]?.match(textTyped)) ||
@@ -130,7 +136,7 @@ export const TableApp = ({
         open={showFilterState}
         handleSearch={handleSearch}
         renderInputSearchAndSelect={renderInputSearchAndSelect}
-        isMobile={isMobile}
+        isMobile={smDown}
       />
 
       <TableContainer component={Paper}>
@@ -142,7 +148,7 @@ export const TableApp = ({
                   <StyledTableCell
                     align={columnConfig[key]?.align}
                     width={columnConfig[key]?.width}
-                    isMobile={!!isMobile}
+                    isMobile={!!smDown}
                   >
                     <span>{renderCellHeader(key)}</span>
                   </StyledTableCell>
@@ -157,7 +163,7 @@ export const TableApp = ({
                 ? dataState.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 : dataState
               ).map((rowData, rowIndex) => (
-                <Row
+                <Row<T, S>
                   columnConfig={columnConfig}
                   columnConfigCollapse={columnConfigCollapse}
                   columnConfigKeys={columnConfigKeys}
@@ -168,7 +174,7 @@ export const TableApp = ({
                   rowData={rowData}
                   rowIndex={rowIndex}
                   tableName={tableName}
-                  isMobile={isMobile}
+                  isMobile={smDown}
                   mappedColumn={mappedColumn}
                   mappedColumnCollapse={mappedColumnCollapse}
                   renderCollapse={renderCollapse}

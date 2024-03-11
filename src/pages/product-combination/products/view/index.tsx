@@ -58,31 +58,41 @@ export function Products() {
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderSwitchToggle = (value: boolean, { id }: IProductDTO) => {
-    return (
-      <SwitchComponent id={id} value={value} onSubmitSwitchToogle={handleSubmitSwitchToogle} />
-    );
+  const _renderSwitchToggle = (value?: boolean, product?: IProductDTO) => {
+    if (value && product?.id) {
+      return (
+        <SwitchComponent
+          id={product.id}
+          value={value}
+          onSubmitSwitchToogle={handleSubmitSwitchToogle}
+        />
+      );
+    }
+
+    return <span>--</span>;
   };
 
-  const _renderAction = (value: string, { description, ...rowData }: IProductDTO) => {
-    description = description || '';
-    return (
-      <ActionComponent
-        smDown={smDown}
-        rowData={{ description, ...rowData }}
-        handleClickEdit={handleClickEdit}
-        handleClickDelete={handleClickDelete}
-      />
-    );
+  const _renderAction = (value?: string, product?: IProductDTO) => {
+    if (product) {
+      return (
+        <ActionComponent
+          rowData={{ description: product.description, ...product }}
+          handleClickEdit={handleClickEdit}
+          handleClickDelete={handleClickDelete}
+        />
+      );
+    }
+
+    return <span>--</span>;
   };
 
-  const components: ITypeComponents = {
+  const components: ITypeComponents<string & number & boolean, IProductDTO> = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.PRICE]: _renderBasicToCurrency,
     [columnType.STATUS]: _renderSwitchToggle,
   };
 
-  const componentsCollapse: ITypeComponents = {
+  const componentsCollapse: ITypeComponents<string & Date, IProductDTO> = {
     [columnTypeCollapse.DESCRIPTION]: _renderBasicTextCell,
     [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -112,7 +122,7 @@ export function Products() {
         {loadingProducts ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp
+          <TableApp<string & number & boolean & Date, IProductDTO>
             tableName="table-products"
             data={allProducts}
             components={components}
@@ -125,7 +135,6 @@ export function Products() {
             columnConfigCollapse={columnConfigCollapse}
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
-            isMobile={smDown}
             showFilterState={showFilterState}
             renderInputSearchAndSelect={filterTable}
           />

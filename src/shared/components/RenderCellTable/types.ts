@@ -4,11 +4,10 @@ export interface SwitchComponentProps {
   onSubmitSwitchToogle: (isActive: boolean, id: number) => Promise<void>;
 }
 
-export interface ActionComponentProps {
-  smDown: boolean;
-  rowData: unknown;
+export interface ActionComponentProps<T> {
+  rowData: T;
   accessDelete?: boolean;
   accessEdit?: boolean;
-  handleClickEdit?: (data: unknown) => void;
-  handleClickDelete?: (data: unknown) => void;
+  handleClickEdit?: (data: T) => void;
+  handleClickDelete?: (data: T) => void;
 }

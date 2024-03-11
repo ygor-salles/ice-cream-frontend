@@ -1,6 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Report, ReportOff } from '@mui/icons-material';
-import { Dialog, DialogContent, DialogTitle, Grid, Tooltip } from '@mui/material';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Theme,
+  Tooltip,
+  useMediaQuery,
+} from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FooterDialogActions, TextFieldApp } from 'shared/components';
@@ -16,12 +24,12 @@ import { DialogEditProps } from './types';
 
 export function DialogEdit({
   client,
-  smDown,
   onSubmitUpdate,
   open,
   handleClose,
   loading,
 }: DialogEditProps) {
+  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const { handleSubmit, control } = useForm<IFormClient>({
     resolver: yupResolver(schemaCreateClient),
     defaultValues: defaultValuesClientEdit(client),

@@ -4,6 +4,7 @@ export enum EnumRoleUser {
   SUPER = 'SUPER',
   NORMAL = 'NORMAL',
   EMPLOYEE = 'EMPLOYEE',
+  LOGOUT = 'LOGOUT',
 }
 
 export interface IUserDTO {

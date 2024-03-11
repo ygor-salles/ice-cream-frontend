@@ -17,10 +17,10 @@ export interface ITypeColumnLabel {
   [x: string]: string;
 }
 
-export interface ITypeComponents {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [x: string]: (value?: any, data?: object, rowIndex?: number, isChecked?: boolean) => JSX.Element;
-}
+export type ITypeComponents<T, S> = Record<
+  string,
+  (value?: T, data?: S, rowIndex?: number, isChecked?: boolean) => JSX.Element
+>;
 
 export enum TypeColumnTableEnum {
   string = 'string',
@@ -36,19 +36,18 @@ export interface IRenderInputSearch {
   type: keyof typeof TypeColumnTableEnum;
 }
 
-export interface TableAppProps {
+export interface TableAppProps<T, S> {
   tableName: string;
   columnConfig: ITypeColumnConfig;
   columnConfigCollapse?: ITypeColumnConfig;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any[];
-  components: ITypeComponents;
-  componentsCollapse?: ITypeComponents;
+  data: S[];
+  components: ITypeComponents<T, S>;
+  componentsCollapse?: ITypeComponents<T, S>;
   // eslint-disable-next-line @typescript-eslint/ban-types
   renderCellHeader: (key: string) => {};
   // eslint-disable-next-line @typescript-eslint/ban-types
   renderCellHeaderCollapse?: (key: string) => {};
-  isMobile?: boolean;
   showFilterState?: boolean;
   renderInputSearchAndSelect?: IRenderInputSearch[];
   mappedColumnSubObject?: ITypeColumnType;

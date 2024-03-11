@@ -3,7 +3,7 @@ import { Control } from 'react-hook-form';
 export interface TextFieldAppProps {
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: Control<any>;
+  control: Control<any> | undefined;
   label: React.ReactNode;
   type?: React.HTMLInputTypeAttribute;
   required?: boolean;

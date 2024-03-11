@@ -126,7 +126,7 @@ export const CartListing = ({
                 >
                   <ContentSummary>
                     <Typography>{`${item.amount} ${item.name}${
-                      item?.combinations?.length > 0 ? ' - comb' : ''
+                      item.combinations && item.combinations.length > 0 ? ' - comb' : ''
                     }`}</Typography>
                     <WrapperDel>
                       <Typography>{formatNumberToCurrency(item.total)}</Typography>
@@ -143,7 +143,7 @@ export const CartListing = ({
                     </WrapperDel>
                   </ContentSummary>
                   <AccordionDetails>
-                    {item?.combinations?.length > 0 && (
+                    {item.combinations && item?.combinations?.length > 0 && (
                       <Ul>
                         {item.combinations.map(item => (
                           <Li key={item.name}>{`${item.name} - ${formatNumberToCurrency(
@@ -199,7 +199,7 @@ export const CartListing = ({
         </div>
       </WrapperButtons>
 
-      <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open={loading}>
+      <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open={!!loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
     </Main>

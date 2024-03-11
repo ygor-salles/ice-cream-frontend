@@ -43,7 +43,7 @@ export function TextFieldApp({
                   startAdornment: renderLeft,
                   endAdornment:
                     type === 'tel' ? (
-                      maskState.length >= 15 ? (
+                      maskState && maskState.length >= 15 ? (
                         <StyledLocalPhone onClick={() => setMaskState('(00) 0000-0000')} />
                       ) : (
                         <StyledPhoneAndroid onClick={() => setMaskState('(00) 00000-0000')} />
@@ -88,7 +88,7 @@ export function TextFieldApp({
               startAdornment: renderLeft,
               endAdornment:
                 type === 'tel' ? (
-                  maskState.length >= 15 ? (
+                  maskState && maskState.length >= 15 ? (
                     <StyledLocalPhone onClick={() => setMaskState('(00) 0000-0000')} />
                   ) : (
                     <StyledPhoneAndroid onClick={() => setMaskState('(00) 00000-0000')} />

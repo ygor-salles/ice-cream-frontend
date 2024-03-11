@@ -11,12 +11,12 @@ export const HeaderTable = ({
   isMobile,
   ...rest
 }: HeaderTableProps) => {
-  const defaultValue = renderInputSearchAndSelect[0].placeholder;
+  const defaultValue = renderInputSearchAndSelect ? renderInputSearchAndSelect[0].placeholder : '';
 
   const [searchSelectState, setSearchSelectState] = useState(defaultValue);
 
   return renderInputSearchAndSelect ? (
-    <StyledAccordion open={open} isMobile={isMobile} {...rest}>
+    <StyledAccordion open={!!open} isMobile={isMobile} {...rest}>
       <CustomSelectApp
         name=""
         control={undefined}

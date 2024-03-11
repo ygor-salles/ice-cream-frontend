@@ -19,7 +19,8 @@ export function useProduct() {
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
 
-  const timerRef = useRef(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const timerRef = useRef<any>(null);
 
   const handleClickEdit = (data: IProductDTO) => {
     setDataActionTable(data);

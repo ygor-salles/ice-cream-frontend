@@ -11,7 +11,7 @@ export function useLogin() {
   const authService = new AuthService();
 
   const onSubmit = async (dataForm: IFormLogin): Promise<IAuthResponse | null> => {
-    let response: IAuthResponse = null;
+    let response: IAuthResponse | null = null;
     try {
       response = await authService.login(dataForm);
     } catch (error) {

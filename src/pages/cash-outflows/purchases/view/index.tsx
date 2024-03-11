@@ -1,5 +1,5 @@
 import { AddBox } from '@mui/icons-material';
-import { Dialog, Skeleton, Theme, useMediaQuery } from '@mui/material';
+import { Dialog, Skeleton } from '@mui/material';
 import { images } from 'assets';
 import { useEffect, useMemo, useState } from 'react';
 import { DialogInfo, Pagination } from 'shared/components';
@@ -17,8 +17,6 @@ import { PurchaseItem } from './components/PurchaseItem';
 import { Close, ImgDialog } from './styles';
 
 export function Purchases() {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
   const {
     allPurchases,
     loadingPurchases,
@@ -47,10 +45,10 @@ export function Purchases() {
     () => ({
       limit: searchParams.get('limit') || `${LIMIT_PAGED}`,
       page: searchParams.get('page') || '1',
-      provider_id: searchParams.get('provider_id'),
-      observation: searchParams.get('observation'),
-      start_date: searchParams.get('start_date'),
-      end_date: searchParams.get('end_date'),
+      provider_id: searchParams.get('provider_id') || undefined,
+      observation: searchParams.get('observation') || undefined,
+      start_date: searchParams.get('start_date') || undefined,
+      end_date: searchParams.get('end_date') || undefined,
     }),
     [searchParams],
   );
@@ -110,7 +108,6 @@ export function Purchases() {
 
       {showModalEdit && dataActionTable && (
         <DialogEdit
-          smDown={smDown}
           purchase={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}

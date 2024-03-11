@@ -32,7 +32,7 @@ export const FilterPurchase = ({ onSubmitFilter, loadingPurchases }: FilterPurch
 
     if (provider_name?.length > 0 && allProviders) {
       const provider = allProviders.find(item => item.name === provider_name);
-      setValue('provider_id', provider.id.toString());
+      if (provider?.id) setValue('provider_id', provider.id.toString());
     } else {
       setValue('provider_id', '');
     }

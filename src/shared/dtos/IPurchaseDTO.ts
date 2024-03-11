@@ -21,7 +21,7 @@ export interface IPurchaseDTO {
 }
 
 export interface IFormPurchase {
-  id?: number;
+  id: number;
   value_total: string;
   observation?: string;
   provider_id: string;
@@ -32,11 +32,11 @@ export interface IFormPurchase {
 }
 
 export interface IFormFilterPurchasePage {
-  provider_name?: string;
-  provider_id?: string;
-  observation?: string;
-  start_date?: string;
-  end_date?: string;
+  provider_name: string;
+  provider_id: string;
+  observation: string;
+  start_date: string;
+  end_date: string;
 }
 
 export const fieldsPurchase = {
@@ -150,7 +150,7 @@ export const transformObjectFilter = (
       dataForm.its_ice_cream_shoop === EnumTypeProvider.PROVIDER ||
       dataForm.its_ice_cream_shoop === EnumTypeProvider.EMPLOYEE;
   }
-  if (dataForm.provider_id.length) {
+  if (dataForm.provider_id?.length) {
     object.provider_id = Number(dataForm.provider_id);
   }
   return object;

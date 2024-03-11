@@ -11,7 +11,7 @@ import {
 } from 'shared/components';
 import { ITypeComponents } from 'shared/components/TableApp/types';
 import { RoutesEnum } from 'shared/constants';
-import { IUserDTO } from 'shared/dtos/IUserDTO';
+import { EnumRoleUser, IUserDTO } from 'shared/dtos/IUserDTO';
 import { useUser } from 'shared/hooks/network/useUser';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
@@ -51,22 +51,27 @@ export function Users() {
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderAction = (value: string, data: IUserDTO) => (
-    <ActionComponent
-      smDown={smDown}
-      rowData={data}
-      handleClickEdit={handleClickEdit}
-      handleClickDelete={handleClickDelete}
-    />
-  );
+  const _renderAction = (value?: string, data?: IUserDTO) => {
+    if (data) {
+      return (
+        <ActionComponent
+          rowData={data}
+          handleClickEdit={handleClickEdit}
+          handleClickDelete={handleClickDelete}
+        />
+      );
+    }
 
-  const components: ITypeComponents = {
+    return <span>--</span>;
+  };
+
+  const components: ITypeComponents<string & Date & EnumRoleUser, IUserDTO> = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.ROLE]: _renderRoleCell,
     [columnType.UPDATED_AT]: _renderBasicDate,
   };
 
-  const componentsCollapse: ITypeComponents = {
+  const componentsCollapse: ITypeComponents<string & Date, IUserDTO> = {
     [columnTypeCollapse.EMAIL]: _renderBasicTextCell,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -86,7 +91,7 @@ export function Users() {
         {loadingUsers ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp
+          <TableApp<string & Date & EnumRoleUser, IUserDTO>
             tableName="table-clients"
             data={allUsers}
             components={components}
@@ -95,7 +100,6 @@ export function Users() {
             columnConfigCollapse={columnConfigCollapse}
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
-            isMobile={smDown}
             showFilterState={showFilterState}
             renderInputSearchAndSelect={filterTable}
           />

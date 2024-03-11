@@ -1,11 +1,11 @@
-import { AddBox, FilterAlt, ArrowBack } from '@mui/icons-material';
-import { Skeleton, Theme, useMediaQuery, Button } from '@mui/material';
+import { AddBox, ArrowBack, FilterAlt } from '@mui/icons-material';
+import { Button, Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+  ActionComponent,
   DialogInfo,
   TableApp,
-  ActionComponent,
   _renderBasicDate,
   _renderBasicTextCell,
   _renderTextCellYesOrNo,
@@ -30,8 +30,6 @@ import {
 export function Providers() {
   const navigate = useNavigate();
 
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
   const {
     allProviders,
     loadingProviders,
@@ -54,25 +52,27 @@ export function Providers() {
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderAction = (value: string, { phone, ...rowData }: IProviderDTO) => {
-    phone = phone || '';
-    return (
-      <ActionComponent
-        smDown={smDown}
-        rowData={{ phone, ...rowData }}
-        handleClickEdit={handleClickEdit}
-        handleClickDelete={handleClickDelete}
-      />
-    );
+  const _renderAction = (value?: string, provider?: IProviderDTO) => {
+    if (provider) {
+      return (
+        <ActionComponent
+          rowData={{ phone: provider.phone, ...provider }}
+          handleClickEdit={handleClickEdit}
+          handleClickDelete={handleClickDelete}
+        />
+      );
+    }
+
+    return <span>--</span>;
   };
 
-  const components: ITypeComponents = {
+  const components: ITypeComponents<string & boolean & Date, IProviderDTO> = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.ITS_ICE_CREAM_SHOP]: _renderTextCellYesOrNo,
     [columnType.UPDATED_AT]: _renderBasicDate,
   };
 
-  const componentsCollapse: ITypeComponents = {
+  const componentsCollapse: ITypeComponents<string & Date, IProviderDTO> = {
     [columnTypeCollapse.PHONE]: _renderBasicTextCell,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -102,7 +102,7 @@ export function Providers() {
         {loadingProviders ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp
+          <TableApp<string & boolean & Date, IProviderDTO>
             tableName="table-providers"
             data={allProviders}
             components={components}
@@ -111,7 +111,6 @@ export function Providers() {
             columnConfigCollapse={columnConfigCollapse}
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
-            isMobile={smDown}
             showFilterState={showFilterState}
             renderInputSearchAndSelect={filterTable}
           />
@@ -120,7 +119,6 @@ export function Providers() {
 
       {showModalEdit && dataActionTable && (
         <DialogEdit
-          smDown={smDown}
           provider={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}

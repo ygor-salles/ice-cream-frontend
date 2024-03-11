@@ -9,7 +9,7 @@ export interface TypeDefaultOptions {
 export interface SelectPropsApp {
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: Control<any>;
+  control: Control<any> | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: any[];
   label: React.ReactNode;

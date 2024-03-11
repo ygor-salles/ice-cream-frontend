@@ -29,9 +29,9 @@ export const FilterSale = ({ onSubmitFilter, loadingSales }: FilterSaleProps) =>
   const onCloseSelectClient = () => {
     const client_name = getValues('client_name');
 
-    if (client_name?.length > 0 && allClientsStorage) {
+    if (client_name && client_name?.length > 0 && allClientsStorage) {
       const client = allClientsStorage.find(item => item.name === client_name);
-      setValue('client_id', client.id.toString());
+      if (client?.id) setValue('client_id', client.id.toString());
     } else {
       setValue('client_id', '');
     }

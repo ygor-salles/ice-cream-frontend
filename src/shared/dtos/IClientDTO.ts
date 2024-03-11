@@ -47,7 +47,7 @@ export const transformObject = (dataForm: IFormClient): IClientDTO => {
     name: dataForm.name,
     debit: dataForm.debit.length === 0 ? 0 : Mask.convertCurrency(dataForm.debit),
   };
-  if (dataForm.phone.length && dataForm.phone !== '(') {
+  if (dataForm?.phone?.length && dataForm.phone !== '(') {
     object.phone = dataForm.phone;
   }
   return object;

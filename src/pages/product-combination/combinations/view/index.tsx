@@ -54,23 +54,26 @@ export function Combinations() {
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderAction = (value: string, rowData: ICombinationDTO) => {
-    return (
-      <ActionComponent
-        smDown={smDown}
-        rowData={rowData}
-        handleClickEdit={handleClickEdit}
-        handleClickDelete={handleClickDelete}
-      />
-    );
+  const _renderAction = (value?: string, rowData?: ICombinationDTO) => {
+    if (rowData) {
+      return (
+        <ActionComponent
+          rowData={rowData}
+          handleClickEdit={handleClickEdit}
+          handleClickDelete={handleClickDelete}
+        />
+      );
+    }
+
+    return <span>--</span>;
   };
 
-  const components: ITypeComponents = {
+  const components: ITypeComponents<string & number, ICombinationDTO> = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.PRICE]: _renderBasicToCurrency,
   };
 
-  const componentsCollapse: ITypeComponents = {
+  const componentsCollapse: ITypeComponents<string & Date, ICombinationDTO> = {
     [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -100,7 +103,7 @@ export function Combinations() {
         {loadingCombinations ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp
+          <TableApp<string & number & Date, ICombinationDTO>
             tableName="table-combinations"
             data={allCombinations}
             components={components}
@@ -109,7 +112,6 @@ export function Combinations() {
             columnConfigCollapse={columnConfigCollapse}
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
-            isMobile={smDown}
             showFilterState={showFilterState}
             renderInputSearchAndSelect={filterTable}
           />

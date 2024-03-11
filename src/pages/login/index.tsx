@@ -29,7 +29,7 @@ export const Login = () => {
       const response = await authenticate(email, password);
       setLoading(false);
 
-      if (response.role === EnumRoleUser.NORMAL) {
+      if (response?.role === EnumRoleUser.NORMAL) {
         navigate(RoutesEnum.ORDERS_ACTIVES);
       } else {
         navigate(RoutesEnum.SALES_CREATE);

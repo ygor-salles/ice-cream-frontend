@@ -7,9 +7,11 @@ export const convertMultipartFormPurchase = (
 ): FormData => {
   const formData = new FormData();
 
-  formData.append(fieldsPurchase.VALUE_TOTAL, dataRequest.value_total.toString());
+  if (dataRequest.value_total) {
+    formData.append(fieldsPurchase.VALUE_TOTAL, dataRequest.value_total.toString());
+  }
 
-  if (dataRequest?.observation?.length > 0) {
+  if (dataRequest.observation && dataRequest?.observation?.length > 0) {
     formData.append(fieldsPurchase.OBSERVATION, dataRequest.observation);
   }
 
@@ -22,7 +24,9 @@ export const convertMultipartFormPurchase = (
     formData.append(fieldsPurchase.FILE, dataRequest.file);
   }
 
-  formData.append(fieldsPurchase.PROVIDER_ID, dataRequest.provider_id.toString());
+  if (dataRequest.provider_id) {
+    formData.append(fieldsPurchase.PROVIDER_ID, dataRequest.provider_id.toString());
+  }
 
   if (dataRequest?.created_at) {
     formData.append(fieldsPurchase.CREATED_AT, dataRequest.created_at.toString());

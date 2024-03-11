@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
   Checkbox,
@@ -33,14 +34,11 @@ export const SelectMultiple = ({
     fieldState: { error },
   } = useController({ name, control });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: SelectChangeEvent<any>) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const value = event.target.value as any;
 
-    let duplicateRemoved = [];
+    let duplicateRemoved: any[] = [];
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value.forEach((item: any) => {
       if (duplicateRemoved.findIndex(o => o.id === item.id) >= 0) {
         duplicateRemoved = duplicateRemoved.filter(x => x.id !== item.id);
@@ -58,7 +56,7 @@ export const SelectMultiple = ({
         .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
         .map(item => (
           <MenuItem key={item.id ?? item.name} value={item}>
-            <Checkbox checked={value.findIndex(x => x.id === item.id) >= 0} />
+            <Checkbox checked={value.findIndex((x: any) => x.id === item.id) >= 0} />
             <ListItemText primary={`${item.name} - ${formatNumberToCurrency(item.price)}`} />
           </MenuItem>
         ));
@@ -66,14 +64,14 @@ export const SelectMultiple = ({
     if (sortAlphabeticallyString) {
       return options.sort().map(item => (
         <MenuItem key={item.id ?? item.name} value={item}>
-          <Checkbox checked={value.findIndex(x => x.id === item.id) >= 0} />
+          <Checkbox checked={value.findIndex((x: any) => x.id === item.id) >= 0} />
           <ListItemText primary={`${item.name} - ${formatNumberToCurrency(item.price)}`} />
         </MenuItem>
       ));
     }
     return options.map(item => (
       <MenuItem key={item.id ?? item.name} value={item}>
-        <Checkbox checked={value.findIndex(x => x.id === item.id) >= 0} />
+        <Checkbox checked={value.findIndex((x: any) => x.id === item.id) >= 0} />
         <ListItemText primary={`${item.name} - ${formatNumberToCurrency(item.price)}`} />
       </MenuItem>
     ));
@@ -97,7 +95,7 @@ export const SelectMultiple = ({
         onChange={handleChange}
         renderValue={selected => (
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-            {selected.map(item => (
+            {selected.map((item: any) => (
               <Chip key={item.id ?? item.name} label={item.name} />
             ))}
           </Box>

@@ -20,7 +20,7 @@ export const FooterDialogActions = ({
       </StyledButton>
       <Button
         variant="contained"
-        onClick={() => onSubmitDelete(id)}
+        onClick={onSubmitDelete && id ? () => onSubmitDelete(id) : undefined}
         endIcon={loading && <CircularProgress variant="indeterminate" color="inherit" size={20} />}
         disabled={loading}
       >

@@ -13,16 +13,18 @@ const api = axios.create({
 
 api.interceptors.request.use(config => {
   const objToken = localStorage.getItem(localStorageKeys.TOKEN);
-  const parseObj = JSON.parse(objToken);
+  if (objToken) {
+    const parseObj = JSON.parse(objToken);
 
-  if (parseObj) {
-    return {
-      ...config,
-      headers: {
-        ...config.headers,
-        Authorization: `Bearer ${parseObj?.token}`,
-      },
-    };
+    if (parseObj) {
+      return {
+        ...config,
+        headers: {
+          ...config.headers,
+          Authorization: `Bearer ${parseObj?.token}`,
+        },
+      };
+    }
   }
 
   return config;

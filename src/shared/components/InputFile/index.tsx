@@ -22,15 +22,17 @@ export const InputFile = ({
   const [imgSrcState, setImgSrcState] = useState(pathApi ? transformImageUrl(pathApi) : '');
 
   const onChangeInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files[0];
+    if (e.target.files) {
+      const file = e.target.files[0];
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
 
-    reader.onloadend = () => {
-      setImgSrcState(reader.result as string);
-      onChange(file);
-    };
+      reader.onloadend = () => {
+        setImgSrcState(reader.result as string);
+        onChange(file);
+      };
+    }
   };
 
   useEffect(() => {
@@ -41,7 +43,7 @@ export const InputFile = ({
 
   return (
     <ContentInputFile>
-      <ContentLabel disabled={disabled}>
+      <ContentLabel disabled={!!disabled}>
         <label htmlFor={name}>
           {label}
           <Upload color={disabled ? 'disabled' : 'primary'} />

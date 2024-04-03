@@ -12,22 +12,30 @@ export const FooterDialogActions = ({
   isDialogDelete,
   onSubmitDelete,
   id,
-}: FooterDialogActionsProps) =>
-  isDialogDelete ? (
-    <StyledDialogActions>
-      <StyledButton autoFocus variant="outlined" onClick={onClose} disabled={loading}>
-        {textButtonCancel}
-      </StyledButton>
-      <Button
-        variant="contained"
-        onClick={onSubmitDelete && id ? () => onSubmitDelete(id) : undefined}
-        endIcon={loading && <CircularProgress variant="indeterminate" color="inherit" size={20} />}
-        disabled={loading}
-      >
-        {textButtonConfirm}
-      </Button>
-    </StyledDialogActions>
-  ) : (
+}: FooterDialogActionsProps) => {
+  if (isDialogDelete) {
+    const idFunc = id ?? 0;
+
+    return (
+      <StyledDialogActions>
+        <StyledButton autoFocus variant="outlined" onClick={onClose} disabled={loading}>
+          {textButtonCancel}
+        </StyledButton>
+        <Button
+          variant="contained"
+          onClick={onSubmitDelete ? () => onSubmitDelete(idFunc) : undefined}
+          endIcon={
+            loading && <CircularProgress variant="indeterminate" color="inherit" size={20} />
+          }
+          disabled={loading}
+        >
+          {textButtonConfirm}
+        </Button>
+      </StyledDialogActions>
+    );
+  }
+
+  return (
     <StyledDialogActions>
       <StyledButton variant="outlined" type="button" onClick={onClose} disabled={loading}>
         {textButtonCancel}
@@ -35,3 +43,4 @@ export const FooterDialogActions = ({
       <ButtonSubmitApp loading={loading} textButton={textButtonConfirm} />
     </StyledDialogActions>
   );
+};

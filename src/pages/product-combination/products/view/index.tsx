@@ -59,7 +59,7 @@ export function Products() {
   const [showFilterState, setShowFilterState] = useState(false);
 
   const _renderSwitchToggle = (value?: boolean, product?: IProductDTO) => {
-    if (value && product?.id) {
+    if (typeof value === 'boolean' && product?.id) {
       return (
         <SwitchComponent
           id={product.id}

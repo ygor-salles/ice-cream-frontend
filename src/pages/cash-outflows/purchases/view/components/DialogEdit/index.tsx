@@ -17,6 +17,7 @@ import {
 } from 'shared/dtos/IPurchaseDTO';
 import { useProvider } from 'shared/hooks/network/useProvider';
 
+import { LoadingDialog } from './components/LoadingDialog';
 import { Form } from './styles';
 import { DialogEditProps } from './types';
 
@@ -41,7 +42,7 @@ export function DialogEdit({
 
   const values = watch();
 
-  if (!loadingProviders) {
+  return (
     <Dialog
       fullScreen={smDown}
       open={open}
@@ -58,55 +59,61 @@ export function DialogEdit({
         <DialogTitle id="responsive-dialog-title">EDITAR COMPRA</DialogTitle>
         <DialogContent>
           <Grid container spacing={4}>
-            <Grid item xs={12}>
-              <TextFieldApp
-                name={fieldsPurchase.VALUE_TOTAL}
-                control={control}
-                label="Valor total"
-                currency
-                required
-                disabled={loading || loadingProviders}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextFieldApp
-                name={fieldsPurchase.OBSERVATION}
-                control={control}
-                label="Observação"
-                required
-                disabled={loading || loadingProviders}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <SelectApp
-                name={fieldsPurchase.PROVIDER_ID}
-                control={control}
-                options={!loadingProviders ? allProviders : []}
-                setId
-                sortAlphabeticallyObject
-                label="Fornecedor"
-                required
-                disabled={loading || loadingProviders}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <CheckboxApp
-                name={fieldsPurchase.ITS_ICE_CREAM_SHOP}
-                control={control}
-                label="Compra da sorveteria"
-                disabled={loading || loadingProviders}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <InputFile
-                name={fieldsPurchase.FILE}
-                isMobile={!!smDown}
-                label="Anexe a nota fiscal"
-                control={control}
-                pathApi={purchase.nf_url}
-                disabled={loading || loadingProviders}
-              />
-            </Grid>
+            {loadingProviders ? (
+              <LoadingDialog />
+            ) : (
+              <>
+                <Grid item xs={12}>
+                  <TextFieldApp
+                    name={fieldsPurchase.VALUE_TOTAL}
+                    control={control}
+                    label="Valor total"
+                    currency
+                    required
+                    disabled={loading || loadingProviders}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextFieldApp
+                    name={fieldsPurchase.OBSERVATION}
+                    control={control}
+                    label="Observação"
+                    required
+                    disabled={loading || loadingProviders}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <SelectApp
+                    name={fieldsPurchase.PROVIDER_ID}
+                    control={control}
+                    options={!loadingProviders ? allProviders : []}
+                    setId
+                    sortAlphabeticallyObject
+                    label="Fornecedor"
+                    required
+                    disabled={loading || loadingProviders}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CheckboxApp
+                    name={fieldsPurchase.ITS_ICE_CREAM_SHOP}
+                    control={control}
+                    label="Compra da sorveteria"
+                    disabled={loading || loadingProviders}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <InputFile
+                    name={fieldsPurchase.FILE}
+                    isMobile={!!smDown}
+                    label="Anexe a nota fiscal"
+                    control={control}
+                    pathApi={purchase.nf_url}
+                    disabled={loading || loadingProviders}
+                  />
+                </Grid>
+              </>
+            )}
           </Grid>
         </DialogContent>
         <FooterDialogActions
@@ -116,8 +123,6 @@ export function DialogEdit({
           loading={loading || loadingProviders}
         />
       </Form>
-    </Dialog>;
-  }
-
-  return null;
+    </Dialog>
+  );
 }

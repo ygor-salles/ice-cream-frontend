@@ -3,7 +3,7 @@ import { Controller } from 'react-hook-form';
 
 import { NumberFormatCustom } from '../NumberFormatCustom';
 import { TextMaskCustom } from '../TextMaskCustom';
-import { StyledTextField, StyledLocalPhone, StyledPhoneAndroid } from './styles';
+import { StyledLocalPhone, StyledPhoneAndroid, StyledTextField } from './styles';
 import { TextFieldAppProps } from './types';
 
 export function TextFieldApp({
@@ -34,6 +34,7 @@ export function TextFieldApp({
           label={label}
           value={value || ''}
           onChange={onChange}
+          autoComplete={type === 'password' ? 'on' : undefined}
           InputProps={
             mask
               ? {

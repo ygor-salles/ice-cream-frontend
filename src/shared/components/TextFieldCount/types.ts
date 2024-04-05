@@ -1,13 +1,14 @@
 import { Control } from 'react-hook-form';
 
+export type TypeEventFieldCount = 'add' | 'subt' | 'onChange';
+
 export interface TextFieldCountProps {
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
   label: React.ReactNode;
-  defaultValue: number;
+  defaultValue: string;
   disabled?: boolean;
-  handleOperation: (onClick?: 'add' | 'subt' | undefined) => void;
-  stateCount: number;
-  setStateCount: React.Dispatch<React.SetStateAction<number>>;
+  valueCurrent: string;
+  handleOperation: (onClick: TypeEventFieldCount) => void;
 }

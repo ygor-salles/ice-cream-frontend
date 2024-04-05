@@ -4,6 +4,7 @@ import { Button, Dialog, Theme, Typography, useMediaQuery } from '@mui/material'
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AutoComplete, SelectMultiple, TextFieldApp, TextFieldCount } from 'shared/components';
+import { TypeEventFieldCount } from 'shared/components/TextFieldCount/types';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
 import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
 import {
@@ -23,22 +24,23 @@ import { DialogCreateSaleProps } from './types';
 export const DialogCreateSale = ({ open, onClose, onSubmit }: DialogCreateSaleProps) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const { handleSubmit, control, setValue, reset, getValues } = useForm<IFormSale>({
+  const { handleSubmit, control, setValue, reset, getValues, watch } = useForm<IFormSale>({
     resolver: yupResolver(schemaDialogCreateSale),
     defaultValues: defaultValuesDialogSale,
   });
 
+  const amount = watch('amount');
+
   const { allProductsStorage: allProd, allCombinationsStorage: allComb } = useDrawerContext();
-  const allProductsStorage = allProd ?? [];
+  const allProductsStorage = allProd ? allProd.filter(item => item.status) : [];
   const allCombinationsStorage = allComb ?? [];
 
   const [allCombinations, setAllCombinations] = useState<ICombinationDTO[]>(allCombinationsStorage);
   const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
-  const [count, setCount] = useState(Number(defaultValueAmount));
   const [enableOptions, setEnableOptions] = useState(false);
 
   const handleClose = useCallback(() => {
-    setCount(Number(defaultValueAmount));
+    setValue('amount', defaultValueAmount);
     setIsDisabledTextFieldCount(true);
     reset();
     onClose();
@@ -56,6 +58,7 @@ export const DialogCreateSale = ({ open, onClose, onSubmit }: DialogCreateSalePr
 
   const onCloseSelectProduct = async () => {
     const product_name = getValues('product_name');
+    setValue('amount', defaultValueAmount);
 
     if (product_name?.length > 0) {
       if (getValues('combinations').length > 0) setValue('combinations', []);
@@ -68,27 +71,29 @@ export const DialogCreateSale = ({ open, onClose, onSubmit }: DialogCreateSalePr
 
       if (product?.price) {
         if (product?.price < 0.1 && product?.type === EnumTypeProduct.ICE_CREAM) {
+          setEnableOptions(false);
+          setIsDisabledTextFieldCount(true);
           setValue('total', '');
-          setValue('amount', defaultValueAmount);
-          setCount(Number(defaultValueAmount));
-        } else {
-          setValue('total', formatNumberToCurrencyInput(product.price));
+          return;
         }
 
         if (product.type === EnumTypeProduct.ACAI) {
           ruleAcais(product);
           setEnableOptions(true);
-        } else {
-          setEnableOptions(false);
+          setIsDisabledTextFieldCount(false);
+          setValue('total', formatNumberToCurrencyInput(product.price));
+          return;
         }
+
+        setEnableOptions(false);
         setIsDisabledTextFieldCount(false);
+        setValue('total', formatNumberToCurrencyInput(product.price));
       }
     } else {
-      setCount(Number(defaultValueAmount));
-      setValue('total', '');
-      setAllCombinations(allCombinationsStorage);
-      setEnableOptions(false);
+      setAllCombinations(allCombinationsStorage ?? []);
       setIsDisabledTextFieldCount(true);
+      setEnableOptions(false);
+      setValue('total', '');
     }
   };
 
@@ -103,7 +108,7 @@ export const DialogCreateSale = ({ open, onClose, onSubmit }: DialogCreateSalePr
     setValue('total', formatNumberToCurrencyInput(soma * amount));
   };
 
-  const handleTextFieldCount = (onClick: 'add' | 'subt' | undefined) => {
+  const handleTextFieldCount = (onClick: TypeEventFieldCount) => {
     const { price, type } = getValues('data_product');
     const combinations = getValues('combinations');
 
@@ -170,9 +175,8 @@ export const DialogCreateSale = ({ open, onClose, onSubmit }: DialogCreateSalePr
             name={fieldsSale.AMOUNT}
             control={control}
             label="Quantidade"
-            defaultValue={Number(defaultValueAmount)}
-            stateCount={count}
-            setStateCount={setCount}
+            defaultValue={defaultValueAmount}
+            valueCurrent={amount}
             handleOperation={handleTextFieldCount}
             disabled={isDisabledTextFieldCount}
           />

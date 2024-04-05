@@ -10,6 +10,7 @@ import {
   TextFieldApp,
   TextFieldCount,
 } from 'shared/components';
+import { TypeEventFieldCount } from 'shared/components/TextFieldCount/types';
 import { LISTTYPESALES, RoutesEnum } from 'shared/constants';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
 import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
@@ -38,7 +39,6 @@ import { Form, GridForm, Notificaion, StyledCard, Text, Wrapper, WrapperButtons 
 export function RegisterSale() {
   const [requiredClient, setRequiredClient] = useState(false);
   const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
-  const [count, setCount] = useState(Number(defaultValueAmount));
   const [enableOptions, setEnableOptions] = useState(false);
 
   const {
@@ -47,6 +47,7 @@ export function RegisterSale() {
     setValue,
     reset,
     getValues,
+    watch,
     formState: { isValid },
   } = useForm<IFormSale>({
     resolver: yupResolver(
@@ -54,6 +55,8 @@ export function RegisterSale() {
     ),
     defaultValues: defaultValuesSale,
   });
+
+  const amount = watch('amount');
 
   const {
     allClientsStorage: allCli,
@@ -90,7 +93,6 @@ export function RegisterSale() {
     setTimeout(() => {
       setValue('combinations', []);
       setValue('amount', defaultValueAmount);
-      setCount(Number(defaultValueAmount));
     }, 1000);
   }, []);
 
@@ -130,6 +132,7 @@ export function RegisterSale() {
 
   const onCloseSelectProduct = async () => {
     const product_name = getValues('product_name');
+    setValue('amount', defaultValueAmount);
 
     if (product_name?.length > 0) {
       if (getValues('combinations').length > 0) setValue('combinations', []);
@@ -142,27 +145,29 @@ export function RegisterSale() {
 
       if (product?.price) {
         if (product?.price < 0.1 && product?.type === EnumTypeProduct.ICE_CREAM) {
+          setEnableOptions(false);
+          setIsDisabledTextFieldCount(true);
           setValue('total', '');
-          setValue('amount', defaultValueAmount);
-          setCount(Number(defaultValueAmount));
-        } else {
-          setValue('total', formatNumberToCurrencyInput(product.price));
+          return;
         }
 
         if (product.type === EnumTypeProduct.ACAI) {
           ruleAcais(product);
           setEnableOptions(true);
-        } else {
-          setEnableOptions(false);
+          setIsDisabledTextFieldCount(false);
+          setValue('total', formatNumberToCurrencyInput(product.price));
+          return;
         }
+
+        setEnableOptions(false);
         setIsDisabledTextFieldCount(false);
+        setValue('total', formatNumberToCurrencyInput(product.price));
       }
     } else {
-      setCount(Number(defaultValueAmount));
-      setValue('total', '');
       setAllCombinations(allCombinationsStorage ?? []);
-      setEnableOptions(false);
       setIsDisabledTextFieldCount(true);
+      setEnableOptions(false);
+      setValue('total', '');
     }
   };
 
@@ -175,7 +180,7 @@ export function RegisterSale() {
     }
   };
 
-  const handleTextFieldCount = (onClick: 'add' | 'subt' | undefined) => {
+  const handleTextFieldCount = (onClick: TypeEventFieldCount) => {
     const { price, type } = getValues('data_product');
     const combinations = getValues('combinations');
 
@@ -272,9 +277,8 @@ export function RegisterSale() {
                     name={fieldsSale.AMOUNT}
                     control={control}
                     label="Quantidade"
-                    defaultValue={Number(defaultValueAmount)}
-                    stateCount={count}
-                    setStateCount={setCount}
+                    defaultValue={defaultValueAmount}
+                    valueCurrent={amount}
                     handleOperation={handleTextFieldCount}
                     disabled={loading || isDisabledTextFieldCount}
                   />

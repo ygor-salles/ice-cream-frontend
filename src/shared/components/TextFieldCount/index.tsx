@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Add, Remove } from '@mui/icons-material';
 import { ChangeEvent } from 'react';
 import { Controller } from 'react-hook-form';
@@ -25,7 +26,6 @@ export const TextFieldCount = ({
 }: TextFieldCountProps) => {
   const { themeName } = useThemeContext();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDecrement = (onChange: (...event: any[]) => void) => {
     return () => {
       if (Number(valueCurrent) >= 2) {
@@ -40,7 +40,6 @@ export const TextFieldCount = ({
     };
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleChangeInput = (onChange: (...event: any[]) => void) => {
     return (e: ChangeEvent<HTMLInputElement>) => {
       const inputValue = e.target.value;
@@ -57,7 +56,6 @@ export const TextFieldCount = ({
     };
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleIncrement = (onChange: (...event: any[]) => void) => {
     return () => {
       const increment = Number(valueCurrent) + 1;

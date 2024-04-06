@@ -1,7 +1,6 @@
 import { ICreateCashClosingDTORequest } from 'shared/services/SaleService/dtos/ICreateCashClosingDTO';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { ILoadPagedSalesDTORequest } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
-import { ILoadSumSalesDTORequest } from 'shared/services/SaleService/dtos/ILoadSumSalesDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 import { convetSalesType } from 'shared/utils/convertTypes';
 import { getLocalDate } from 'shared/utils/getLocalDate';

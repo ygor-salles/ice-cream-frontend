@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { localStorageKeys } from 'shared/constants/localStorageKeys';
-import { RoutesEnum } from 'shared/constants/routesList';
-import { setTokenLocalStorage } from 'shared/contexts/utils/utils';
+import { localStorageKeys, RoutesEnum } from 'shared/constants';
+import { setTokenLocalStorage } from 'shared/contexts/AuthContext/utils';
 
 const ENVIROMENT = process.env.REACT_APP_ENVIROMENT;
 
@@ -14,16 +13,18 @@ const api = axios.create({
 
 api.interceptors.request.use(config => {
   const objToken = localStorage.getItem(localStorageKeys.TOKEN);
-  const parseObj = JSON.parse(objToken);
+  if (objToken) {
+    const parseObj = JSON.parse(objToken);
 
-  if (parseObj) {
-    return {
-      ...config,
-      headers: {
-        ...config.headers,
-        Authorization: `Bearer ${parseObj?.token}`,
-      },
-    };
+    if (parseObj) {
+      return {
+        ...config,
+        headers: {
+          ...config.headers,
+          Authorization: `Bearer ${parseObj?.token}`,
+        },
+      };
+    }
   }
 
   return config;

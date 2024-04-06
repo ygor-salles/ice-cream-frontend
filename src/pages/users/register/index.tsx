@@ -3,18 +3,15 @@ import { ArrowBack, Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
-import SelectApp from 'shared/components/select/Select';
-import TextFieldApp from 'shared/components/textField/TextField';
-import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { ButtonSubmitApp, SelectApp, TextFieldApp } from 'shared/components';
+import { LISTTYPEUSERS, RoutesEnum } from 'shared/constants';
 import { defaultValuesUser, fieldsUser, IFormUser, schemaCreateUser } from 'shared/dtos/IUserDTO';
 import { useUser } from 'shared/hooks/network/useUser';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { Form, GridForm, StyledCard } from './styles';
 
-export function RegisterUser(): JSX.Element {
+export function RegisterUser() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, formState, reset } = useForm<IFormUser>({

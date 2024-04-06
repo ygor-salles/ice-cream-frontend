@@ -26,11 +26,11 @@ import {
 } from 'pages';
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 import { useAuthContext } from 'shared/hooks/useAuthContext';
 import { useDrawerContext } from 'shared/hooks/useDrawerContext';
-import ProtectedLayout from 'shared/layouts/ProtectedLayout';
+import { ProtectedLayout } from 'shared/layouts/ProtectedLayout';
 
 import { DRAWER_OPTIONS_EMPLOYEE, DRAWER_OPTIONS_NORMAL, DRAWER_OPTIONS_SUPER } from './constants';
 

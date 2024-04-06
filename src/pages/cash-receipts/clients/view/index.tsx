@@ -1,16 +1,16 @@
 import { AddBox, ArrowBack, FilterAlt } from '@mui/icons-material';
-import { Button, Skeleton, Theme, useMediaQuery } from '@mui/material';
+import { Button, Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ActionComponent,
+  TableApp,
   _renderBasicDate,
   _renderBasicTextCell,
   _renderBasicToCurrencyRed,
-} from 'shared/components/renderCellTable/RenderCellTable';
-import TableApp from 'shared/components/table/TableApp';
-import { ITypeComponents } from 'shared/components/table/types';
-import { RoutesEnum } from 'shared/constants/routesList';
+} from 'shared/components';
+import { ITypeComponents } from 'shared/components/TableApp/types';
+import { RoutesEnum } from 'shared/constants';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import { useClient } from 'shared/hooks/network/useClient';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -26,10 +26,8 @@ import {
   filterTable,
 } from './constants';
 
-export function Clients(): JSX.Element {
+export function Clients() {
   const navigate = useNavigate();
-
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {
     allClients,
@@ -49,24 +47,26 @@ export function Clients(): JSX.Element {
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderAction = (value: string, { phone, ...rowData }: IClientDTO) => {
-    phone = phone || '';
-    return (
-      <ActionComponent
-        smDown={smDown}
-        rowData={{ phone, ...rowData }}
-        handleClickEdit={handleClickEdit}
-      />
-    );
+  const _renderAction = (value?: string, client?: IClientDTO) => {
+    if (client) {
+      return (
+        <ActionComponent
+          rowData={{ phone: client.phone, ...client }}
+          handleClickEdit={handleClickEdit}
+        />
+      );
+    }
+
+    return <span>--</span>;
   };
 
-  const components: ITypeComponents = {
+  const components: ITypeComponents<string & number & Date, IClientDTO> = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.DEBIT]: _renderBasicToCurrencyRed,
     [columnType.UPDATED_AT]: _renderBasicDate,
   };
 
-  const componentsCollapse: ITypeComponents = {
+  const componentsCollapse: ITypeComponents<string & Date, IClientDTO> = {
     [columnTypeCollapse.PHONE]: _renderBasicTextCell,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -96,7 +96,7 @@ export function Clients(): JSX.Element {
         {loadingClients ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp
+          <TableApp<string & number & Date, IClientDTO>
             tableName="table-clients"
             data={allClients}
             components={components}
@@ -105,7 +105,6 @@ export function Clients(): JSX.Element {
             columnConfigCollapse={columnConfigCollapse}
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
-            isMobile={smDown}
             showFilterState={showFilterState}
             renderInputSearchAndSelect={filterTable}
           />
@@ -114,7 +113,6 @@ export function Clients(): JSX.Element {
 
       {showModalEdit && dataActionTable && (
         <DialogEdit
-          smDown={smDown}
           client={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}

@@ -1,6 +1,6 @@
-import { ToastType } from 'shared/components/snackBar/enum';
+import { ToastType } from 'shared/components/SnackBar/enum';
+import { IAuthResponse } from 'shared/contexts/AuthContext/types';
 
-import { IAuthResponse } from '../../contexts/utils/types';
 import { IFormLogin } from '../../dtos/ILoginDTO';
 import AuthService from '../../services/AuthService';
 import { useToastContext } from '../useToastContext';
@@ -11,7 +11,7 @@ export function useLogin() {
   const authService = new AuthService();
 
   const onSubmit = async (dataForm: IFormLogin): Promise<IAuthResponse | null> => {
-    let response: IAuthResponse = null;
+    let response: IAuthResponse | null = null;
     try {
       response = await authService.login(dataForm);
     } catch (error) {

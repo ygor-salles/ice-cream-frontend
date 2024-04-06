@@ -1,13 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AddBox } from '@mui/icons-material';
-import { Dialog, Skeleton, Theme, useMediaQuery } from '@mui/material';
-import dump from 'assets/dump.png';
+import { Dialog, Skeleton } from '@mui/material';
+import { images } from 'assets';
 import { useEffect, useMemo, useState } from 'react';
-import DialogInfo from 'shared/components/dialog/Dialog';
-import { Pagination } from 'shared/components/pagination/Pagination';
-import { ToastType } from 'shared/components/snackBar/enum';
-import { LIMIT_PAGED } from 'shared/constants/limitPaged';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { DialogInfo, Pagination } from 'shared/components';
+import { ToastType } from 'shared/components/SnackBar/enum';
+import { LIMIT_PAGED, RoutesEnum } from 'shared/constants';
 import { IFormFilterPurchasePage } from 'shared/dtos/IPurchaseDTO';
 import { usePurchase } from 'shared/hooks/network/usePurchase';
 import { useToastContext } from 'shared/hooks/useToastContext';
@@ -15,13 +12,11 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 import transformImageUrl from 'shared/utils/transformImageUrl';
 
 import { DialogEdit } from './components/DialogEdit';
-import FilterPurchase from './components/FilterPurchase';
-import PurchaseItem from './components/PurchaseItem';
+import { FilterPurchase } from './components/FilterPurchase';
+import { PurchaseItem } from './components/PurchaseItem';
 import { Close, ImgDialog } from './styles';
 
-export function Purchases(): JSX.Element {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
+export function Purchases() {
   const {
     allPurchases,
     loadingPurchases,
@@ -50,10 +45,10 @@ export function Purchases(): JSX.Element {
     () => ({
       limit: searchParams.get('limit') || `${LIMIT_PAGED}`,
       page: searchParams.get('page') || '1',
-      provider_id: searchParams.get('provider_id'),
-      observation: searchParams.get('observation'),
-      start_date: searchParams.get('start_date'),
-      end_date: searchParams.get('end_date'),
+      provider_id: searchParams.get('provider_id') || undefined,
+      observation: searchParams.get('observation') || undefined,
+      start_date: searchParams.get('start_date') || undefined,
+      end_date: searchParams.get('end_date') || undefined,
     }),
     [searchParams],
   );
@@ -113,7 +108,6 @@ export function Purchases(): JSX.Element {
 
       {showModalEdit && dataActionTable && (
         <DialogEdit
-          smDown={smDown}
           purchase={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}
@@ -138,7 +132,7 @@ export function Purchases(): JSX.Element {
 
       {!!showImgUrl.length && (
         <Dialog open={!!showImgUrl.length} onClose={() => setShowImgUrl('')}>
-          <ImgDialog src={showImgUrl.length ? transformImageUrl(showImgUrl) : dump} />
+          <ImgDialog src={showImgUrl.length ? transformImageUrl(showImgUrl) : images.dump} />
           <Close onClick={() => setShowImgUrl('')} />
         </Dialog>
       )}

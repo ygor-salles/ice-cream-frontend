@@ -1,9 +1,8 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ToastType } from 'shared/components/snackBar/enum';
-import { localStorageKeys } from 'shared/constants/localStorageKeys';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { ToastType } from 'shared/components/SnackBar/enum';
+import { localStorageKeys, RoutesEnum } from 'shared/constants';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
   IFormCashClosing,
@@ -12,7 +11,6 @@ import {
   ISaleDTO,
   transformObjectCashClosing,
   transformObjectEdit,
-  transformObjectFilter,
   transformObjectFilterSale,
 } from 'shared/dtos/ISaleDTO';
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
@@ -22,6 +20,7 @@ import {
   InstanceSale,
 } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
+import { returnObject } from 'shared/utils/formatObject';
 
 import { useCache } from '../useCache';
 import { useToastContext } from '../useToastContext';
@@ -39,7 +38,7 @@ export function useSale() {
   const [loadingForm, setLoadingForm] = useState(false);
   const [reloadPage, setReloadPage] = useState(false);
 
-  const [sumSalesState, setSumSalesState] = useState<number>();
+  const [sumSalesState, setSumSalesState] = useState(0);
 
   const [totalPage, setTotalPage] = useState(1);
 
@@ -115,7 +114,7 @@ export function useSale() {
 
   async function getSumSalesByPeriod(dataForm: IFormFilterSales): Promise<void> {
     setLoadingSales(true);
-    const data: ILoadSumPurchaseDTORequest = transformObjectFilter(dataForm);
+    const data = returnObject(dataForm) as ILoadSumPurchaseDTORequest;
 
     try {
       const { total_sales } = await saleService.loadSumByPeriod(data);

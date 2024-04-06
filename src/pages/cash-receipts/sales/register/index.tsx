@@ -1,21 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack, AttachMoney } from '@mui/icons-material';
 import { Button, Skeleton } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import AutoComplete from 'shared/components/autocomplete/Autocomplete';
-import SelectApp from 'shared/components/select/Select';
-import SelectMultiple from 'shared/components/selectMultiple/SelectMultiple';
-import TextFieldApp from 'shared/components/textField/TextField';
-import TextFieldCount from 'shared/components/textFieldCount/TextFieldCount';
-import { LISTTYPESALES } from 'shared/constants/listTypeSales';
-import { RoutesEnum } from 'shared/constants/routesList';
+import {
+  AutoComplete,
+  SelectApp,
+  SelectMultiple,
+  TextFieldApp,
+  TextFieldCount,
+} from 'shared/components';
+import { TypeEventFieldCount } from 'shared/components/TextFieldCount/types';
+import { LISTTYPESALES, RoutesEnum } from 'shared/constants';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
 import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
 import {
   EnumTypeSale,
   IFormSale,
+  defaultDataProduct,
   defaultValueAmount,
   defaultValuesSale,
   fieldsSale,
@@ -31,13 +33,12 @@ import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
 import Mask from 'shared/utils/masks';
 
-import CartListing from './components/CartListing';
+import { CartListing } from './components/CartListing';
 import { Form, GridForm, Notificaion, StyledCard, Text, Wrapper, WrapperButtons } from './styles';
 
-export function RegisterSale(): JSX.Element {
+export function RegisterSale() {
   const [requiredClient, setRequiredClient] = useState(false);
   const [isDisabledTextFieldCount, setIsDisabledTextFieldCount] = useState(true);
-  const [count, setCount] = useState(Number(defaultValueAmount));
   const [enableOptions, setEnableOptions] = useState(false);
 
   const {
@@ -46,6 +47,7 @@ export function RegisterSale(): JSX.Element {
     setValue,
     reset,
     getValues,
+    watch,
     formState: { isValid },
   } = useForm<IFormSale>({
     resolver: yupResolver(
@@ -53,6 +55,8 @@ export function RegisterSale(): JSX.Element {
     ),
     defaultValues: defaultValuesSale,
   });
+
+  const amount = watch('amount');
 
   const {
     allClientsStorage: allCli,
@@ -89,7 +93,6 @@ export function RegisterSale(): JSX.Element {
     setTimeout(() => {
       setValue('combinations', []);
       setValue('amount', defaultValueAmount);
-      setCount(Number(defaultValueAmount));
     }, 1000);
   }, []);
 
@@ -123,12 +126,13 @@ export function RegisterSale(): JSX.Element {
     } else if (product.name.includes(' 1L') || product.name.includes(' 1 L')) {
       setAllCombinations(allCombinations.map(item => ({ ...item, price: item.price + 1 })));
     } else {
-      setAllCombinations(allCombinationsStorage);
+      setAllCombinations(allCombinationsStorage ?? []);
     }
   };
 
   const onCloseSelectProduct = async () => {
     const product_name = getValues('product_name');
+    setValue('amount', defaultValueAmount);
 
     if (product_name?.length > 0) {
       if (getValues('combinations').length > 0) setValue('combinations', []);
@@ -141,27 +145,29 @@ export function RegisterSale(): JSX.Element {
 
       if (product?.price) {
         if (product?.price < 0.1 && product?.type === EnumTypeProduct.ICE_CREAM) {
+          setEnableOptions(false);
+          setIsDisabledTextFieldCount(true);
           setValue('total', '');
-          setValue('amount', defaultValueAmount);
-          setCount(Number(defaultValueAmount));
-        } else {
-          setValue('total', formatNumberToCurrencyInput(product.price));
+          return;
         }
 
         if (product.type === EnumTypeProduct.ACAI) {
           ruleAcais(product);
           setEnableOptions(true);
-        } else {
-          setEnableOptions(false);
+          setIsDisabledTextFieldCount(false);
+          setValue('total', formatNumberToCurrencyInput(product.price));
+          return;
         }
+
+        setEnableOptions(false);
         setIsDisabledTextFieldCount(false);
+        setValue('total', formatNumberToCurrencyInput(product.price));
       }
     } else {
-      setCount(Number(defaultValueAmount));
-      setValue('total', '');
-      setAllCombinations(allCombinationsStorage);
-      setEnableOptions(false);
+      setAllCombinations(allCombinationsStorage ?? []);
       setIsDisabledTextFieldCount(true);
+      setEnableOptions(false);
+      setValue('total', '');
     }
   };
 
@@ -170,11 +176,11 @@ export function RegisterSale(): JSX.Element {
 
     if (client_name?.length > 0) {
       const client = allClientsStorage.find(item => item.name === client_name);
-      setValue('client_id', client.id.toString());
+      if (client?.id) setValue('client_id', client.id.toString());
     }
   };
 
-  const handleTextFieldCount = (onClick: 'add' | 'subt') => {
+  const handleTextFieldCount = (onClick: TypeEventFieldCount) => {
     const { price, type } = getValues('data_product');
     const combinations = getValues('combinations');
 
@@ -271,9 +277,8 @@ export function RegisterSale(): JSX.Element {
                     name={fieldsSale.AMOUNT}
                     control={control}
                     label="Quantidade"
-                    defaultValue={Number(defaultValueAmount)}
-                    stateCount={count}
-                    setStateCount={setCount}
+                    defaultValue={defaultValueAmount}
+                    valueCurrent={amount}
                     handleOperation={handleTextFieldCount}
                     disabled={loading || isDisabledTextFieldCount}
                   />
@@ -337,7 +342,7 @@ export function RegisterSale(): JSX.Element {
               onDeleteList={onDeleteList}
               onClickPrimary={() => {
                 setValue('product_name', '');
-                setValue('data_product', null);
+                setValue('data_product', defaultDataProduct);
                 setValue('total', '');
                 onToggleScreenCarListing();
               }}
@@ -346,12 +351,12 @@ export function RegisterSale(): JSX.Element {
               textSecondary="Finalizar pedido"
               loading={loading}
               renderMain={
-                !!getValues('client_name') && (
+                getValues('client_name') ? (
                   <Text>
                     <b>Cliente: </b>
                     {getValues('client_name')}
                   </Text>
-                )
+                ) : undefined
               }
               disabledSecondary={!isValid || !carListState.length}
             />

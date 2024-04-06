@@ -2,21 +2,16 @@ import { NavigateNext } from '@mui/icons-material';
 import { CircularProgress, Icon } from '@mui/material';
 import { useMemo } from 'react';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
-import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
 import { Container, Row, Text, TextCustom, Wrapper, WrapperInfo, WrapperNavigate } from './styles';
+import { SaleItemProps } from './types';
 
-interface SaleItemProps {
-  onClick: () => void;
-  detailSale: InstanceSale;
-}
-
-const SaleItem: React.FC<SaleItemProps> = ({
+export const SaleItem = ({
   onClick,
   detailSale: { data_product, total, client, type_sale, created_at, observation, in_progress },
-}) => {
+}: SaleItemProps) => {
   const hasAcai = useMemo(() => {
     return data_product && Array.isArray(data_product)
       ? Boolean(data_product?.find(item => item.type === EnumTypeProduct.ACAI))
@@ -71,5 +66,3 @@ const SaleItem: React.FC<SaleItemProps> = ({
     </Container>
   );
 };
-
-export default SaleItem;

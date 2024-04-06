@@ -4,9 +4,8 @@ import { Button } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
-import DialogInfo from 'shared/components/dialog/Dialog';
-import { ToastType } from 'shared/components/snackBar/enum';
+import { CheckboxApp, DialogInfo } from 'shared/components';
+import { ToastType } from 'shared/components/SnackBar/enum';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
   EnumTypeSale,
@@ -24,10 +23,10 @@ import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDT
 import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
-import DialogCreateSale from '../view/components/DialogCreateSale';
+import { DialogCreateSale } from '../view/components/DialogCreateSale';
 import { StyledCardList, Text, WrapperDetail } from './styles';
 
-export const SaleDetail: React.FC = () => {
+export const SaleDetail = () => {
   const [disabledActions, setDisabledActions] = useState(true);
   const [showDialogSale, setShowDialogSale] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
@@ -79,11 +78,15 @@ export const SaleDetail: React.FC = () => {
       return;
     }
 
-    if (newItem.combinations.length === 0) {
+    if (newItem?.combinations?.length === 0) {
       delete newItem.combinations;
     }
 
-    onChangeDataProduct([...data_product, newItem]);
+    if (data_product) {
+      onChangeDataProduct([...data_product, newItem]);
+    } else {
+      onChangeDataProduct([newItem]);
+    }
     setValue('total', total + newItem.total);
   };
 
@@ -141,7 +144,7 @@ export const SaleDetail: React.FC = () => {
               color="secondary"
               disabled={
                 (loading || !isValid || !isDirty) &&
-                saleDetail.data_product.length === data_product.length
+                saleDetail.data_product.length === data_product?.length
               }
             >
               Salvar

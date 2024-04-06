@@ -9,17 +9,18 @@ export const fieldPurchaseFilter: IFormFilterPurchasePage = {
   end_date: 'end_date',
 };
 
-export const defaultValues = {
-  [fieldPurchaseFilter.provider_name]: '',
-  [fieldPurchaseFilter.provider_id]: '',
-  [fieldPurchaseFilter.observation]: '',
-  [fieldPurchaseFilter.start_date]: '',
-  [fieldPurchaseFilter.end_date]: '',
+export const defaultValues: Record<keyof IFormFilterPurchasePage, string> = {
+  provider_name: '',
+  provider_id: '',
+  observation: '',
+  start_date: '',
+  end_date: '',
 };
 
-export const schemaFilterPurchse = {
-  [fieldPurchaseFilter.provider_name]: yup.string().optional(),
-  [fieldPurchaseFilter.observation]: yup.string().optional(),
-  [fieldPurchaseFilter.start_date]: yup.string().optional(),
-  [fieldPurchaseFilter.end_date]: yup.string().optional(),
+export const schemaFilterPurchse: Record<keyof IFormFilterPurchasePage, yup.AnySchema> = {
+  provider_id: yup.string().optional(),
+  provider_name: yup.string().optional(),
+  observation: yup.string().optional(),
+  start_date: yup.string().optional(),
+  end_date: yup.string().optional(),
 };

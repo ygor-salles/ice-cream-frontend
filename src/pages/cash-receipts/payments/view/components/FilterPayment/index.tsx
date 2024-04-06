@@ -1,4 +1,4 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ExpandMore } from '@mui/icons-material';
 import {
   AccordionDetails,
   AccordionSummary,
@@ -10,23 +10,16 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import AutoComplete from 'shared/components/autocomplete/Autocomplete';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
-import DatePicker from 'shared/components/datePicker/DatePicker';
-import TextFieldApp from 'shared/components/textField/TextField';
+import { AutoComplete, ButtonSubmitApp, DatePicker, TextFieldApp } from 'shared/components';
 import { IFormFilterPaymentPage } from 'shared/dtos/IPaymentDTO';
 import { useClient } from 'shared/hooks/network/useClient';
 import { useDrawerContext } from 'shared/hooks/useDrawerContext';
 
 import { ContentDate, Form, StyledAccordion, Wrapper } from './styles';
+import { FilterPaymentProps } from './types';
 import { defaultValues, fieldPaymentFilter } from './utils';
 
-interface PropTypes {
-  loadingPayments: boolean;
-  onSubmitFilter: (dataForm: IFormFilterPaymentPage) => Promise<void>;
-}
-
-const FilterPayment: React.FC<PropTypes> = ({ onSubmitFilter, loadingPayments }) => {
+export const FilterPayment = ({ onSubmitFilter, loadingPayments }: FilterPaymentProps) => {
   const [open, setOpen] = useState(false);
   const { handleSubmit, getValues, setValue, control, reset } = useForm<IFormFilterPaymentPage>({
     defaultValues,
@@ -41,10 +34,12 @@ const FilterPayment: React.FC<PropTypes> = ({ onSubmitFilter, loadingPayments })
 
     if (client_name?.length > 0 && allClientsStorage) {
       const client = allClientsStorage.find(item => item.name === client_name);
-      setValue('client_id', client.id.toString());
+
+      if (client?.id) setValue('client_id', client.id.toString());
     } else if (client_name?.length > 0 && allClients.length > 0) {
       const client = allClients.find(item => item.name === client_name);
-      setValue('client_id', client.id.toString());
+
+      if (client?.id) setValue('client_id', client.id.toString());
     } else {
       setValue('client_id', '');
     }
@@ -61,9 +56,7 @@ const FilterPayment: React.FC<PropTypes> = ({ onSubmitFilter, loadingPayments })
   return (
     <StyledAccordion expanded={open} onChange={loadingPayments ? undefined : handleOpenAccordion}>
       <AccordionSummary
-        expandIcon={
-          loadingClients ? <CircularProgress size={16} disableShrink /> : <ExpandMoreIcon />
-        }
+        expandIcon={loadingClients ? <CircularProgress size={16} disableShrink /> : <ExpandMore />}
         aria-controls="panel1bh-content"
         id="panel1bh-header"
       >
@@ -116,5 +109,3 @@ const FilterPayment: React.FC<PropTypes> = ({ onSubmitFilter, loadingPayments })
     </StyledAccordion>
   );
 };
-
-export default FilterPayment;

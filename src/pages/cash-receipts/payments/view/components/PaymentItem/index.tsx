@@ -1,21 +1,14 @@
-import { IPaymentDTO } from 'shared/dtos/IPaymentDTO';
-import { InstancePayment } from 'shared/services/PaymentService/dtos/ILoadPagedPaymentsDTO';
 import formatDateTime from 'shared/utils/formatDateTime';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
-import { Container, Row, Text, WrapperInfo, SDelete, SAssignment } from './styles';
+import { Container, Row, SAssignment, SDelete, Text, WrapperInfo } from './styles';
+import { PaymentItemProps } from './types';
 
-interface PaymentProps {
-  handleClickDelete: (data: IPaymentDTO) => void;
-  setShowModalObservation: React.Dispatch<React.SetStateAction<string>>;
-  detailPayment: InstancePayment;
-}
-
-const PaymentItem: React.FC<PaymentProps> = ({
+export const PaymentItem = ({
   handleClickDelete,
   setShowModalObservation,
   detailPayment,
-}) => {
+}: PaymentItemProps) => {
   const { client, value, created_at, observation } = detailPayment;
 
   return (
@@ -41,5 +34,3 @@ const PaymentItem: React.FC<PaymentProps> = ({
     </Container>
   );
 };
-
-export default PaymentItem;

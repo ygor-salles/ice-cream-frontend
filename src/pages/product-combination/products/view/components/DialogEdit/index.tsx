@@ -1,28 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
-import SelectApp from 'shared/components/select/Select';
-import TextFieldApp from 'shared/components/textField/TextField';
-import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
+import { FooterDialogActions, SelectApp, TextFieldApp } from 'shared/components';
+import { LISTTYPEPRODUCTS } from 'shared/constants';
 import {
+  IFormProduct,
   defaultValuesProductEdit,
   fieldsProduct,
-  IFormProduct,
-  IProductDTO,
   schemaCreateProduct,
 } from 'shared/dtos/IProductDTO';
 
 import { Form } from './styles';
-
-interface DialogEditProps {
-  smDown?: boolean;
-  product: IProductDTO;
-  open: boolean;
-  onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;
-  handleClose: () => void;
-  loading: boolean;
-}
+import { DialogEditProps } from './types';
 
 export function DialogEdit({
   product,
@@ -31,7 +20,7 @@ export function DialogEdit({
   open,
   handleClose,
   loading,
-}: DialogEditProps): JSX.Element {
+}: DialogEditProps) {
   const { handleSubmit, control } = useForm<IFormProduct>({
     resolver: yupResolver(schemaCreateProduct),
     defaultValues: defaultValuesProductEdit(product),

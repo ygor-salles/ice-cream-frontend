@@ -2,17 +2,17 @@ import { AddBox, FilterAlt, ArrowBack } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DialogInfo from 'shared/components/dialog/Dialog';
 import {
+  DialogInfo,
   ActionComponent,
   SwitchComponent,
   _renderBasicDate,
   _renderBasicTextCell,
   _renderBasicToCurrency,
-} from 'shared/components/renderCellTable/RenderCellTable';
-import TableApp from 'shared/components/table/TableApp';
-import { ITypeComponents } from 'shared/components/table/types';
-import { RoutesEnum } from 'shared/constants/routesList';
+  TableApp,
+} from 'shared/components';
+import { ITypeComponents } from 'shared/components/TableApp/types';
+import { RoutesEnum } from 'shared/constants';
 import { IProductDTO } from 'shared/dtos/IProductDTO';
 import { useProduct } from 'shared/hooks/network/useProduct';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -27,7 +27,7 @@ import {
   filterTable,
 } from './constants';
 
-export function Products(): JSX.Element {
+export function Products() {
   const navigate = useNavigate();
 
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -58,31 +58,41 @@ export function Products(): JSX.Element {
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderSwitchToggle = (value: boolean, { id }: IProductDTO) => {
-    return (
-      <SwitchComponent id={id} value={value} onSubmitSwitchToogle={handleSubmitSwitchToogle} />
-    );
+  const _renderSwitchToggle = (value?: boolean, product?: IProductDTO) => {
+    if (typeof value === 'boolean' && product?.id) {
+      return (
+        <SwitchComponent
+          id={product.id}
+          value={value}
+          onSubmitSwitchToogle={handleSubmitSwitchToogle}
+        />
+      );
+    }
+
+    return <span>--</span>;
   };
 
-  const _renderAction = (value: string, { description, ...rowData }: IProductDTO) => {
-    description = description || '';
-    return (
-      <ActionComponent
-        smDown={smDown}
-        rowData={{ description, ...rowData }}
-        handleClickEdit={handleClickEdit}
-        handleClickDelete={handleClickDelete}
-      />
-    );
+  const _renderAction = (value?: string, product?: IProductDTO) => {
+    if (product) {
+      return (
+        <ActionComponent
+          rowData={{ description: product.description, ...product }}
+          handleClickEdit={handleClickEdit}
+          handleClickDelete={handleClickDelete}
+        />
+      );
+    }
+
+    return <span>--</span>;
   };
 
-  const components: ITypeComponents = {
+  const components: ITypeComponents<string & number & boolean, IProductDTO> = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.PRICE]: _renderBasicToCurrency,
     [columnType.STATUS]: _renderSwitchToggle,
   };
 
-  const componentsCollapse: ITypeComponents = {
+  const componentsCollapse: ITypeComponents<string & Date, IProductDTO> = {
     [columnTypeCollapse.DESCRIPTION]: _renderBasicTextCell,
     [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -112,7 +122,7 @@ export function Products(): JSX.Element {
         {loadingProducts ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp
+          <TableApp<string & number & boolean & Date, IProductDTO>
             tableName="table-products"
             data={allProducts}
             components={components}
@@ -125,7 +135,6 @@ export function Products(): JSX.Element {
             columnConfigCollapse={columnConfigCollapse}
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
-            isMobile={smDown}
             showFilterState={showFilterState}
             renderInputSearchAndSelect={filterTable}
           />

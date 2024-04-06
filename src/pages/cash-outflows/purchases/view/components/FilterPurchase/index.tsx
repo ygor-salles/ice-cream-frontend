@@ -10,22 +10,15 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import AutoComplete from 'shared/components/autocomplete/Autocomplete';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
-import DatePicker from 'shared/components/datePicker/DatePicker';
-import TextFieldApp from 'shared/components/textField/TextField';
+import { AutoComplete, ButtonSubmitApp, DatePicker, TextFieldApp } from 'shared/components';
 import { IFormFilterPurchasePage } from 'shared/dtos/IPurchaseDTO';
 import { useProvider } from 'shared/hooks/network/useProvider';
 
 import { ContentDate, Form, StyledAccordion, Wrapper } from './styles';
+import { FilterPurchaseProps } from './types';
 import { defaultValues, fieldPurchaseFilter } from './utils';
 
-interface PropTypes {
-  loadingPurchases: boolean;
-  onSubmitFilter: (dataForm: IFormFilterPurchasePage) => Promise<void>;
-}
-
-const FilterPurchase: React.FC<PropTypes> = ({ onSubmitFilter, loadingPurchases }) => {
+export const FilterPurchase = ({ onSubmitFilter, loadingPurchases }: FilterPurchaseProps) => {
   const [open, setOpen] = useState(false);
   const { handleSubmit, getValues, setValue, control, reset } = useForm<IFormFilterPurchasePage>({
     defaultValues,
@@ -39,7 +32,7 @@ const FilterPurchase: React.FC<PropTypes> = ({ onSubmitFilter, loadingPurchases 
 
     if (provider_name?.length > 0 && allProviders) {
       const provider = allProviders.find(item => item.name === provider_name);
-      setValue('provider_id', provider.id.toString());
+      if (provider?.id) setValue('provider_id', provider.id.toString());
     } else {
       setValue('provider_id', '');
     }
@@ -111,5 +104,3 @@ const FilterPurchase: React.FC<PropTypes> = ({ onSubmitFilter, loadingPurchases 
     </StyledAccordion>
   );
 };
-
-export default FilterPurchase;

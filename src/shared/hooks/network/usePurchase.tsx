@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ToastType } from 'shared/components/snackBar/enum';
+import { ToastType } from 'shared/components/SnackBar/enum';
 import {
   IFormFilterPurchase,
   IFormPurchase,
@@ -28,7 +28,7 @@ export function usePurchase() {
   const [loadingPurchases, setLoadingPurchases] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
 
-  const [sumPurchasesState, setSumPurchasesState] = useState<number>();
+  const [sumPurchasesState, setSumPurchasesState] = useState(0);
 
   const [dataActionTable, setDataActionTable] = useState<IPurchaseDTO>();
 

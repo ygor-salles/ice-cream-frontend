@@ -3,11 +3,8 @@ import { ArrowBack } from '@mui/icons-material';
 import { Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
-import SelectApp from 'shared/components/select/Select';
-import TextFieldApp from 'shared/components/textField/TextField';
-import { LISTTYPEPRODUCTS } from 'shared/constants/listTypeProduct';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { ButtonSubmitApp, SelectApp, TextFieldApp } from 'shared/components';
+import { LISTTYPEPRODUCTS, RoutesEnum } from 'shared/constants';
 import {
   defaultValuesProduct,
   fieldsProduct,
@@ -19,7 +16,7 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { Form, GridForm, StyledCard } from './styles';
 
-export function RegisterProduct(): JSX.Element {
+export function RegisterProduct() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmitCreate, loadingForm: loading } = useProduct();

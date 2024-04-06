@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useRef, useState } from 'react';
-import { ToastType } from 'shared/components/snackBar/enum';
+import { ToastType } from 'shared/components/SnackBar/enum';
 import { IFormProduct, IProductDTO, transformObject } from 'shared/dtos/IProductDTO';
 import ProductService from 'shared/services/ProductService';
 
@@ -19,7 +19,8 @@ export function useProduct() {
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
 
-  const timerRef = useRef(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const timerRef = useRef<any>(null);
 
   const handleClickEdit = (data: IProductDTO) => {
     setDataActionTable(data);

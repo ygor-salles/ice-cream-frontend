@@ -3,9 +3,8 @@ import { ArrowBack } from '@mui/icons-material';
 import { Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
-import TextFieldApp from 'shared/components/textField/TextField';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { ButtonSubmitApp, TextFieldApp } from 'shared/components';
+import { RoutesEnum } from 'shared/constants';
 import {
   defaultValuesClient,
   fieldsClient,
@@ -17,7 +16,7 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { Form, GridForm, StyledCard } from './styles';
 
-export function RegisterClient(): JSX.Element {
+export function RegisterClient() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, formState, reset } = useForm<IFormClient>({

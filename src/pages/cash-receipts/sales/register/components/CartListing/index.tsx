@@ -8,11 +8,9 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useMemo, useState } from 'react';
-import { Control } from 'react-hook-form';
-import { LISTTYPESALES, LISTTYPESALES_NOTDEBIT } from 'shared/constants/listTypeSales';
-import { EnumTypeSale, IFormEditSale, fieldsSale } from 'shared/dtos/ISaleDTO';
+import { LISTTYPESALES, LISTTYPESALES_NOTDEBIT } from 'shared/constants';
+import { EnumTypeSale, fieldsSale } from 'shared/dtos/ISaleDTO';
 import { useThemeContext } from 'shared/hooks/useThemeContext';
-import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
 import {
@@ -25,35 +23,15 @@ import {
   Row,
   StyledSelectApp,
   StyledTextField,
+  TextTSale,
   Total,
   Ul,
   WrapperButtons,
   WrapperDel,
-  TextTSale,
 } from './styles';
+import { CartListingProps } from './types';
 
-interface CartListing {
-  listSale: IDataProduct[];
-  observation?: string;
-  type_sale?: EnumTypeSale;
-  totalSum: number;
-  textPrimary: string;
-  textSecondary: string;
-  disabledSecondary?: boolean;
-  disabledActions?: boolean;
-  renderMain?: React.ReactElement;
-  loading?: boolean;
-  control?: Control<IFormEditSale>;
-  renderTopButtons?: React.ReactElement;
-  renderBottomButtons?: React.ReactElement;
-  hasClient?: boolean;
-  onAddList?: () => void;
-  onDeleteList: (object: IDataProduct) => void;
-  onClickPrimary: () => void;
-  onClickSeconadary: () => void;
-}
-
-const CartListing: React.FC<CartListing> = ({
+export const CartListing = ({
   listSale,
   observation,
   type_sale,
@@ -73,7 +51,7 @@ const CartListing: React.FC<CartListing> = ({
   onClickPrimary,
   onClickSeconadary,
   ...rest
-}) => {
+}: CartListingProps) => {
   const { themeName } = useThemeContext();
   const [expanded, setExpanded] = useState<string | false>(false);
 
@@ -148,7 +126,7 @@ const CartListing: React.FC<CartListing> = ({
                 >
                   <ContentSummary>
                     <Typography>{`${item.amount} ${item.name}${
-                      item?.combinations?.length > 0 ? ' - comb' : ''
+                      item.combinations && item.combinations.length > 0 ? ' - comb' : ''
                     }`}</Typography>
                     <WrapperDel>
                       <Typography>{formatNumberToCurrency(item.total)}</Typography>
@@ -165,7 +143,7 @@ const CartListing: React.FC<CartListing> = ({
                     </WrapperDel>
                   </ContentSummary>
                   <AccordionDetails>
-                    {item?.combinations?.length > 0 && (
+                    {item.combinations && item?.combinations?.length > 0 && (
                       <Ul>
                         {item.combinations.map(item => (
                           <Li key={item.name}>{`${item.name} - ${formatNumberToCurrency(
@@ -221,11 +199,9 @@ const CartListing: React.FC<CartListing> = ({
         </div>
       </WrapperButtons>
 
-      <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open={loading}>
+      <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open={!!loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
     </Main>
   );
 };
-
-export default CartListing;

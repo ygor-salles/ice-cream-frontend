@@ -1,17 +1,17 @@
 import { AddBox, FilterAlt } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
-import DialogInfo from 'shared/components/dialog/Dialog';
 import {
+  DialogInfo,
   ActionComponent,
   _renderBasicDate,
   _renderBasicTextCell,
   _renderRoleCell,
-} from 'shared/components/renderCellTable/RenderCellTable';
-import TableApp from 'shared/components/table/TableApp';
-import { ITypeComponents } from 'shared/components/table/types';
-import { RoutesEnum } from 'shared/constants/routesList';
-import { IUserDTO } from 'shared/dtos/IUserDTO';
+  TableApp,
+} from 'shared/components';
+import { ITypeComponents } from 'shared/components/TableApp/types';
+import { RoutesEnum } from 'shared/constants';
+import { EnumRoleUser, IUserDTO } from 'shared/dtos/IUserDTO';
 import { useUser } from 'shared/hooks/network/useUser';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
@@ -26,7 +26,7 @@ import {
   filterTable,
 } from './constants';
 
-export function Users(): JSX.Element {
+export function Users() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {
@@ -51,22 +51,27 @@ export function Users(): JSX.Element {
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderAction = (value: string, data: IUserDTO) => (
-    <ActionComponent
-      smDown={smDown}
-      rowData={data}
-      handleClickEdit={handleClickEdit}
-      handleClickDelete={handleClickDelete}
-    />
-  );
+  const _renderAction = (value?: string, data?: IUserDTO) => {
+    if (data) {
+      return (
+        <ActionComponent
+          rowData={data}
+          handleClickEdit={handleClickEdit}
+          handleClickDelete={handleClickDelete}
+        />
+      );
+    }
 
-  const components: ITypeComponents = {
+    return <span>--</span>;
+  };
+
+  const components: ITypeComponents<string & Date & EnumRoleUser, IUserDTO> = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.ROLE]: _renderRoleCell,
     [columnType.UPDATED_AT]: _renderBasicDate,
   };
 
-  const componentsCollapse: ITypeComponents = {
+  const componentsCollapse: ITypeComponents<string & Date, IUserDTO> = {
     [columnTypeCollapse.EMAIL]: _renderBasicTextCell,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -86,7 +91,7 @@ export function Users(): JSX.Element {
         {loadingUsers ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp
+          <TableApp<string & Date & EnumRoleUser, IUserDTO>
             tableName="table-clients"
             data={allUsers}
             components={components}
@@ -95,7 +100,6 @@ export function Users(): JSX.Element {
             columnConfigCollapse={columnConfigCollapse}
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
-            isMobile={smDown}
             showFilterState={showFilterState}
             renderInputSearchAndSelect={filterTable}
           />

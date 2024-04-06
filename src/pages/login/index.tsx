@@ -5,15 +5,15 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { RoutesEnum } from 'shared/constants';
 import { defaultValuesLogin, fieldsLogin, IFormLogin, schemaLogin } from 'shared/dtos/ILoginDTO';
 import { EnumRoleUser } from 'shared/dtos/IUserDTO';
 import { useAuthContext } from 'shared/hooks/useAuthContext';
 
-import TextFieldApp from '../../shared/components/textField/TextField';
+import { TextFieldApp } from '../../shared/components';
 import { Container, Form } from './styles';
 
-export const Login: React.FC = () => {
+export const Login = () => {
   const navigate = useNavigate();
   const { authenticate } = useAuthContext();
   const [loading, setLoading] = useState(false);
@@ -29,7 +29,7 @@ export const Login: React.FC = () => {
       const response = await authenticate(email, password);
       setLoading(false);
 
-      if (response.role === EnumRoleUser.NORMAL) {
+      if (response?.role === EnumRoleUser.NORMAL) {
         navigate(RoutesEnum.ORDERS_ACTIVES);
       } else {
         navigate(RoutesEnum.SALES_CREATE);

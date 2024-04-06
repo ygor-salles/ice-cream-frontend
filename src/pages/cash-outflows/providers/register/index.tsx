@@ -3,10 +3,8 @@ import { ArrowBack } from '@mui/icons-material';
 import { Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
-import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
-import TextFieldApp from 'shared/components/textField/TextField';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { ButtonSubmitApp, CheckboxApp, TextFieldApp } from 'shared/components';
+import { RoutesEnum } from 'shared/constants';
 import {
   defaultValuesProvider,
   fieldsProvider,
@@ -18,7 +16,7 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { Form, GridForm, StyledCard } from './styles';
 
-export function RegisterProvider(): JSX.Element {
+export function RegisterProvider() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, formState, reset } = useForm<IFormProvider>({

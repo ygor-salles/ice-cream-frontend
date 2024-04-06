@@ -2,16 +2,16 @@ import { AddBox, FilterAlt, ArrowBack } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DialogInfo from 'shared/components/dialog/Dialog';
 import {
+  DialogInfo,
   ActionComponent,
   _renderBasicDate,
   _renderBasicTextCell,
   _renderBasicToCurrency,
-} from 'shared/components/renderCellTable/RenderCellTable';
-import TableApp from 'shared/components/table/TableApp';
-import { ITypeComponents } from 'shared/components/table/types';
-import { RoutesEnum } from 'shared/constants/routesList';
+  TableApp,
+} from 'shared/components';
+import { ITypeComponents } from 'shared/components/TableApp/types';
+import { RoutesEnum } from 'shared/constants';
 import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
 import { useCombination } from 'shared/hooks/network/useCombination';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -27,7 +27,7 @@ import {
   filterTable,
 } from './constants';
 
-export function Combinations(): JSX.Element {
+export function Combinations() {
   const navigate = useNavigate();
 
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -54,23 +54,26 @@ export function Combinations(): JSX.Element {
 
   const [showFilterState, setShowFilterState] = useState(false);
 
-  const _renderAction = (value: string, rowData: ICombinationDTO) => {
-    return (
-      <ActionComponent
-        smDown={smDown}
-        rowData={rowData}
-        handleClickEdit={handleClickEdit}
-        handleClickDelete={handleClickDelete}
-      />
-    );
+  const _renderAction = (value?: string, rowData?: ICombinationDTO) => {
+    if (rowData) {
+      return (
+        <ActionComponent
+          rowData={rowData}
+          handleClickEdit={handleClickEdit}
+          handleClickDelete={handleClickDelete}
+        />
+      );
+    }
+
+    return <span>--</span>;
   };
 
-  const components: ITypeComponents = {
+  const components: ITypeComponents<string & number, ICombinationDTO> = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.PRICE]: _renderBasicToCurrency,
   };
 
-  const componentsCollapse: ITypeComponents = {
+  const componentsCollapse: ITypeComponents<string & Date, ICombinationDTO> = {
     [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -100,7 +103,7 @@ export function Combinations(): JSX.Element {
         {loadingCombinations ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp
+          <TableApp<string & number & Date, ICombinationDTO>
             tableName="table-combinations"
             data={allCombinations}
             components={components}
@@ -109,7 +112,6 @@ export function Combinations(): JSX.Element {
             columnConfigCollapse={columnConfigCollapse}
             componentsCollapse={componentsCollapse}
             renderCellHeaderCollapse={key => columnLabelCollapse[key]}
-            isMobile={smDown}
             showFilterState={showFilterState}
             renderInputSearchAndSelect={filterTable}
           />

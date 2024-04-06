@@ -3,28 +3,12 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Dialog, DialogContent, DialogTitle, Grid, IconButton } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import FooterDialogActions from 'shared/components/footerDialogActions/FooterDialogActions';
-import SelectApp from 'shared/components/select/Select';
-import TextFieldApp from 'shared/components/textField/TextField';
-import { LISTTYPEUSERS } from 'shared/constants/listTypeUsers';
-import {
-  defaultValuesUserEdit,
-  fieldsUser,
-  IFormUser,
-  IUserDTO,
-  schemaEditUser,
-} from 'shared/dtos/IUserDTO';
+import { FooterDialogActions, SelectApp, TextFieldApp } from 'shared/components';
+import { LISTTYPEUSERS } from 'shared/constants';
+import { IFormUser, defaultValuesUserEdit, fieldsUser, schemaEditUser } from 'shared/dtos/IUserDTO';
 
 import { Form } from './styles';
-
-interface DialogEditProps {
-  smDown?: boolean;
-  user: IUserDTO;
-  open: boolean;
-  onSubmitUpdate: (dataForm: IFormUser) => Promise<void>;
-  handleClose: () => void;
-  loading: boolean;
-}
+import { DialogEditProps } from './types';
 
 export function DialogEdit({
   user,
@@ -33,7 +17,7 @@ export function DialogEdit({
   open,
   handleClose,
   loading,
-}: DialogEditProps): JSX.Element {
+}: DialogEditProps) {
   const { handleSubmit, control } = useForm<IFormUser>({
     resolver: yupResolver(schemaEditUser),
     defaultValues: defaultValuesUserEdit(user),

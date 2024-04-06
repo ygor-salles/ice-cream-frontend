@@ -9,20 +9,18 @@ import {
   Skeleton,
 } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import DialogInfo from 'shared/components/dialog/Dialog';
-import { Pagination } from 'shared/components/pagination/Pagination';
-import { ToastType } from 'shared/components/snackBar/enum';
-import { LIMIT_PAGED } from 'shared/constants/limitPaged';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { DialogInfo, Pagination } from 'shared/components';
+import { ToastType } from 'shared/components/SnackBar/enum';
+import { LIMIT_PAGED, RoutesEnum } from 'shared/constants';
 import { IFormFilterPaymentPage } from 'shared/dtos/IPaymentDTO';
 import { usePayment } from 'shared/hooks/network/usePayment';
 import { useToastContext } from 'shared/hooks/useToastContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
-import FilterPayment from './components/FilterPayment';
-import PaymentItem from './components/PaymentItem';
+import { FilterPayment } from './components/FilterPayment';
+import { PaymentItem } from './components/PaymentItem';
 
-export function Payments(): JSX.Element {
+export function Payments() {
   const {
     allPayments,
     loadingPayments,
@@ -47,10 +45,10 @@ export function Payments(): JSX.Element {
     () => ({
       limit: searchParams.get('limit') || `${LIMIT_PAGED}`,
       page: searchParams.get('page') || '1',
-      client_id: searchParams.get('client_id'),
-      observation: searchParams.get('observation'),
-      start_date: searchParams.get('start_date'),
-      end_date: searchParams.get('end_date'),
+      client_id: searchParams.get('client_id') || undefined,
+      observation: searchParams.get('observation') || undefined,
+      start_date: searchParams.get('start_date') || undefined,
+      end_date: searchParams.get('end_date') || undefined,
     }),
     [searchParams],
   );

@@ -2,14 +2,16 @@ import { FilterAlt, Refresh } from '@mui/icons-material';
 import { Button, Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
+  TableApp,
   _renderBasicToCurrency,
   _renderSaleClientName,
   _renderSaleProductName,
-} from 'shared/components/renderCellTable/RenderCellTable';
-import { ToastType } from 'shared/components/snackBar/enum';
-import TableApp from 'shared/components/table/TableApp';
-import { ITypeComponents } from 'shared/components/table/types';
-import { localStorageKeys } from 'shared/constants/localStorageKeys';
+} from 'shared/components';
+import { ToastType } from 'shared/components/SnackBar/enum';
+import { ITypeComponents } from 'shared/components/TableApp/types';
+import { localStorageKeys } from 'shared/constants';
+import { IClientDTO } from 'shared/dtos/IClientDTO';
+import { IProductDTO } from 'shared/dtos/IProductDTO';
 import { ISaleDTO } from 'shared/dtos/ISaleDTO';
 import { useSale } from 'shared/hooks/network/useSale';
 import { useCache } from 'shared/hooks/useCache';
@@ -17,7 +19,7 @@ import { useToastContext } from 'shared/hooks/useToastContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
-import CollapseCombinations from './components/CollapseCombinations';
+import { CollapseCombinations } from './components/CollapseCombinations';
 import { columnConfig, columnLabel, columnType, filterTable } from './constants';
 
 export function OrdersActives() {
@@ -62,7 +64,7 @@ export function OrdersActives() {
     />
   );
 
-  const components: ITypeComponents = {
+  const components: ITypeComponents<IClientDTO & IProductDTO & number, ISaleDTO> = {
     [columnType.CLIENT]: _renderSaleClientName,
     [columnType.DATA_PRODUCT]: _renderSaleProductName,
     [columnType.TOTAL]: _renderBasicToCurrency,
@@ -86,7 +88,7 @@ export function OrdersActives() {
       {loadingSales ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
-        <TableApp
+        <TableApp<IClientDTO & IProductDTO & number, ISaleDTO>
           tableName="table-acais"
           data={allSales}
           mappedColumnSubObject={columnType}

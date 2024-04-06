@@ -3,13 +3,15 @@ import { ArrowBack } from '@mui/icons-material';
 import { Theme, Typography, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
-import CheckboxApp from 'shared/components/checkbox/CheckboxApp';
-import DatePicker from 'shared/components/datePicker/DatePicker';
-import InputFile from 'shared/components/inputFile/InputFile';
-import SelectApp from 'shared/components/select/Select';
-import TextFieldApp from 'shared/components/textField/TextField';
-import { RoutesEnum } from 'shared/constants/routesList';
+import {
+  ButtonSubmitApp,
+  CheckboxApp,
+  DatePicker,
+  InputFile,
+  SelectApp,
+  TextFieldApp,
+} from 'shared/components';
+import { RoutesEnum } from 'shared/constants';
 import {
   defaultValuesPurchase,
   fieldsPurchase,
@@ -22,7 +24,7 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { Form, GridForm, StyledCard } from './styles';
 
-export function RegisterPurchase(): JSX.Element {
+export function RegisterPurchase() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, reset, formState } = useForm<IFormPurchase>({

@@ -23,11 +23,11 @@ export interface IFormPayment {
 }
 
 export interface IFormFilterPaymentPage {
-  client_name?: string;
-  client_id?: string;
-  observation?: string;
-  start_date?: string;
-  end_date?: string;
+  client_name: string;
+  client_id: string;
+  observation: string;
+  start_date: string;
+  end_date: string;
 }
 
 export const fieldsPayment = {
@@ -53,16 +53,27 @@ export const transformObject = (dataForm: IFormPayment): IPaymentDTO => {
     value: Mask.convertCurrency(dataForm.value),
     client_id: Number(dataForm.client_id),
   };
-  if (dataForm.observation.length) {
+  if (dataForm.observation?.length) {
     object.observation = dataForm.observation;
   }
   return object;
 };
 
-export const transformObjectFilterPayment = (dataForm: ILoadPagedPaymentsDTORequest) => {
+interface ILoadPagedPaymentsDTO {
+  limit: number;
+  page: number;
+  client_id?: string;
+  observation?: string;
+  start_date?: string;
+  end_date?: string;
+}
+
+export const transformObjectFilterPayment = (
+  dataForm: ILoadPagedPaymentsDTORequest,
+): ILoadPagedPaymentsDTO => {
   const { limit, page, client_id, end_date, observation, start_date } = dataForm;
 
-  const obj: ILoadPagedPaymentsDTORequest = { limit, page };
+  const obj: ILoadPagedPaymentsDTO = { limit, page };
 
   const clientOk = client_id && client_id !== 'null' && client_id.length > 0;
   const observationOk = observation && observation !== 'null' && observation.length > 0;

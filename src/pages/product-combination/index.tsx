@@ -1,8 +1,7 @@
-import combinationsImage from 'assets/combinations.svg';
-import iceCreamImage from 'assets/ice-cream.svg';
+import { images } from 'assets';
 import { useNavigate } from 'react-router-dom';
-import SplashScreen from 'shared/components/splashScreen/SplashScreen';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { SplashScreen } from 'shared/components';
+import { RoutesEnum } from 'shared/constants';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 export function ProductCombination() {
@@ -17,7 +16,7 @@ export function ProductCombination() {
             title: 'Tela de produtos',
             description:
               'Cadastre seus produtos e genrencie quais produtos possui em estoque ou não',
-            srcImage: iceCreamImage,
+            srcImage: images.iceCream,
             altImage: 'sorvete',
             onNavigate: () => navigate(RoutesEnum.PRODUCTS),
           },
@@ -25,7 +24,7 @@ export function ProductCombination() {
             title: 'Tela de combinações',
             description:
               'Cadastre suas combinações referente aos produtos e genrencie quais combinações possui em estoque ou não',
-            srcImage: combinationsImage,
+            srcImage: images.combinations,
             altImage: 'combinações',
             onNavigate: () => navigate(RoutesEnum.COMBINATIONS),
           },

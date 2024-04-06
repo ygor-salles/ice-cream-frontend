@@ -3,10 +3,8 @@ import { ArrowBack } from '@mui/icons-material';
 import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import ButtonSubmitApp from 'shared/components/button/ButtonSubmitApp';
-import SelectApp from 'shared/components/select/Select';
-import TextFieldApp from 'shared/components/textField/TextField';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { ButtonSubmitApp, SelectApp, TextFieldApp } from 'shared/components';
+import { RoutesEnum } from 'shared/constants';
 import { IClientDTO } from 'shared/dtos/IClientDTO';
 import {
   defaultValuesPayment,
@@ -21,7 +19,7 @@ import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
 
 import { Form, GridForm, StyledCard, TextDebit, WrapperDebit } from './styles';
 
-export function RegisterPayment(): JSX.Element {
+export function RegisterPayment() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, formState, reset } = useForm<IFormPayment>({
@@ -33,7 +31,7 @@ export function RegisterPayment(): JSX.Element {
 
   const { handleSubmitCreate, loadingForm: loading } = usePayment();
 
-  const [clientState, setClientState] = useState<IClientDTO>();
+  const [clientState, setClientState] = useState<IClientDTO | null>();
 
   const onCloseSelectClient = (event: React.SyntheticEvent<Element, Event>) => {
     const idClient = event?.currentTarget?.id;
@@ -68,7 +66,7 @@ export function RegisterPayment(): JSX.Element {
         <Form
           noValidate
           onSubmit={handleSubmit((data: IFormPayment) => {
-            handleSubmitCreate(data, clientState.debit);
+            if (clientState) handleSubmitCreate(data, clientState.debit);
             setClientState(null);
           })}
         >

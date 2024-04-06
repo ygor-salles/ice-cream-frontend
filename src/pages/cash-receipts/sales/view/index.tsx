@@ -2,20 +2,19 @@ import { AddBox } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Pagination } from 'shared/components/pagination/Pagination';
-import { ToastType } from 'shared/components/snackBar/enum';
-import { LIMIT_PAGED } from 'shared/constants/limitPaged';
-import { RoutesEnum } from 'shared/constants/routesList';
+import { Pagination } from 'shared/components';
+import { ToastType } from 'shared/components/SnackBar/enum';
+import { LIMIT_PAGED, RoutesEnum } from 'shared/constants';
 import { EnumTypeSale, IFormFilterSalePage } from 'shared/dtos/ISaleDTO';
 import { useSale } from 'shared/hooks/network/useSale';
 import { useToastContext } from 'shared/hooks/useToastContext';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 
-import FilterSale from './components/FilterSale';
-import SaleItem from './components/SaleItem';
+import { FilterSale } from './components/FilterSale';
+import { SaleItem } from './components/SaleItem';
 
-export function Sales(): JSX.Element {
+export function Sales() {
   const navigate = useNavigate();
 
   const {
@@ -35,10 +34,10 @@ export function Sales(): JSX.Element {
     () => ({
       limit: searchParams.get('limit') || `${LIMIT_PAGED}`,
       page: searchParams.get('page') || '1',
-      client_id: searchParams.get('client_id'),
-      observation: searchParams.get('observation'),
-      start_date: searchParams.get('start_date'),
-      end_date: searchParams.get('end_date'),
+      client_id: searchParams.get('client_id') || undefined,
+      observation: searchParams.get('observation') || undefined,
+      start_date: searchParams.get('start_date') || undefined,
+      end_date: searchParams.get('end_date') || undefined,
     }),
     [searchParams],
   );

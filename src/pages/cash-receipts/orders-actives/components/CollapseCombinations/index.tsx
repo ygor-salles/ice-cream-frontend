@@ -1,29 +1,24 @@
 import { Switch } from '@mui/material';
 import { Children } from 'react';
 import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
-import { ISaleDTO } from 'shared/dtos/ISaleDTO';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
-import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
-import { Li, Ul, Container, Text, Wrapper, ContentLeft } from './styles';
+import { Container, ContentLeft, Li, Text, Ul, Wrapper } from './styles';
+import { CollapseCombinationsProps } from './types';
 
-interface PropTypes {
-  sale: ISaleDTO;
-  onChangeUpdateSaleById: (data: IUpdateSaleDTORequest) => Promise<void>;
-  onToggleRefreshPage: () => void;
-}
-
-const CollapseCombinations: React.FC<PropTypes> = ({
+export const CollapseCombinations = ({
   sale,
   onChangeUpdateSaleById,
   onToggleRefreshPage,
-}) => {
+}: CollapseCombinationsProps) => {
   const acais: IDataProduct[] = sale.data_product.filter(
     item => item.type === EnumTypeProduct.ACAI,
   );
 
   const onChangeCheck = async () => {
-    await onChangeUpdateSaleById({ id: sale.id, in_progress: !sale.in_progress });
+    if (sale.id) {
+      await onChangeUpdateSaleById({ id: sale.id, in_progress: !sale.in_progress });
+    }
     onToggleRefreshPage();
   };
 
@@ -36,7 +31,7 @@ const CollapseCombinations: React.FC<PropTypes> = ({
                 <Wrapper hasBorder={acais.length > 1}>
                   {acais.length > 1 && <Text>{`${item.amount} ${item.name}`}</Text>}
                   <Ul>
-                    {item?.combinations?.length > 0 ? (
+                    {item.combinations && item?.combinations?.length > 0 ? (
                       item.combinations.map(item => (
                         <Li hasCombinations key={item.name}>
                           {item?.name || '--'}
@@ -71,5 +66,3 @@ const CollapseCombinations: React.FC<PropTypes> = ({
     </Container>
   );
 };
-
-export default CollapseCombinations;

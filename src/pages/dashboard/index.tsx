@@ -1,14 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FilterAlt } from '@mui/icons-material';
 import { Skeleton, Theme, Typography, useMediaQuery } from '@mui/material';
-import imageInput from 'assets/entradas.svg';
-import imageOutput from 'assets/saídas.svg';
+import { images } from 'assets';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import DatePicker from 'shared/components/datePicker/DatePicker';
-import SelectApp from 'shared/components/select/Select';
-import { LISTTYPEPROVIDER } from 'shared/constants/listTypeProviders';
-import { LISTTYPESALES } from 'shared/constants/listTypeSales';
+import { DatePicker, SelectApp } from 'shared/components';
+import { LISTTYPEPROVIDER, LISTTYPESALES } from 'shared/constants';
 import { EnumTypeProvider } from 'shared/dtos/IProviderDTO';
 import {
   defaultValuesFilterPurchase,
@@ -222,7 +219,7 @@ export function Dashboard() {
                     {inputsDate.length ? inputsDate : 'Hoje'}
                   </TextDate>
                 </div>
-                <Img src={imageInput} alt="entradas" />
+                <Img src={images.entradas} alt="entradas" />
               </HeaderCard>
               <Typography variant="h4">{formatNumberToCurrency(sumSalesState ?? 0)}</Typography>
             </Card>
@@ -236,7 +233,7 @@ export function Dashboard() {
                     {outputsDate.length ? outputsDate : 'Hoje'}
                   </TextDate>
                 </div>
-                <Img src={imageOutput} alt="saídas" />
+                <Img src={images.saidas} alt="saídas" />
               </HeaderCard>
               <Typography variant="h4">{formatNumberToCurrency(sumPurchasesState ?? 0)}</Typography>
             </Card>
@@ -261,7 +258,7 @@ export function Dashboard() {
             <CardDebit>
               <HeaderCard>
                 <Typography variant="h6">Dívida de clientes</Typography>
-                <Img src={imageInput} alt="entradas" />
+                <Img src={images.entradas} alt="entradas" />
               </HeaderCard>
               <Typography variant="h4">{formatNumberToCurrency(sumDebitsState ?? 0)}</Typography>
             </CardDebit>

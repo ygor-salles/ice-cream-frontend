@@ -1,5 +1,4 @@
-import formatDateTime from 'shared/utils/formatDateTime';
-import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
+import { formatDateTime, formatNumberToCurrency } from 'shared/utils';
 
 import { Container, Row, SAssignment, SDelete, Text, WrapperInfo } from './styles';
 import { PaymentItemProps } from './types';

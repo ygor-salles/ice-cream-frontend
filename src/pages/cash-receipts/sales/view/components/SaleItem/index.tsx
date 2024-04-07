@@ -1,9 +1,8 @@
 import { NavigateNext } from '@mui/icons-material';
 import { CircularProgress, Icon } from '@mui/material';
 import { useMemo } from 'react';
-import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
-import formatDateTime from 'shared/utils/formatDateTime';
-import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
+import { EnumTypeProduct } from 'shared/dtos';
+import { formatDateTime, formatNumberToCurrency } from 'shared/utils';
 
 import { Container, Row, Text, TextCustom, Wrapper, WrapperInfo, WrapperNavigate } from './styles';
 import { SaleItemProps } from './types';

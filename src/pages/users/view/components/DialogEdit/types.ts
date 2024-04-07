@@ -1,4 +1,4 @@
-import { IFormUser, IUserDTO } from 'shared/dtos/IUserDTO';
+import { IFormUser, IUserDTO } from 'shared/dtos';
 
 export interface DialogEditProps {
   smDown?: boolean;

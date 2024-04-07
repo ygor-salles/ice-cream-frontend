@@ -1,5 +1,4 @@
-import { IClientDTO } from 'shared/dtos/IClientDTO';
-import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
+import { IClientDTO, EnumTypeSale } from 'shared/dtos';
 
 import { IDataProduct } from './ICreateSaleDTO';
 

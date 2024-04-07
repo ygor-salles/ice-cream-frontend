@@ -1,4 +1,4 @@
-import { IFormFilterSalePage } from 'shared/dtos/ISaleDTO';
+import { IFormFilterSalePage } from 'shared/dtos';
 
 export interface FilterSaleProps {
   loadingSales: boolean;

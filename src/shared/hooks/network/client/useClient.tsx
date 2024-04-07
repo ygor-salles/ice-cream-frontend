@@ -1,10 +1,11 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { ToastType } from 'shared/components/SnackBar/enum';
-import { IClientDTO, IFormClient, transformObject } from 'shared/dtos/IClientDTO';
+import { IClientDTO, IFormClient } from 'shared/dtos';
 import ClientService from 'shared/services/ClientService';
 
-import { useToastContext } from '../useToastContext';
+import { useToastContext } from '../../useToastContext';
+import { transformObject } from './utils';
 
 export function useClient() {
   const { addToast } = useToastContext();

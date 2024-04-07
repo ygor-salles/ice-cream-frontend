@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { EnumRoleUser } from 'shared/dtos/IUserDTO';
+import { EnumRoleUser } from 'shared/dtos';
 
 export interface AuthProviderProps {
   children: ReactNode;

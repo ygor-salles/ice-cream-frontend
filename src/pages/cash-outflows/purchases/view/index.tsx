@@ -5,15 +5,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { DialogInfo, Pagination } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { LIMIT_PAGED, RoutesEnum } from 'shared/constants';
-import { IFormFilterPurchasePage } from 'shared/dtos/IPurchaseDTO';
-import { usePurchase } from 'shared/hooks/network/usePurchase';
-import { useToastContext } from 'shared/hooks/useToastContext';
+import { IFormFilterPurchasePage } from 'shared/dtos';
+import { usePurchase, useToastContext } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
-import transformImageUrl from 'shared/utils/transformImageUrl';
+import { transformImageUrl } from 'shared/utils';
 
-import { DialogEdit } from './components/DialogEdit';
-import { FilterPurchase } from './components/FilterPurchase';
-import { PurchaseItem } from './components/PurchaseItem';
+import { DialogEdit, FilterPurchase, PurchaseItem } from './components';
 import { Close, ImgDialog } from './styles';
 
 export function Purchases() {

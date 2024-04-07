@@ -2,7 +2,7 @@
 import { Add, Remove } from '@mui/icons-material';
 import { ChangeEvent } from 'react';
 import { Controller } from 'react-hook-form';
-import { useThemeContext } from 'shared/hooks/useThemeContext';
+import { useThemeContext } from 'shared/hooks';
 
 import {
   ButtonIcon,

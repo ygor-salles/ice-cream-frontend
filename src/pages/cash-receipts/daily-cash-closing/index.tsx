@@ -6,16 +6,13 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { ButtonSubmitApp, DatePicker, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
-import {
-  defaultValuesCashClosing,
-  fieldsSale,
-  IFormCashClosing,
-  schemaCreateCashClosing,
-} from 'shared/dtos/ISaleDTO';
-import { useSale } from 'shared/hooks/network/useSale';
+import { IFormCashClosing } from 'shared/dtos';
+import { useSale } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
+import { fieldsSale } from '../sales/utils';
 import { Form, GridForm, StyledCard } from './styles';
+import { defaultValuesCashClosing, schemaCreateCashClosing } from './utils';
 
 export function DailyCashClosing() {
   const navigate = useNavigate();

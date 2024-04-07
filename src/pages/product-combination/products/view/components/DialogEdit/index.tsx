@@ -3,13 +3,9 @@ import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { FooterDialogActions, SelectApp, TextFieldApp } from 'shared/components';
 import { LISTTYPEPRODUCTS } from 'shared/constants';
-import {
-  IFormProduct,
-  defaultValuesProductEdit,
-  fieldsProduct,
-  schemaCreateProduct,
-} from 'shared/dtos/IProductDTO';
+import { IFormProduct } from 'shared/dtos';
 
+import { defaultValuesProductEdit, fieldsProduct, schemaProduct } from '../../../utils';
 import { Form } from './styles';
 import { DialogEditProps } from './types';
 
@@ -22,7 +18,7 @@ export function DialogEdit({
   loading,
 }: DialogEditProps) {
   const { handleSubmit, control } = useForm<IFormProduct>({
-    resolver: yupResolver(schemaCreateProduct),
+    resolver: yupResolver(schemaProduct),
     defaultValues: defaultValuesProductEdit(product),
   });
 

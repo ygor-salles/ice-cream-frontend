@@ -1,5 +1,5 @@
 import { ArrowForward } from '@mui/icons-material';
-import { useThemeContext } from 'shared/hooks/useThemeContext';
+import { useThemeContext } from 'shared/hooks';
 
 import {
   Container,

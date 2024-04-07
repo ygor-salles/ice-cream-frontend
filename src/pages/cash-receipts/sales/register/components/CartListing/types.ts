@@ -1,5 +1,5 @@
 import { Control } from 'react-hook-form';
-import { EnumTypeSale, IFormEditSale } from 'shared/dtos/ISaleDTO';
+import { EnumTypeSale, IFormEditSale } from 'shared/dtos';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 
 export interface CartListingProps {

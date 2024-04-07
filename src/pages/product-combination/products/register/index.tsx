@@ -5,15 +5,11 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ButtonSubmitApp, SelectApp, TextFieldApp } from 'shared/components';
 import { LISTTYPEPRODUCTS, RoutesEnum } from 'shared/constants';
-import {
-  defaultValuesProduct,
-  fieldsProduct,
-  IFormProduct,
-  schemaCreateProduct,
-} from 'shared/dtos/IProductDTO';
-import { useProduct } from 'shared/hooks/network/useProduct';
+import { IFormProduct } from 'shared/dtos';
+import { useProduct } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
+import { defaultValuesProduct, fieldsProduct, schemaProduct } from '../utils';
 import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterProduct() {
@@ -22,7 +18,7 @@ export function RegisterProduct() {
   const { handleSubmitCreate, loadingForm: loading } = useProduct();
 
   const { handleSubmit, control, reset, formState } = useForm<IFormProduct>({
-    resolver: yupResolver(schemaCreateProduct),
+    resolver: yupResolver(schemaProduct),
     defaultValues: defaultValuesProduct,
   });
 

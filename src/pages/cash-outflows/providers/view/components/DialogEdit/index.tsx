@@ -1,13 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { CheckboxApp, FooterDialogActions, TextFieldApp } from 'shared/components';
 import {
-  IFormProvider,
   defaultValuesProviderEdit,
   fieldsProvider,
-  schemaCreateProvider,
-} from 'shared/dtos/IProviderDTO';
+  schemaProvider,
+} from 'pages/cash-outflows/providers/utils';
+import { useForm } from 'react-hook-form';
+import { CheckboxApp, FooterDialogActions, TextFieldApp } from 'shared/components';
+import { IFormProvider } from 'shared/dtos';
 
 import { Form } from './styles';
 import { DialogEditProps } from './types';
@@ -21,7 +21,7 @@ export function DialogEdit({
   loading,
 }: DialogEditProps) {
   const { handleSubmit, control } = useForm<IFormProvider>({
-    resolver: yupResolver(schemaCreateProvider),
+    resolver: yupResolver(schemaProvider),
     defaultValues: defaultValuesProviderEdit(provider),
   });
 

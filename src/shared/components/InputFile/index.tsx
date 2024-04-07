@@ -1,7 +1,7 @@
 import { Upload } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useController } from 'react-hook-form';
-import transformImageUrl from 'shared/utils/transformImageUrl';
+import { transformImageUrl } from 'shared/utils';
 
 import { Close, ContentImage, ContentInputFile, ContentLabel, Img, TextError } from './styles';
 import { InputFileProps } from './types';

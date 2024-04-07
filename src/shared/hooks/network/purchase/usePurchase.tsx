@@ -2,14 +2,7 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ToastType } from 'shared/components/SnackBar/enum';
-import {
-  IFormFilterPurchase,
-  IFormPurchase,
-  IPurchaseDTO,
-  transformObject,
-  transformObjectFilter,
-  transformObjectFilterPurchase,
-} from 'shared/dtos/IPurchaseDTO';
+import { IFormFilterPurchase, IFormPurchase, IPurchaseDTO } from 'shared/dtos';
 import PurchaseService from 'shared/services/PurchaseService';
 import {
   ILoadPagedPurchasesDTORequest,
@@ -17,7 +10,8 @@ import {
 } from 'shared/services/PurchaseService/dtos/ILoadPagedPurchasesDTO';
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 
-import { useToastContext } from '../useToastContext';
+import { useToastContext } from '../../useToastContext';
+import { transformObject, transformObjectFilter, transformObjectFilterPurchase } from './utils';
 
 export function usePurchase() {
   const { addToast } = useToastContext();

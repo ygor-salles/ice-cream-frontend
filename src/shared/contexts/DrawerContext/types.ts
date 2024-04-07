@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
-import { IClientDTO } from 'shared/dtos/IClientDTO';
-import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
-import { IProductDTO } from 'shared/dtos/IProductDTO';
+import { IClientDTO, ICombinationDTO, IProductDTO } from 'shared/dtos';
 
 export interface DrawerProviderProps {
   children: ReactNode;

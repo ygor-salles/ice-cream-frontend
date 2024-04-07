@@ -1,4 +1,4 @@
-import { IClientDTO, IFormClient } from 'shared/dtos/IClientDTO';
+import { IClientDTO, IFormClient } from 'shared/dtos';
 
 export interface DialogEditProps {
   client: IClientDTO;

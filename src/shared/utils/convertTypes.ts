@@ -1,5 +1,4 @@
-import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
-import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
+import { EnumTypeProduct, EnumTypeSale } from 'shared/dtos';
 
 export function convetSalesType(type_sale: string): EnumTypeSale {
   switch (type_sale) {

@@ -1,6 +1,6 @@
 import { LocalPhone, PhoneAndroid } from '@mui/icons-material';
 import { TextField } from '@mui/material';
-import { useThemeContext } from 'shared/hooks/useThemeContext';
+import { useThemeContext } from 'shared/hooks';
 import styled from 'styled-components';
 import { Colors } from 'styles/global';
 

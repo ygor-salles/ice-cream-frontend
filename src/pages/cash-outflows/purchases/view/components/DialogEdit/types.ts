@@ -1,4 +1,4 @@
-import { IFormPurchase, IPurchaseDTO } from 'shared/dtos/IPurchaseDTO';
+import { IFormPurchase, IPurchaseDTO } from 'shared/dtos';
 
 export interface DialogEditProps {
   purchase: IPurchaseDTO;

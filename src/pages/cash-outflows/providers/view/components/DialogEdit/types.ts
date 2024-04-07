@@ -1,4 +1,4 @@
-import { IFormProvider, IProviderDTO } from 'shared/dtos/IProviderDTO';
+import { IFormProvider, IProviderDTO } from 'shared/dtos';
 
 export interface DialogEditProps {
   smDown?: boolean;

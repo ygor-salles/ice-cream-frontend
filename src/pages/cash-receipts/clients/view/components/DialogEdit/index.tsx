@@ -12,13 +12,9 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FooterDialogActions, TextFieldApp } from 'shared/components';
-import {
-  IFormClient,
-  defaultValuesClientEdit,
-  fieldsClient,
-  schemaCreateClient,
-} from 'shared/dtos/IClientDTO';
+import { IFormClient } from 'shared/dtos';
 
+import { defaultValuesClientEdit, fieldsClient, schemaClient } from '../../../utils';
 import { Form, stylesIcon } from './styles';
 import { DialogEditProps } from './types';
 
@@ -31,7 +27,7 @@ export function DialogEdit({
 }: DialogEditProps) {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const { handleSubmit, control } = useForm<IFormClient>({
-    resolver: yupResolver(schemaCreateClient),
+    resolver: yupResolver(schemaClient),
     defaultValues: defaultValuesClientEdit(client),
   });
 

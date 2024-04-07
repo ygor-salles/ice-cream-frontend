@@ -10,8 +10,8 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AutoComplete, ButtonSubmitApp, DatePicker, TextFieldApp } from 'shared/components';
-import { IFormFilterSalePage } from 'shared/dtos/ISaleDTO';
-import { useDrawerContext } from 'shared/hooks/useDrawerContext';
+import { IFormFilterSalePage } from 'shared/dtos';
+import { useDrawerContext } from 'shared/hooks';
 
 import { ContentDate, Form, StyledAccordion, Wrapper } from './styles';
 import { FilterSaleProps } from './types';

@@ -6,23 +6,14 @@ import { useController, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckboxApp, DialogInfo } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
-import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
-import {
-  EnumTypeSale,
-  IFormEditSale,
-  IFormSale,
-  fieldsSale,
-  schemaEditSale,
-  transformItemArray,
-} from 'shared/dtos/ISaleDTO';
-import { useSale } from 'shared/hooks/network/useSale';
-import { useToastContext } from 'shared/hooks/useToastContext';
+import { EnumTypeSale, EnumTypeProduct, IFormEditSale, IFormSale } from 'shared/dtos';
+import { useToastContext, useSale } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
-import formatDateTime from 'shared/utils/formatDateTime';
-import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
+import { formatDateTime, formatNumberToCurrency } from 'shared/utils';
 
+import { fieldsSale, schemaEditSale, transformItemArray } from '../utils';
 import { DialogCreateSale } from '../view/components/DialogCreateSale';
 import { StyledCardList, Text, WrapperDetail } from './styles';
 

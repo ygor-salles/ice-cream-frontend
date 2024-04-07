@@ -1,4 +1,4 @@
-import { EnumRoleUser } from 'shared/dtos/IUserDTO';
+import { EnumRoleUser } from 'shared/dtos';
 
 export const translateTypeUser = (enumUser: EnumRoleUser) => {
   if (enumUser === EnumRoleUser.SUPER) return 'Admin';

@@ -2,13 +2,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Dialog, DialogContent, DialogTitle, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { FooterDialogActions, TextFieldApp } from 'shared/components';
-import {
-  IFormCombination,
-  defaultValuesCombinationEdit,
-  fieldsCombination,
-  schemaCreateCombination,
-} from 'shared/dtos/ICombinationDTO';
+import { IFormCombination } from 'shared/dtos';
 
+import { defaultValuesCombinationEdit, fieldsCombination, schemaCombination } from '../../../utils';
 import { Form } from './styles';
 import { DialogEditProps } from './types';
 
@@ -21,7 +17,7 @@ export function DialogEdit({
   loading,
 }: DialogEditProps) {
   const { handleSubmit, control } = useForm<IFormCombination>({
-    resolver: yupResolver(schemaCreateCombination),
+    resolver: yupResolver(schemaCombination),
     defaultValues: defaultValuesCombinationEdit(combination),
   });
 

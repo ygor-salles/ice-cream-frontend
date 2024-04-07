@@ -1,4 +1,4 @@
-import { IFormProduct, IProductDTO } from 'shared/dtos/IProductDTO';
+import { IFormProduct, IProductDTO } from 'shared/dtos';
 
 export interface DialogEditProps {
   smDown?: boolean;

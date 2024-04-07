@@ -9,14 +9,10 @@ import {
   SelectApp,
   TextFieldApp,
 } from 'shared/components';
-import {
-  IFormPurchase,
-  defaultValuesPurchaseEdit,
-  fieldsPurchase,
-  schemaCreatePurchase,
-} from 'shared/dtos/IPurchaseDTO';
-import { useProvider } from 'shared/hooks/network/useProvider';
+import { IFormPurchase } from 'shared/dtos';
+import { useProvider } from 'shared/hooks';
 
+import { defaultValuesPurchaseEdit, fieldsPurchase, schemaPurchase } from '../../../utils';
 import { LoadingDialog } from './components/LoadingDialog';
 import { Form } from './styles';
 import { DialogEditProps } from './types';
@@ -36,7 +32,7 @@ export function DialogEdit({
   }, []);
 
   const { handleSubmit, control, watch } = useForm<IFormPurchase>({
-    resolver: yupResolver(schemaCreatePurchase),
+    resolver: yupResolver(schemaPurchase),
     defaultValues: defaultValuesPurchaseEdit(purchase),
   });
 

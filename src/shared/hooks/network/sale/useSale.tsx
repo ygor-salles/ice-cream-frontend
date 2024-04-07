@@ -3,16 +3,13 @@ import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { localStorageKeys, RoutesEnum } from 'shared/constants';
-import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
 import {
+  EnumTypeProduct,
   IFormCashClosing,
   IFormEditSale,
   IFormFilterSales,
   ISaleDTO,
-  transformObjectCashClosing,
-  transformObjectEdit,
-  transformObjectFilterSale,
-} from 'shared/dtos/ISaleDTO';
+} from 'shared/dtos';
 import { ILoadSumPurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ILoadSumPurchaseDTO';
 import SaleService from 'shared/services/SaleService';
 import {
@@ -22,8 +19,13 @@ import {
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 import { returnObject } from 'shared/utils/formatObject';
 
-import { useCache } from '../useCache';
-import { useToastContext } from '../useToastContext';
+import { useCache } from '../../useCache';
+import { useToastContext } from '../../useToastContext';
+import {
+  transformObjectCashClosing,
+  transformObjectEdit,
+  transformObjectFilterSale,
+} from './utils';
 
 export function useSale() {
   const navigate = useNavigate();

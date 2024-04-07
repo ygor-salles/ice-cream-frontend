@@ -1,4 +1,4 @@
-import { ICombinationDTO, IFormCombination } from 'shared/dtos/ICombinationDTO';
+import { ICombinationDTO, IFormCombination } from 'shared/dtos';
 
 export interface DialogEditProps {
   smDown?: boolean;

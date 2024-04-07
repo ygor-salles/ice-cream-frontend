@@ -12,11 +12,20 @@ import {
 } from 'shared/components';
 import { TypeEventFieldCount } from 'shared/components/TextFieldCount/types';
 import { LISTTYPESALES, RoutesEnum } from 'shared/constants';
-import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
-import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
 import {
+  ICombinationDTO,
+  EnumTypeProduct,
+  IProductDTO,
   EnumTypeSale,
   IFormSale,
+} from 'shared/dtos';
+import { useSale, useDrawerContext } from 'shared/hooks';
+import { LayoutBaseDePagina } from 'shared/layouts';
+import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
+import { formatNumberToCurrencyInput } from 'shared/utils';
+import Mask from 'shared/utils/masks';
+
+import {
   defaultDataProduct,
   defaultValueAmount,
   defaultValuesSale,
@@ -25,14 +34,7 @@ import {
   schemaCreateSaleWithCustomer,
   transformItemArray,
   transformObject,
-} from 'shared/dtos/ISaleDTO';
-import { useSale } from 'shared/hooks/network/useSale';
-import { useDrawerContext } from 'shared/hooks/useDrawerContext';
-import { LayoutBaseDePagina } from 'shared/layouts';
-import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
-import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
-import Mask from 'shared/utils/masks';
-
+} from '../utils';
 import { CartListing } from './components/CartListing';
 import { Form, GridForm, Notificaion, StyledCard, Text, Wrapper, WrapperButtons } from './styles';
 

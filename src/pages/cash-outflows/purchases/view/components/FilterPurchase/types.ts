@@ -1,4 +1,4 @@
-import { IFormFilterPurchasePage } from 'shared/dtos/IPurchaseDTO';
+import { IFormFilterPurchasePage } from 'shared/dtos';
 
 export interface FilterPurchaseProps {
   loadingPurchases: boolean;

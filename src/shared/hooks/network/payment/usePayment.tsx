@@ -2,19 +2,15 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ToastType } from 'shared/components/SnackBar/enum';
-import {
-  IFormPayment,
-  IPaymentDTO,
-  transformObject,
-  transformObjectFilterPayment,
-} from 'shared/dtos/IPaymentDTO';
+import { IFormPayment, IPaymentDTO } from 'shared/dtos';
 import PaymentService from 'shared/services/PaymentService';
 import {
   ILoadPagedPaymentsDTORequest,
   InstancePayment,
 } from 'shared/services/PaymentService/dtos/ILoadPagedPaymentsDTO';
 
-import { useToastContext } from '../useToastContext';
+import { useToastContext } from '../../useToastContext';
+import { transformObject, transformObjectFilterPayment } from './utils';
 
 export function usePayment() {
   const { addToast } = useToastContext();

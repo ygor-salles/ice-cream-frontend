@@ -1,4 +1,4 @@
-import { EnumRoleUser } from 'shared/dtos/IUserDTO';
+import { EnumRoleUser } from 'shared/dtos';
 
 export default class Mask {
   static currency(text: string): string {

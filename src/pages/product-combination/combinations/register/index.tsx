@@ -5,22 +5,18 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ButtonSubmitApp, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
-import {
-  defaultValuesCombination,
-  fieldsCombination,
-  IFormCombination,
-  schemaCreateCombination,
-} from 'shared/dtos/ICombinationDTO';
-import { useCombination } from 'shared/hooks/network/useCombination';
+import { IFormCombination } from 'shared/dtos';
+import { useCombination } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
+import { defaultValuesCombination, fieldsCombination, schemaCombination } from '../utils';
 import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterCombination() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, formState, reset } = useForm<IFormCombination>({
-    resolver: yupResolver(schemaCreateCombination),
+    resolver: yupResolver(schemaCombination),
     defaultValues: defaultValuesCombination,
   });
 

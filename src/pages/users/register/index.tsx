@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ButtonSubmitApp, SelectApp, TextFieldApp } from 'shared/components';
 import { LISTTYPEUSERS, RoutesEnum } from 'shared/constants';
-import { defaultValuesUser, fieldsUser, IFormUser, schemaCreateUser } from 'shared/dtos/IUserDTO';
-import { useUser } from 'shared/hooks/network/useUser';
+import { IFormUser } from 'shared/dtos';
+import { useUser } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
+import { defaultValuesUser, fieldsUser, schemaCreateUser } from '../utils';
 import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterUser() {

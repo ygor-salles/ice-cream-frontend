@@ -1,6 +1,6 @@
 import jwt_decode from 'jwt-decode';
 import { localStorageKeys } from 'shared/constants';
-import { EnumRoleUser } from 'shared/dtos/IUserDTO';
+import { EnumRoleUser } from 'shared/dtos';
 
 import { IAuthResponse, IDescribedUser } from './types';
 

@@ -11,8 +11,8 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AutoComplete, ButtonSubmitApp, DatePicker, TextFieldApp } from 'shared/components';
-import { IFormFilterPurchasePage } from 'shared/dtos/IPurchaseDTO';
-import { useProvider } from 'shared/hooks/network/useProvider';
+import { IFormFilterPurchasePage } from 'shared/dtos';
+import { useProvider } from 'shared/hooks';
 
 import { ContentDate, Form, StyledAccordion, Wrapper } from './styles';
 import { FilterPurchaseProps } from './types';

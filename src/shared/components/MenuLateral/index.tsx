@@ -15,11 +15,8 @@ import { images } from 'assets';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants';
-import { useAuthContext } from 'shared/hooks/useAuthContext';
-import { useDrawerContext } from 'shared/hooks/useDrawerContext';
-import { useThemeContext } from 'shared/hooks/useThemeContext';
-import { getShortName } from 'shared/utils/getShortName';
-import { translateTypeUser } from 'shared/utils/translateTypeUser';
+import { useAuthContext, useDrawerContext, useThemeContext } from 'shared/hooks';
+import { getShortName, translateTypeUser } from 'shared/utils';
 import { Colors } from 'styles/global';
 
 import { ListItemLink } from './ListItemLink';

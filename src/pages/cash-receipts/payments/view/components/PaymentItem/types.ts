@@ -1,4 +1,4 @@
-import { IPaymentDTO } from 'shared/dtos/IPaymentDTO';
+import { IPaymentDTO } from 'shared/dtos';
 import { InstancePayment } from 'shared/services/PaymentService/dtos/ILoadPagedPaymentsDTO';
 
 export interface PaymentItemProps {

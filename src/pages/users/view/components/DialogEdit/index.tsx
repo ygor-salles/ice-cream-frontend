@@ -1,11 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Dialog, DialogContent, DialogTitle, Grid, IconButton } from '@mui/material';
+import { defaultValuesUserEdit, fieldsUser, schemaEditUser } from 'pages/users/utils';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FooterDialogActions, SelectApp, TextFieldApp } from 'shared/components';
 import { LISTTYPEUSERS } from 'shared/constants';
-import { IFormUser, defaultValuesUserEdit, fieldsUser, schemaEditUser } from 'shared/dtos/IUserDTO';
+import { IFormUser } from 'shared/dtos';
 
 import { Form } from './styles';
 import { DialogEditProps } from './types';

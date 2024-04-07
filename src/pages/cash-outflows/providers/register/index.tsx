@@ -5,22 +5,18 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ButtonSubmitApp, CheckboxApp, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
-import {
-  defaultValuesProvider,
-  fieldsProvider,
-  IFormProvider,
-  schemaCreateProvider,
-} from 'shared/dtos/IProviderDTO';
-import { useProvider } from 'shared/hooks/network/useProvider';
+import { IFormProvider } from 'shared/dtos';
+import { useProvider } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
+import { defaultValuesProvider, fieldsProvider, schemaProvider } from '../utils';
 import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterProvider() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, formState, reset } = useForm<IFormProvider>({
-    resolver: yupResolver(schemaCreateProvider),
+    resolver: yupResolver(schemaProvider),
     defaultValues: defaultValuesProvider,
   });
 

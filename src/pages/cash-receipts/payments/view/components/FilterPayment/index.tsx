@@ -11,9 +11,8 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AutoComplete, ButtonSubmitApp, DatePicker, TextFieldApp } from 'shared/components';
-import { IFormFilterPaymentPage } from 'shared/dtos/IPaymentDTO';
-import { useClient } from 'shared/hooks/network/useClient';
-import { useDrawerContext } from 'shared/hooks/useDrawerContext';
+import { IFormFilterPaymentPage } from 'shared/dtos';
+import { useClient, useDrawerContext } from 'shared/hooks';
 
 import { ContentDate, Form, StyledAccordion, Wrapper } from './styles';
 import { FilterPaymentProps } from './types';

@@ -1,4 +1,4 @@
-import { ISaleDTO } from 'shared/dtos/ISaleDTO';
+import { ISaleDTO } from 'shared/dtos';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
 export interface CollapseCombinationsProps {

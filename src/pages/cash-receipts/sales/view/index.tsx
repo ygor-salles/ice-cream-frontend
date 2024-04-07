@@ -5,9 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { Pagination } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { LIMIT_PAGED, RoutesEnum } from 'shared/constants';
-import { EnumTypeSale, IFormFilterSalePage } from 'shared/dtos/ISaleDTO';
-import { useSale } from 'shared/hooks/network/useSale';
-import { useToastContext } from 'shared/hooks/useToastContext';
+import { EnumTypeSale, IFormFilterSalePage } from 'shared/dtos';
+import { useSale, useToastContext } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 

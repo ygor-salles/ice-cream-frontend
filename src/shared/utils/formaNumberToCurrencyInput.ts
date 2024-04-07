@@ -1,4 +1,4 @@
-export default function formatNumberToCurrencyInput(value: number): string {
+export function formatNumberToCurrencyInput(value: number): string {
   return value
     ? new Intl.NumberFormat('eng', {
         maximumFractionDigits: 2,

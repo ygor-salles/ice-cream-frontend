@@ -5,22 +5,18 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ButtonSubmitApp, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
-import {
-  defaultValuesClient,
-  fieldsClient,
-  IFormClient,
-  schemaCreateClient,
-} from 'shared/dtos/IClientDTO';
-import { useClient } from 'shared/hooks/network/useClient';
+import { IFormClient } from 'shared/dtos';
+import { useClient } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
+import { defaultValuesClient, fieldsClient, schemaClient } from '../utils';
 import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterClient() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, formState, reset } = useForm<IFormClient>({
-    resolver: yupResolver(schemaCreateClient),
+    resolver: yupResolver(schemaClient),
     defaultValues: defaultValuesClient,
   });
 

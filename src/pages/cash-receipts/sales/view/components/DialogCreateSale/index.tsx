@@ -1,21 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
 import { Button, Dialog, Theme, Typography, useMediaQuery } from '@mui/material';
-import { useCallback, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { AutoComplete, SelectMultiple, TextFieldApp, TextFieldCount } from 'shared/components';
-import { TypeEventFieldCount } from 'shared/components/TextFieldCount/types';
-import { ICombinationDTO } from 'shared/dtos/ICombinationDTO';
-import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
 import {
-  IFormSale,
   defaultValueAmount,
   defaultValuesDialogSale,
   fieldsSale,
   schemaDialogCreateSale,
-} from 'shared/dtos/ISaleDTO';
-import { useDrawerContext } from 'shared/hooks/useDrawerContext';
-import formatNumberToCurrencyInput from 'shared/utils/formaNumberToCurrencyInput';
+} from 'pages/cash-receipts/sales/utils';
+import { useCallback, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { AutoComplete, SelectMultiple, TextFieldApp, TextFieldCount } from 'shared/components';
+import { TypeEventFieldCount } from 'shared/components/TextFieldCount/types';
+import { ICombinationDTO, EnumTypeProduct, IProductDTO, IFormSale } from 'shared/dtos';
+import { useDrawerContext } from 'shared/hooks';
+import { formatNumberToCurrencyInput } from 'shared/utils';
 import Mask from 'shared/utils/masks';
 
 import { Form, GridForm, HeaderDialog, WrapperButtons } from './styles';

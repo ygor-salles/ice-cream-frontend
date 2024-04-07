@@ -10,12 +10,8 @@ import {
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { ITypeComponents } from 'shared/components/TableApp/types';
 import { localStorageKeys } from 'shared/constants';
-import { IClientDTO } from 'shared/dtos/IClientDTO';
-import { IProductDTO } from 'shared/dtos/IProductDTO';
-import { ISaleDTO } from 'shared/dtos/ISaleDTO';
-import { useSale } from 'shared/hooks/network/useSale';
-import { useCache } from 'shared/hooks/useCache';
-import { useToastContext } from 'shared/hooks/useToastContext';
+import { IClientDTO, IProductDTO, ISaleDTO } from 'shared/dtos';
+import { useSale, useCache, useToastContext } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 

@@ -1,4 +1,4 @@
-import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
+import { EnumTypeProduct } from 'shared/dtos';
 
 export interface ILoadProductDTOResponse {
   id: number;

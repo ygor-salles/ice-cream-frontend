@@ -9,10 +9,11 @@ import {
 } from '@mui/material';
 import React, { useMemo, useState } from 'react';
 import { LISTTYPESALES, LISTTYPESALES_NOTDEBIT } from 'shared/constants';
-import { EnumTypeSale, fieldsSale } from 'shared/dtos/ISaleDTO';
-import { useThemeContext } from 'shared/hooks/useThemeContext';
-import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
+import { EnumTypeSale } from 'shared/dtos';
+import { useThemeContext } from 'shared/hooks';
+import { formatNumberToCurrency } from 'shared/utils';
 
+import { fieldsSale } from '../../../utils';
 import {
   AddCircle,
   BttIcon,

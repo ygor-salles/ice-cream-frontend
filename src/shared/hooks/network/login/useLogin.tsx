@@ -1,9 +1,9 @@
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { IAuthResponse } from 'shared/contexts/AuthContext/types';
 
-import { IFormLogin } from '../../dtos/ILoginDTO';
-import AuthService from '../../services/AuthService';
-import { useToastContext } from '../useToastContext';
+import { IFormLogin } from '../../../dtos/ILoginDTO';
+import AuthService from '../../../services/AuthService';
+import { useToastContext } from '../../useToastContext';
 
 export function useLogin() {
   const { addToast } = useToastContext();

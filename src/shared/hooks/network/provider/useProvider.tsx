@@ -1,10 +1,11 @@
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { ToastType } from 'shared/components/SnackBar/enum';
-import { IFormProvider, IProviderDTO, transformObject } from 'shared/dtos/IProviderDTO';
+import { IFormProvider, IProviderDTO } from 'shared/dtos';
 import ProviderService from 'shared/services/ProviderService';
 
-import { useToastContext } from '../useToastContext';
+import { useToastContext } from '../../useToastContext';
+import { transformObject } from './utils';
 
 export function useProvider() {
   const { addToast } = useToastContext();

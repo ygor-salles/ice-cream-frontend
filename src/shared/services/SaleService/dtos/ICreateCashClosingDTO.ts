@@ -1,4 +1,4 @@
-import { EnumTypeSale } from 'shared/dtos/ISaleDTO';
+import { EnumTypeSale } from 'shared/dtos';
 
 export interface ICreateCashClosingDTORequest {
   total: number;

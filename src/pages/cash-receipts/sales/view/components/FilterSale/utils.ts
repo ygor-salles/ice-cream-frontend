@@ -8,17 +8,17 @@ export const fieldSaleFilter = {
   end_date: 'end_date',
 };
 
+export const schemaFilterSale = {
+  [fieldSaleFilter.client_name]: yup.string().optional(),
+  [fieldSaleFilter.observation]: yup.string().optional(),
+  [fieldSaleFilter.start_date]: yup.string().optional(),
+  [fieldSaleFilter.end_date]: yup.string().optional(),
+};
+
 export const defaultValues = {
   [fieldSaleFilter.client_name]: '',
   [fieldSaleFilter.client_id]: '',
   [fieldSaleFilter.observation]: '',
   [fieldSaleFilter.start_date]: '',
   [fieldSaleFilter.end_date]: '',
-};
-
-export const schemaFilterSale = {
-  [fieldSaleFilter.client_name]: yup.string().optional(),
-  [fieldSaleFilter.observation]: yup.string().optional(),
-  [fieldSaleFilter.start_date]: yup.string().optional(),
-  [fieldSaleFilter.end_date]: yup.string().optional(),
 };

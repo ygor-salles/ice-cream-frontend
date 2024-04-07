@@ -11,8 +11,8 @@ import {
 } from 'shared/components';
 import { ITypeComponents } from 'shared/components/TableApp/types';
 import { RoutesEnum } from 'shared/constants';
-import { EnumRoleUser, IUserDTO } from 'shared/dtos/IUserDTO';
-import { useUser } from 'shared/hooks/network/useUser';
+import { EnumRoleUser, IUserDTO } from 'shared/dtos';
+import { useUser } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { DialogEdit } from './components/DialogEdit';

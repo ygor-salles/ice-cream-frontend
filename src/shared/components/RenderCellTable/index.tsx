@@ -1,14 +1,16 @@
 import { Icon, Switch, Theme, useMediaQuery } from '@mui/material';
-import { IClientDTO } from 'shared/dtos/IClientDTO';
-import { IPaymentDTO } from 'shared/dtos/IPaymentDTO';
-import { EnumTypeProduct, IProductDTO } from 'shared/dtos/IProductDTO';
-import { IProviderDTO } from 'shared/dtos/IProviderDTO';
-import { IPurchaseDTO } from 'shared/dtos/IPurchaseDTO';
-import { ISaleDTO } from 'shared/dtos/ISaleDTO';
-import { EnumRoleUser } from 'shared/dtos/IUserDTO';
-import { useAuthContext } from 'shared/hooks/useAuthContext';
-import formatDate from 'shared/utils/formatDate';
-import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
+import {
+  IClientDTO,
+  IPaymentDTO,
+  EnumTypeProduct,
+  IProductDTO,
+  IProviderDTO,
+  IPurchaseDTO,
+  ISaleDTO,
+  EnumRoleUser,
+} from 'shared/dtos';
+import { useAuthContext } from 'shared/hooks';
+import { formatDate, formatNumberToCurrency } from 'shared/utils';
 
 import { ActionContent, StyledIcon, Green, Red } from './styles';
 import { ActionComponentProps, SwitchComponentProps } from './types';

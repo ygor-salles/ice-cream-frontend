@@ -1,6 +1,6 @@
 import { Button, Container, Icon, IconButton, Theme, useMediaQuery } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useDrawerContext } from 'shared/hooks/useDrawerContext';
+import { useDrawerContext } from 'shared/hooks';
 
 import {
   ButtonFooter,

@@ -3,8 +3,8 @@ import { Button, Typography } from '@mui/material';
 import { images } from 'assets';
 import { useNavigate } from 'react-router-dom';
 import { RoutesEnum } from 'shared/constants';
-import { EnumRoleUser } from 'shared/dtos/IUserDTO';
-import { useAuthContext } from 'shared/hooks/useAuthContext';
+import { EnumRoleUser } from 'shared/dtos';
+import { useAuthContext } from 'shared/hooks';
 
 import { HeaderUnauth, ImgUnauthorized, WrapperUnauth } from './styles';
 import { ProtectedLayoutProps } from './types';

@@ -12,7 +12,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { useController } from 'react-hook-form';
-import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
+import { formatNumberToCurrency } from 'shared/utils';
 
 import { SelectMultipleProps } from './types';
 

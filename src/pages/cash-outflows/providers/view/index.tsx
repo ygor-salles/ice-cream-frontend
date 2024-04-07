@@ -12,8 +12,8 @@ import {
 } from 'shared/components';
 import { ITypeComponents } from 'shared/components/TableApp/types';
 import { RoutesEnum } from 'shared/constants';
-import { IProviderDTO } from 'shared/dtos/IProviderDTO';
-import { useProvider } from 'shared/hooks/network/useProvider';
+import { IProviderDTO } from 'shared/dtos';
+import { useProvider } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { DialogEdit } from './components/DialogEdit';

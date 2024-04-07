@@ -1,6 +1,6 @@
 import { Switch } from '@mui/material';
 import { Children } from 'react';
-import { EnumTypeProduct } from 'shared/dtos/IProductDTO';
+import { EnumTypeProduct } from 'shared/dtos';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 
 import { Container, ContentLeft, Li, Text, Ul, Wrapper } from './styles';

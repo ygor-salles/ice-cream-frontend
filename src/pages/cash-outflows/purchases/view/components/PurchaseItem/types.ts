@@ -1,4 +1,4 @@
-import { IPurchaseDTO } from 'shared/dtos/IPurchaseDTO';
+import { IPurchaseDTO } from 'shared/dtos';
 import { InstancePurchase } from 'shared/services/PurchaseService/dtos/ILoadPagedPurchasesDTO';
 
 export interface PurchaseItemProps {

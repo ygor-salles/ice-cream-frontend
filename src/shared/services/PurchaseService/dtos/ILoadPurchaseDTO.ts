@@ -1,4 +1,4 @@
-import { IProviderDTO } from 'shared/dtos/IProviderDTO';
+import { IProviderDTO } from 'shared/dtos';
 
 export interface ILoadPurchaseDTOResponse {
   id: number;

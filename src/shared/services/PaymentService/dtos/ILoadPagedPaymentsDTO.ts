@@ -1,4 +1,4 @@
-import { IClientDTO } from 'shared/dtos/IClientDTO';
+import { IClientDTO } from 'shared/dtos';
 
 export interface InstancePayment {
   id: number;

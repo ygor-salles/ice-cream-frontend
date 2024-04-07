@@ -1,4 +1,4 @@
-import { IFormSale } from 'shared/dtos/ISaleDTO';
+import { IFormSale } from 'shared/dtos';
 
 export interface DialogCreateSaleProps {
   open: boolean;

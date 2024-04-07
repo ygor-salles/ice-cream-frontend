@@ -5,25 +5,19 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ButtonSubmitApp, SelectApp, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
-import { IClientDTO } from 'shared/dtos/IClientDTO';
-import {
-  defaultValuesPayment,
-  fieldsPayment,
-  IFormPayment,
-  schemaCreatePayment,
-} from 'shared/dtos/IPaymentDTO';
-import { useClient } from 'shared/hooks/network/useClient';
-import { usePayment } from 'shared/hooks/network/usePayment';
+import { IClientDTO, IFormPayment } from 'shared/dtos';
+import { useClient, usePayment } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
-import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
+import { formatNumberToCurrency } from 'shared/utils';
 
+import { defaultValuesPayment, fieldsPayment, schemaPayment } from '../utils';
 import { Form, GridForm, StyledCard, TextDebit, WrapperDebit } from './styles';
 
 export function RegisterPayment() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, formState, reset } = useForm<IFormPayment>({
-    resolver: yupResolver(schemaCreatePayment),
+    resolver: yupResolver(schemaPayment),
     defaultValues: defaultValuesPayment,
   });
 

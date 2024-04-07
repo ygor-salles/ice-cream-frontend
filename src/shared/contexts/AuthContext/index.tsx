@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import { useLogin } from 'shared/hooks/network/useLogin';
+import { useLogin } from 'shared/hooks';
 
 import { AuthProviderProps, IContext, IDescribedUser } from './types';
 import {

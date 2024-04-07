@@ -1,10 +1,11 @@
 import { AxiosError } from 'axios';
 import { useRef, useState } from 'react';
 import { ToastType } from 'shared/components/SnackBar/enum';
-import { IFormProduct, IProductDTO, transformObject } from 'shared/dtos/IProductDTO';
+import { IFormProduct, IProductDTO } from 'shared/dtos';
 import ProductService from 'shared/services/ProductService';
 
-import { useToastContext } from '../useToastContext';
+import { useToastContext } from '../../useToastContext';
+import { transformObject } from './utils';
 
 export function useProduct() {
   const { addToast } = useToastContext();

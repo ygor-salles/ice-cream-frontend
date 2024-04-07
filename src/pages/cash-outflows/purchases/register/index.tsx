@@ -12,23 +12,18 @@ import {
   TextFieldApp,
 } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
-import {
-  defaultValuesPurchase,
-  fieldsPurchase,
-  IFormPurchase,
-  schemaCreatePurchase,
-} from 'shared/dtos/IPurchaseDTO';
-import { useProvider } from 'shared/hooks/network/useProvider';
-import { usePurchase } from 'shared/hooks/network/usePurchase';
+import { IFormPurchase } from 'shared/dtos';
+import { useProvider, usePurchase } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
+import { defaultValuesPurchase, fieldsPurchase, schemaPurchase } from '../utils';
 import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterPurchase() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmit, control, reset, formState } = useForm<IFormPurchase>({
-    resolver: yupResolver(schemaCreatePurchase),
+    resolver: yupResolver(schemaPurchase),
     defaultValues: defaultValuesPurchase,
   });
 

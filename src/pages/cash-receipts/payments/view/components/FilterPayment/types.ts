@@ -1,4 +1,4 @@
-import { IFormFilterPaymentPage } from 'shared/dtos/IPaymentDTO';
+import { IFormFilterPaymentPage } from 'shared/dtos';
 
 export interface FilterPaymentProps {
   loadingPayments: boolean;

@@ -6,29 +6,17 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { DatePicker, SelectApp } from 'shared/components';
 import { LISTTYPEPROVIDER, LISTTYPESALES } from 'shared/constants';
-import { EnumTypeProvider } from 'shared/dtos/IProviderDTO';
+import { EnumTypeProvider, IFormFilterSales, IFormFilterPurchase, EnumRoleUser } from 'shared/dtos';
 import {
-  defaultValuesFilterPurchase,
-  fieldsFilterPurchase,
-  IFormFilterPurchase,
-  schemaFilterPurchase,
-} from 'shared/dtos/IPurchaseDTO';
-import {
-  defaultValuesFilterSale,
-  fieldsFilterSale,
-  IFormFilterSales,
-  schemaFilterSale,
-} from 'shared/dtos/ISaleDTO';
-import { EnumRoleUser } from 'shared/dtos/IUserDTO';
-import { useClient } from 'shared/hooks/network/useClient';
-import { useProvider } from 'shared/hooks/network/useProvider';
-import { usePurchase } from 'shared/hooks/network/usePurchase';
-import { useSale } from 'shared/hooks/network/useSale';
-import { useAuthContext } from 'shared/hooks/useAuthContext';
-import { useThemeContext } from 'shared/hooks/useThemeContext';
+  useClient,
+  useProvider,
+  usePurchase,
+  useSale,
+  useAuthContext,
+  useThemeContext,
+} from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
-import { formatNumberToCurrency } from 'shared/utils/formatNumberToCurrency';
-import { formatStringDate } from 'shared/utils/formatStringDate';
+import { formatNumberToCurrency, formatStringDate } from 'shared/utils';
 import { Colors } from 'styles/global';
 
 import {
@@ -45,6 +33,14 @@ import {
   ContentDate,
   CardDebit,
 } from './styles';
+import {
+  defaultValuesFilterPurchase,
+  defaultValuesFilterSale,
+  fieldsFilterPurchase,
+  fieldsFilterSale,
+  schemaFilterPurchase,
+  schemaFilterSale,
+} from './utils';
 
 export function Dashboard() {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));

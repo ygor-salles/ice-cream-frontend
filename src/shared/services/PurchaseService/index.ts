@@ -1,4 +1,4 @@
-import { convertMultipartFormPurchase } from 'shared/utils/convertMultipartFormPurchase';
+import { convertMultipartFormPurchase } from 'shared/utils';
 
 import { api } from '../api';
 import { ICreatePurchaseDTORequest, ICreatePurchaseDTOResponse } from './dtos/ICreatePurchaseDTO';

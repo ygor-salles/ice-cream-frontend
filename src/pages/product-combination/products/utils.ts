@@ -30,6 +30,6 @@ export const defaultValuesProductEdit = (product: IProductDTO) => ({
   id: product.id,
   [fieldsProduct.NAME]: product.name,
   [fieldsProduct.PRICE]: formatNumberToCurrencyInput(product.price),
-  [fieldsProduct.DESCRIPTION]: product.description,
+  [fieldsProduct.DESCRIPTION]: product.description ?? '',
   [fieldsProduct.TYPE]: product.type,
 });

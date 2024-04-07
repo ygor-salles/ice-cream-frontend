@@ -143,7 +143,6 @@ export function Products() {
 
       {showModalEdit && dataActionTable && (
         <DialogEdit
-          smDown={smDown}
           product={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}

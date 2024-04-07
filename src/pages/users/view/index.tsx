@@ -1,13 +1,13 @@
 import { AddBox, FilterAlt } from '@mui/icons-material';
-import { Skeleton, Theme, useMediaQuery } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
-  DialogInfo,
   ActionComponent,
+  DialogInfo,
+  TableApp,
   _renderBasicDate,
   _renderBasicTextCell,
   _renderRoleCell,
-  TableApp,
 } from 'shared/components';
 import { ITypeComponents } from 'shared/components/TableApp/types';
 import { RoutesEnum } from 'shared/constants';
@@ -27,8 +27,6 @@ import {
 } from './constants';
 
 export function Users() {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
   const {
     allUsers,
     loadingUsers,
@@ -108,7 +106,6 @@ export function Users() {
 
       {showModalEdit && dataActionTable && (
         <DialogEdit
-          smDown={smDown}
           user={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}

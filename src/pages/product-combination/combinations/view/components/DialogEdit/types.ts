@@ -1,7 +1,6 @@
 import { ICombinationDTO, IFormCombination } from 'shared/dtos';
 
 export interface DialogEditProps {
-  smDown?: boolean;
   combination: ICombinationDTO;
   open: boolean;
   onSubmitUpdate: (dataForm: IFormCombination) => Promise<void>;

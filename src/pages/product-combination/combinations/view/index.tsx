@@ -1,14 +1,14 @@
-import { AddBox, FilterAlt, ArrowBack } from '@mui/icons-material';
-import { Skeleton, Theme, useMediaQuery, Button } from '@mui/material';
+import { AddBox, ArrowBack, FilterAlt } from '@mui/icons-material';
+import { Button, Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  DialogInfo,
   ActionComponent,
+  DialogInfo,
+  TableApp,
   _renderBasicDate,
   _renderBasicTextCell,
   _renderBasicToCurrency,
-  TableApp,
 } from 'shared/components';
 import { ITypeComponents } from 'shared/components/TableApp/types';
 import { RoutesEnum } from 'shared/constants';
@@ -29,8 +29,6 @@ import {
 
 export function Combinations() {
   const navigate = useNavigate();
-
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {
     allCombinations,
@@ -120,7 +118,6 @@ export function Combinations() {
 
       {showModalEdit && dataActionTable && (
         <DialogEdit
-          smDown={smDown}
           combination={dataActionTable}
           onSubmitUpdate={handleSubmitUpdate}
           handleClose={handleCloseModalEdit}

@@ -1,7 +1,6 @@
 import { IFormProduct, IProductDTO } from 'shared/dtos';
 
 export interface DialogEditProps {
-  smDown?: boolean;
   product: IProductDTO;
   open: boolean;
   onSubmitUpdate: (dataForm: IFormProduct) => Promise<void>;

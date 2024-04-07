@@ -1,21 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Report, ReportOff } from '@mui/icons-material';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  Theme,
-  Tooltip,
-  useMediaQuery,
-} from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Grid, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FooterDialogActions, TextFieldApp } from 'shared/components';
+import { DialogForm, FooterDialogActions, TextFieldApp } from 'shared/components';
 import { IFormClient } from 'shared/dtos';
 
 import { defaultValuesClientEdit, fieldsClient, schemaClient } from '../../../utils';
-import { Form, stylesIcon } from './styles';
+import { stylesIcon } from './styles';
 import { DialogEditProps } from './types';
 
 export function DialogEdit({
@@ -25,7 +17,6 @@ export function DialogEdit({
   handleClose,
   loading,
 }: DialogEditProps) {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const { handleSubmit, control } = useForm<IFormClient>({
     resolver: yupResolver(schemaClient),
     defaultValues: defaultValuesClientEdit(client),
@@ -39,58 +30,51 @@ export function DialogEdit({
 
   return (
     <>
-      <Dialog fullScreen={smDown} open={open} onClose={handleClose}>
-        <Form onSubmit={handleSubmit(onSubmitUpdate)} smDown={smDown}>
-          <DialogTitle>EDITAR CLIENTE</DialogTitle>
-          <DialogContent>
-            <Grid container spacing={4}>
-              <Grid item xs={12}>
-                <TextFieldApp
-                  name={fieldsClient.NAME}
-                  control={control}
-                  label="Nome do cliente"
-                  required
-                  disabled={loading}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextFieldApp
-                  name={fieldsClient.DEBIT}
-                  control={control}
-                  label="Dívida do cliente"
-                  currency
-                  disabled={loading || disabledState}
-                  renderRight={
-                    disabledState ? (
-                      <Tooltip title="Atenção, ao alterar a dívida do cliente diretamente, pode causar inconsistências nos valores">
-                        <ReportOff onClick={onToggleModalAlert} style={stylesIcon} />
-                      </Tooltip>
-                    ) : (
-                      <Report onClick={onToggleDisabledState} style={stylesIcon} />
-                    )
-                  }
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextFieldApp
-                  name={fieldsClient.PHONE}
-                  control={control}
-                  label="Telefone"
-                  type="tel"
-                  mask="(00) 00000-0000"
-                  disabled={loading}
-                />
-              </Grid>
-            </Grid>
-          </DialogContent>
-          <FooterDialogActions
-            textButtonConfirm="EDITAR"
-            textButtonCancel="CANCELAR"
-            onClose={handleClose}
-            loading={loading}
+      <DialogForm
+        open={open}
+        onClose={handleClose}
+        loading={loading}
+        onSubmit={handleSubmit(onSubmitUpdate)}
+        title="EDITAR CLIENTE"
+      >
+        <Grid item xs={12}>
+          <TextFieldApp
+            name={fieldsClient.NAME}
+            control={control}
+            label="Nome do cliente"
+            required
+            disabled={loading}
           />
-        </Form>
-      </Dialog>
+        </Grid>
+        <Grid item xs={12}>
+          <TextFieldApp
+            name={fieldsClient.DEBIT}
+            control={control}
+            label="Dívida do cliente"
+            currency
+            disabled={loading || disabledState}
+            renderRight={
+              disabledState ? (
+                <Tooltip title="Atenção, ao alterar a dívida do cliente diretamente, pode causar inconsistências nos valores">
+                  <ReportOff onClick={onToggleModalAlert} style={stylesIcon} />
+                </Tooltip>
+              ) : (
+                <Report onClick={onToggleDisabledState} style={stylesIcon} />
+              )
+            }
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextFieldApp
+            name={fieldsClient.PHONE}
+            control={control}
+            label="Telefone"
+            type="tel"
+            mask="(00) 00000-0000"
+            disabled={loading}
+          />
+        </Grid>
+      </DialogForm>
 
       <Dialog open={showModalAlert} onClose={onToggleModalAlert}>
         <DialogTitle>Atenção</DialogTitle>

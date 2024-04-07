@@ -2,6 +2,7 @@ export * from './Autocomplete';
 export * from './ButtonSubmitApp';
 export * from './CheckboxApp';
 export * from './DatePicker';
+export * from './DialogForm';
 export * from './DialogInfo';
 export * from './FooterDialogActions';
 export * from './InputFile';

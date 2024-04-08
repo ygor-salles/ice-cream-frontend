@@ -1,3 +1,4 @@
+import { IFormPayment } from 'shared/dtos';
 import * as yup from 'yup';
 
 export const fieldsPayment = {
@@ -12,8 +13,8 @@ export const schemaPayment = yup.object().shape({
   [fieldsPayment.CLIENT_ID]: yup.string().required('Nome é obrigatório'),
 });
 
-export const defaultValuesPayment = {
-  [fieldsPayment.VALUE]: '',
-  [fieldsPayment.CLIENT_ID]: '',
-  [fieldsPayment.OBSERVATION]: '',
+export const defaultValuesPayment: IFormPayment = {
+  value: '',
+  client_id: '',
+  observation: '',
 };

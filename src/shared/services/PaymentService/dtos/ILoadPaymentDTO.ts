@@ -3,6 +3,6 @@ export interface ILoadPaymentDTOResponse {
   value: number;
   observation: string;
   client_id: number;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 }

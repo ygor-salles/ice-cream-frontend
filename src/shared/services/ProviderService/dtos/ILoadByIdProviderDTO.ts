@@ -3,6 +3,6 @@ export interface ILoadByIdProviderDTOResponse {
   name: string;
   phone: string;
   its_ice_cream_shoop: boolean;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 }

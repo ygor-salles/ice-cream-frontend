@@ -1,4 +1,4 @@
-import { EnumRoleUser, IUserDTO } from 'shared/dtos';
+import { EnumRoleUser, IFormUser, IUserDTO } from 'shared/dtos';
 import * as yup from 'yup';
 
 export const fieldsUser = {
@@ -35,10 +35,7 @@ export const defaultValuesUser = {
   [fieldsUser.ROLE]: EnumRoleUser.NORMAL,
 };
 
-export const defaultValuesUserEdit = (user: IUserDTO) => ({
-  id: user.id,
-  [fieldsUser.NAME]: user.name,
-  [fieldsUser.EMAIL]: user.email,
-  [fieldsUser.PASSWORD]: '',
-  [fieldsUser.ROLE]: user.role,
+export const defaultValuesUserEdit = (user: IUserDTO): IFormUser => ({
+  ...user,
+  password: '',
 });

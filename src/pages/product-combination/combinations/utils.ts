@@ -1,4 +1,4 @@
-import { ICombinationDTO } from 'shared/dtos';
+import { ICombinationDTO, IFormCombination } from 'shared/dtos';
 import { formatNumberToCurrencyInput } from 'shared/utils';
 import * as yup from 'yup';
 
@@ -17,8 +17,7 @@ export const defaultValuesCombination = {
   [fieldsCombination.PRICE]: '',
 };
 
-export const defaultValuesCombinationEdit = (combination: ICombinationDTO) => ({
-  id: combination.id,
-  [fieldsCombination.NAME]: combination.name,
-  [fieldsCombination.PRICE]: formatNumberToCurrencyInput(combination.price),
+export const defaultValuesCombinationEdit = (combination: ICombinationDTO): IFormCombination => ({
+  ...combination,
+  price: formatNumberToCurrencyInput(combination.price),
 });

@@ -6,8 +6,8 @@ export interface ILoadPurchaseDTOResponse {
   observation: string;
   its_ice_cream_shoop: boolean;
   nf_url: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   provider_id: number;
   provider: IProviderDTO;
 }

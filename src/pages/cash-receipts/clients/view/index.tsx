@@ -60,13 +60,13 @@ export function Clients() {
     return <span>--</span>;
   };
 
-  const components: ITypeComponents<string & number & Date, IClientDTO> = {
+  const components: ITypeComponents<string & number, IClientDTO> = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.DEBIT]: _renderBasicToCurrencyRed,
     [columnType.UPDATED_AT]: _renderBasicDate,
   };
 
-  const componentsCollapse: ITypeComponents<string & Date, IClientDTO> = {
+  const componentsCollapse: ITypeComponents<string, IClientDTO> = {
     [columnTypeCollapse.PHONE]: _renderBasicTextCell,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -96,7 +96,7 @@ export function Clients() {
         {loadingClients ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp<string & number & Date, IClientDTO>
+          <TableApp<string & number, IClientDTO>
             tableName="table-clients"
             data={allClients}
             components={components}

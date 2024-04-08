@@ -1,6 +1,6 @@
 import { parseISO, format } from 'date-fns';
 
-export const formatDateTime = (date: Date | string, noYear?: boolean): string => {
+export const formatDateTime = (date: string, noYear?: boolean): string => {
   if (noYear) {
     return format(parseISO(date as string), 'dd/MM - HH:mm') || '';
   }

@@ -61,7 +61,6 @@ export function DialogEdit({
               name={fieldsPurchase.OBSERVATION}
               control={control}
               label="Observação"
-              required
               disabled={loadingPage}
             />
           </Grid>

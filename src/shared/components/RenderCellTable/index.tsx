@@ -29,7 +29,7 @@ export const _renderBasicToCurrencyRed = (value?: number) => (
   <Red>{formatNumberToCurrency(value)}</Red>
 );
 
-export const _renderBasicDate = (value?: string | Date) => {
+export const _renderBasicDate = (value?: string) => {
   if (!value) return <span>--</span>;
   return <span>{formatDate(new Date(value)) || '00/00/0000'}</span>;
 };

@@ -10,6 +10,6 @@ export interface ILoadByIdSaleDTOResponse {
   amount: number;
   data_product: IDataProduct[];
   client_id?: number;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 }

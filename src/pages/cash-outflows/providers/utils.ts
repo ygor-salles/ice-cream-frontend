@@ -1,4 +1,4 @@
-import { IProviderDTO } from 'shared/dtos';
+import { IFormProvider, IProviderDTO } from 'shared/dtos';
 import * as yup from 'yup';
 
 export const fieldsProvider = {
@@ -13,15 +13,13 @@ export const schemaProvider = yup.object().shape({
   [fieldsProvider.ITS_ICE_CREAM_SHOP]: yup.boolean().required('Marcação é obrigatório'),
 });
 
-export const defaultValuesProvider = {
-  [fieldsProvider.NAME]: '',
-  [fieldsProvider.PHONE]: '',
-  [fieldsProvider.ITS_ICE_CREAM_SHOP]: true,
+export const defaultValuesProvider: IFormProvider = {
+  name: '',
+  phone: '',
+  its_ice_cream_shoop: true,
 };
 
-export const defaultValuesProviderEdit = (provider: IProviderDTO) => ({
-  id: provider.id,
-  [fieldsProvider.NAME]: provider.name,
-  [fieldsProvider.PHONE]: provider.phone,
-  [fieldsProvider.ITS_ICE_CREAM_SHOP]: provider.its_ice_cream_shoop,
+export const defaultValuesProviderEdit = (provider: IProviderDTO): IFormProvider => ({
+  ...provider,
+  phone: provider.phone ?? '',
 });

@@ -71,7 +71,7 @@ export function Combinations() {
     [columnType.PRICE]: _renderBasicToCurrency,
   };
 
-  const componentsCollapse: ITypeComponents<string & Date, ICombinationDTO> = {
+  const componentsCollapse: ITypeComponents<string, ICombinationDTO> = {
     [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -101,7 +101,7 @@ export function Combinations() {
         {loadingCombinations ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp<string & number & Date, ICombinationDTO>
+          <TableApp<string & number, ICombinationDTO>
             tableName="table-combinations"
             data={allCombinations}
             components={components}

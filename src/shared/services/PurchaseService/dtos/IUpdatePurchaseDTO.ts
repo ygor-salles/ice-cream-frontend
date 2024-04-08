@@ -4,9 +4,9 @@ export interface IUpdatePurchaseDTORequest {
   observation?: string;
   its_ice_cream_shoop?: boolean;
   nf_url?: string;
-  file?: File;
-  created_at?: Date | string;
-  updated_at?: Date | string;
+  file?: File | null;
+  created_at?: string;
+  updated_at?: string;
   provider_id?: number;
 }
 

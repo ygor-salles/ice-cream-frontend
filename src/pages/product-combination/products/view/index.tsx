@@ -92,7 +92,7 @@ export function Products() {
     [columnType.STATUS]: _renderSwitchToggle,
   };
 
-  const componentsCollapse: ITypeComponents<string & Date, IProductDTO> = {
+  const componentsCollapse: ITypeComponents<string, IProductDTO> = {
     [columnTypeCollapse.DESCRIPTION]: _renderBasicTextCell,
     [columnTypeCollapse.UPDATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -122,7 +122,7 @@ export function Products() {
         {loadingProducts ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp<string & number & boolean & Date, IProductDTO>
+          <TableApp<string & number & boolean, IProductDTO>
             tableName="table-products"
             data={allProducts}
             components={components}

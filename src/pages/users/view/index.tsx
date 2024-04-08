@@ -63,13 +63,13 @@ export function Users() {
     return <span>--</span>;
   };
 
-  const components: ITypeComponents<string & Date & EnumRoleUser, IUserDTO> = {
+  const components: ITypeComponents<string & EnumRoleUser, IUserDTO> = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.ROLE]: _renderRoleCell,
     [columnType.UPDATED_AT]: _renderBasicDate,
   };
 
-  const componentsCollapse: ITypeComponents<string & Date, IUserDTO> = {
+  const componentsCollapse: ITypeComponents<string, IUserDTO> = {
     [columnTypeCollapse.EMAIL]: _renderBasicTextCell,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -89,7 +89,7 @@ export function Users() {
         {loadingUsers ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp<string & Date & EnumRoleUser, IUserDTO>
+          <TableApp<string & EnumRoleUser, IUserDTO>
             tableName="table-clients"
             data={allUsers}
             components={components}

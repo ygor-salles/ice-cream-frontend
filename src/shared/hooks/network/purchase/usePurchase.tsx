@@ -66,7 +66,7 @@ export function usePurchase() {
     const data: IPurchaseDTO = transformObject(dataForm);
 
     try {
-      await purchaseService.updateById({ ...data, id: dataForm.id });
+      await purchaseService.updateById({ ...data, id: dataForm.id ?? 0 });
       addToast('Compra atualizada com sucesso!', ToastType.success);
       setReloadPage(prev => !prev);
     } catch (error) {

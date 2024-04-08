@@ -66,13 +66,13 @@ export function Providers() {
     return <span>--</span>;
   };
 
-  const components: ITypeComponents<string & boolean & Date, IProviderDTO> = {
+  const components: ITypeComponents<string & boolean, IProviderDTO> = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.ITS_ICE_CREAM_SHOP]: _renderTextCellYesOrNo,
     [columnType.UPDATED_AT]: _renderBasicDate,
   };
 
-  const componentsCollapse: ITypeComponents<string & Date, IProviderDTO> = {
+  const componentsCollapse: ITypeComponents<string, IProviderDTO> = {
     [columnTypeCollapse.PHONE]: _renderBasicTextCell,
     [columnTypeCollapse.CREATED_AT]: _renderBasicDate,
     [columnTypeCollapse.ACTION]: _renderAction,
@@ -102,7 +102,7 @@ export function Providers() {
         {loadingProviders ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
         ) : (
-          <TableApp<string & boolean & Date, IProviderDTO>
+          <TableApp<string & boolean, IProviderDTO>
             tableName="table-providers"
             data={allProviders}
             components={components}

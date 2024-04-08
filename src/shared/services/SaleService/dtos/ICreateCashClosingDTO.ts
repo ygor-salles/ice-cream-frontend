@@ -2,13 +2,13 @@ import { EnumTypeSale } from 'shared/dtos';
 
 export interface ICreateCashClosingDTORequest {
   total: number;
-  created_at?: Date | string;
+  created_at?: string;
 }
 
 export interface ICreateCashClosingDTOResponse {
   total: number;
   type_sale: EnumTypeSale;
   id: number;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 }

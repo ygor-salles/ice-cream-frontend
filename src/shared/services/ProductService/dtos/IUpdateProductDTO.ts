@@ -7,8 +7,8 @@ export interface IUpdateProductDTORequest {
   description?: string;
   type?: EnumTypeProduct;
   status?: boolean;
-  created_at?: Date | string;
-  updated_at?: Date | string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface IUpdateProductDTOResponse {

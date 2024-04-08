@@ -1,4 +1,4 @@
-import { IClientDTO } from 'shared/dtos';
+import { IClientDTO, IFormClient } from 'shared/dtos';
 import * as yup from 'yup';
 
 export const fieldsClient = {
@@ -13,15 +13,14 @@ export const schemaClient = yup.object().shape({
   [fieldsClient.PHONE]: yup.string().optional(),
 });
 
-export const defaultValuesClient = {
-  [fieldsClient.NAME]: '',
-  [fieldsClient.PHONE]: '',
-  [fieldsClient.DEBIT]: '',
+export const defaultValuesClient: IFormClient = {
+  name: '',
+  phone: '',
+  debit: '',
 };
 
-export const defaultValuesClientEdit = (client: IClientDTO) => ({
-  id: client.id,
-  [fieldsClient.NAME]: client.name,
-  [fieldsClient.DEBIT]: client.debit.toFixed(2).replace('.', ''),
-  [fieldsClient.PHONE]: client.phone,
+export const defaultValuesClientEdit = (client: IClientDTO): IFormClient => ({
+  ...client,
+  debit: client.debit.toFixed(2).replace('.', ''),
+  phone: client.phone ?? '',
 });

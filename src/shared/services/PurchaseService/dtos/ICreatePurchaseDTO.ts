@@ -2,8 +2,8 @@ export interface ICreatePurchaseDTORequest {
   value_total: number;
   observation?: string;
   its_ice_cream_shoop: boolean;
-  created_at?: string | Date;
-  file?: File;
+  created_at?: string;
+  file?: File | null;
   provider_id: number;
 }
 
@@ -13,6 +13,6 @@ export interface ICreatePurchaseDTOResponse {
   its_ice_cream_shoop: boolean;
   nf_url: string;
   id: number;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 }

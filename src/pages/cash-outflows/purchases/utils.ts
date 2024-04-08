@@ -1,4 +1,4 @@
-import { IPurchaseDTO } from 'shared/dtos';
+import { IFormPurchase, IPurchaseDTO } from 'shared/dtos';
 import { formatNumberToCurrencyInput } from 'shared/utils';
 import * as yup from 'yup';
 
@@ -36,21 +36,19 @@ export const schemaPurchase = yup.object().shape({
     .notRequired(),
 });
 
-export const defaultValuesPurchase = {
-  [fieldsPurchase.VALUE_TOTAL]: '',
-  [fieldsPurchase.OBSERVATION]: '',
-  [fieldsPurchase.ITS_ICE_CREAM_SHOP]: true,
-  [fieldsPurchase.FILE]: null,
-  [fieldsPurchase.PROVIDER_ID]: '',
-  [fieldsPurchase.CREATED_AT]: '',
+export const defaultValuesPurchase: IFormPurchase = {
+  value_total: '',
+  observation: '',
+  its_ice_cream_shoop: true,
+  file: null,
+  provider_id: '',
+  created_at: '',
 };
 
-export const defaultValuesPurchaseEdit = (purchase: IPurchaseDTO) => ({
-  id: purchase.id,
-  [fieldsPurchase.VALUE_TOTAL]: formatNumberToCurrencyInput(purchase.value_total),
-  [fieldsPurchase.OBSERVATION]: purchase.observation,
-  [fieldsPurchase.ITS_ICE_CREAM_SHOP]: purchase.its_ice_cream_shoop,
-  [fieldsPurchase.NF_URL]: purchase.nf_url,
-  [fieldsPurchase.PROVIDER_ID]: purchase.provider_id.toString(),
-  [fieldsPurchase.CREATED_AT]: purchase.created_at,
+export const defaultValuesPurchaseEdit = (purchase: IPurchaseDTO): IFormPurchase => ({
+  ...purchase,
+  value_total: formatNumberToCurrencyInput(purchase.value_total),
+  observation: purchase.observation ?? '',
+  provider_id: purchase.provider_id.toString(),
+  created_at: purchase.created_at ?? '',
 });

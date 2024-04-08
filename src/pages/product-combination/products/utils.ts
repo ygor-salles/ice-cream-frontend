@@ -1,4 +1,4 @@
-import { EnumTypeProduct, IProductDTO } from 'shared/dtos';
+import { EnumTypeProduct, IFormProduct, IProductDTO } from 'shared/dtos';
 import { formatNumberToCurrencyInput } from 'shared/utils';
 import * as yup from 'yup';
 
@@ -26,10 +26,8 @@ export const defaultValuesProduct = {
   [fieldsProduct.TYPE]: '',
 };
 
-export const defaultValuesProductEdit = (product: IProductDTO) => ({
-  id: product.id,
-  [fieldsProduct.NAME]: product.name,
-  [fieldsProduct.PRICE]: formatNumberToCurrencyInput(product.price),
-  [fieldsProduct.DESCRIPTION]: product.description ?? '',
-  [fieldsProduct.TYPE]: product.type,
+export const defaultValuesProductEdit = (product: IProductDTO): IFormProduct => ({
+  ...product,
+  price: formatNumberToCurrencyInput(product.price),
+  description: product.description ?? '',
 });

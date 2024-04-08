@@ -5,22 +5,22 @@ export interface IPurchaseDTO {
   value_total: number;
   observation?: string;
   its_ice_cream_shoop: boolean;
-  file?: File;
+  file?: File | null;
   nf_url?: string;
-  created_at?: string | Date;
-  updated_at?: string | Date;
+  created_at?: string;
+  updated_at?: string;
   provider_id: number;
   provider?: IProviderDTO;
 }
 
 export interface IFormPurchase {
-  id: number;
+  id?: number;
   value_total: string;
-  observation?: string;
+  observation: string;
   provider_id: string;
   its_ice_cream_shoop: boolean;
   created_at: string;
-  file?: File;
+  file?: File | null;
   nf_url?: string;
 }
 

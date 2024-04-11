@@ -2,14 +2,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { ButtonSubmit, TextFieldApp } from 'shared/components';
+import { CardForm, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
 import { IFormClient } from 'shared/dtos';
 import { useClient } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { defaultValuesClient, fieldsClient, schemaClient } from '../utils';
-import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterClient() {
   const { handleSubmit, control, formState, reset } = useForm<IFormClient>({
@@ -32,36 +31,30 @@ export function RegisterClient() {
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >
-      <Form onSubmit={handleSubmit(handleSubmitCreate)}>
-        <StyledCard>
-          <GridForm>
-            <TextFieldApp
-              name={fieldsClient.NAME}
-              control={control}
-              label="Nome do cliente"
-              required
-              disabled={loading}
-            />
-            <TextFieldApp
-              name={fieldsClient.DEBIT}
-              control={control}
-              label="Dívida do cliente"
-              currency
-              disabled={loading}
-            />
-            <TextFieldApp
-              name={fieldsClient.PHONE}
-              control={control}
-              label="Telefone"
-              type="tel"
-              mask="(00) 00000-0000"
-              disabled={loading}
-            />
-          </GridForm>
-
-          <ButtonSubmit loading={loading}>CADASTRAR</ButtonSubmit>
-        </StyledCard>
-      </Form>
+      <CardForm loading={loading} onSubmit={handleSubmit(handleSubmitCreate)}>
+        <TextFieldApp
+          name={fieldsClient.NAME}
+          control={control}
+          label="Nome do cliente"
+          required
+          disabled={loading}
+        />
+        <TextFieldApp
+          name={fieldsClient.DEBIT}
+          control={control}
+          label="Dívida do cliente"
+          currency
+          disabled={loading}
+        />
+        <TextFieldApp
+          name={fieldsClient.PHONE}
+          control={control}
+          label="Telefone"
+          type="tel"
+          mask="(00) 00000-0000"
+          disabled={loading}
+        />
+      </CardForm>
     </LayoutBaseDePagina>
   );
 }

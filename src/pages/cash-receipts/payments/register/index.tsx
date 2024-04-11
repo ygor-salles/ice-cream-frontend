@@ -3,7 +3,7 @@ import { ArrowBack } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ButtonSubmit, SelectApp, TextFieldApp } from 'shared/components';
+import { CardForm, SelectApp, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
 import { IClientDTO, IFormPayment } from 'shared/dtos';
 import { useClient, usePayment } from 'shared/hooks';
@@ -11,7 +11,7 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 import { formatNumberToCurrency } from 'shared/utils';
 
 import { defaultValuesPayment, fieldsPayment, schemaPayment } from '../utils';
-import { Form, GridForm, StyledCard, TextDebit, WrapperDebit } from './styles';
+import { TextDebit, WrapperDebit } from './styles';
 
 export function RegisterPayment() {
   const { handleSubmit, control, formState, reset } = useForm<IFormPayment>({
@@ -55,50 +55,44 @@ export function RegisterPayment() {
       {loadingClients ? (
         <Skeleton variant="rectangular" width="100%" height={300} />
       ) : (
-        <Form
-          noValidate
+        <CardForm
+          loading={loading}
           onSubmit={handleSubmit((data: IFormPayment) => {
             if (clientState) handleSubmitCreate(data, clientState.debit);
             setClientState(null);
           })}
         >
-          <StyledCard>
-            <GridForm>
-              <SelectApp
-                name={fieldsPayment.CLIENT_ID}
-                control={control}
-                options={allClients}
-                setId
-                label="Cliente"
-                required
-                disabled={loading}
-                onClose={onCloseSelectClient}
-              />
-              {clientState && (
-                <WrapperDebit>
-                  <span>Dívida do cliente: </span>
-                  <TextDebit>{formatNumberToCurrency(clientState.debit)}</TextDebit>
-                </WrapperDebit>
-              )}
-              <TextFieldApp
-                name={fieldsPayment.VALUE}
-                control={control}
-                label="Valor do pagamento"
-                currency
-                required
-                disabled={loading}
-              />
-              <TextFieldApp
-                name={fieldsPayment.OBSERVATION}
-                control={control}
-                label="Observação"
-                disabled={loading}
-              />
-            </GridForm>
-
-            <ButtonSubmit loading={loading}>CADASTRAR</ButtonSubmit>
-          </StyledCard>
-        </Form>
+          <SelectApp
+            name={fieldsPayment.CLIENT_ID}
+            control={control}
+            options={allClients}
+            setId
+            label="Cliente"
+            required
+            disabled={loading}
+            onClose={onCloseSelectClient}
+          />
+          {clientState && (
+            <WrapperDebit>
+              <span>Dívida do cliente: </span>
+              <TextDebit>{formatNumberToCurrency(clientState.debit)}</TextDebit>
+            </WrapperDebit>
+          )}
+          <TextFieldApp
+            name={fieldsPayment.VALUE}
+            control={control}
+            label="Valor do pagamento"
+            currency
+            required
+            disabled={loading}
+          />
+          <TextFieldApp
+            name={fieldsPayment.OBSERVATION}
+            control={control}
+            label="Observação"
+            disabled={loading}
+          />
+        </CardForm>
       )}
     </LayoutBaseDePagina>
   );

@@ -1,5 +1,6 @@
 export * from './Autocomplete';
 export * from './ButtonSubmit';
+export * from './CardForm';
 export * from './CheckboxApp';
 export * from './DatePicker';
 export * from './DialogForm';

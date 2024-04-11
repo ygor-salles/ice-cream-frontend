@@ -4,14 +4,13 @@ import { Button, Skeleton, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { ButtonSubmit, DatePicker, TextFieldApp } from 'shared/components';
+import { CardForm, DatePicker, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
 import { IFormCashClosing } from 'shared/dtos';
 import { useSale } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { fieldsSale } from '../sales/utils';
-import { Form, GridForm, StyledCard } from './styles';
 import { defaultValuesCashClosing, schemaCreateCashClosing } from './utils';
 
 export function DailyCashClosing() {
@@ -47,28 +46,22 @@ export function DailyCashClosing() {
       {loadingForm ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
-        <Form onSubmit={handleSubmit(handleSubmitCreateCashClosing)}>
-          <StyledCard>
-            <GridForm>
-              <TextFieldApp
-                name={fieldsSale.TOTAL}
-                control={control}
-                label="Total"
-                currency
-                required
-                disabled={loadingForm}
-              />
-              <div>
-                <Typography>
-                  Caso não seja selecionado a data será marcado com a data de hoje
-                </Typography>
-                <DatePicker label="Data(opcional)" name={fieldsSale.CREATED_AT} control={control} />
-              </div>
-            </GridForm>
-
-            <ButtonSubmit loading={loadingForm}>CADASTRAR</ButtonSubmit>
-          </StyledCard>
-        </Form>
+        <CardForm loading={loadingForm} onSubmit={handleSubmit(handleSubmitCreateCashClosing)}>
+          <TextFieldApp
+            name={fieldsSale.TOTAL}
+            control={control}
+            label="Total"
+            currency
+            required
+            disabled={loadingForm}
+          />
+          <div>
+            <Typography>
+              Caso não seja selecionado a data será marcado com a data de hoje
+            </Typography>
+            <DatePicker label="Data(opcional)" name={fieldsSale.CREATED_AT} control={control} />
+          </div>
+        </CardForm>
       )}
     </LayoutBaseDePagina>
   );

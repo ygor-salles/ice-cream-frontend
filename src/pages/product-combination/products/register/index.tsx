@@ -1,9 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
-import { Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { ButtonSubmitApp, SelectApp, TextFieldApp } from 'shared/components';
+import { ButtonSubmit, SelectApp, TextFieldApp } from 'shared/components';
 import { LISTTYPEPRODUCTS, RoutesEnum } from 'shared/constants';
 import { IFormProduct } from 'shared/dtos';
 import { useProduct } from 'shared/hooks';
@@ -13,8 +12,6 @@ import { defaultValuesProduct, fieldsProduct, schemaProduct } from '../utils';
 import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterProduct() {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
   const { handleSubmitCreate, loadingForm: loading } = useProduct();
 
   const { handleSubmit, control, reset, formState } = useForm<IFormProduct>({
@@ -69,7 +66,7 @@ export function RegisterProduct() {
             />
           </GridForm>
 
-          <ButtonSubmitApp loading={loading} smDown={smDown} textButton="CADASTRAR" />
+          <ButtonSubmit loading={loading}>CADASTRAR</ButtonSubmit>
         </StyledCard>
       </Form>
     </LayoutBaseDePagina>

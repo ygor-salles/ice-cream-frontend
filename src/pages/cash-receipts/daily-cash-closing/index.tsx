@@ -1,10 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
-import { Button, Skeleton, Theme, Typography, useMediaQuery } from '@mui/material';
+import { Button, Skeleton, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { ButtonSubmitApp, DatePicker, TextFieldApp } from 'shared/components';
+import { ButtonSubmit, DatePicker, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
 import { IFormCashClosing } from 'shared/dtos';
 import { useSale } from 'shared/hooks';
@@ -16,8 +16,6 @@ import { defaultValuesCashClosing, schemaCreateCashClosing } from './utils';
 
 export function DailyCashClosing() {
   const navigate = useNavigate();
-
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { handleSubmitCreateCashClosing, loadingForm } = useSale();
 
@@ -68,7 +66,7 @@ export function DailyCashClosing() {
               </div>
             </GridForm>
 
-            <ButtonSubmitApp loading={loadingForm} smDown={smDown} textButton="CADASTRAR" />
+            <ButtonSubmit loading={loadingForm}>CADASTRAR</ButtonSubmit>
           </StyledCard>
         </Form>
       )}

@@ -1,6 +1,6 @@
 import { AttachMoney as MuiAttachMoney } from '@mui/icons-material';
 import { Card as MuiCard, Typography } from '@mui/material';
-import { ButtonSubmitApp } from 'shared/components';
+import { ButtonSubmit } from 'shared/components';
 import styled, { css } from 'styled-components';
 import { Colors, mediaQuery } from 'styles/global';
 
@@ -102,7 +102,7 @@ export const Form = styled.form`
   gap: 20px;
 `;
 
-export const StyledButtonSubmitApp = styled(ButtonSubmitApp)`
+export const StyledButtonSubmit = styled(ButtonSubmit)`
   margin-top: 15px;
 `;
 

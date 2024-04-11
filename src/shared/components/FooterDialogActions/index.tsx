@@ -1,6 +1,6 @@
 import { Button, CircularProgress } from '@mui/material';
 
-import { ButtonSubmitApp } from '../ButtonSubmitApp';
+import { ButtonSubmit } from '../ButtonSubmit';
 import { StyledButton, StyledDialogActions } from './styles';
 import { FooterDialogActionsProps } from './types';
 
@@ -41,7 +41,9 @@ export const FooterDialogActions = ({
       <StyledButton variant="outlined" type="button" onClick={onClose} disabled={loading}>
         {textButtonCancel}
       </StyledButton>
-      <ButtonSubmitApp loading={loading} disabled={disabled} textButton={textButtonConfirm} />
+      <ButtonSubmit loading={loading} disabled={disabled}>
+        {textButtonConfirm}
+      </ButtonSubmit>
     </StyledDialogActions>
   );
 };

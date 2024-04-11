@@ -1,20 +1,10 @@
-import { ExpandMore } from '@mui/icons-material';
-import {
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  CircularProgress,
-  Theme,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AutoComplete, ButtonSubmitApp, DatePicker, TextFieldApp } from 'shared/components';
+import { AutoComplete, DatePicker, FilterForm, TextFieldApp } from 'shared/components';
 import { IFormFilterPaymentPage } from 'shared/dtos';
 import { useClient, useDrawerContext } from 'shared/hooks';
 
-import { ContentDate, Form, StyledAccordion, Wrapper } from './styles';
+import { ContentDate } from './styles';
 import { FilterPaymentProps } from './types';
 import { defaultValues, fieldPaymentFilter } from './utils';
 
@@ -23,7 +13,6 @@ export const FilterPayment = ({ onSubmitFilter, loadingPayments }: FilterPayment
   const { handleSubmit, getValues, setValue, control, reset } = useForm<IFormFilterPaymentPage>({
     defaultValues,
   });
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { allClientsStorage } = useDrawerContext();
   const { allClients, getClients, loadingClients } = useClient();
@@ -53,58 +42,43 @@ export const FilterPayment = ({ onSubmitFilter, loadingPayments }: FilterPayment
   };
 
   return (
-    <StyledAccordion expanded={open} onChange={loadingPayments ? undefined : handleOpenAccordion}>
-      <AccordionSummary
-        expandIcon={loadingClients ? <CircularProgress size={16} disableShrink /> : <ExpandMore />}
-        aria-controls="panel1bh-content"
-        id="panel1bh-header"
-      >
-        <Typography>Filtros</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Form onSubmit={handleSubmit(onSubmitFilter)}>
-          <TextFieldApp
-            name={fieldPaymentFilter.observation}
-            control={control}
-            label="Observação"
-            disabled={loadingPayments}
-          />
-          <AutoComplete
-            name={fieldPaymentFilter.client_name}
-            control={control}
-            options={allClientsStorage ?? allClients}
-            sortAlphabeticallyObject
-            label="Cliente"
-            onClose={onCloseSelectClient}
-            disabled={loadingPayments}
-          />
-          <ContentDate>
-            <DatePicker
-              label="Data início"
-              name={fieldPaymentFilter.start_date}
-              control={control}
-              disabled={loadingPayments}
-            />
-            <DatePicker
-              label="Data fim"
-              name={fieldPaymentFilter.end_date}
-              control={control}
-              disabled={loadingPayments}
-            />
-          </ContentDate>
-          <Wrapper>
-            <Button
-              variant="outlined"
-              disabled={loadingPayments}
-              type="button"
-              onClick={() => reset()}
-            >
-              Limpar
-            </Button>
-            <ButtonSubmitApp loading={loadingPayments} textButton="Buscar" smDown={smDown} />
-          </Wrapper>
-        </Form>
-      </AccordionDetails>
-    </StyledAccordion>
+    <FilterForm
+      loadingForm={loadingPayments}
+      onChange={loadingPayments ? undefined : handleOpenAccordion}
+      onReset={() => reset()}
+      onSubmit={handleSubmit(onSubmitFilter)}
+      open={open}
+      loadingExpanded={loadingClients}
+    >
+      <TextFieldApp
+        name={fieldPaymentFilter.observation}
+        control={control}
+        label="Observação"
+        disabled={loadingPayments}
+      />
+      <AutoComplete
+        name={fieldPaymentFilter.client_name}
+        control={control}
+        options={allClientsStorage ?? allClients}
+        sortAlphabeticallyObject
+        label="Cliente"
+        onClose={onCloseSelectClient}
+        disabled={loadingPayments}
+      />
+      <ContentDate>
+        <DatePicker
+          label="Data início"
+          name={fieldPaymentFilter.start_date}
+          control={control}
+          disabled={loadingPayments}
+        />
+        <DatePicker
+          label="Data fim"
+          name={fieldPaymentFilter.end_date}
+          control={control}
+          disabled={loadingPayments}
+        />
+      </ContentDate>
+    </FilterForm>
   );
 };

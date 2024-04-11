@@ -4,7 +4,7 @@ import { Theme, Typography, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  ButtonSubmitApp,
+  ButtonSubmit,
   CheckboxApp,
   DatePicker,
   InputFile,
@@ -100,7 +100,7 @@ export function RegisterPurchase() {
             />
           </GridForm>
 
-          <ButtonSubmitApp loading={loading} smDown={smDown} textButton="CADASTRAR" />
+          <ButtonSubmit loading={loading}>CADASTRAR</ButtonSubmit>
         </StyledCard>
       </Form>
     </LayoutBaseDePagina>

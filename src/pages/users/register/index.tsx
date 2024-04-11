@@ -1,9 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack, Visibility, VisibilityOff } from '@mui/icons-material';
-import { IconButton, Theme, useMediaQuery } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ButtonSubmitApp, SelectApp, TextFieldApp } from 'shared/components';
+import { ButtonSubmit, SelectApp, TextFieldApp } from 'shared/components';
 import { LISTTYPEUSERS, RoutesEnum } from 'shared/constants';
 import { IFormUser } from 'shared/dtos';
 import { useUser } from 'shared/hooks';
@@ -13,8 +13,6 @@ import { defaultValuesUser, fieldsUser, schemaCreateUser } from '../utils';
 import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterUser() {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
   const { handleSubmit, control, formState, reset } = useForm<IFormUser>({
     resolver: yupResolver(schemaCreateUser),
     defaultValues: defaultValuesUser,
@@ -78,7 +76,7 @@ export function RegisterUser() {
             />
           </GridForm>
 
-          <ButtonSubmitApp loading={loading} smDown={smDown} textButton="CADASTRAR" />
+          <ButtonSubmit loading={loading}>CADASTRAR</ButtonSubmit>
         </StyledCard>
       </Form>
     </LayoutBaseDePagina>

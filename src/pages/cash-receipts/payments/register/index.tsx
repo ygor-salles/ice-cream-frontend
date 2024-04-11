@@ -1,9 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
-import { Skeleton, Theme, useMediaQuery } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ButtonSubmitApp, SelectApp, TextFieldApp } from 'shared/components';
+import { ButtonSubmit, SelectApp, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
 import { IClientDTO, IFormPayment } from 'shared/dtos';
 import { useClient, usePayment } from 'shared/hooks';
@@ -14,8 +14,6 @@ import { defaultValuesPayment, fieldsPayment, schemaPayment } from '../utils';
 import { Form, GridForm, StyledCard, TextDebit, WrapperDebit } from './styles';
 
 export function RegisterPayment() {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
   const { handleSubmit, control, formState, reset } = useForm<IFormPayment>({
     resolver: yupResolver(schemaPayment),
     defaultValues: defaultValuesPayment,
@@ -98,7 +96,7 @@ export function RegisterPayment() {
               />
             </GridForm>
 
-            <ButtonSubmitApp loading={loading} smDown={smDown} textButton="CADASTRAR" />
+            <ButtonSubmit loading={loading}>CADASTRAR</ButtonSubmit>
           </StyledCard>
         </Form>
       )}

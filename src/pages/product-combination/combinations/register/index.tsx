@@ -1,9 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
-import { Theme, useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { ButtonSubmitApp, TextFieldApp } from 'shared/components';
+import { ButtonSubmit, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
 import { IFormCombination } from 'shared/dtos';
 import { useCombination } from 'shared/hooks';
@@ -13,8 +12,6 @@ import { defaultValuesCombination, fieldsCombination, schemaCombination } from '
 import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterCombination() {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
   const { handleSubmit, control, formState, reset } = useForm<IFormCombination>({
     resolver: yupResolver(schemaCombination),
     defaultValues: defaultValuesCombination,
@@ -55,7 +52,7 @@ export function RegisterCombination() {
             />
           </GridForm>
 
-          <ButtonSubmitApp loading={loading} smDown={smDown} textButton="CADASTRAR" />
+          <ButtonSubmit loading={loading}>CADASTRAR</ButtonSubmit>
         </StyledCard>
       </Form>
     </LayoutBaseDePagina>

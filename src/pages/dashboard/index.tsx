@@ -1,18 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FilterAlt } from '@mui/icons-material';
-import { Skeleton, Theme, Typography, useMediaQuery } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 import { images } from 'assets';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { DatePicker, SelectApp } from 'shared/components';
 import { LISTTYPEPROVIDER, LISTTYPESALES } from 'shared/constants';
-import { EnumTypeProvider, IFormFilterSales, IFormFilterPurchase, EnumRoleUser } from 'shared/dtos';
+import { EnumRoleUser, EnumTypeProvider, IFormFilterPurchase, IFormFilterSales } from 'shared/dtos';
 import {
+  useAuthContext,
   useClient,
   useProvider,
   usePurchase,
   useSale,
-  useAuthContext,
   useThemeContext,
 } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
@@ -21,17 +21,17 @@ import { Colors } from 'styles/global';
 
 import {
   Accordion,
-  Card,
-  Container,
-  Img,
-  HeaderCard,
   AttachMoney,
-  CardTotal,
-  Form,
-  StyledButtonSubmitApp,
-  TextDate,
-  ContentDate,
+  Card,
   CardDebit,
+  CardTotal,
+  Container,
+  ContentDate,
+  Form,
+  HeaderCard,
+  Img,
+  StyledButtonSubmit,
+  TextDate,
 } from './styles';
 import {
   defaultValuesFilterPurchase,
@@ -43,7 +43,6 @@ import {
 } from './utils';
 
 export function Dashboard() {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const { themeName } = useThemeContext();
   const { role } = useAuthContext();
 
@@ -153,7 +152,7 @@ export function Dashboard() {
                 options={LISTTYPESALES}
                 label="Tipo de venda"
               />
-              <StyledButtonSubmitApp loading={false} textButton="Buscar" smDown={smDown} />
+              <StyledButtonSubmit loading={false}>Buscar</StyledButtonSubmit>
             </Form>
           </Accordion>
 
@@ -200,7 +199,7 @@ export function Dashboard() {
                   required={valuesPurc.its_ice_cream_shoop === EnumTypeProvider.EMPLOYEE}
                 />
               )}
-              <StyledButtonSubmitApp loading={false} textButton="Buscar" smDown={smDown} />
+              <StyledButtonSubmit loading={false}>Buscar</StyledButtonSubmit>
             </Form>
           </Accordion>
 

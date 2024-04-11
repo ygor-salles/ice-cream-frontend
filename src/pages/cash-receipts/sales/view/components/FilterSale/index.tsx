@@ -1,19 +1,10 @@
-import { ExpandMore } from '@mui/icons-material';
-import {
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Theme,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AutoComplete, ButtonSubmitApp, DatePicker, TextFieldApp } from 'shared/components';
+import { AutoComplete, DatePicker, FilterForm, TextFieldApp } from 'shared/components';
 import { IFormFilterSalePage } from 'shared/dtos';
 import { useDrawerContext } from 'shared/hooks';
 
-import { ContentDate, Form, StyledAccordion, Wrapper } from './styles';
+import { ContentDate } from './styles';
 import { FilterSaleProps } from './types';
 import { defaultValues, fieldSaleFilter } from './utils';
 
@@ -22,9 +13,12 @@ export const FilterSale = ({ onSubmitFilter, loadingSales }: FilterSaleProps) =>
   const { handleSubmit, getValues, setValue, control, reset } = useForm<IFormFilterSalePage>({
     defaultValues,
   });
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const { allClientsStorage } = useDrawerContext();
+
+  const handleReset = () => reset();
+
+  const tooggleFilter = loadingSales ? undefined : () => setOpen(!open);
 
   const onCloseSelectClient = () => {
     const client_name = getValues('client_name');
@@ -38,58 +32,42 @@ export const FilterSale = ({ onSubmitFilter, loadingSales }: FilterSaleProps) =>
   };
 
   return (
-    <StyledAccordion expanded={open} onChange={loadingSales ? undefined : () => setOpen(!open)}>
-      <AccordionSummary
-        expandIcon={<ExpandMore />}
-        aria-controls="panel1bh-content"
-        id="panel1bh-header"
-      >
-        <Typography>Filtros</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Form onSubmit={handleSubmit(onSubmitFilter)}>
-          <TextFieldApp
-            name={fieldSaleFilter.observation}
-            control={control}
-            label="Observação"
-            disabled={loadingSales}
-          />
-          <AutoComplete
-            name={fieldSaleFilter.client_name}
-            control={control}
-            options={allClientsStorage ?? []}
-            sortAlphabeticallyObject
-            label="Cliente"
-            onClose={onCloseSelectClient}
-            disabled={loadingSales}
-          />
-          <ContentDate>
-            <DatePicker
-              label="Data início"
-              name={fieldSaleFilter.start_date}
-              control={control}
-              disabled={loadingSales}
-            />
-            <DatePicker
-              label="Data fim"
-              name={fieldSaleFilter.end_date}
-              control={control}
-              disabled={loadingSales}
-            />
-          </ContentDate>
-          <Wrapper>
-            <Button
-              variant="outlined"
-              disabled={loadingSales}
-              type="button"
-              onClick={() => reset()}
-            >
-              Limpar
-            </Button>
-            <ButtonSubmitApp loading={loadingSales} textButton="Buscar" smDown={smDown} />
-          </Wrapper>
-        </Form>
-      </AccordionDetails>
-    </StyledAccordion>
+    <FilterForm
+      open={open}
+      onReset={handleReset}
+      onSubmit={handleSubmit(onSubmitFilter)}
+      loadingForm={loadingSales}
+      onChange={tooggleFilter}
+    >
+      <TextFieldApp
+        name={fieldSaleFilter.observation}
+        control={control}
+        label="Observação"
+        disabled={loadingSales}
+      />
+      <AutoComplete
+        name={fieldSaleFilter.client_name}
+        control={control}
+        options={allClientsStorage ?? []}
+        sortAlphabeticallyObject
+        label="Cliente"
+        onClose={onCloseSelectClient}
+        disabled={loadingSales}
+      />
+      <ContentDate>
+        <DatePicker
+          label="Data início"
+          name={fieldSaleFilter.start_date}
+          control={control}
+          disabled={loadingSales}
+        />
+        <DatePicker
+          label="Data fim"
+          name={fieldSaleFilter.end_date}
+          control={control}
+          disabled={loadingSales}
+        />
+      </ContentDate>
+    </FilterForm>
   );
 };

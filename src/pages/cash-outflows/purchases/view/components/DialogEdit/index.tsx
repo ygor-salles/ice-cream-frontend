@@ -25,7 +25,12 @@ export function DialogEdit({
     getProviders();
   }, []);
 
-  const { handleSubmit, control, watch } = useForm<IFormPurchase>({
+  const {
+    handleSubmit,
+    control,
+    watch,
+    formState: { isDirty, isValid },
+  } = useForm<IFormPurchase>({
     resolver: yupResolver(schemaPurchase),
     defaultValues: defaultValuesPurchaseEdit(purchase),
   });
@@ -41,6 +46,7 @@ export function DialogEdit({
         onSubmitUpdate({ ...data, file: values.file }),
       )}
       open={open}
+      disabled={!isDirty || !isValid}
     >
       {loadingProviders ? (
         <LoadingDialog />

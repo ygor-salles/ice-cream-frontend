@@ -9,6 +9,7 @@ export const FooterDialogActions = ({
   textButtonConfirm,
   onClose,
   loading,
+  disabled,
   isDialogDelete,
   onSubmitDelete,
   id,
@@ -40,7 +41,7 @@ export const FooterDialogActions = ({
       <StyledButton variant="outlined" type="button" onClick={onClose} disabled={loading}>
         {textButtonCancel}
       </StyledButton>
-      <ButtonSubmitApp loading={loading} textButton={textButtonConfirm} />
+      <ButtonSubmitApp loading={loading} disabled={disabled} textButton={textButtonConfirm} />
     </StyledDialogActions>
   );
 };

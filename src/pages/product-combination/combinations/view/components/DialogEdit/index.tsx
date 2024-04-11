@@ -14,7 +14,11 @@ export function DialogEdit({
   handleClose,
   loading,
 }: DialogEditProps) {
-  const { handleSubmit, control } = useForm<IFormCombination>({
+  const {
+    handleSubmit,
+    control,
+    formState: { isDirty, isValid },
+  } = useForm<IFormCombination>({
     resolver: yupResolver(schemaCombination),
     defaultValues: defaultValuesCombinationEdit(combination),
   });
@@ -26,6 +30,7 @@ export function DialogEdit({
       onClose={handleClose}
       onSubmit={handleSubmit(onSubmitUpdate)}
       open={open}
+      disabled={!isDirty || !isValid}
     >
       <Grid item xs={12}>
         <TextFieldApp

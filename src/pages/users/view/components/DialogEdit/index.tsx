@@ -11,7 +11,11 @@ import { IFormUser } from 'shared/dtos';
 import { DialogEditProps } from './types';
 
 export function DialogEdit({ user, onSubmitUpdate, open, handleClose, loading }: DialogEditProps) {
-  const { handleSubmit, control } = useForm<IFormUser>({
+  const {
+    handleSubmit,
+    control,
+    formState: { isDirty, isValid },
+  } = useForm<IFormUser>({
     resolver: yupResolver(schemaEditUser),
     defaultValues: defaultValuesUserEdit(user),
   });
@@ -25,6 +29,7 @@ export function DialogEdit({ user, onSubmitUpdate, open, handleClose, loading }:
       onClose={handleClose}
       onSubmit={handleSubmit(onSubmitUpdate)}
       open={open}
+      disabled={!isDirty || !isValid}
     >
       <Grid item xs={12}>
         <TextFieldApp

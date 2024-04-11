@@ -18,7 +18,11 @@ export function DialogEdit({
   handleClose,
   loading,
 }: DialogEditProps) {
-  const { handleSubmit, control } = useForm<IFormProvider>({
+  const {
+    handleSubmit,
+    control,
+    formState: { isDirty, isValid },
+  } = useForm<IFormProvider>({
     resolver: yupResolver(schemaProvider),
     defaultValues: defaultValuesProviderEdit(provider),
   });
@@ -30,6 +34,7 @@ export function DialogEdit({
       onSubmit={handleSubmit(onSubmitUpdate)}
       title="EDITAR FORNECEDOR"
       open={open}
+      disabled={!isDirty || !isValid}
     >
       <Grid item xs={12}>
         <TextFieldApp

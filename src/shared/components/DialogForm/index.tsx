@@ -5,7 +5,7 @@ import { Form } from './styles';
 import { DialogFormProps } from './types';
 
 export function DialogForm(props: DialogFormProps) {
-  const { children, loading, onClose, onSubmit, open, title } = props;
+  const { children, loading, onClose, onSubmit, open, title, disabled } = props;
 
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
@@ -28,6 +28,7 @@ export function DialogForm(props: DialogFormProps) {
           textButtonCancel="CANCELAR"
           onClose={onClose}
           loading={loading}
+          disabled={disabled}
         />
       </Form>
     </Dialog>

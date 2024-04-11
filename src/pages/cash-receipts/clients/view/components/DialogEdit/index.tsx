@@ -17,7 +17,11 @@ export function DialogEdit({
   handleClose,
   loading,
 }: DialogEditProps) {
-  const { handleSubmit, control } = useForm<IFormClient>({
+  const {
+    handleSubmit,
+    control,
+    formState: { isValid, isDirty },
+  } = useForm<IFormClient>({
     resolver: yupResolver(schemaClient),
     defaultValues: defaultValuesClientEdit(client),
   });
@@ -36,6 +40,7 @@ export function DialogEdit({
         loading={loading}
         onSubmit={handleSubmit(onSubmitUpdate)}
         title="EDITAR CLIENTE"
+        disabled={!isDirty || !isValid}
       >
         <Grid item xs={12}>
           <TextFieldApp

@@ -5,6 +5,7 @@ export interface DialogFormProps {
   open: boolean;
   title: string;
   loading: boolean;
+  disabled: boolean;
   onSubmit: FormEventHandler<HTMLFormElement> | undefined;
   onClose: () => void;
 }

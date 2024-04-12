@@ -110,7 +110,7 @@ export function Dashboard() {
 
   return (
     <LayoutBaseDePagina
-      titulo="Dashboard"
+      title="Dashboard"
       textButton="ENTRADAS"
       icon={<FilterAlt />}
       colorButton="success"

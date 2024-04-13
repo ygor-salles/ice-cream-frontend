@@ -1,12 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ArrowBack } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { CardForm, SelectApp, TextFieldApp } from 'shared/components';
+import { CardForm, HeaderButtonNav, SelectApp, TextFieldApp } from 'shared/components';
 import { LISTTYPEPRODUCTS, RoutesEnum } from 'shared/constants';
 import { IFormProduct } from 'shared/dtos';
 import { useProduct } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { defaultValuesProduct, fieldsProduct, schemaProduct } from '../utils';
 
@@ -25,11 +24,9 @@ export function RegisterProduct() {
   }, [formState, reset]);
 
   return (
-    <LayoutBaseDePagina
-      titulo="Cadastro produto"
-      navigatePage={RoutesEnum.PRODUCTS}
-      textButton="VOLTAR"
-      icon={<ArrowBack />}
+    <BaseLayout
+      title="Cadastro produto"
+      renderHeaderRight={<HeaderButtonNav route={RoutesEnum.PRODUCTS} />}
     >
       <CardForm loading={loading} onSubmit={handleSubmit(handleSubmitCreate)}>
         <TextFieldApp
@@ -62,6 +59,6 @@ export function RegisterProduct() {
           disabled={loading}
         />
       </CardForm>
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

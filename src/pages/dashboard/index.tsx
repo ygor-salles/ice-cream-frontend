@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FilterAlt } from '@mui/icons-material';
 import { Skeleton, Typography } from '@mui/material';
 import { images } from 'assets';
 import { useEffect, useState } from 'react';
@@ -15,10 +14,12 @@ import {
   useSale,
   useThemeContext,
 } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 import { formatNumberToCurrency, formatStringDate } from 'shared/utils';
 import { Colors } from 'styles/global';
 
+import { FooterDashboard } from './components/FooterDashboard';
+import { RightHeader } from './components/RightHeader';
 import {
   Accordion,
   AttachMoney,
@@ -76,6 +77,7 @@ export function Dashboard() {
   const { allProviders, getProviders } = useProvider();
 
   const total = sumSalesState - sumPurchasesState ?? 0;
+  const loading = loadingRequests || loadingPurchases || loadingSales;
 
   const [inputsDate, setInputsDate] = useState('');
   const [outputsDate, setOutputsDate] = useState('');
@@ -98,6 +100,16 @@ export function Dashboard() {
     );
   };
 
+  const handleClickFilterInput = () => {
+    setShowOutputFilter(false);
+    setShowInputFilter(value => !value);
+  };
+
+  const handleClickFilterOutput = () => {
+    setShowInputFilter(false);
+    setShowOutputFilter(value => !value);
+  };
+
   useEffect(() => {
     setLoadingRequests(true);
     Promise.all([
@@ -109,26 +121,24 @@ export function Dashboard() {
   }, []);
 
   return (
-    <LayoutBaseDePagina
+    <BaseLayout
       title="Dashboard"
-      textButton="ENTRADAS"
-      icon={<FilterAlt />}
-      colorButton="success"
-      onClick={() => {
-        setShowOutputFilter(false);
-        setShowInputFilter(value => !value);
-      }}
-      textButtonRight="SAÍDAS"
-      colorButtonRight="error"
-      iconRight={<FilterAlt />}
-      onClickRight={() => {
-        setShowInputFilter(false);
-        setShowOutputFilter(value => !value);
-      }}
-      disabled={role !== EnumRoleUser.SUPER}
-      disabledRight={role !== EnumRoleUser.SUPER}
+      renderHeaderRight={
+        <RightHeader
+          onClickFilterInput={handleClickFilterInput}
+          onClickFilterOutput={handleClickFilterOutput}
+          disabled={role !== EnumRoleUser.SUPER}
+        />
+      }
+      renderFooter={
+        <FooterDashboard
+          onClickFilterInput={handleClickFilterInput}
+          onClickFilterOutput={handleClickFilterOutput}
+          disabled={role !== EnumRoleUser.SUPER}
+        />
+      }
     >
-      {loadingRequests || loadingPurchases || loadingSales ? (
+      {loading ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
         <>
@@ -260,6 +270,6 @@ export function Dashboard() {
           </Container>
         </>
       )}
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

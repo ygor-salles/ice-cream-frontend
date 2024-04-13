@@ -1,9 +1,9 @@
-import { AddBox, FilterAlt } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
   ActionComponent,
   DialogInfo,
+  FooterFilter,
   TableApp,
   _renderBasicDate,
   _renderBasicTextCell,
@@ -13,9 +13,10 @@ import { ITypeComponents } from 'shared/components/TableApp/types';
 import { RoutesEnum } from 'shared/constants';
 import { EnumRoleUser, IUserDTO } from 'shared/dtos';
 import { useUser } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { DialogEdit } from './components/DialogEdit';
+import { RightHeader } from './components/RightHeader';
 import {
   columnConfig,
   columnConfigCollapse,
@@ -49,6 +50,8 @@ export function Users() {
 
   const [showFilterState, setShowFilterState] = useState(false);
 
+  const handleToggleFilter = () => setShowFilterState(value => !value);
+
   const _renderAction = (value?: string, data?: IUserDTO) => {
     if (data) {
       return (
@@ -77,14 +80,12 @@ export function Users() {
 
   return (
     <>
-      <LayoutBaseDePagina
-        titulo="Usuários"
-        navigatePage={RoutesEnum.USERS_CREATE}
-        textButton="CADASTRAR"
-        icon={<AddBox />}
-        textButtonRight="FILTRAR"
-        iconRight={<FilterAlt />}
-        onClickRight={() => setShowFilterState(value => !value)}
+      <BaseLayout
+        title="Usuários"
+        renderHeaderRight={<RightHeader onClick={handleToggleFilter} />}
+        renderFooter={
+          <FooterFilter onClickFilter={handleToggleFilter} route={RoutesEnum.USERS_CREATE} />
+        }
       >
         {loadingUsers ? (
           <Skeleton variant="rectangular" width="100%" height={450} />
@@ -102,7 +103,7 @@ export function Users() {
             renderInputSearchAndSelect={filterTable}
           />
         )}
-      </LayoutBaseDePagina>
+      </BaseLayout>
 
       {showModalEdit && dataActionTable && (
         <DialogEdit

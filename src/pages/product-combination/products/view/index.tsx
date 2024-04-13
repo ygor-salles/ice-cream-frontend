@@ -1,23 +1,23 @@
-import { AddBox, FilterAlt, ArrowBack } from '@mui/icons-material';
-import { Skeleton, Theme, useMediaQuery, Button } from '@mui/material';
+import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
-  DialogInfo,
   ActionComponent,
+  DialogInfo,
+  FooterFilter,
   SwitchComponent,
+  TableApp,
   _renderBasicDate,
   _renderBasicTextCell,
   _renderBasicToCurrency,
-  TableApp,
 } from 'shared/components';
 import { ITypeComponents } from 'shared/components/TableApp/types';
 import { RoutesEnum } from 'shared/constants';
 import { IProductDTO } from 'shared/dtos';
 import { useProduct } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { DialogEdit } from './components/DialogEdit';
+import { RightHeader } from './components/RightHeader';
 import {
   columnConfigCollapse,
   columnLabel,
@@ -28,8 +28,6 @@ import {
 } from './constants';
 
 export function Products() {
-  const navigate = useNavigate();
-
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const {
@@ -50,13 +48,9 @@ export function Products() {
     handleSubmitSwitchToogle,
   } = useProduct();
 
-  useEffect(() => {
-    getProducts();
-
-    return () => clearTimeout(timerRef.current);
-  }, []);
-
   const [showFilterState, setShowFilterState] = useState(false);
+
+  const handleToggleFilter = () => setShowFilterState(value => !value);
 
   const _renderSwitchToggle = (value?: boolean, product?: IProductDTO) => {
     if (typeof value === 'boolean' && product?.id) {
@@ -98,25 +92,19 @@ export function Products() {
     [columnTypeCollapse.ACTION]: _renderAction,
   };
 
+  useEffect(() => {
+    getProducts();
+
+    return () => clearTimeout(timerRef.current);
+  }, []);
+
   return (
     <>
-      <LayoutBaseDePagina
-        titulo="Produtos"
-        navigatePage={RoutesEnum.PRODUCTS_CREATE}
-        textButton="CADASTRAR"
-        icon={<AddBox />}
-        textButtonRight="FILTRAR"
-        iconRight={<FilterAlt />}
-        onClickRight={() => setShowFilterState(value => !value)}
-        renderHeaderButton={
-          <Button
-            color="info"
-            variant="outlined"
-            startIcon={<ArrowBack />}
-            onClick={() => navigate(RoutesEnum.PRODUCT_COMBINATION)}
-          >
-            VOLTAR
-          </Button>
+      <BaseLayout
+        title="Produtos"
+        renderHeaderRight={<RightHeader onClick={handleToggleFilter} />}
+        renderFooter={
+          <FooterFilter onClickFilter={handleToggleFilter} route={RoutesEnum.PRODUCTS_CREATE} />
         }
       >
         {loadingProducts ? (
@@ -139,7 +127,7 @@ export function Products() {
             renderInputSearchAndSelect={filterTable}
           />
         )}
-      </LayoutBaseDePagina>
+      </BaseLayout>
 
       {showModalEdit && dataActionTable && (
         <DialogEdit

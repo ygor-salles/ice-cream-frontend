@@ -1,13 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ArrowBack, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { CardForm, SelectApp, TextFieldApp } from 'shared/components';
+import { CardForm, HeaderButtonNav, SelectApp, TextFieldApp } from 'shared/components';
 import { LISTTYPEUSERS, RoutesEnum } from 'shared/constants';
 import { IFormUser } from 'shared/dtos';
 import { useUser } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { defaultValuesUser, fieldsUser, schemaCreateUser } from '../utils';
 
@@ -28,11 +28,9 @@ export function RegisterUser() {
   }, [formState, reset]);
 
   return (
-    <LayoutBaseDePagina
-      titulo="Cadastro usuário"
-      navigatePage={RoutesEnum.USERS}
-      textButton="VOLTAR"
-      icon={<ArrowBack />}
+    <BaseLayout
+      title="Cadastro usuário"
+      renderHeaderRight={<HeaderButtonNav route={RoutesEnum.USERS} />}
     >
       <CardForm loading={loading} onSubmit={handleSubmit(handleSubmitCreate)}>
         <TextFieldApp
@@ -72,6 +70,6 @@ export function RegisterUser() {
           disabled={loading}
         />
       </CardForm>
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

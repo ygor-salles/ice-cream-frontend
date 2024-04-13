@@ -4,7 +4,7 @@ import { useDrawerContext } from 'shared/hooks';
 import { Header, Container, Main, Title, Wrapper } from './styles';
 import { ILayoutBaseDePaginaProps } from './types';
 
-export const LayoutBaseDePagina = ({
+export const BaseLayout = ({
   children,
   title,
   renderHeaderRight,

@@ -2,13 +2,13 @@ import { images } from 'assets';
 import { useNavigate } from 'react-router-dom';
 import { SplashScreen } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 export function CashOutflows() {
   const navigate = useNavigate();
 
   return (
-    <LayoutBaseDePagina titulo="Saídas">
+    <BaseLayout title="Saídas">
       <SplashScreen
         description=""
         cardsList={[
@@ -30,6 +30,6 @@ export function CashOutflows() {
           },
         ]}
       />
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

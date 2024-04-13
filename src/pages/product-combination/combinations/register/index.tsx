@@ -1,12 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ArrowBack } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { CardForm, TextFieldApp } from 'shared/components';
+import { CardForm, HeaderButtonNav, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
 import { IFormCombination } from 'shared/dtos';
 import { useCombination } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { defaultValuesCombination, fieldsCombination, schemaCombination } from '../utils';
 
@@ -25,11 +24,9 @@ export function RegisterCombination() {
   }, [formState, reset]);
 
   return (
-    <LayoutBaseDePagina
-      titulo="Cadastro combinação"
-      navigatePage={RoutesEnum.COMBINATIONS}
-      textButton="VOLTAR"
-      icon={<ArrowBack />}
+    <BaseLayout
+      title="Cadastro combinação"
+      renderHeaderRight={<HeaderButtonNav route={RoutesEnum.COMBINATIONS} />}
     >
       <CardForm loading={loading} onSubmit={handleSubmit(handleSubmitCreate)}>
         <TextFieldApp
@@ -48,6 +45,6 @@ export function RegisterCombination() {
           disabled={loading}
         />
       </CardForm>
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

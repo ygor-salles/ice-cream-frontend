@@ -54,14 +54,18 @@ export const WrapperButtons = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 16px 0;
 
   div {
     display: flex;
     gap: 8px;
+
+    button {
+      width: 120px;
+      height: 40px;
+    }
   }
 
-  ${mediaQuery.mobile} {
+  ${mediaQuery.tableSm} {
     flex-direction: column;
 
     div {

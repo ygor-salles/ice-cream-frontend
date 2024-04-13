@@ -1,13 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ArrowBack } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { CardForm, SelectApp, TextFieldApp } from 'shared/components';
+import { CardForm, HeaderButtonNav, SelectApp, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
 import { IClientDTO, IFormPayment } from 'shared/dtos';
 import { useClient, usePayment } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 import { formatNumberToCurrency } from 'shared/utils';
 
 import { defaultValuesPayment, fieldsPayment, schemaPayment } from '../utils';
@@ -46,11 +45,9 @@ export function RegisterPayment() {
   }, [formState, reset]);
 
   return (
-    <LayoutBaseDePagina
-      titulo="Cadastro pagamento"
-      navigatePage={RoutesEnum.PAYMENTS}
-      textButton="VOLTAR"
-      icon={<ArrowBack />}
+    <BaseLayout
+      title="Cadastro pagamento"
+      renderHeaderRight={<HeaderButtonNav route={RoutesEnum.PAYMENTS} />}
     >
       {loadingClients ? (
         <Skeleton variant="rectangular" width="100%" height={300} />
@@ -94,6 +91,6 @@ export function RegisterPayment() {
           />
         </CardForm>
       )}
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

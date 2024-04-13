@@ -9,12 +9,12 @@ import {
   Skeleton,
 } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import { DialogInfo, Pagination } from 'shared/components';
+import { DialogInfo, HeaderButtonNav, Pagination } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { LIMIT_PAGED, RoutesEnum } from 'shared/constants';
 import { IFormFilterPaymentPage } from 'shared/dtos';
 import { usePayment, useToastContext } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { FilterPayment } from './components/FilterPayment';
 import { PaymentItem } from './components/PaymentItem';
@@ -74,11 +74,15 @@ export function Payments() {
 
   return (
     <>
-      <LayoutBaseDePagina
-        titulo="Pagamentos"
-        navigatePage={RoutesEnum.PAYMENTS_CREATE}
-        textButton="CADASTRAR"
-        icon={<AddBox />}
+      <BaseLayout
+        title="Pagamentos"
+        renderHeaderRight={
+          <HeaderButtonNav
+            route={RoutesEnum.PAYMENTS_CREATE}
+            icon={<AddBox />}
+            textButton="CADASTRAR"
+          />
+        }
       >
         <FilterPayment onSubmitFilter={onSubmitFilter} loadingPayments={loadingPayments} />
 
@@ -102,7 +106,7 @@ export function Payments() {
             />
           </>
         )}
-      </LayoutBaseDePagina>
+      </BaseLayout>
 
       {showModalDelete && dataActionTable && (
         <DialogInfo

@@ -13,18 +13,18 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.header`
-  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
   height: 64px;
 
-  margin: 0 20px 0 20px;
+  margin: 0 16px 0 16px;
   border-bottom: 1px solid rgba(224, 224, 224, 1);
 
   ${mediaQuery.tableSm} {
     margin: 0;
+    padding: 8px;
     background-color: #9c27b0;
     border-bottom: none;
   }
@@ -49,5 +49,6 @@ export const Title = styled(Typography)`
 export const Main = styled.main`
   flex: 1;
   overflow: auto;
-  padding: 16px;
+  padding: 14px 16px;
+  margin: 2px 0;
 `;

@@ -2,12 +2,12 @@ import { AddBox } from '@mui/icons-material';
 import { Skeleton } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Pagination } from 'shared/components';
+import { HeaderButtonNav, Pagination } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { LIMIT_PAGED, RoutesEnum } from 'shared/constants';
 import { EnumTypeSale, IFormFilterSalePage } from 'shared/dtos';
 import { useSale, useToastContext } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 
 import { FilterSale } from './components/FilterSale';
@@ -70,12 +70,16 @@ export function Sales() {
   }, [reloadPage]);
 
   return (
-    <LayoutBaseDePagina
-      titulo="Vendas"
-      navigatePage={RoutesEnum.SALES_CREATE}
-      textButton="Cadastrar"
-      icon={<AddBox />}
-      disabled={loadingSales || loadingForm}
+    <BaseLayout
+      title="Vendas"
+      renderHeaderRight={
+        <HeaderButtonNav
+          route={RoutesEnum.SALES_CREATE}
+          textButton="Cadastrar"
+          icon={<AddBox />}
+          disabled={loadingSales || loadingForm}
+        />
+      }
     >
       <>
         <FilterSale onSubmitFilter={onSubmitFilter} loadingSales={loadingSales} />
@@ -96,6 +100,6 @@ export function Sales() {
           </>
         )}
       </>
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

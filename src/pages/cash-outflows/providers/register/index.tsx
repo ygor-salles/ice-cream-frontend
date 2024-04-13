@@ -1,12 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ArrowBack } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { CardForm, CheckboxApp, TextFieldApp } from 'shared/components';
+import { CardForm, CheckboxApp, HeaderButtonNav, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
 import { IFormProvider } from 'shared/dtos';
 import { useProvider } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { defaultValuesProvider, fieldsProvider, schemaProvider } from '../utils';
 
@@ -25,11 +24,9 @@ export function RegisterProvider() {
   }, [formState, reset]);
 
   return (
-    <LayoutBaseDePagina
-      titulo="Cadastro fornecedor"
-      navigatePage={RoutesEnum.PROVIDERS}
-      textButton="VOLTAR"
-      icon={<ArrowBack />}
+    <BaseLayout
+      title="Cadastro fornecedor"
+      renderHeaderRight={<HeaderButtonNav route={RoutesEnum.PROVIDERS} />}
     >
       <CardForm loading={loading} onSubmit={handleSubmit(handleSubmitCreate)}>
         <TextFieldApp
@@ -54,6 +51,6 @@ export function RegisterProvider() {
           disabled={loading}
         />
       </CardForm>
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

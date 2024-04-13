@@ -1,2 +1,2 @@
-export * from './LayoutBaseDePagina';
+export * from './BaseLayout';
 export * from './ProtectedLayout';

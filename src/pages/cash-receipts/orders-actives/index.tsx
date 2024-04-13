@@ -1,5 +1,4 @@
-import { FilterAlt, Refresh } from '@mui/icons-material';
-import { Button, Skeleton } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
   TableApp,
@@ -11,11 +10,13 @@ import { ToastType } from 'shared/components/SnackBar/enum';
 import { ITypeComponents } from 'shared/components/TableApp/types';
 import { localStorageKeys } from 'shared/constants';
 import { IClientDTO, IProductDTO, ISaleDTO } from 'shared/dtos';
-import { useSale, useCache, useToastContext } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { useCache, useSale, useToastContext } from 'shared/hooks';
+import { BaseLayout } from 'shared/layouts';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
 
 import { CollapseCombinations } from './components/CollapseCombinations';
+import { FooterOrders } from './components/FooterOrders';
+import { RightHeader } from './components/RightHeader';
 import { columnConfig, columnLabel, columnType, filterTable } from './constants';
 
 export function OrdersActives() {
@@ -32,17 +33,17 @@ export function OrdersActives() {
   const { addToast } = useToastContext();
 
   const [refreshState, setRefreshState] = useState(false);
-  const onToggleRefreshPage = () => setRefreshState(prev => !prev);
+  const handleToggleRefreshPage = () => setRefreshState(prev => !prev);
 
   const [showFilterState, setShowFilterState] = useState(false);
-  const onToggleShowFilter = () => setShowFilterState(prev => !prev);
+  const handleToggleShowFilter = () => setShowFilterState(prev => !prev);
 
   const handleReturnAction = async () => {
     const lastSale: IUpdateSaleDTORequest = getDataLocalStorage(localStorageKeys.LAST_ORDER);
 
     if (lastSale) {
       await onReturnActionUpdateSale(lastSale);
-      onToggleRefreshPage();
+      handleToggleRefreshPage();
     } else {
       addToast('Último pedido já foi retornado', ToastType.success);
     }
@@ -56,7 +57,7 @@ export function OrdersActives() {
     <CollapseCombinations
       sale={sale}
       onChangeUpdateSaleById={onChangeUpdateSaleById}
-      onToggleRefreshPage={onToggleRefreshPage}
+      onToggleRefreshPage={handleToggleRefreshPage}
     />
   );
 
@@ -67,18 +68,20 @@ export function OrdersActives() {
   };
 
   return (
-    <LayoutBaseDePagina
-      titulo="Pedidos ativos"
-      textButton="Atualizar"
-      icon={<Refresh />}
-      onClick={onToggleRefreshPage}
-      textButtonRight="FILTRAR"
-      iconRight={<FilterAlt />}
-      onClickRight={onToggleShowFilter}
-      renderHeaderButton={
-        <Button color="info" variant="outlined" onClick={handleReturnAction}>
-          DESFAZER
-        </Button>
+    <BaseLayout
+      title="Pedidos ativos"
+      renderHeaderRight={
+        <RightHeader
+          onClickFilter={handleToggleShowFilter}
+          onClickRefresh={handleToggleRefreshPage}
+          onClickRoolback={handleReturnAction}
+        />
+      }
+      renderFooter={
+        <FooterOrders
+          onClickFilter={handleToggleShowFilter}
+          onClickRefresh={handleToggleRefreshPage}
+        />
       }
     >
       {loadingSales ? (
@@ -96,6 +99,6 @@ export function OrdersActives() {
           renderCollapse={_renderCollapse}
         />
       )}
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

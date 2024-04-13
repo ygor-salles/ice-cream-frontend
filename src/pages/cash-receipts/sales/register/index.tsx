@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   AutoComplete,
+  HeaderButtonNav,
   SelectApp,
   SelectMultiple,
   TextFieldApp,
@@ -20,7 +21,7 @@ import {
   IFormSale,
 } from 'shared/dtos';
 import { useSale, useDrawerContext } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { formatNumberToCurrencyInput } from 'shared/utils';
 import Mask from 'shared/utils/masks';
@@ -237,13 +238,17 @@ export function RegisterSale() {
   }, [allCombinationsStorage]);
 
   return (
-    <LayoutBaseDePagina
-      titulo="Cadastro venda"
-      onClick={showScreenCarListing ? () => setShowScreenCarListing(false) : undefined}
-      navigatePage={!showScreenCarListing ? RoutesEnum.SALES : undefined}
-      textButton={showScreenCarListing ? 'Voltar' : 'VENDAS'}
-      icon={showScreenCarListing ? <ArrowBack /> : <AttachMoney />}
-      disabled={loading}
+    <BaseLayout
+      title="Cadastro venda"
+      renderHeaderRight={
+        <HeaderButtonNav
+          disabled={loading}
+          icon={showScreenCarListing ? <ArrowBack /> : <AttachMoney />}
+          textButton={showScreenCarListing ? 'Voltar' : 'VENDAS'}
+          route={!showScreenCarListing ? RoutesEnum.SALES : undefined}
+          onClick={showScreenCarListing ? () => setShowScreenCarListing(false) : undefined}
+        />
+      }
     >
       {loadingStorage ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
@@ -365,6 +370,6 @@ export function RegisterSale() {
           )}
         </Form>
       )}
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

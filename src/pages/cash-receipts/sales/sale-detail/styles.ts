@@ -31,6 +31,4 @@ export const Text = styled(Typography).withConfig({
 
 export const StyledCardList = styled(CartListing)`
   width: 100%;
-  margin-top: 10px;
-  height: calc(100vh - 135px);
 `;

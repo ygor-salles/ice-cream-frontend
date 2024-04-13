@@ -1,18 +1,18 @@
-import { Icon, Switch, Theme, useMediaQuery } from '@mui/material';
+import { Icon, Switch } from '@mui/material';
 import {
+  EnumRoleUser,
+  EnumTypeProduct,
   IClientDTO,
   IPaymentDTO,
-  EnumTypeProduct,
   IProductDTO,
   IProviderDTO,
   IPurchaseDTO,
   ISaleDTO,
-  EnumRoleUser,
 } from 'shared/dtos';
 import { useAuthContext } from 'shared/hooks';
 import { formatDate, formatNumberToCurrency } from 'shared/utils';
 
-import { ActionContent, StyledIcon, Green, Red } from './styles';
+import { ActionContent, Green, Red, StyledIcon } from './styles';
 import { ActionComponentProps, SwitchComponentProps } from './types';
 
 export const _renderBasicTextCell = (value?: string) => <span>{value ?? '--'}</span>;
@@ -56,14 +56,12 @@ export const ActionComponent = <T,>({
   handleClickDelete,
 }: ActionComponentProps<T>) => {
   const { role } = useAuthContext();
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   return (
-    <ActionContent smDown={smDown}>
+    <ActionContent>
       {!!handleClickEdit && (
         <StyledIcon
           color={role === EnumRoleUser.SUPER || accessEdit ? 'secondary' : 'disabled'}
-          mgRight={smDown}
           onClick={e => {
             if (role === EnumRoleUser.SUPER || accessEdit) {
               e.stopPropagation();

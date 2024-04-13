@@ -1,5 +1,4 @@
 export interface DialogAppProps {
-  smDown?: boolean;
   open: boolean;
   handleClose: () => void;
   handleSubmit?: (id: number) => void;

@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
-import { Theme, Typography, useMediaQuery } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -19,8 +19,6 @@ import { LayoutBaseDePagina } from 'shared/layouts';
 import { defaultValuesPurchase, fieldsPurchase, schemaPurchase } from '../utils';
 
 export function RegisterPurchase() {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
   const { handleSubmit, control, reset, formState } = useForm<IFormPurchase>({
     resolver: yupResolver(schemaPurchase),
     defaultValues: defaultValuesPurchase,
@@ -84,7 +82,6 @@ export function RegisterPurchase() {
         />
         <InputFile
           name={fieldsPurchase.FILE}
-          isMobile={smDown}
           label="Anexe a nota fiscal"
           control={control}
           disabled={loading}

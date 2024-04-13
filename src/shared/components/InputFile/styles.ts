@@ -2,8 +2,10 @@ import { Close as MuiClose } from '@mui/icons-material';
 import styled, { css } from 'styled-components';
 import { Colors } from 'styles/global';
 
-interface IsMobile {
-  isMobile: boolean;
+interface ImgProps {
+  disabled?: boolean;
+}
+interface CloseProps {
   disabled?: boolean;
 }
 
@@ -43,7 +45,7 @@ export const ContentLabel = styled.div<ContentLabelProps>`
   }
 `;
 
-export const Img = styled.img<IsMobile>`
+export const Img = styled.img<ImgProps>`
   width: 100%;
   height: 300px;
   object-fit: cover;
@@ -71,8 +73,8 @@ export const ContentImage = styled.div`
 `;
 
 export const Close = styled(MuiClose).withConfig({
-  shouldForwardProp: prop => !['isMobile'].includes(prop),
-})<IsMobile>`
+  shouldForwardProp: prop => !['disabled'].includes(prop),
+})<CloseProps>`
   position: absolute;
   top: 0;
   right: 0;

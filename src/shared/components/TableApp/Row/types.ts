@@ -13,7 +13,6 @@ export interface RowProps<T, S> {
   rowIndex: number;
   // eslint-disable-next-line @typescript-eslint/ban-types
   renderCellHeaderCollapse: ((key: string) => {}) | undefined;
-  isMobile: boolean | undefined;
   mappedColumn?: string[];
   mappedColumnCollapse?: string[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

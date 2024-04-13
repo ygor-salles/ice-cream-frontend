@@ -8,8 +8,6 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Theme,
-  useMediaQuery,
 } from '@mui/material';
 import React, { useCallback, useState } from 'react';
 import Mask from 'shared/utils/masks';
@@ -35,8 +33,6 @@ export const TableApp = <T, S>({
   renderCellHeader,
   renderCollapse,
 }: TableAppProps<T, S>) => {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [dataState, setDataState] = useState(data as any[]);
 
@@ -136,7 +132,6 @@ export const TableApp = <T, S>({
         open={showFilterState}
         handleSearch={handleSearch}
         renderInputSearchAndSelect={renderInputSearchAndSelect}
-        isMobile={smDown}
       />
 
       <TableContainer component={Paper}>
@@ -148,7 +143,6 @@ export const TableApp = <T, S>({
                   <StyledTableCell
                     align={columnConfig[key]?.align}
                     width={columnConfig[key]?.width}
-                    isMobile={!!smDown}
                   >
                     <span>{renderCellHeader(key)}</span>
                   </StyledTableCell>
@@ -174,7 +168,6 @@ export const TableApp = <T, S>({
                   rowData={rowData}
                   rowIndex={rowIndex}
                   tableName={tableName}
-                  isMobile={smDown}
                   mappedColumn={mappedColumn}
                   mappedColumnCollapse={mappedColumnCollapse}
                   renderCollapse={renderCollapse}

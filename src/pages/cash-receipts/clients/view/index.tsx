@@ -1,9 +1,8 @@
-import { AddBox, ArrowBack, FilterAlt } from '@mui/icons-material';
-import { Button, Skeleton } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   ActionComponent,
+  FooterFilter,
   TableApp,
   _renderBasicDate,
   _renderBasicTextCell,
@@ -13,9 +12,10 @@ import { ITypeComponents } from 'shared/components/TableApp/types';
 import { RoutesEnum } from 'shared/constants';
 import { IClientDTO } from 'shared/dtos';
 import { useClient } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { DialogEdit } from './components/DialogEdit';
+import { RightHeader } from './components/RightHeader';
 import {
   columnConfig,
   columnConfigCollapse,
@@ -27,8 +27,6 @@ import {
 } from './constants';
 
 export function Clients() {
-  const navigate = useNavigate();
-
   const {
     allClients,
     loadingClients,
@@ -60,6 +58,8 @@ export function Clients() {
     return <span>--</span>;
   };
 
+  const handleToogleFilter = () => setShowFilterState(value => !value);
+
   const components: ITypeComponents<string & number, IClientDTO> = {
     [columnType.NAME]: _renderBasicTextCell,
     [columnType.DEBIT]: _renderBasicToCurrencyRed,
@@ -74,23 +74,11 @@ export function Clients() {
 
   return (
     <>
-      <LayoutBaseDePagina
-        titulo="Clientes"
-        navigatePage={RoutesEnum.CLIENTS_CREATE}
-        textButton="CADASTRAR"
-        icon={<AddBox />}
-        textButtonRight="FILTRAR"
-        iconRight={<FilterAlt />}
-        onClickRight={() => setShowFilterState(value => !value)}
-        renderHeaderButton={
-          <Button
-            color="info"
-            variant="outlined"
-            startIcon={<ArrowBack />}
-            onClick={() => navigate(RoutesEnum.CASH_RECEIPTS)}
-          >
-            VOLTAR
-          </Button>
+      <BaseLayout
+        title="Clientes"
+        renderHeaderRight={<RightHeader onClick={handleToogleFilter} />}
+        renderFooter={
+          <FooterFilter onClickFilter={handleToogleFilter} route={RoutesEnum.CLIENTS_CREATE} />
         }
       >
         {loadingClients ? (
@@ -109,7 +97,7 @@ export function Clients() {
             renderInputSearchAndSelect={filterTable}
           />
         )}
-      </LayoutBaseDePagina>
+      </BaseLayout>
 
       {showModalEdit && dataActionTable && (
         <DialogEdit

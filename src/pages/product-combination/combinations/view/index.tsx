@@ -1,10 +1,9 @@
-import { AddBox, ArrowBack, FilterAlt } from '@mui/icons-material';
-import { Button, Skeleton } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   ActionComponent,
   DialogInfo,
+  FooterFilter,
   TableApp,
   _renderBasicDate,
   _renderBasicTextCell,
@@ -14,9 +13,10 @@ import { ITypeComponents } from 'shared/components/TableApp/types';
 import { RoutesEnum } from 'shared/constants';
 import { ICombinationDTO } from 'shared/dtos';
 import { useCombination } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { DialogEdit } from './components/DialogEdit';
+import { RightHeader } from './components/RightHeader';
 import {
   columnConfig,
   columnConfigCollapse,
@@ -28,8 +28,6 @@ import {
 } from './constants';
 
 export function Combinations() {
-  const navigate = useNavigate();
-
   const {
     allCombinations,
     loadingCombinations,
@@ -51,6 +49,8 @@ export function Combinations() {
   }, []);
 
   const [showFilterState, setShowFilterState] = useState(false);
+
+  const handleToggleFilter = () => setShowFilterState(value => !value);
 
   const _renderAction = (value?: string, rowData?: ICombinationDTO) => {
     if (rowData) {
@@ -79,23 +79,11 @@ export function Combinations() {
 
   return (
     <>
-      <LayoutBaseDePagina
-        titulo="Combinações"
-        navigatePage={RoutesEnum.COMBINATIONS_CREATE}
-        textButton="CADASTRAR"
-        icon={<AddBox />}
-        textButtonRight="FILTRAR"
-        iconRight={<FilterAlt />}
-        onClickRight={() => setShowFilterState(value => !value)}
-        renderHeaderButton={
-          <Button
-            color="info"
-            variant="outlined"
-            startIcon={<ArrowBack />}
-            onClick={() => navigate(RoutesEnum.PRODUCT_COMBINATION)}
-          >
-            VOLTAR
-          </Button>
+      <BaseLayout
+        title="Combinações"
+        renderHeaderRight={<RightHeader onClick={handleToggleFilter} />}
+        renderFooter={
+          <FooterFilter onClickFilter={handleToggleFilter} route={RoutesEnum.COMBINATIONS_CREATE} />
         }
       >
         {loadingCombinations ? (
@@ -114,7 +102,7 @@ export function Combinations() {
             renderInputSearchAndSelect={filterTable}
           />
         )}
-      </LayoutBaseDePagina>
+      </BaseLayout>
 
       {showModalEdit && dataActionTable && (
         <DialogEdit

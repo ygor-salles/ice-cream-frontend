@@ -1,21 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ArrowBack } from '@mui/icons-material';
-import { Button, Skeleton, Typography } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { CardForm, DatePicker, TextFieldApp } from 'shared/components';
+import { CardForm, DatePicker, HeaderButtonNav, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
 import { IFormCashClosing } from 'shared/dtos';
 import { useSale } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { fieldsSale } from '../sales/utils';
 import { defaultValuesCashClosing, schemaCreateCashClosing } from './utils';
 
 export function DailyCashClosing() {
-  const navigate = useNavigate();
-
   const { handleSubmitCreateCashClosing, loadingForm } = useSale();
 
   const { handleSubmit, control, formState, reset } = useForm<IFormCashClosing>({
@@ -30,18 +26,9 @@ export function DailyCashClosing() {
   }, [formState, reset]);
 
   return (
-    <LayoutBaseDePagina
-      titulo="Fechamento caixa"
-      renderHeaderButton={
-        <Button
-          color="info"
-          variant="outlined"
-          startIcon={<ArrowBack />}
-          onClick={() => navigate(RoutesEnum.CASH_RECEIPTS)}
-        >
-          VOLTAR
-        </Button>
-      }
+    <BaseLayout
+      title="Fechamento caixa"
+      renderHeaderRight={<HeaderButtonNav route={RoutesEnum.CASH_RECEIPTS} />}
     >
       {loadingForm ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
@@ -63,6 +50,6 @@ export function DailyCashClosing() {
           </div>
         </CardForm>
       )}
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

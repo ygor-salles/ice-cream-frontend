@@ -2,13 +2,13 @@ import { images } from 'assets';
 import { useNavigate } from 'react-router-dom';
 import { SplashScreen } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 export function ProductCombination() {
   const navigate = useNavigate();
 
   return (
-    <LayoutBaseDePagina titulo="Estoque">
+    <BaseLayout title="Estoque">
       <SplashScreen
         description="Gerencie informações do estoque de produtos e as respectivas combinações dos produtos. Como por exemplo, combinações de açaís"
         cardsList={[
@@ -30,6 +30,6 @@ export function ProductCombination() {
           },
         ]}
       />
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

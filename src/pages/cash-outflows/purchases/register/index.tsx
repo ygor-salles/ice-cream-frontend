@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ArrowBack } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -7,6 +6,7 @@ import {
   CardForm,
   CheckboxApp,
   DatePicker,
+  HeaderButtonNav,
   InputFile,
   SelectApp,
   TextFieldApp,
@@ -14,7 +14,7 @@ import {
 import { RoutesEnum } from 'shared/constants';
 import { IFormPurchase } from 'shared/dtos';
 import { useProvider, usePurchase } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { defaultValuesPurchase, fieldsPurchase, schemaPurchase } from '../utils';
 
@@ -39,11 +39,9 @@ export function RegisterPurchase() {
   }, [formState, reset]);
 
   return (
-    <LayoutBaseDePagina
-      titulo="Cadastro compras"
-      navigatePage={RoutesEnum.PURCHASES}
-      textButton="VOLTAR"
-      icon={<ArrowBack />}
+    <BaseLayout
+      title="Cadastro compras"
+      renderHeaderRight={<HeaderButtonNav route={RoutesEnum.PURCHASES} />}
     >
       <CardForm loading={loading} onSubmit={handleSubmit(handleSubmitCreate)}>
         <TextFieldApp
@@ -87,6 +85,6 @@ export function RegisterPurchase() {
           disabled={loading}
         />
       </CardForm>
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

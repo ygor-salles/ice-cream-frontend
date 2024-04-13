@@ -2,12 +2,12 @@ import { AddBox } from '@mui/icons-material';
 import { Dialog, Skeleton } from '@mui/material';
 import { images } from 'assets';
 import { useEffect, useMemo, useState } from 'react';
-import { DialogInfo, Pagination } from 'shared/components';
+import { DialogInfo, HeaderButtonNav, Pagination } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { LIMIT_PAGED, RoutesEnum } from 'shared/constants';
 import { IFormFilterPurchasePage } from 'shared/dtos';
 import { usePurchase, useToastContext } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 import { transformImageUrl } from 'shared/utils';
 
 import { DialogEdit, FilterPurchase, PurchaseItem } from './components';
@@ -72,11 +72,15 @@ export function Purchases() {
 
   return (
     <>
-      <LayoutBaseDePagina
-        titulo="Compras"
-        navigatePage={RoutesEnum.PURCHASES_CREATE}
-        textButton="CADASTRAR"
-        icon={<AddBox />}
+      <BaseLayout
+        title="Compras"
+        renderHeaderRight={
+          <HeaderButtonNav
+            route={RoutesEnum.PURCHASES_CREATE}
+            textButton="CADASTRAR"
+            icon={<AddBox />}
+          />
+        }
       >
         <FilterPurchase onSubmitFilter={onSubmitFilter} loadingPurchases={loadingPurchases} />
 
@@ -101,7 +105,7 @@ export function Purchases() {
             />
           </>
         )}
-      </LayoutBaseDePagina>
+      </BaseLayout>
 
       {showModalEdit && dataActionTable && (
         <DialogEdit

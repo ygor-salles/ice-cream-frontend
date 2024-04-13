@@ -1,10 +1,9 @@
-import { AddBox, ArrowBack, FilterAlt } from '@mui/icons-material';
-import { Button, Skeleton } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   ActionComponent,
   DialogInfo,
+  FooterFilter,
   TableApp,
   _renderBasicDate,
   _renderBasicTextCell,
@@ -14,9 +13,10 @@ import { ITypeComponents } from 'shared/components/TableApp/types';
 import { RoutesEnum } from 'shared/constants';
 import { IProviderDTO } from 'shared/dtos';
 import { useProvider } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { DialogEdit } from './components/DialogEdit';
+import { RightHeader } from './components/RightHeader';
 import {
   columnConfig,
   columnConfigCollapse,
@@ -28,8 +28,6 @@ import {
 } from './constants';
 
 export function Providers() {
-  const navigate = useNavigate();
-
   const {
     allProviders,
     loadingProviders,
@@ -51,6 +49,8 @@ export function Providers() {
   }, []);
 
   const [showFilterState, setShowFilterState] = useState(false);
+
+  const toggleFilter = () => setShowFilterState(value => !value);
 
   const _renderAction = (value?: string, provider?: IProviderDTO) => {
     if (provider) {
@@ -80,23 +80,11 @@ export function Providers() {
 
   return (
     <>
-      <LayoutBaseDePagina
-        titulo="Fornecedores"
-        navigatePage={RoutesEnum.PROVIDERS_CREATE}
-        textButton="CADASTRAR"
-        icon={<AddBox />}
-        textButtonRight="FILTRAR"
-        iconRight={<FilterAlt />}
-        onClickRight={() => setShowFilterState(value => !value)}
-        renderHeaderButton={
-          <Button
-            color="info"
-            variant="outlined"
-            startIcon={<ArrowBack />}
-            onClick={() => navigate(RoutesEnum.CASH_OUTFLOWS)}
-          >
-            VOLTAR
-          </Button>
+      <BaseLayout
+        title="Fornecedores"
+        renderHeaderRight={<RightHeader onClick={toggleFilter} />}
+        renderFooter={
+          <FooterFilter onClickFilter={toggleFilter} route={RoutesEnum.PROVIDERS_CREATE} />
         }
       >
         {loadingProviders ? (
@@ -115,7 +103,7 @@ export function Providers() {
             renderInputSearchAndSelect={filterTable}
           />
         )}
-      </LayoutBaseDePagina>
+      </BaseLayout>
 
       {showModalEdit && dataActionTable && (
         <DialogEdit

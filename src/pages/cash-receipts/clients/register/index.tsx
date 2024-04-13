@@ -1,12 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ArrowBack } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { CardForm, TextFieldApp } from 'shared/components';
+import { CardForm, HeaderButtonNav, TextFieldApp } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
 import { IFormClient } from 'shared/dtos';
 import { useClient } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 
 import { defaultValuesClient, fieldsClient, schemaClient } from '../utils';
 
@@ -25,11 +24,9 @@ export function RegisterClient() {
   }, [formState, reset]);
 
   return (
-    <LayoutBaseDePagina
-      titulo="Cadastro cliente"
-      navigatePage={RoutesEnum.CLIENTS}
-      textButton="VOLTAR"
-      icon={<ArrowBack />}
+    <BaseLayout
+      title="Cadastro cliente"
+      renderHeaderRight={<HeaderButtonNav route={RoutesEnum.CLIENTS} />}
     >
       <CardForm loading={loading} onSubmit={handleSubmit(handleSubmitCreate)}>
         <TextFieldApp
@@ -55,6 +52,6 @@ export function RegisterClient() {
           disabled={loading}
         />
       </CardForm>
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 }

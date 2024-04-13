@@ -4,11 +4,11 @@ import { Button } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CheckboxApp, DialogInfo } from 'shared/components';
+import { CheckboxApp, DialogInfo, HeaderButtonNav } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { EnumTypeSale, EnumTypeProduct, IFormEditSale, IFormSale } from 'shared/dtos';
 import { useToastContext, useSale } from 'shared/hooks';
-import { LayoutBaseDePagina } from 'shared/layouts';
+import { BaseLayout } from 'shared/layouts';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { formatDateTime, formatNumberToCurrency } from 'shared/utils';
@@ -58,6 +58,8 @@ export const SaleDetail = () => {
       : false;
   }, [saleDetail.data_product]);
 
+  const handleToggleActions = () => setDisabledActions(prev => !prev);
+
   const onInsertProductInSale = (data: IFormSale) => {
     const newItem: IDataProduct = transformItemArray(data);
 
@@ -96,11 +98,16 @@ export const SaleDetail = () => {
   };
 
   return (
-    <LayoutBaseDePagina
-      titulo="Detalhes de venda"
-      textButton="EDITAR"
-      icon={<Edit />}
-      onClick={() => setDisabledActions(prev => !prev)}
+    <BaseLayout
+      title="Detalhes de venda"
+      renderHeaderRight={
+        <HeaderButtonNav
+          route={undefined}
+          textButton="EDITAR"
+          icon={<Edit />}
+          onClick={handleToggleActions}
+        />
+      }
     >
       <form
         style={{ width: '100%' }}
@@ -182,6 +189,6 @@ export const SaleDetail = () => {
         handleSubmit={deletedSale}
         loading={loadingForm}
       />
-    </LayoutBaseDePagina>
+    </BaseLayout>
   );
 };

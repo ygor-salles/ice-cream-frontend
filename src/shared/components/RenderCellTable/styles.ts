@@ -1,27 +1,25 @@
 import { Icon } from '@mui/material';
 import styled from 'styled-components';
-import { Colors } from 'styles/global';
+import { Colors, mediaQuery } from 'styles/global';
 
-interface ActionContentProps {
-  smDown?: boolean;
-}
-
-interface StyledIconProps {
-  mgRight?: boolean;
-}
-
-export const ActionContent = styled.div<ActionContentProps>`
+export const ActionContent = styled.div`
   display: flex;
   border-bottom: none;
-  justify-content: ${props => (props.smDown ? 'space-between' : 'center')};
+  justify-content: center;
   align-items: center;
+
+  ${mediaQuery.tableSm} {
+    justify-content: space-between;
+  }
 `;
 
-export const StyledIcon = styled(Icon).withConfig({
-  shouldForwardProp: prop => !['mgRight'].includes(prop),
-})<StyledIconProps>`
+export const StyledIcon = styled(Icon)`
   cursor: pointer;
-  margin-right: ${props => (props.mgRight ? '0' : '20px')};
+  margin-right: 20px;
+
+  ${mediaQuery.tableSm} {
+    margin-right: 0;
+  }
 `;
 
 export const Green = styled.span`

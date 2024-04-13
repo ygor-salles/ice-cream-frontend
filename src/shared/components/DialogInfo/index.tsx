@@ -4,7 +4,6 @@ import { FooterDialogActions } from '../FooterDialogActions';
 import { DialogAppProps } from './types';
 
 export function DialogInfo({
-  smDown,
   open,
   handleClose,
   handleSubmit,
@@ -16,7 +15,7 @@ export function DialogInfo({
   loading,
 }: DialogAppProps) {
   return (
-    <Dialog fullScreen={smDown} open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{text || ''}</DialogContentText>

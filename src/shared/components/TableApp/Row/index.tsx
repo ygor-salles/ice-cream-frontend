@@ -15,7 +15,6 @@ export const Row = <T, S>({
   rowData,
   rowIndex,
   renderCellHeaderCollapse,
-  isMobile,
   mappedColumn,
   renderCollapse,
 }: RowProps<T, S>) => {
@@ -27,20 +26,12 @@ export const Row = <T, S>({
         {React.Children.toArray(
           mappedColumn
             ? mappedColumn.map(key => (
-                <StyledTableCell
-                  align={columnConfig[key]?.align}
-                  width={columnConfig[key]?.width}
-                  isMobile={!!isMobile}
-                >
+                <StyledTableCell align={columnConfig[key]?.align} width={columnConfig[key]?.width}>
                   {components[key] && components[key](rowData[key], rowData, rowIndex)}
                 </StyledTableCell>
               ))
             : columnConfigKeys.map(key => (
-                <StyledTableCell
-                  align={columnConfig[key]?.align}
-                  width={columnConfig[key]?.width}
-                  isMobile={!!isMobile}
-                >
+                <StyledTableCell align={columnConfig[key]?.align} width={columnConfig[key]?.width}>
                   {components[key] && components[key](rowData[key], rowData, rowIndex)}
                 </StyledTableCell>
               )),
@@ -48,7 +39,7 @@ export const Row = <T, S>({
       </StyledTableRow>
 
       <TableRow>
-        <TableCellCollapse colSpan={columnConfigKeys.length} isMobile={!!isMobile}>
+        <TableCellCollapse colSpan={columnConfigKeys.length}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Container>
               <Content>
@@ -66,7 +57,7 @@ export const Row = <T, S>({
 
                             if (renderCellHeaderCollapse) {
                               return (
-                                <StyledTableCell align={align} width={width} isMobile={!!isMobile}>
+                                <StyledTableCell align={align} width={width}>
                                   {renderCellHeaderCollapse(key)}
                                 </StyledTableCell>
                               );
@@ -88,11 +79,7 @@ export const Row = <T, S>({
 
                               if (compCollapseKey) {
                                 return (
-                                  <StyledTableCell
-                                    align={align}
-                                    width={width}
-                                    isMobile={!!isMobile}
-                                  >
+                                  <StyledTableCell align={align} width={width}>
                                     {compCollapseKey(rowData[key], rowData, rowIndex)}
                                   </StyledTableCell>
                                 );

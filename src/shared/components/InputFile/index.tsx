@@ -6,14 +6,7 @@ import { transformImageUrl } from 'shared/utils';
 import { Close, ContentImage, ContentInputFile, ContentLabel, Img, TextError } from './styles';
 import { InputFileProps } from './types';
 
-export const InputFile = ({
-  control,
-  name,
-  isMobile,
-  label,
-  disabled,
-  pathApi,
-}: InputFileProps) => {
+export const InputFile = ({ control, name, label, disabled, pathApi }: InputFileProps) => {
   const {
     field: { value, onChange },
     fieldState: { error },
@@ -58,7 +51,7 @@ export const InputFile = ({
       </ContentLabel>
       {!!imgSrcState && (
         <ContentImage>
-          <Img src={imgSrcState} isMobile={isMobile} disabled={disabled} />
+          <Img src={imgSrcState} disabled={disabled} />
           <button
             type="button"
             disabled={disabled}
@@ -67,7 +60,7 @@ export const InputFile = ({
               onChange(null);
             }}
           >
-            <Close isMobile={isMobile} color="error" />
+            <Close color="error" />
           </button>
         </ContentImage>
       )}

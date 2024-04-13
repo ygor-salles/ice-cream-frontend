@@ -1,18 +1,14 @@
 import { Card } from '@mui/material';
 import { SelectApp } from 'shared/components';
 import styled, { css } from 'styled-components';
+import { mediaQuery } from 'styles/global';
 
 interface IStyledAccordion {
   open: boolean;
-  isMobile?: boolean;
-}
-
-interface ICustomSelectApp {
-  isMobile?: boolean;
 }
 
 export const StyledAccordion = styled(Card).withConfig({
-  shouldForwardProp: prop => !['open', 'isMobile'].includes(prop),
+  shouldForwardProp: prop => !['open'].includes(prop),
 })<IStyledAccordion>`
   ${({ open }) =>
     open
@@ -33,13 +29,20 @@ export const StyledAccordion = styled(Card).withConfig({
 
   width: 100%;
   display: flex;
-  flex-direction: ${props => (props.isMobile ? 'column' : 'row')};
   align-items: center;
-  gap: ${props => (props.isMobile ? '15px' : '30px')};
+  flex-direction: row;
+  gap: 30px;
+
+  ${mediaQuery.tableSm} {
+    flex-direction: column;
+    gap: 15px;
+  }
 `;
 
-export const CustomSelectApp = styled(SelectApp).withConfig({
-  shouldForwardProp: prop => !['isMobile'].includes(prop),
-})<ICustomSelectApp>`
-  width: ${props => (props.isMobile ? '100%' : '40%')};
+export const CustomSelectApp = styled(SelectApp)`
+  width: 40%;
+
+  ${mediaQuery.tableSm} {
+    width: 100%;
+  }
 `;

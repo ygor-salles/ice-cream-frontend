@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Grid, Theme, useMediaQuery } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { CheckboxApp, DialogForm, InputFile, SelectApp, TextFieldApp } from 'shared/components';
@@ -17,7 +17,6 @@ export function DialogEdit({
   handleClose,
   loading,
 }: DialogEditProps) {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const { allProviders, getProviders, loadingProviders } = useProvider();
   const loadingPage = loading || loadingProviders;
 
@@ -93,7 +92,6 @@ export function DialogEdit({
           <Grid item xs={12}>
             <InputFile
               name={fieldsPurchase.FILE}
-              isMobile={!!smDown}
               label="Anexe a nota fiscal"
               control={control}
               pathApi={purchase.nf_url}

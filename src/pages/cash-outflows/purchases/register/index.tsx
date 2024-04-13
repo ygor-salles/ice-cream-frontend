@@ -1,10 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowBack } from '@mui/icons-material';
-import { Theme, Typography, useMediaQuery } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  ButtonSubmit,
+  CardForm,
   CheckboxApp,
   DatePicker,
   InputFile,
@@ -17,11 +17,8 @@ import { useProvider, usePurchase } from 'shared/hooks';
 import { LayoutBaseDePagina } from 'shared/layouts';
 
 import { defaultValuesPurchase, fieldsPurchase, schemaPurchase } from '../utils';
-import { Form, GridForm, StyledCard } from './styles';
 
 export function RegisterPurchase() {
-  const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
   const { handleSubmit, control, reset, formState } = useForm<IFormPurchase>({
     resolver: yupResolver(schemaPurchase),
     defaultValues: defaultValuesPurchase,
@@ -48,61 +45,48 @@ export function RegisterPurchase() {
       textButton="VOLTAR"
       icon={<ArrowBack />}
     >
-      <Form onSubmit={handleSubmit(handleSubmitCreate)}>
-        <StyledCard>
-          <GridForm>
-            <TextFieldApp
-              name={fieldsPurchase.VALUE_TOTAL}
-              control={control}
-              label="Valor total"
-              currency
-              required
-              disabled={loading}
-            />
-            <TextFieldApp
-              name={fieldsPurchase.OBSERVATION}
-              control={control}
-              label="Observação"
-              disabled={loading}
-            />
-            <SelectApp
-              name={fieldsPurchase.PROVIDER_ID}
-              control={control}
-              options={allProviders}
-              setId
-              sortAlphabeticallyObject
-              label="Fornecedor"
-              required
-              disabled={loading}
-            />
-            <div>
-              <Typography>
-                Caso não seja selecionado a data será marcado com a data de hoje
-              </Typography>
-              <DatePicker
-                label="Data(opcional)"
-                name={fieldsPurchase.CREATED_AT}
-                control={control}
-              />
-            </div>
-            <CheckboxApp
-              name={fieldsPurchase.ITS_ICE_CREAM_SHOP}
-              control={control}
-              label="Compra da sorveteria"
-              disabled={loading}
-            />
-            <InputFile
-              name={fieldsPurchase.FILE}
-              isMobile={smDown}
-              label="Anexe a nota fiscal"
-              control={control}
-              disabled={loading}
-            />
-          </GridForm>
-
-          <ButtonSubmit loading={loading}>CADASTRAR</ButtonSubmit>
-        </StyledCard>
-      </Form>
+      <CardForm loading={loading} onSubmit={handleSubmit(handleSubmitCreate)}>
+        <TextFieldApp
+          name={fieldsPurchase.VALUE_TOTAL}
+          control={control}
+          label="Valor total"
+          currency
+          required
+          disabled={loading}
+        />
+        <TextFieldApp
+          name={fieldsPurchase.OBSERVATION}
+          control={control}
+          label="Observação"
+          disabled={loading}
+        />
+        <SelectApp
+          name={fieldsPurchase.PROVIDER_ID}
+          control={control}
+          options={allProviders}
+          setId
+          sortAlphabeticallyObject
+          label="Fornecedor"
+          required
+          disabled={loading}
+        />
+        <div>
+          <Typography>Caso não seja selecionado a data será marcado com a data de hoje</Typography>
+          <DatePicker label="Data(opcional)" name={fieldsPurchase.CREATED_AT} control={control} />
+        </div>
+        <CheckboxApp
+          name={fieldsPurchase.ITS_ICE_CREAM_SHOP}
+          control={control}
+          label="Compra da sorveteria"
+          disabled={loading}
+        />
+        <InputFile
+          name={fieldsPurchase.FILE}
+          label="Anexe a nota fiscal"
+          control={control}
+          disabled={loading}
+        />
+      </CardForm>
     </LayoutBaseDePagina>
   );
 }

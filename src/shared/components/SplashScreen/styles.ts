@@ -35,14 +35,14 @@ export const Description = styled(Typography).withConfig({
 `;
 
 export const ContentCards = styled.div`
-  display: grid;
-  gap: 60px;
-  grid-template-columns: auto auto auto;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 32px;
 
-  ${mediaQuery.tablet} {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  ${mediaQuery.desktop} {
+    justify-content: center;
   }
 `;
 
@@ -51,6 +51,14 @@ export const StyledCard = styled(Card)`
   flex-direction: column;
   gap: 20px;
   padding: 20px;
+
+  width: 420px;
+  height: 440px;
+
+  ${mediaQuery.tablet} {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 export const TitleCard = styled(Typography)`
@@ -73,6 +81,8 @@ export const DescriptionCard = styled(Typography).withConfig({
   font-weight: 300;
   font-size: 14px !important;
   color: ${props => (props.isDarkTheme ? Colors.WHITE : Colors.GRAY)};
+  flex: 1;
+  flex-wrap: wrap;
 `;
 
 export const WrapperNav = styled.div`

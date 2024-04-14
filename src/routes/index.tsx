@@ -1,6 +1,6 @@
 import {
   Dashboard,
-  ProductCombination,
+  Stock,
   CashReceipts,
   CashOutflows,
   Sales,
@@ -52,10 +52,10 @@ export function AppRoutes() {
       <Route path={RoutesEnum.LOGIN} element={<Login />} />
 
       <Route
-        path={RoutesEnum.PRODUCT_COMBINATION}
+        path={RoutesEnum.STOCK}
         element={
           <ProtectedLayout accessUser={[EnumRoleUser.EMPLOYEE]}>
-            <ProductCombination />
+            <Stock />
           </ProtectedLayout>
         }
       />
@@ -78,7 +78,7 @@ export function AppRoutes() {
       />
 
       <Route
-        path={RoutesEnum.HOME}
+        path={RoutesEnum.DASHBOARD}
         element={
           <ProtectedLayout accessUser={[EnumRoleUser.NORMAL, EnumRoleUser.EMPLOYEE]}>
             <Dashboard />

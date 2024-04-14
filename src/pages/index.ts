@@ -19,11 +19,11 @@ export * from './dashboard';
 
 export * from './login';
 
-export * from './product-combination';
-export * from './product-combination/combinations/register';
-export * from './product-combination/combinations/view';
-export * from './product-combination/products/register';
-export * from './product-combination/products/view';
+export * from './stock';
+export * from './stock/combinations/register';
+export * from './stock/combinations/view';
+export * from './stock/products/register';
+export * from './stock/products/view';
 
 export * from './users/register';
 export * from './users/view';

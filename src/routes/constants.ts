@@ -4,12 +4,12 @@ import { IDrawerOption } from 'shared/contexts/DrawerContext/types';
 export const DRAWER_OPTIONS_SUPER: IDrawerOption[] = [
   {
     icon: 'home',
-    path: RoutesEnum.HOME,
+    path: RoutesEnum.DASHBOARD,
     label: 'Dashboard',
   },
   {
     icon: 'inventory',
-    path: RoutesEnum.PRODUCT_COMBINATION,
+    path: RoutesEnum.STOCK,
     label: 'Estoque',
   },
   {
@@ -32,7 +32,7 @@ export const DRAWER_OPTIONS_SUPER: IDrawerOption[] = [
 export const DRAWER_OPTIONS_NORMAL: IDrawerOption[] = [
   {
     icon: 'home',
-    path: RoutesEnum.HOME,
+    path: RoutesEnum.DASHBOARD,
     label: 'Dashboard',
   },
   {
@@ -50,7 +50,7 @@ export const DRAWER_OPTIONS_NORMAL: IDrawerOption[] = [
 export const DRAWER_OPTIONS_EMPLOYEE: IDrawerOption[] = [
   {
     icon: 'home',
-    path: RoutesEnum.HOME,
+    path: RoutesEnum.DASHBOARD,
     label: 'Dashboard',
   },
   {
@@ -65,7 +65,7 @@ export const DRAWER_OPTIONS_EMPLOYEE: IDrawerOption[] = [
   },
   {
     icon: 'inventory',
-    path: RoutesEnum.PRODUCT_COMBINATION,
+    path: RoutesEnum.STOCK,
     label: 'Estoque',
   },
   {

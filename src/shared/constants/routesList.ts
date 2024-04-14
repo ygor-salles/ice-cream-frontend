@@ -1,9 +1,11 @@
 export enum RoutesEnum {
   LOGIN = '/login',
-  HOME = '/home',
-  PRODUCT_COMBINATION = '/product-combination',
+  DASHBOARD = '/dashboard',
+  STOCK = '/stock',
   CASH_RECEIPTS = '/cash-receipts',
   CASH_OUTFLOWS = '/cash-outflows',
+  USERS = '/users',
+  USERS_CREATE = '/users/create',
 
   PRODUCTS = '/products',
   PRODUCTS_CREATE = '/products/create',
@@ -16,8 +18,6 @@ export enum RoutesEnum {
   PROVIDERS_CREATE = '/providers/create',
   PURCHASES = '/purchases',
   PURCHASES_CREATE = '/purchases/create',
-  USERS = '/users',
-  USERS_CREATE = '/users/create',
   PAYMENTS = '/payments',
   PAYMENTS_CREATE = '/payments/create',
   COMBINATIONS = '/combinations',

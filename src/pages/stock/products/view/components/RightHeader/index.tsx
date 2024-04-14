@@ -14,7 +14,7 @@ export function RightHeader({ disabled, onClick }: RightHeaderProps) {
 
   const navigate = useNavigate();
 
-  const navigateProductCombination = () => navigate(RoutesEnum.PRODUCT_COMBINATION);
+  const navigateStock = () => navigate(RoutesEnum.STOCK);
   const navigateProductCreate = () => navigate(RoutesEnum.PRODUCTS_CREATE);
 
   if (smDown) {
@@ -24,7 +24,7 @@ export function RightHeader({ disabled, onClick }: RightHeaderProps) {
         variant="outlined"
         startIcon={<ArrowBack />}
         disabled={disabled}
-        onClick={navigateProductCombination}
+        onClick={navigateStock}
       >
         VOLTAR
       </Button>

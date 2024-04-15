@@ -14,12 +14,12 @@ export const DRAWER_OPTIONS_SUPER: IDrawerOption[] = [
   },
   {
     icon: 'point_of_sale',
-    path: RoutesEnum.CASH_RECEIPTS,
+    path: RoutesEnum.INFLOWS,
     label: 'Entradas',
   },
   {
     icon: 'payments',
-    path: RoutesEnum.CASH_OUTFLOWS,
+    path: RoutesEnum.OUTFLOWS,
     label: 'Saídas',
   },
   {
@@ -70,12 +70,12 @@ export const DRAWER_OPTIONS_EMPLOYEE: IDrawerOption[] = [
   },
   {
     icon: 'point_of_sale',
-    path: RoutesEnum.CASH_RECEIPTS,
+    path: RoutesEnum.INFLOWS,
     label: 'Entradas',
   },
   {
     icon: 'payments',
-    path: RoutesEnum.CASH_OUTFLOWS,
+    path: RoutesEnum.OUTFLOWS,
     label: 'Saídas',
   },
 ];

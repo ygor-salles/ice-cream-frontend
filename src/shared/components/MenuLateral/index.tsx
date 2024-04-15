@@ -47,7 +47,7 @@ export const MenuLateral = ({ children }: MenuLateralProps) => {
   const logoutApp = !loadingStorage
     ? () => {
         logout();
-        if (smDown) {
+        if (smDown || mdDown) {
           toggleDrawerOpen();
         }
         navigate(RoutesEnum.LOGIN);
@@ -84,7 +84,7 @@ export const MenuLateral = ({ children }: MenuLateralProps) => {
                   icon={drawerOption.icon}
                   label={drawerOption.label}
                   loadingDataState={loadingStorage}
-                  onClick={smDown ? toggleDrawerOpen : undefined}
+                  onClick={smDown || mdDown ? toggleDrawerOpen : undefined}
                 />
               ))}
             </List>

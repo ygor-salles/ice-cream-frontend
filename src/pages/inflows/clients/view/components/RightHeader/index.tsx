@@ -14,7 +14,7 @@ export function RightHeader({ disabled, onClick }: RightHeaderProps) {
 
   const navigate = useNavigate();
 
-  const navigateCashRecipiets = () => navigate(RoutesEnum.CASH_RECEIPTS);
+  const navigateCashRecipiets = () => navigate(RoutesEnum.INFLOWS);
   const navigateClientsCreate = () => navigate(RoutesEnum.CLIENTS_CREATE);
 
   if (smDown) {

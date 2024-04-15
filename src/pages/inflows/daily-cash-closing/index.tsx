@@ -28,7 +28,7 @@ export function DailyCashClosing() {
   return (
     <BaseLayout
       title="Fechamento caixa"
-      renderHeaderRight={<HeaderButtonNav route={RoutesEnum.CASH_RECEIPTS} />}
+      renderHeaderRight={<HeaderButtonNav route={RoutesEnum.INFLOWS} />}
     >
       {loadingForm ? (
         <Skeleton variant="rectangular" width="100%" height={450} />

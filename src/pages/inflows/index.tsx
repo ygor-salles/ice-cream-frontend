@@ -4,7 +4,7 @@ import { SplashScreen } from 'shared/components';
 import { RoutesEnum } from 'shared/constants';
 import { BaseLayout } from 'shared/layouts';
 
-export function CashReceipts() {
+export function Inflows() {
   const navigate = useNavigate();
 
   return (

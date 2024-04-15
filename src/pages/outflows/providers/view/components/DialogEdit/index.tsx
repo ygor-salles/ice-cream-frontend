@@ -4,7 +4,7 @@ import {
   defaultValuesProviderEdit,
   fieldsProvider,
   schemaProvider,
-} from 'pages/cash-outflows/providers/utils';
+} from 'pages/outflows/providers/utils';
 import { useForm } from 'react-hook-form';
 import { CheckboxApp, DialogForm, TextFieldApp } from 'shared/components';
 import { IFormProvider } from 'shared/dtos';

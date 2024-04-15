@@ -6,7 +6,7 @@ import {
   defaultValuesDialogSale,
   fieldsSale,
   schemaDialogCreateSale,
-} from 'pages/cash-receipts/sales/utils';
+} from 'pages/inflows/sales/utils';
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AutoComplete, SelectMultiple, TextFieldApp, TextFieldCount } from 'shared/components';

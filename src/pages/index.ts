@@ -1,19 +1,19 @@
-export * from './cash-outflows';
-export * from './cash-outflows/providers/register';
-export * from './cash-outflows/providers/view';
-export * from './cash-outflows/purchases/register';
-export * from './cash-outflows/purchases/view';
+export * from './outflows';
+export * from './outflows/providers/register';
+export * from './outflows/providers/view';
+export * from './outflows/purchases/register';
+export * from './outflows/purchases/view';
 
-export * from './cash-receipts';
-export * from './cash-receipts/clients/register';
-export * from './cash-receipts/clients/view';
-export * from './cash-receipts/daily-cash-closing';
-export * from './cash-receipts/orders-actives';
-export * from './cash-receipts/payments/register';
-export * from './cash-receipts/payments/view';
-export * from './cash-receipts/sales/register';
-export * from './cash-receipts/sales/view';
-export * from './cash-receipts/sales/sale-detail';
+export * from './inflows';
+export * from './inflows/clients/register';
+export * from './inflows/clients/view';
+export * from './inflows/daily-cash-closing';
+export * from './inflows/orders-actives';
+export * from './inflows/payments/register';
+export * from './inflows/payments/view';
+export * from './inflows/sales/register';
+export * from './inflows/sales/view';
+export * from './inflows/sales/sale-detail';
 
 export * from './dashboard';
 

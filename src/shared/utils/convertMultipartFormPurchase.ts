@@ -1,4 +1,4 @@
-import { fieldsPurchase } from 'pages/cash-outflows/purchases/utils';
+import { fieldsPurchase } from 'pages/outflows/purchases/utils';
 import { ICreatePurchaseDTORequest } from 'shared/services/PurchaseService/dtos/ICreatePurchaseDTO';
 import { IUpdatePurchaseDTORequest } from 'shared/services/PurchaseService/dtos/IUpdatePurchaseDTO';
 

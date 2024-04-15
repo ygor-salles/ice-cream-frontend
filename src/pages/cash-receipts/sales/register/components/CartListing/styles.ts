@@ -65,7 +65,7 @@ export const WrapperButtons = styled.div`
     }
   }
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     flex-direction: column;
 
     div {

@@ -33,7 +33,7 @@ export const StyledAccordion = styled(Card).withConfig({
   flex-direction: row;
   gap: 30px;
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     flex-direction: column;
     gap: 15px;
   }
@@ -42,7 +42,7 @@ export const StyledAccordion = styled(Card).withConfig({
 export const CustomSelectApp = styled(SelectApp)`
   width: 40%;
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     width: 100%;
   }
 `;

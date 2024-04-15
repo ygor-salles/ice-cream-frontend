@@ -92,9 +92,10 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const mediaQuery = {
-  mobile: '@media screen and (max-width: 420px)',
-  tableSm: '@media screen and (max-width: 600px)',
+  mobileSm: '@media screen and (max-width: 420px)',
+  mobile: '@media screen and (max-width: 600px)',
   tablet: '@media screen and (max-width: 768px)',
+  tabletMd: '@media screen and (max-width: 900px)',
   desktop: '@media screen and (max-width: 1280px)',
   desktopSm: '@media screen and (max-width: 1366px)',
   desktopMd: '@media screen and (max-width: 1440px)',

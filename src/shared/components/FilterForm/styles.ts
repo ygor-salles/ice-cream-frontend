@@ -32,7 +32,7 @@ export const Wrapper = styled.div`
 
 export const StyledButton = styled(Button)`
   width: fit-content;
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     width: auto;
   }
 `;

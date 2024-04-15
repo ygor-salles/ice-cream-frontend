@@ -11,6 +11,7 @@ export const BaseLayout = ({
   renderFooter,
 }: ILayoutBaseDePaginaProps) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+  const mdDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
   const { toggleDrawerOpen } = useDrawerContext();
 
@@ -18,9 +19,9 @@ export const BaseLayout = ({
     <Container>
       <Header>
         <Wrapper>
-          {smDown && (
+          {mdDown && (
             <IconButton onClick={toggleDrawerOpen}>
-              <Icon color="info">menu</Icon>
+              <Icon color={smDown ? 'info' : 'inherit'}>menu</Icon>
             </IconButton>
           )}
           <Title variant={smDown ? 'h6' : 'h4'}>{title}</Title>

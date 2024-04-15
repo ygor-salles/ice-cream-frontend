@@ -17,12 +17,12 @@ export const StyledSkeleton = styled(Skeleton).withConfig({
       ? css`
           width: 270px;
 
-          ${mediaQuery.mobile} {
+          ${mediaQuery.mobileSm} {
             width: 45%;
           }
         `
       : css`
-          ${mediaQuery.mobile} {
+          ${mediaQuery.mobileSm} {
             width: 100%;
           }
         `}

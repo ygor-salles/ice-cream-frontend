@@ -8,7 +8,7 @@ export const ActionContent = styled.div`
   justify-content: center;
   align-items: center;
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     justify-content: space-between;
   }
 `;
@@ -17,7 +17,7 @@ export const StyledIcon = styled(Icon)`
   cursor: pointer;
   margin-right: 20px;
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     margin-right: 0;
   }
 `;

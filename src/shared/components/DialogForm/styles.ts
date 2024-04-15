@@ -6,7 +6,7 @@ export const Form = styled.form`
   height: auto;
   display: contents;
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     height: 100vh;
   }
 `;

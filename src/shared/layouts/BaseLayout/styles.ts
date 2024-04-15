@@ -22,7 +22,7 @@ export const Header = styled.header`
   margin: 0 16px 0 16px;
   border-bottom: 1px solid rgba(224, 224, 224, 1);
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     margin: 0;
     padding: 8px;
     background-color: #9c27b0;
@@ -34,6 +34,13 @@ export const Wrapper = styled.div<WrapperProps>`
   display: flex;
   align-items: center;
   gap: ${props => props.gap && '20px'};
+
+  ${mediaQuery.tabletMd} {
+    gap: 8px;
+  }
+  ${mediaQuery.mobile} {
+    gap: 0;
+  }
 `;
 
 export const Title = styled(Typography)`
@@ -41,8 +48,12 @@ export const Title = styled(Typography)`
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.tabletMd} {
+    font-size: 1.8rem;
+  }
+  ${mediaQuery.mobile} {
     color: ${Colors.WHITE};
+    font-size: 1.25rem;
   }
 `;
 

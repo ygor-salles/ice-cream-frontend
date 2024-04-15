@@ -36,6 +36,7 @@ import { MenuLateralProps } from './types';
 export const MenuLateral = ({ children }: MenuLateralProps) => {
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const mdDown = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
 
   const { isDrawerOpen, drawerOptions, toggleDrawerOpen, handleUpdateStorageData, loadingStorage } =
@@ -60,7 +61,7 @@ export const MenuLateral = ({ children }: MenuLateralProps) => {
     <>
       <Drawer
         open={isDrawerOpen}
-        variant={smDown || !email ? 'temporary' : 'permanent'}
+        variant={mdDown || !email ? 'temporary' : 'permanent'}
         onClose={!loadingStorage ? toggleDrawerOpen : undefined}
       >
         <Container width={theme.spacing(28)} sx={{ bgcolor: 'primary.main' }}>
@@ -120,7 +121,7 @@ export const MenuLateral = ({ children }: MenuLateralProps) => {
       </Drawer>
 
       {email ? (
-        <Box height="100vh" marginLeft={smDown ? 0 : theme.spacing(28)}>
+        <Box height="100vh" marginLeft={mdDown ? 0 : theme.spacing(28)}>
           {children}
         </Box>
       ) : (

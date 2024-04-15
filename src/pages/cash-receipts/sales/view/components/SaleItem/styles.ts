@@ -50,14 +50,14 @@ export const TextCustom = styled.span`
   flex: 1;
   flex-wrap: wrap;
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     width: 350px;
     display: block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-  ${mediaQuery.mobile} {
+  ${mediaQuery.mobileSm} {
     width: 250px;
     display: block;
     overflow: hidden;

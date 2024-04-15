@@ -7,7 +7,7 @@ export const Form = styled.form`
   padding: 24px;
   overflow: auto;
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     height: 100vh;
     padding: 24px;
     display: flex;
@@ -23,7 +23,7 @@ export const GridForm = styled.div`
 
   width: 530px;
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     width: auto;
   }
 `;
@@ -35,12 +35,12 @@ export const WrapperButtons = styled.footer`
 
   margin-top: 40px;
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     left: 24px;
     bottom: 16px;
   }
 
-  ${mediaQuery.mobile} {
+  ${mediaQuery.mobileSm} {
     flex-direction: column;
 
     button {

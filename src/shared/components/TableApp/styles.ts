@@ -16,7 +16,7 @@ export const StyledTableCell = styled(TableCell).withConfig({
   width: ${props => props.width && props.width};
   font-size: 0.92rem;
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     padding: 18px 12px;
   }
 `;

@@ -41,12 +41,12 @@ export const WrapperButtons = styled.div`
 
   margin-top: 40px;
 
-  ${mediaQuery.tableSm} {
+  ${mediaQuery.mobile} {
     left: 24px;
     bottom: 16px;
   }
 
-  ${mediaQuery.mobile} {
+  ${mediaQuery.mobileSm} {
     flex-direction: column;
 
     button {

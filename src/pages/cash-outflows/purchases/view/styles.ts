@@ -21,7 +21,7 @@ export const ImgDialog = styled.img`
   width: 600px;
   height: 450px;
 
-  ${mediaQuery.mobile} {
+  ${mediaQuery.mobileSm} {
     width: auto;
     height: auto;
     object-fit: cover;

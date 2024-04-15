@@ -55,7 +55,7 @@ export const StyledCard = styled(Card)`
   width: 420px;
   height: 440px;
 
-  ${mediaQuery.tablet} {
+  ${mediaQuery.mobile} {
     width: 100%;
     height: auto;
   }

@@ -32,7 +32,6 @@ export const Accordion = styled(MuiCard).withConfig({
           overflow: hidden;
           visibility: hidden;
           padding: 0 15px;
-          /* transition: margin 225ms cubic-bezier(0.4, 0, 0.2, 1),box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1); */
         `}
   position: relative;
   transition: all 0.4s;
@@ -50,21 +49,28 @@ export const Accordion = styled(MuiCard).withConfig({
 `;
 
 export const Container = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto;
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
 
-  ${mediaQuery.tablet} {
-    display: flex;
-    flex-direction: column;
+  ${mediaQuery.desktop} {
+    justify-content: center;
   }
-
-  gap: 30px;
-  padding-bottom: 16px;
 `;
 
 export const Card = styled(MuiCard)`
+  width: 400px;
+  height: 180px;
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  ${mediaQuery.mobile} {
+    width: 100%;
+  }
 `;
 
 export const HeaderCard = styled.div`
@@ -72,8 +78,6 @@ export const HeaderCard = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
-  margin-bottom: 30px;
 `;
 
 export const Img = styled.img`

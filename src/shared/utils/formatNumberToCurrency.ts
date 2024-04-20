@@ -1,4 +1,4 @@
-export const formatNumberToCurrency = (value?: number) => {
+export const formatNumberToCurrency = (value: number | null | undefined) => {
   if (!value && value !== 0) return '--';
 
   return new Intl.NumberFormat('pt-BR', {

@@ -5,6 +5,7 @@ export interface FilterFormProps {
   open: boolean;
   loadingForm: boolean;
   loadingExpanded?: boolean;
+  disabled?: boolean;
   onChange: ((event: SyntheticEvent<Element, Event>, expanded: boolean) => void) | undefined;
   onReset: MouseEventHandler<HTMLButtonElement> | undefined;
   onSubmit: FormEventHandler<HTMLFormElement> | undefined;

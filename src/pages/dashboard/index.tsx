@@ -1,113 +1,55 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Skeleton, Typography } from '@mui/material';
-import { images } from 'assets';
+import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { DatePicker, SelectApp } from 'shared/components';
-import { LISTTYPEPROVIDER, LISTTYPESALES } from 'shared/constants';
-import { EnumRoleUser, EnumTypeProvider, IFormFilterPurchase, IFormFilterSales } from 'shared/dtos';
-import {
-  useAuthContext,
-  useClient,
-  useProvider,
-  usePurchase,
-  useSale,
-  useThemeContext,
-} from 'shared/hooks';
+import { EnumRoleUser, EnumTypeSale, IFormFilterDashboard } from 'shared/dtos';
+import { useAuthContext, useClient, useProvider, usePurchase, useSale } from 'shared/hooks';
 import { BaseLayout } from 'shared/layouts';
-import { formatNumberToCurrency, formatStringDate } from 'shared/utils';
-import { Colors } from 'styles/global';
+import { formatStringDate } from 'shared/utils';
 
-import { FooterDashboard } from './components/FooterDashboard';
-import { RightHeader } from './components/RightHeader';
-import {
-  Accordion,
-  AttachMoney,
-  Card,
-  CardDebit,
-  CardTotal,
-  Container,
-  ContentDate,
-  Form,
-  HeaderCard,
-  Img,
-  StyledButtonSubmit,
-  TextDate,
-} from './styles';
-import {
-  defaultValuesFilterPurchase,
-  defaultValuesFilterSale,
-  fieldsFilterPurchase,
-  fieldsFilterSale,
-  schemaFilterPurchase,
-  schemaFilterSale,
-} from './utils';
+import { CardDashboard } from './components/CardDashboard';
+import { FilterDashboard } from './components/FilterDashboard';
+import { Container } from './styles';
 
 export function Dashboard() {
-  const { themeName } = useThemeContext();
   const { role } = useAuthContext();
 
-  const [showInputFilter, setShowInputFilter] = useState(false);
-  const [showOutputFilter, setShowOutputFilter] = useState(false);
-  const [loadingRequests, setLoadingRequests] = useState(false);
-
   const { getSumSalesToday, getSumSalesByPeriod, sumSalesState, loadingSales } = useSale();
-
   const { getSumPurchasesToday, getSumPurchasesByPeriod, sumPurchasesState, loadingPurchases } =
     usePurchase();
-
   const { sumDebitsState, getSumDebits } = useClient();
-
-  const { handleSubmit, control } = useForm<IFormFilterSales>({
-    resolver: yupResolver(schemaFilterSale),
-    defaultValues: defaultValuesFilterSale,
-  });
-
-  const {
-    handleSubmit: handleSubmitPurc,
-    control: controlPurc,
-    watch: watchPurc,
-  } = useForm<IFormFilterPurchase>({
-    resolver: yupResolver(schemaFilterPurchase),
-    defaultValues: defaultValuesFilterPurchase,
-  });
-
-  const valuesPurc = watchPurc();
-
   const { allProviders, getProviders } = useProvider();
+
+  const [loadingRequests, setLoadingRequests] = useState(false);
+  const [textDateCardState, setTextDateCardState] = useState('Hoje');
 
   const total = sumSalesState - sumPurchasesState ?? 0;
   const loading = loadingRequests || loadingPurchases || loadingSales;
 
-  const [inputsDate, setInputsDate] = useState('');
-  const [outputsDate, setOutputsDate] = useState('');
+  const handleSubmitFilterDash = ({
+    startDate,
+    endDate,
+    its_ice_cream_shoop,
+    provider_id,
+    type_sale,
+  }: IFormFilterDashboard) => {
+    setLoadingRequests(true);
+    const formmatTypeSale = type_sale && type_sale.length > 0 ? type_sale : undefined;
 
-  const onSubmitFilterSale = (data: IFormFilterSales) => {
-    getSumSalesByPeriod(data);
-    setInputsDate(
-      data.startDate === data.endDate
-        ? `${formatStringDate(data.startDate)}`
-        : `${formatStringDate(data.startDate)} à ${formatStringDate(data.endDate)}`,
-    );
-  };
-
-  const onSubmitFilterPurchase = (data: IFormFilterPurchase) => {
-    getSumPurchasesByPeriod(data);
-    setOutputsDate(
-      data.startDate === data.endDate
-        ? `${formatStringDate(data.startDate)}`
-        : `${formatStringDate(data.startDate)} à ${formatStringDate(data.endDate)}`,
-    );
-  };
-
-  const handleClickFilterInput = () => {
-    setShowOutputFilter(false);
-    setShowInputFilter(value => !value);
-  };
-
-  const handleClickFilterOutput = () => {
-    setShowInputFilter(false);
-    setShowOutputFilter(value => !value);
+    Promise.all([
+      getSumSalesByPeriod({
+        startDate,
+        endDate,
+        type_sale: formmatTypeSale as EnumTypeSale,
+      }),
+      getSumPurchasesByPeriod({ endDate, startDate, its_ice_cream_shoop, provider_id }),
+    ])
+      .then(() => {
+        setTextDateCardState(
+          startDate === endDate
+            ? `${formatStringDate(startDate)}`
+            : `${formatStringDate(startDate)} à ${formatStringDate(endDate)}`,
+        );
+      })
+      .finally(() => setLoadingRequests(false));
   };
 
   useEffect(() => {
@@ -121,154 +63,27 @@ export function Dashboard() {
   }, []);
 
   return (
-    <BaseLayout
-      title="Dashboard"
-      renderHeaderRight={
-        <RightHeader
-          onClickFilterInput={handleClickFilterInput}
-          onClickFilterOutput={handleClickFilterOutput}
-          disabled={role !== EnumRoleUser.SUPER}
-        />
-      }
-      renderFooter={
-        <FooterDashboard
-          onClickFilterInput={handleClickFilterInput}
-          onClickFilterOutput={handleClickFilterOutput}
-          disabled={role !== EnumRoleUser.SUPER}
-        />
-      }
-    >
+    <BaseLayout title="Dashboard">
+      <FilterDashboard
+        allProviders={allProviders}
+        loading={loading}
+        onSubmitFilter={handleSubmitFilterDash}
+        disabled={role !== EnumRoleUser.SUPER}
+      />
+
       {loading ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
-        <>
-          <Accordion open={showInputFilter}>
-            <Form
-              id="form-filter-sale"
-              onSubmit={handleSubmit((data: IFormFilterSales) => onSubmitFilterSale(data))}
-            >
-              <Typography style={{ textAlign: 'center' }}>Filtro de entradas</Typography>
-              <ContentDate>
-                <DatePicker
-                  label="Data início"
-                  name={fieldsFilterSale.START_DATE}
-                  control={control}
-                />
-                <DatePicker label="Data fim" name={fieldsFilterSale.END_DATE} control={control} />
-              </ContentDate>
-              <SelectApp
-                name={fieldsFilterSale.TYPE_SALE}
-                control={control}
-                options={LISTTYPESALES}
-                label="Tipo de venda"
-              />
-              <StyledButtonSubmit loading={false}>Buscar</StyledButtonSubmit>
-            </Form>
-          </Accordion>
-
-          <Accordion open={showOutputFilter}>
-            <Form
-              id="form-filter-purchase"
-              onSubmit={handleSubmitPurc((data: IFormFilterPurchase) =>
-                onSubmitFilterPurchase(data),
-              )}
-            >
-              <Typography style={{ textAlign: 'center' }}>Filtro de saídas</Typography>
-              <ContentDate>
-                <DatePicker
-                  label="Data início"
-                  name={fieldsFilterPurchase.START_DATE}
-                  control={controlPurc}
-                />
-                <DatePicker
-                  label="Data fim"
-                  name={fieldsFilterPurchase.END_DATE}
-                  control={controlPurc}
-                />
-              </ContentDate>
-              <SelectApp
-                name={fieldsFilterPurchase.ITS_ICE_CREAM_SHOOP}
-                control={controlPurc}
-                options={LISTTYPEPROVIDER}
-                label="Tipo de fornecedor"
-              />
-              {valuesPurc.its_ice_cream_shoop && (
-                <SelectApp
-                  name={fieldsFilterPurchase.PROVIDER_ID}
-                  control={controlPurc}
-                  options={allProviders}
-                  setId
-                  sortAlphabeticallyObject
-                  label={
-                    valuesPurc.its_ice_cream_shoop === EnumTypeProvider.PROVIDER
-                      ? 'Fornecedor'
-                      : valuesPurc.its_ice_cream_shoop === EnumTypeProvider.EMPLOYEE
-                      ? 'Funcionário'
-                      : 'Outro'
-                  }
-                  required={valuesPurc.its_ice_cream_shoop === EnumTypeProvider.EMPLOYEE}
-                />
-              )}
-              <StyledButtonSubmit loading={false}>Buscar</StyledButtonSubmit>
-            </Form>
-          </Accordion>
-
-          <Container>
-            <Card>
-              <HeaderCard>
-                <div>
-                  <Typography variant="h6" color={Colors.GREEN}>
-                    Entradas
-                  </Typography>
-                  <TextDate isDarkTheme={themeName === 'dark'}>
-                    {inputsDate.length ? inputsDate : 'Hoje'}
-                  </TextDate>
-                </div>
-                <Img src={images.entradas} alt="entradas" />
-              </HeaderCard>
-              <Typography variant="h4">{formatNumberToCurrency(sumSalesState ?? 0)}</Typography>
-            </Card>
-            <Card>
-              <HeaderCard>
-                <div>
-                  <Typography variant="h6" color={Colors.RED}>
-                    Saídas
-                  </Typography>
-                  <TextDate isDarkTheme={themeName === 'dark'}>
-                    {outputsDate.length ? outputsDate : 'Hoje'}
-                  </TextDate>
-                </div>
-                <Img src={images.saidas} alt="saídas" />
-              </HeaderCard>
-              <Typography variant="h4">{formatNumberToCurrency(sumPurchasesState ?? 0)}</Typography>
-            </Card>
-
-            {inputsDate === outputsDate && (
-              <CardTotal isPositive={total >= 0}>
-                <HeaderCard>
-                  <div>
-                    <Typography variant="h6" color="white">
-                      Lucro
-                    </Typography>
-                    <TextDate isDarkTheme>{inputsDate.length ? inputsDate : 'Hoje'}</TextDate>
-                  </div>
-                  <AttachMoney />
-                </HeaderCard>
-                <Typography variant="h4" color="white">
-                  {formatNumberToCurrency(total)}
-                </Typography>
-              </CardTotal>
-            )}
-
-            <CardDebit>
-              <HeaderCard>
-                <Typography variant="h6">Dívida de clientes</Typography>
-                <Img src={images.entradas} alt="entradas" />
-              </HeaderCard>
-              <Typography variant="h4">{formatNumberToCurrency(sumDebitsState ?? 0)}</Typography>
-            </CardDebit>
-          </Container>
-        </>
+        <Container>
+          <CardDashboard type="inflows" dateFormmat={textDateCardState} value={sumSalesState} />
+          <CardDashboard
+            type="outflows"
+            dateFormmat={textDateCardState}
+            value={sumPurchasesState}
+          />
+          <CardDashboard type="profit" dateFormmat={textDateCardState} value={total} />
+          <CardDashboard type="debit" dateFormmat="textDateCardState" value={sumDebitsState} />
+        </Container>
       )}
     </BaseLayout>
   );

@@ -1,5 +1,6 @@
 export * from './IClientDTO';
 export * from './ICombinationDTO';
+export * from './IDashboardDTO';
 export * from './ILoginDTO';
 export * from './IPaymentDTO';
 export * from './IProductDTO';

@@ -60,7 +60,7 @@ export const WrapperButtons = styled.div`
     gap: 8px;
 
     button {
-      width: 120px;
+      width: 200px;
       height: 40px;
     }
   }

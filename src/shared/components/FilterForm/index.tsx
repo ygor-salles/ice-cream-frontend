@@ -13,9 +13,11 @@ export function FilterForm({
   onSubmit,
   open,
   loadingExpanded = false,
+  disabled = false,
+  ...rest
 }: FilterFormProps) {
   return (
-    <StyledAccordion expanded={open} onChange={onChange}>
+    <StyledAccordion {...rest} expanded={open} disabled={disabled} onChange={onChange}>
       <AccordionSummary
         expandIcon={loadingExpanded ? <CircularProgress size={16} disableShrink /> : <ExpandMore />}
         aria-controls="panel1bh-content"

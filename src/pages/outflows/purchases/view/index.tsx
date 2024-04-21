@@ -2,7 +2,7 @@ import { AddBox } from '@mui/icons-material';
 import { Dialog, Skeleton } from '@mui/material';
 import { images } from 'assets';
 import { useEffect, useMemo, useState } from 'react';
-import { DialogInfo, HeaderButtonNav, Pagination } from 'shared/components';
+import { DialogDelete, HeaderButtonNav, Pagination } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { LIMIT_PAGED, RoutesEnum } from 'shared/constants';
 import { IFormFilterPurchasePage } from 'shared/dtos';
@@ -118,13 +118,11 @@ export function Purchases() {
       )}
 
       {showModalDelete && dataActionTable && (
-        <DialogInfo
+        <DialogDelete
           open={showModalDelete}
           handleSubmit={handleSubmitDelete}
           id={dataActionTable?.id}
           handleClose={handleCloseModalDelete}
-          textButtonClose="CANCELAR"
-          textButtonSubmit="DELETAR"
           title="DELETAR COMPRA"
           text="Tem certeza que deseja deletar esta compra?"
           loading={loadingForm}

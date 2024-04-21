@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CheckboxApp, DialogInfo, HeaderButtonNav } from 'shared/components';
+import { CheckboxApp, DialogDelete, HeaderButtonNav } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { EnumTypeSale, EnumTypeProduct, IFormEditSale, IFormSale } from 'shared/dtos';
 import { useToastContext, useSale } from 'shared/hooks';
@@ -175,7 +175,7 @@ export const SaleDetail = () => {
         onSubmit={onInsertProductInSale}
       />
 
-      <DialogInfo
+      <DialogDelete
         open={showModalDelete}
         title="Deletar Venda"
         text={
@@ -183,8 +183,6 @@ export const SaleDetail = () => {
             ? 'Tem certeza que deseja deletar essa venda? 🤔🤔🤔 Ao deletar uma venda FIADO irá subtratir a dívida do cliente ❗❗'
             : 'Tem certeza que deseja deletar essa venda? 🤔'
         }
-        textButtonSubmit="DELETAR"
-        textButtonClose="CANCELAR"
         handleClose={() => setShowModalDelete(false)}
         handleSubmit={deletedSale}
         loading={loadingForm}

@@ -2,7 +2,7 @@ import { Skeleton, Theme, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
   ActionComponent,
-  DialogInfo,
+  DialogDelete,
   FooterFilter,
   SwitchComponent,
   TableApp,
@@ -140,13 +140,11 @@ export function Products() {
       )}
 
       {showModalDelete && dataActionTable && (
-        <DialogInfo
+        <DialogDelete
           open={showModalDelete}
           handleSubmit={handleSubmitDelete}
           id={dataActionTable?.id}
           handleClose={handleCloseModalDelete}
-          textButtonClose="CANCELAR"
-          textButtonSubmit="DELETAR"
           title="DELETAR PRODUTO"
           text="Tem certeza que deseja deletar este produto?"
           loading={loadingForm}

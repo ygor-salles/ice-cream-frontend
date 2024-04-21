@@ -9,7 +9,7 @@ import {
   Skeleton,
 } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import { DialogInfo, HeaderButtonNav, Pagination } from 'shared/components';
+import { DialogDelete, HeaderButtonNav, Pagination } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
 import { LIMIT_PAGED, RoutesEnum } from 'shared/constants';
 import { IFormFilterPaymentPage } from 'shared/dtos';
@@ -109,13 +109,11 @@ export function Payments() {
       </BaseLayout>
 
       {showModalDelete && dataActionTable && (
-        <DialogInfo
+        <DialogDelete
           open={showModalDelete}
           handleSubmit={handleSubmitDelete}
           id={dataActionTable?.id}
           handleClose={handleCloseModalDelete}
-          textButtonClose="CANCELAR"
-          textButtonSubmit="DELETAR"
           title="DELETAR PAGAMENTO"
           text={`Tem certeza que deseja deletar este pagamento? 🤔🤔🤔 \n\n Ao deletar este pagamento irá somatizar a dívida do cliente ❗❗`}
           loading={loadingForm}

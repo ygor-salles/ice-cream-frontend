@@ -4,7 +4,7 @@ export * from './CardForm';
 export * from './CheckboxApp';
 export * from './DatePicker';
 export * from './DialogForm';
-export * from './DialogInfo';
+export * from './DialogDelete';
 export * from './FilterForm';
 export * from './FooterDialogActions';
 export * from './FooterFilter';

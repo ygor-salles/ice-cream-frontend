@@ -2,7 +2,7 @@ import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
   ActionComponent,
-  DialogInfo,
+  DialogDelete,
   FooterFilter,
   TableApp,
   _renderBasicDate,
@@ -116,13 +116,11 @@ export function Providers() {
       )}
 
       {showModalDelete && dataActionTable && (
-        <DialogInfo
+        <DialogDelete
           open={showModalDelete}
           handleSubmit={handleSubmitDelete}
           id={dataActionTable?.id}
           handleClose={handleCloseModalDelete}
-          textButtonClose="CANCELAR"
-          textButtonSubmit="DELETAR"
           title="DELETAR FORNECEDOR"
           text="Tem certeza que deseja deletar este fornecedor?"
           loading={loadingForm}

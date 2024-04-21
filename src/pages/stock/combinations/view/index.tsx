@@ -2,7 +2,7 @@ import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
   ActionComponent,
-  DialogInfo,
+  DialogDelete,
   FooterFilter,
   TableApp,
   _renderBasicDate,
@@ -115,13 +115,11 @@ export function Combinations() {
       )}
 
       {showModalDelete && dataActionTable && (
-        <DialogInfo
+        <DialogDelete
           open={showModalDelete}
           handleSubmit={handleSubmitDelete}
           id={dataActionTable?.id}
           handleClose={handleCloseModalDelete}
-          textButtonClose="CANCELAR"
-          textButtonSubmit="DELETAR"
           title="DELETAR COMBINAÇÃO"
           text="Tem certeza que deseja deletar esta combinação?"
           loading={loadingForm}

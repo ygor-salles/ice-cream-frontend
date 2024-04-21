@@ -82,7 +82,7 @@ export function Dashboard() {
             value={sumPurchasesState}
           />
           <CardDashboard type="profit" dateFormmat={textDateCardState} value={total} />
-          <CardDashboard type="debit" dateFormmat="textDateCardState" value={sumDebitsState} />
+          <CardDashboard type="debit" dateFormmat={textDateCardState} value={sumDebitsState} />
         </Container>
       )}
     </BaseLayout>

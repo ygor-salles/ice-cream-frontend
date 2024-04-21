@@ -3,13 +3,11 @@ import { Dialog, DialogContent, DialogContentText, DialogTitle } from '@mui/mate
 import { FooterDialogActions } from '../FooterDialogActions';
 import { DialogAppProps } from './types';
 
-export function DialogInfo({
+export function DialogDelete({
   open,
   handleClose,
   handleSubmit,
   id,
-  textButtonClose,
-  textButtonSubmit,
   title,
   text,
   loading,
@@ -21,8 +19,8 @@ export function DialogInfo({
         <DialogContentText>{text || ''}</DialogContentText>
       </DialogContent>
       <FooterDialogActions
-        textButtonCancel={textButtonClose}
-        textButtonConfirm={textButtonSubmit}
+        textButtonCancel="CANCELAR"
+        textButtonConfirm="DELETAR"
         loading={!!loading}
         onClose={handleClose}
         isDialogDelete

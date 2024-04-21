@@ -66,7 +66,7 @@ export const MenuLateral = ({ children }: MenuLateralProps) => {
       >
         <Container width={theme.spacing(28)} sx={{ bgcolor: 'primary.main' }}>
           <ContentLogo>
-            <Image src={images.logo} alt="logo" />
+            <Image src={images.iceCream2} alt="logo" />
             <Title>Sorveteria da</Title>
             <Title>Vilma</Title>
           </ContentLogo>

@@ -132,3 +132,9 @@ export const TextTSale = styled(Typography).withConfig({
 })<TextTSaleProps>`
   color: ${props => props.isDebit && Colors.RED};
 `;
+
+export const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 8px;
+`;

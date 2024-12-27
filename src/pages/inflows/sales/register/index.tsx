@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   AutoComplete,
+  CheckboxApp,
   HeaderButtonNav,
   SelectApp,
   SelectMultiple,
@@ -13,18 +14,13 @@ import {
 } from 'shared/components';
 import { TypeEventFieldCount } from 'shared/components/TextFieldCount/types';
 import { LISTTYPESALES, RoutesEnum } from 'shared/constants';
-import {
-  ICombinationDTO,
-  EnumTypeProduct,
-  IProductDTO,
-  EnumTypeSale,
-  IFormSale,
-} from 'shared/dtos';
-import { useSale, useDrawerContext } from 'shared/hooks';
+import { EnumTypeProduct, EnumTypeSale, ICombinationDTO, IFormSale } from 'shared/dtos';
+import { useDrawerContext, useSale } from 'shared/hooks';
 import { BaseLayout } from 'shared/layouts';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { formatNumberToCurrencyInput } from 'shared/utils';
 import Mask from 'shared/utils/masks';
+import { ruleAcais } from 'shared/utils/rulesAcais';
 
 import {
   defaultDataProduct,
@@ -114,6 +110,7 @@ export function RegisterSale() {
         type_sale: getValues('type_sale'),
         observation: getValues('observation'),
         client_id: getValues('client_id'),
+        isPaid: getValues('isPaid'),
         data_product: carListState,
       }),
     );
@@ -121,16 +118,6 @@ export function RegisterSale() {
     reset();
     setCarListState([]);
     onToggleScreenCarListing();
-  };
-
-  const ruleAcais = (product: IProductDTO) => {
-    if (product.name.includes('200')) {
-      setAllCombinations(allCombinations.map(item => ({ ...item, price: 3 })));
-    } else if (product.name.includes(' 1L') || product.name.includes(' 1 L')) {
-      setAllCombinations(allCombinations.map(item => ({ ...item, price: item.price + 1 })));
-    } else {
-      setAllCombinations(allCombinationsStorage ?? []);
-    }
   };
 
   const onCloseSelectProduct = async () => {
@@ -155,7 +142,8 @@ export function RegisterSale() {
         }
 
         if (product.type === EnumTypeProduct.ACAI) {
-          ruleAcais(product);
+          ruleAcais({ product, allCombinationsStorage, setAllCombinations });
+          setValue('isPaid', false);
           setEnableOptions(true);
           setIsDisabledTextFieldCount(false);
           setValue('total', formatNumberToCurrencyInput(product.price));
@@ -314,6 +302,7 @@ export function RegisterSale() {
                     name={fieldsSale.OBSERVATION}
                     control={control}
                     label="Observação"
+                    disabled={loading}
                   />
                   <TextFieldApp
                     name={fieldsSale.TOTAL}
@@ -321,6 +310,13 @@ export function RegisterSale() {
                     label="Total"
                     currency
                     required
+                    disabled={loading}
+                  />
+
+                  <CheckboxApp
+                    control={control}
+                    label="Já foi pago"
+                    name={fieldsSale.IS_PAID}
                     disabled={loading}
                   />
                 </GridForm>
@@ -346,6 +342,7 @@ export function RegisterSale() {
               totalSum={totalSum}
               observation={getValues('observation')}
               type_sale={getValues('type_sale')}
+              isPaid={getValues('isPaid')}
               onDeleteList={onDeleteList}
               onClickPrimary={() => {
                 setValue('product_name', '');

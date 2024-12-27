@@ -2,7 +2,8 @@ import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
   TableApp,
-  _renderBasicToCurrency,
+  _renderCurrencyAndIsPaid,
+  _renderDateTime,
   _renderSaleClientName,
   _renderSaleProductName,
 } from 'shared/components';
@@ -61,10 +62,11 @@ export function OrdersActives() {
     />
   );
 
-  const components: ITypeComponents<IClientDTO & IProductDTO & number, ISaleDTO> = {
+  const components: ITypeComponents<IClientDTO & IProductDTO & number & string, ISaleDTO> = {
     [columnType.CLIENT]: _renderSaleClientName,
     [columnType.DATA_PRODUCT]: _renderSaleProductName,
-    [columnType.TOTAL]: _renderBasicToCurrency,
+    [columnType.CREATED_AT]: _renderDateTime,
+    [columnType.TOTAL]: _renderCurrencyAndIsPaid,
   };
 
   return (
@@ -87,7 +89,7 @@ export function OrdersActives() {
       {loadingSales ? (
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
-        <TableApp<IClientDTO & IProductDTO & number, ISaleDTO>
+        <TableApp<IClientDTO & IProductDTO & number & string, ISaleDTO>
           tableName="table-acais"
           data={allSales}
           mappedColumnSubObject={columnType}

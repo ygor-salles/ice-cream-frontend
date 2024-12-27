@@ -13,4 +13,5 @@ export interface ILoadActivetedAcaiDTOResponse {
   in_progress: boolean;
   client_id: number;
   client: IClientDTO;
+  isPaid: boolean;
 }

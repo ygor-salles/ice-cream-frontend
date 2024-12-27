@@ -17,6 +17,6 @@ export const StyledTableCell = styled(TableCell).withConfig({
   font-size: 0.92rem;
 
   ${mediaQuery.mobile} {
-    padding: 18px 12px;
+    padding: 18px 6px;
   }
 `;

@@ -8,6 +8,7 @@ export interface IUpdateSaleDTORequest {
   type_sale?: EnumTypeSale;
   observation?: string;
   in_progress?: boolean;
+  isPaid?: boolean;
   client_id?: number;
   data_product?: IDataProduct[];
 }

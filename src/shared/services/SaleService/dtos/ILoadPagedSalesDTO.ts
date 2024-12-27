@@ -12,6 +12,7 @@ export interface InstanceSale {
   in_progress: boolean;
   client_id: number;
   client: IClientDTO;
+  isPaid: boolean;
   data_product: IDataProduct[];
 }
 

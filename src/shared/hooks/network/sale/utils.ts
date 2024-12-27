@@ -27,6 +27,7 @@ export const transformObjectEdit = (dataForm: IFormEditSale) => {
     total: dataForm.total,
     observation: dataForm.observation?.length ? dataForm.observation : undefined,
     in_progress: dataForm.in_progress,
+    isPaid: dataForm.isPaid,
   };
 
   if (dataForm.client_id) {

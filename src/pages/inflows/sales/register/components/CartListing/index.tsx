@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useMemo, useState } from 'react';
+import { CheckboxApp } from 'shared/components';
 import { LISTTYPESALES, LISTTYPESALES_NOTDEBIT } from 'shared/constants';
 import { EnumTypeSale } from 'shared/dtos';
 import { useThemeContext } from 'shared/hooks';
@@ -19,6 +20,7 @@ import {
   BttIcon,
   ContentSummary,
   Empty,
+  Info,
   Li,
   Main,
   Row,
@@ -36,6 +38,7 @@ export const CartListing = ({
   listSale,
   observation,
   type_sale,
+  isPaid,
   totalSum,
   textPrimary,
   textSecondary,
@@ -105,16 +108,29 @@ export const CartListing = ({
               disabled={disabledActions}
               isDark={themeName === 'dark'}
             />
+            {!disabledActions && (
+              <CheckboxApp
+                control={control}
+                label="Já foi pago"
+                name={fieldsSale.IS_PAID}
+                disabled={loading}
+              />
+            )}
           </>
         ) : (
-          <Row hasBottom>
+          <Info>
+            <Row hasBottom>
+              <Typography>
+                <b>Observação:</b> {observation || '--'}
+              </Typography>
+              <TextTSale isDebit={type_sale === EnumTypeSale.DEBIT}>
+                <b>*</b> {type_sale}
+              </TextTSale>
+            </Row>
             <Typography>
-              <b>Observação:</b> {observation || '--'}
+              <b>Já foi pago:</b> {isPaid ? 'Sim' : 'Não'}
             </Typography>
-            <TextTSale isDebit={type_sale === EnumTypeSale.DEBIT}>
-              <b>*</b> {type_sale}
-            </TextTSale>
-          </Row>
+          </Info>
         )}
 
         {listSale.length > 0 ? (

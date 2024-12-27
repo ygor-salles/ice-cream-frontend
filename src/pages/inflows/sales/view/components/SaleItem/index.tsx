@@ -1,15 +1,25 @@
 import { NavigateNext } from '@mui/icons-material';
-import { CircularProgress, Icon } from '@mui/material';
 import { useMemo } from 'react';
 import { EnumTypeProduct } from 'shared/dtos';
 import { formatDateTime, formatNumberToCurrency } from 'shared/utils';
 
 import { Container, Row, Text, TextCustom, Wrapper, WrapperInfo, WrapperNavigate } from './styles';
 import { SaleItemProps } from './types';
+import { getIcon } from './utils/getIcon';
+import { getTitle } from './utils/getTitle';
 
 export const SaleItem = ({
   onClick,
-  detailSale: { data_product, total, client, type_sale, created_at, observation, in_progress },
+  detailSale: {
+    data_product,
+    total,
+    client,
+    type_sale,
+    created_at,
+    observation,
+    in_progress,
+    isPaid,
+  },
 }: SaleItemProps) => {
   const hasAcai = useMemo(() => {
     return data_product && Array.isArray(data_product)
@@ -20,25 +30,10 @@ export const SaleItem = ({
   return (
     <Container onClick={onClick}>
       <Row>
-        <Text bold>
-          {data_product?.length > 1
-            ? `${data_product[0].amount} ${data_product[0].name}, [...]`
-            : data_product?.length === 1
-            ? `${data_product[0].amount} ${data_product[0].name}`
-            : ''}
-        </Text>
+        <Text bold>{getTitle(data_product)}</Text>
 
         <Wrapper>
-          {hasAcai && (
-            <>
-              {in_progress ? (
-                <CircularProgress size={16} disableShrink />
-              ) : (
-                <Icon color="success">done_all</Icon>
-              )}
-            </>
-          )}
-
+          {getIcon({ hasAcai, in_progress, isPaid })}
           <Text>{formatDateTime(created_at, true)}</Text>
         </Wrapper>
       </Row>
@@ -56,7 +51,9 @@ export const SaleItem = ({
               <TextCustom>{observation}</TextCustom>
             )}
           </Wrapper>
-          <Text>{type_sale || '--'}</Text>
+          <Text>
+            {type_sale || '--'} {isPaid ? '- (PAGO)' : ''}
+          </Text>
         </WrapperInfo>
         <WrapperNavigate>
           <NavigateNext fontSize="large" style={{ cursor: 'pointer' }} />

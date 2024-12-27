@@ -9,6 +9,7 @@ interface IFormSaleSubmit {
   type_sale: EnumTypeSale;
   observation?: string;
   client_id?: string;
+  isPaid: boolean;
   data_product: IDataProduct[];
 }
 
@@ -23,6 +24,7 @@ export const fieldsSale = {
   AMOUNT: 'amount',
   TOTAL: 'total',
   IN_PROGRESS: 'in_progress',
+  IS_PAID: 'isPaid',
   CREATED_AT: 'created_at',
   UPDATED_AT: 'updated_at',
 };
@@ -78,6 +80,7 @@ export const defaultValuesSale: IFormSale = {
   observation: '',
   amount: defaultValueAmount,
   total: '',
+  isPaid: true,
 };
 
 export const defaultValuesDialogSale = {
@@ -125,6 +128,7 @@ export const transformObject = (dataForm: IFormSaleSubmit): ISaleDTO => {
             type: item.type,
           },
     ),
+    isPaid: dataForm.isPaid,
   };
 
   if (dataForm.observation?.length) {

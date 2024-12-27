@@ -78,3 +78,9 @@ export const Wrapper = styled.div`
   align-items: center;
   gap: 8px;
 `;
+
+export const WrapperIcons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;

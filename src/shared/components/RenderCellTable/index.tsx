@@ -10,7 +10,7 @@ import {
   ISaleDTO,
 } from 'shared/dtos';
 import { useAuthContext } from 'shared/hooks';
-import { formatDate, formatNumberToCurrency } from 'shared/utils';
+import { formatDate, formatDateTime, formatNumberToCurrency } from 'shared/utils';
 
 import { ActionContent, Green, Red, StyledIcon } from './styles';
 import { ActionComponentProps, SwitchComponentProps } from './types';
@@ -20,6 +20,12 @@ export const _renderBasicTextCell = (value?: string) => <span>{value ?? '--'}</s
 export const _renderBasicToCurrency = (value?: number) => (
   <span>{formatNumberToCurrency(value)}</span>
 );
+
+export const _renderCurrencyAndIsPaid = (value?: number, data?: ISaleDTO) => {
+  if (data?.isPaid) return <Green>{formatNumberToCurrency(value)}</Green>;
+
+  return <span>{formatNumberToCurrency(value)}</span>;
+};
 
 export const _renderBasicToCurrencyGreen = (value: number) => (
   <Green>{formatNumberToCurrency(value)}</Green>
@@ -32,6 +38,11 @@ export const _renderBasicToCurrencyRed = (value?: number) => (
 export const _renderBasicDate = (value?: string) => {
   if (!value) return <span>--</span>;
   return <span>{formatDate(new Date(value)) || '00/00/0000'}</span>;
+};
+
+export const _renderDateTime = (value?: string) => {
+  if (!value) return <span>--</span>;
+  return <span>{formatDateTime(value, true, true) || '--'}</span>;
 };
 
 export const _renderTextCellYesOrNo = (value?: boolean) => {

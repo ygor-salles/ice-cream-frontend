@@ -19,6 +19,7 @@ export interface ISaleDTO {
   client_id?: number;
   client?: IClientDTO;
   in_progress?: boolean;
+  isPaid?: boolean;
   observation?: string;
   total: number;
   created_at?: string;
@@ -35,6 +36,7 @@ export interface IFormSale {
   observation: string;
   amount: string;
   total: string;
+  isPaid: boolean;
 }
 
 export interface IFormCashClosing {
@@ -53,6 +55,7 @@ export interface IFormEditSale {
   client_id?: number;
   client?: IClientDTO;
   in_progress?: boolean;
+  isPaid?: boolean;
 }
 
 export interface IFormFilterSales {

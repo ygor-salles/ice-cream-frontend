@@ -11,10 +11,11 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AutoComplete, SelectMultiple, TextFieldApp, TextFieldCount } from 'shared/components';
 import { TypeEventFieldCount } from 'shared/components/TextFieldCount/types';
-import { ICombinationDTO, EnumTypeProduct, IProductDTO, IFormSale } from 'shared/dtos';
+import { ICombinationDTO, EnumTypeProduct, IFormSale } from 'shared/dtos';
 import { useDrawerContext } from 'shared/hooks';
 import { formatNumberToCurrencyInput } from 'shared/utils';
 import Mask from 'shared/utils/masks';
+import { ruleAcais } from 'shared/utils/rulesAcais';
 
 import { Form, GridForm, HeaderDialog, WrapperButtons } from './styles';
 import { DialogCreateSaleProps } from './types';
@@ -44,16 +45,6 @@ export const DialogCreateSale = ({ open, onClose, onSubmit }: DialogCreateSalePr
     onClose();
   }, [open]);
 
-  const ruleAcais = (product: IProductDTO) => {
-    if (product.name.includes('200')) {
-      setAllCombinations(allCombinations.map(item => ({ ...item, price: 3 })));
-    } else if (product.name.includes(' 1L') || product.name.includes(' 1 L')) {
-      setAllCombinations(allCombinations.map(item => ({ ...item, price: item.price + 1 })));
-    } else {
-      setAllCombinations(allCombinationsStorage);
-    }
-  };
-
   const onCloseSelectProduct = async () => {
     const product_name = getValues('product_name');
     setValue('amount', defaultValueAmount);
@@ -76,7 +67,7 @@ export const DialogCreateSale = ({ open, onClose, onSubmit }: DialogCreateSalePr
         }
 
         if (product.type === EnumTypeProduct.ACAI) {
-          ruleAcais(product);
+          ruleAcais({ product, allCombinationsStorage, setAllCombinations });
           setEnableOptions(true);
           setIsDisabledTextFieldCount(false);
           setValue('total', formatNumberToCurrencyInput(product.price));

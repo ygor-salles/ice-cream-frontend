@@ -10,6 +10,8 @@ export interface ILoadByIdSaleDTOResponse {
   amount: number;
   data_product: IDataProduct[];
   client_id?: number;
+  in_progress: boolean;
+  isPaid: boolean;
   created_at: string;
   updated_at: string;
 }

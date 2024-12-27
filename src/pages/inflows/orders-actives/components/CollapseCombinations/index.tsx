@@ -14,6 +14,9 @@ export const CollapseCombinations = ({
   const acais: IDataProduct[] = sale.data_product.filter(
     item => item.type === EnumTypeProduct.ACAI,
   );
+  const others: IDataProduct[] = sale.data_product.filter(
+    item => item.type !== EnumTypeProduct.ACAI,
+  );
 
   const onChangeCheck = async () => {
     if (sale.id) {
@@ -55,6 +58,13 @@ export const CollapseCombinations = ({
             ) : (
               <Text>Obs: {sale.observation}</Text>
             )}
+          </>
+        )}
+        {others?.length > 0 && (
+          <>
+            <br />
+            <Text>Outros:</Text>
+            {Children.toArray(others.map(item => <Text>{`${item.amount} ${item.name}`}</Text>))}
           </>
         )}
       </ContentLeft>

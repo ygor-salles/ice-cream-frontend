@@ -6,6 +6,7 @@ export interface CartListingProps {
   listSale: IDataProduct[];
   observation?: string;
   type_sale?: EnumTypeSale;
+  isPaid?: boolean;
   totalSum: number;
   textPrimary: string;
   textSecondary: string;

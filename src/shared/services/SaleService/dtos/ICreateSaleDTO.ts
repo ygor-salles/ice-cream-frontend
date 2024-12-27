@@ -14,6 +14,7 @@ export interface ICreateSaleDTORequest {
   observation?: string;
   client_id?: number;
   in_progress?: boolean;
+  isPaid?: boolean;
   data_product: Array<IDataProduct>;
 }
 
@@ -24,6 +25,7 @@ export interface ICreateSaleDTOResponse {
   observation: string;
   data_product: IDataProduct[];
   in_progress: boolean;
+  isPaid: boolean;
   client_id: number;
   created_at: string;
   updated_at: string;

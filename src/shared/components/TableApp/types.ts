@@ -54,4 +54,5 @@ export interface TableAppProps<T, S> {
   mappedColumnSubObjectCollapse?: ITypeColumnType;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderCollapse?: (rowData: any) => React.ReactElement;
+  rowsPerPageCustom?: number;
 }

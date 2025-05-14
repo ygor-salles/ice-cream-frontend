@@ -13,7 +13,9 @@ import { localStorageKeys } from 'shared/constants';
 import { IClientDTO, IProductDTO, ISaleDTO } from 'shared/dtos';
 import { useCache, useSale, useToastContext } from 'shared/hooks';
 import { BaseLayout } from 'shared/layouts';
+import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
+import { socket } from 'shared/socket';
 
 import { CollapseCombinations } from './components/CollapseCombinations';
 import { FooterOrders } from './components/FooterOrders';
@@ -27,6 +29,7 @@ export function OrdersActives() {
     loadingSales,
     onChangeUpdateSaleById,
     onReturnActionUpdateSale,
+    setAllSales,
   } = useSale();
 
   const { getDataLocalStorage } = useCache();
@@ -53,6 +56,16 @@ export function OrdersActives() {
   useEffect(() => {
     getSalesActivatedAcai();
   }, [refreshState]);
+
+  useEffect(() => {
+    socket.on('new_sale', (orderWithAcai: InstanceSale) => {
+      setAllSales(prev => [...prev, orderWithAcai]);
+    });
+
+    return () => {
+      socket.off('new_sale');
+    };
+  }, []);
 
   const _renderCollapse = (sale: ISaleDTO) => (
     <CollapseCombinations
@@ -90,6 +103,7 @@ export function OrdersActives() {
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
         <TableApp<IClientDTO & IProductDTO & number & string, ISaleDTO>
+          key={allSales.length}
           tableName="table-acais"
           data={allSales}
           mappedColumnSubObject={columnType}
@@ -99,6 +113,7 @@ export function OrdersActives() {
           showFilterState={showFilterState}
           renderInputSearchAndSelect={filterTable}
           renderCollapse={_renderCollapse}
+          rowsPerPageCustom={10}
         />
       )}
     </BaseLayout>

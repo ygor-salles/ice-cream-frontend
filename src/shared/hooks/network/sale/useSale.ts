@@ -235,5 +235,6 @@ export function useSale() {
     updateSaleById,
     onChangeUpdateSaleById,
     onReturnActionUpdateSale,
+    setAllSales,
   };
 }

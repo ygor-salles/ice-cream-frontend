@@ -29,6 +29,7 @@ export const TableApp = <T, S>({
   renderInputSearchAndSelect,
   mappedColumnSubObject,
   mappedColumnSubObjectCollapse,
+  rowsPerPageCustom,
   renderCellHeaderCollapse,
   renderCellHeader,
   renderCollapse,
@@ -55,7 +56,7 @@ export const TableApp = <T, S>({
     : undefined;
 
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageCustom ?? 5);
 
   const emptyAllData = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - dataState.length) : 0;
 
@@ -186,7 +187,7 @@ export const TableApp = <T, S>({
             <TableRow>
               <TablePagination
                 labelRowsPerPage=""
-                rowsPerPageOptions={[5, 10, 15]}
+                rowsPerPageOptions={[5, 10, 15, 20]}
                 colSpan={columnConfigKeys.length}
                 count={dataState.length}
                 rowsPerPage={rowsPerPage}

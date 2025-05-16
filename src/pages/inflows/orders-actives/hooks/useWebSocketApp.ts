@@ -3,10 +3,10 @@ import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDT
 import { db, ref, onChildAdded, limitToLast, query } from 'shared/web-socket/firebaseConfig';
 // import { socket } from 'shared/web-socket/socket-io';
 
-const playSound = () => {
-  const audio = new Audio('/sounds/bell-2.wav');
-  audio.play();
-};
+// const playSound = () => {
+//   const audio = new Audio('/sounds/bell-2.wav');
+//   audio.play();
+// };
 
 interface Props {
   loadingSales: boolean;
@@ -33,13 +33,16 @@ export function useWebSocketApp({ loadingSales, setAllSales }: Props) {
     const unsubscribe = onChildAdded(salesRef, snapshot => {
       const newSale = snapshot.val() as InstanceSale;
       if (!newSale) return;
+      console.log('newSale firebase', newSale);
 
       setAllSales(prev => {
         const foundSale = prev.some(sale => sale.id === newSale.id);
         if (foundSale) return prev;
+        console.log('foundSale', foundSale);
+        console.log('prev', prev);
 
-        playSound();
-        return [...prev, newSale];
+        // playSound();
+        return [newSale, ...prev];
       });
     });
 

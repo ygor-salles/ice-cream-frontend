@@ -23,6 +23,7 @@
     "@mui/material": "^5.2.6",
     "axios": "^0.26.1",
     "date-fns": "^2.28.0",
+    "firebase": "^11.7.3",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.41",

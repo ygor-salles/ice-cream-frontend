@@ -35,8 +35,7 @@ export function RightHeader({
         startIcon={<Refresh />}
         color="primary"
         onClick={onClickRefresh}
-        // disabled={disabled}
-        disabled
+        disabled={disabled}
       >
         ATUALIZAR
       </Button>

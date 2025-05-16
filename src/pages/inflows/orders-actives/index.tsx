@@ -13,14 +13,13 @@ import { localStorageKeys } from 'shared/constants';
 import { IClientDTO, IProductDTO, ISaleDTO } from 'shared/dtos';
 import { useCache, useSale, useToastContext } from 'shared/hooks';
 import { BaseLayout } from 'shared/layouts';
-import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { IUpdateSaleDTORequest } from 'shared/services/SaleService/dtos/IUpdateSaleDTO';
-import { socket } from 'shared/socket';
 
 import { CollapseCombinations } from './components/CollapseCombinations';
 import { FooterOrders } from './components/FooterOrders';
 import { RightHeader } from './components/RightHeader';
 import { columnConfig, columnLabel, columnType, filterTable } from './constants';
+import { useWebSocketApp } from './hooks/useWebSocketApp';
 
 export function OrdersActives() {
   const {
@@ -57,15 +56,7 @@ export function OrdersActives() {
     getSalesActivatedAcai();
   }, [refreshState]);
 
-  useEffect(() => {
-    socket.on('new_sale', (orderWithAcai: InstanceSale) => {
-      setAllSales(prev => [...prev, orderWithAcai]);
-    });
-
-    return () => {
-      socket.off('new_sale');
-    };
-  }, []);
+  useWebSocketApp({ loadingSales, setAllSales });
 
   const _renderCollapse = (sale: ISaleDTO) => (
     <CollapseCombinations

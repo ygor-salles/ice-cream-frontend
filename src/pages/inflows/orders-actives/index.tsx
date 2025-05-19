@@ -56,7 +56,7 @@ export function OrdersActives() {
     getSalesActivatedAcai();
   }, [refreshState]);
 
-  useWebSocketApp({ loadingSales, setAllSales });
+  useWebSocketApp({ setAllSales });
 
   const _renderCollapse = (sale: ISaleDTO) => (
     <CollapseCombinations

@@ -19,7 +19,7 @@ import { CollapseCombinations } from './components/CollapseCombinations';
 import { FooterOrders } from './components/FooterOrders';
 import { RightHeader } from './components/RightHeader';
 import { columnConfig, columnLabel, columnType, filterTable } from './constants';
-// import { useWebSocketApp } from './hooks/useWebSocketApp';
+import { useWebSocketApp } from './hooks/useWebSocketApp';
 
 export function OrdersActives() {
   const {
@@ -28,7 +28,7 @@ export function OrdersActives() {
     loadingSales,
     onChangeUpdateSaleById,
     onReturnActionUpdateSale,
-    // setAllSales,
+    setAllSales,
   } = useSale();
 
   const { getDataLocalStorage } = useCache();
@@ -56,7 +56,7 @@ export function OrdersActives() {
     getSalesActivatedAcai();
   }, [refreshState]);
 
-  // useWebSocketApp({ loadingSales, setAllSales });
+  useWebSocketApp({ loadingSales, setAllSales });
 
   const _renderCollapse = (sale: ISaleDTO) => (
     <CollapseCombinations

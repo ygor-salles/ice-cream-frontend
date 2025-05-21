@@ -94,7 +94,7 @@ export function OrdersActives() {
         <Skeleton variant="rectangular" width="100%" height={450} />
       ) : (
         <TableApp<IClientDTO & IProductDTO & number & string, ISaleDTO>
-          key={allSales.length}
+          key={allSales.map(s => s.id + s.updated_at).join(',')}
           tableName="table-acais"
           data={allSales}
           mappedColumnSubObject={columnType}

@@ -6,8 +6,8 @@ import { useController, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckboxApp, DialogDelete, HeaderButtonNav } from 'shared/components';
 import { ToastType } from 'shared/components/SnackBar/enum';
-import { EnumTypeSale, EnumTypeProduct, IFormEditSale, IFormSale } from 'shared/dtos';
-import { useToastContext, useSale } from 'shared/hooks';
+import { EnumTypeProduct, EnumTypeSale, IFormEditSale, IFormSale } from 'shared/dtos';
+import { useSale, useToastContext } from 'shared/hooks';
 import { BaseLayout } from 'shared/layouts';
 import { IDataProduct } from 'shared/services/SaleService/dtos/ICreateSaleDTO';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
@@ -15,6 +15,7 @@ import { formatDateTime, formatNumberToCurrency } from 'shared/utils';
 
 import { fieldsSale, schemaEditSale, transformItemArray } from '../utils';
 import { DialogCreateSale } from '../view/components/DialogCreateSale';
+import { useWebsocketAppSaleDetail } from './hooks/useWebsocketAppSaleDetail';
 import { StyledCardList, Text, WrapperDetail } from './styles';
 
 export const SaleDetail = () => {
@@ -23,13 +24,15 @@ export const SaleDetail = () => {
   const [showModalDelete, setShowModalDelete] = useState(false);
 
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const { created_at, updated_at, ...saleDetail }: InstanceSale = state.saleDetail;
 
   const { addToast } = useToastContext();
 
   const { updateSaleById, handleSubmitDelete, loadingSales, loadingForm } = useSale();
   const loading = loadingSales || loadingForm;
+
+  const { state } = useLocation();
+
+  const [saleDetail, setSaleDetail] = useState<InstanceSale>(state.saleDetail);
 
   const {
     control,
@@ -37,14 +40,17 @@ export const SaleDetail = () => {
     watch,
     handleSubmit,
     formState: { isDirty, isValid },
+    reset,
   } = useForm<IFormEditSale>({
     resolver: yupResolver(schemaEditSale),
     defaultValues: {
       ...saleDetail,
-      created_at: formatDateTime(created_at) ?? '--',
-      updated_at: formatDateTime(updated_at) ?? '--',
+      created_at: formatDateTime(saleDetail.created_at) ?? '--',
+      updated_at: formatDateTime(saleDetail.updated_at) ?? '--',
     },
   });
+
+  useWebsocketAppSaleDetail({ reset, saleDetail, setSaleDetail });
 
   const { data_product, total, client } = watch();
 

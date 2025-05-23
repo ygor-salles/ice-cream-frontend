@@ -12,6 +12,7 @@ import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDT
 
 import { FilterSale } from './components/FilterSale';
 import { SaleItem } from './components/SaleItem';
+import { useWebsocketAppSalesList } from './hooks/useWebsocketAppSalesList';
 
 export function Sales() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ export function Sales() {
     loadingForm,
     reloadPage,
     searchParams,
+    setAllSales,
   } = useSale();
 
   const { addToast } = useToastContext();
@@ -68,6 +70,8 @@ export function Sales() {
   useEffect(() => {
     getSalesPaged({ page: 1, limit: LIMIT_PAGED });
   }, [reloadPage]);
+
+  useWebsocketAppSalesList({ setAllSales });
 
   return (
     <BaseLayout

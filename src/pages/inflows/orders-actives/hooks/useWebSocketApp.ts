@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { EnumTypeProduct } from 'shared/dtos';
 import { InstanceSale } from 'shared/services/SaleService/dtos/ILoadPagedSalesDTO';
 import { socket } from 'shared/web-socket/socket-io';
 
@@ -14,49 +13,37 @@ interface Props {
 
 export function useWebSocketApp({ setAllSales }: Props) {
   useEffect(() => {
-    socket.on('new_sale', (orderWithAcai: InstanceSale) => {
-      if (orderWithAcai) {
-        const hasAcai = orderWithAcai.data_product.some(
-          product => product.type === EnumTypeProduct.ACAI,
-        );
-        if (!hasAcai) return;
+    socket.on('new_sale_active', (orderWs: InstanceSale) => {
+      if (!orderWs) return;
 
-        setAllSales(prev => [...prev, orderWithAcai]);
-        playSound('/sounds/bell-create.wav');
-      }
+      setAllSales(prev => {
+        const updateOrders = [...prev, orderWs];
+
+        updateOrders.sort((a, b) => {
+          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+        });
+
+        return updateOrders;
+      });
+      playSound('/sounds/bell-create.wav');
     });
 
-    socket.on('delete_sale', (orderWithAcai: InstanceSale) => {
-      const hasAcai = orderWithAcai.data_product.some(
-        product => product.type === EnumTypeProduct.ACAI,
-      );
-      if (!hasAcai) return;
-
-      setAllSales(prev => prev.filter(item => item.id !== orderWithAcai.id));
+    socket.on('delete_sale_active', (orderWs: InstanceSale) => {
+      if (!orderWs) return;
+      setAllSales(prev => prev.filter(item => item.id !== orderWs.id));
       playSound('/sounds/bell-delete.wav');
     });
 
-    socket.on('update_sale', (orderWithAcai: InstanceSale) => {
-      const hasAcai = orderWithAcai.data_product.some(
-        product => product.type === EnumTypeProduct.ACAI,
-      );
-      if (!hasAcai) return;
-
-      setAllSales(prev => {
-        if (orderWithAcai.in_progress) {
-          playSound('/sounds/bell-edit.wav');
-          return prev.map(item => (item.id === orderWithAcai.id ? orderWithAcai : item));
-        }
-
-        playSound('/sounds/bell-delete.wav');
-        return prev.filter(item => item.id !== orderWithAcai.id);
-      });
+    socket.on('update_sale_active', (orderWs: InstanceSale) => {
+      if (!orderWs) return;
+      setAllSales(prev => prev.map(item => (item.id === orderWs.id ? orderWs : item)));
+      playSound('/sounds/bell-edit.wav');
     });
 
     return () => {
-      socket.off('new_sale');
-      socket.off('delete_sale');
-      socket.off('update_sale');
+      socket.off('new_sale_active');
+      socket.off('delete_sale_active');
+      socket.off('update_sale_active');
     };
   }, [setAllSales]);
 }
